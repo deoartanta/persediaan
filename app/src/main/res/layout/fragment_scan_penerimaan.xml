@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ScanPenerimaanFragment">
+
+    <!-- TODO: Update blank fragment layout -->
+    <me.dm7.barcodescanner.zxing.ZXingScannerView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/scanBarcode"/>
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Type Item Code"
+        android:id="@+id/btnManualInput"
+        android:layout_marginBottom="60dp"
+        android:layout_marginHorizontal="30dp"
+        android:layout_gravity="bottom"/>
+
+</FrameLayout>
