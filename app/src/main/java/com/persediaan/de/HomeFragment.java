@@ -12,7 +12,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.persediaan.de.adapter.AdapterPenerimaan;
 import com.persediaan.de.adapter.myAdapter;
+import com.persediaan.de.model.ModelPenerimaan;
 import com.persediaan.de.model.myModel;
 
 import java.util.ArrayList;
@@ -30,7 +32,7 @@ public class HomeFragment extends Fragment {
     private static final String ARG_PARAM2 = "param2";
 
     private ActionBar actionBar;
-    private ArrayList<myModel> modelArrayList;
+    private ArrayList<ModelPenerimaan> modelPenerimaanArrayList;
 
     private myAdapter adapter;
 
@@ -82,36 +84,45 @@ public class HomeFragment extends Fragment {
     }
 
     private void loadCards() {
-         modelArrayList = new ArrayList<myModel>();
+        modelPenerimaanArrayList = new ArrayList<ModelPenerimaan>();
 
-         modelArrayList.add(new myModel(
-                 "Deo Artanta",
-                 "Belum",
-                 "3 Item",
-                 "Jl. Cempaka no.27",
-                 "Rp. 200.000",
-                 "25 September 2021",
-                 R.drawable.ic_bubble_chart_24,
-                 R.drawable.ic_bg_label_red_1));
-         modelArrayList.add(new myModel(
-                 "Totok Risqy",
-                 "Sudah",
-                 "10 Item",
-                 "Jl. Sumbersari no.35",
-                 "Rp. 300.000",
-                 "19 September2021",
-                 R.drawable.ic_bubble_chart_24,
-                 R.drawable.ic_bg_label_green));
-         modelArrayList.add(new myModel(
-                 "Shohib Habibullah",
-                 "Sudah",
-                 "20 Item",
-                 "Jl. Dermaga IV no.50",
-                 "Rp. 1.000.000",
-                 "20 September 2021",
-                 R.drawable.ic_bubble_chart_24,
-                 R.drawable.ic_bg_label_green));
-         adapter = new myAdapter(getContext(),modelArrayList);
+        modelPenerimaanArrayList.add(new ModelPenerimaan(
+                "Deo Artanta",
+                "Belum",
+                "3 Item",
+                "Jl. Cempaka no.27",
+                200000,
+                "25 September 2021",
+                "001",
+                0,
+                getResources().getColor(R.color.white),
+                R.drawable.ic_bubble_chart_24,
+                R.drawable.ic_bg_label_red_1));
+        modelPenerimaanArrayList.add(new ModelPenerimaan(
+                "Totok Risqy",
+                "Sudah",
+                "10 Item",
+                "Jl. Sumbersari no.35",
+                300000,
+                "19 September2021",
+                "002",
+                0,
+                getResources().getColor(R.color.colorBgGreen),
+                R.drawable.ic_bubble_chart_24,
+                R.drawable.ic_bg_label_green));
+        modelPenerimaanArrayList.add(new ModelPenerimaan(
+                "Shohib Habibullah",
+                "Sudah",
+                "20 Item",
+                "Jl. Dermaga IV no.50",
+                1000000,
+                "20 September 2021",
+                "003",
+                0,
+                getResources().getColor(R.color.colorBgGreen),
+                R.drawable.ic_bubble_chart_24,
+                R.drawable.ic_bg_label_green));
+         adapter = new myAdapter(getContext(),modelPenerimaanArrayList);
          viewPager.setAdapter(adapter);
          viewPager.setPadding(0,0,10,0);
     }

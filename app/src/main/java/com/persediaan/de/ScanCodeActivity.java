@@ -28,9 +28,15 @@ public class ScanCodeActivity extends AppCompatActivity implements ZXingScannerV
 
     @Override
     public void handleResult(Result rawResult){
+        String R = rawResult.getText();
+        String rArr[]=R.split("-");
+        String r = "0";
+        if (rArr.length!=0){
+            r = rArr[1];
+        }
         AlertDialog alertDialog = new AlertDialog.Builder(this).create();
         alertDialog.setTitle("Hasil Scan");
-        alertDialog.setMessage("Hasil : "+rawResult.getText()+"\nFormat : "+rawResult.getBarcodeFormat().toString());
+        alertDialog.setMessage("Hasil : "+rawResult.getText()+"\n Code Barang : "+r+"\nFormat : "+rawResult.getBarcodeFormat().toString());
         alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "NEXT", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
@@ -39,12 +45,6 @@ public class ScanCodeActivity extends AppCompatActivity implements ZXingScannerV
             }
         });
         alertDialog.show();
-        String R = rawResult.getText();
-        String rArr[]=R.split("-");
-        String r = "0";
-        if (rArr.length!=0){
-            r = rArr[1];
-        }
         sessionManager = new SessionManager(getApplicationContext(),"scan");
         sessionManager.createSessionScan(r,rawResult.getBarcodeFormat().toString(),R);
 //        Log.d("19201299Hasil",

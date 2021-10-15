@@ -14,15 +14,16 @@ import androidx.annotation.NonNull;
 import androidx.viewpager.widget.PagerAdapter;
 
 import com.persediaan.de.R;
+import com.persediaan.de.model.ModelPenerimaan;
 import com.persediaan.de.model.myModel;
 
 import java.util.ArrayList;
 
 public class myAdapter extends PagerAdapter {
     private Context context;
-    private ArrayList<myModel> modelArrayList;
+    private ArrayList<ModelPenerimaan> modelArrayList;
 
-    public myAdapter(Context context, ArrayList<myModel> modelArrayList) {
+    public myAdapter(Context context, ArrayList<ModelPenerimaan> modelArrayList) {
         this.context = context;
         this.modelArrayList = modelArrayList;
     }
@@ -50,16 +51,17 @@ public class myAdapter extends PagerAdapter {
         TextView tv_hrg_total = view.findViewById(R.id.tvHrgTotal);
         TextView tv_tgl = view.findViewById(R.id.tvTgl);
 
-        myModel model = modelArrayList.get(position);
+        ModelPenerimaan model = modelArrayList.get(position);
 
         String nm_penyedia = model.getName_penyedia();
         String alamat = model.getAlamat();
         String area = model.getArea();
         String status = model.getStatus();
-        String hrg_total = model.getHrg_total();
+        int hrg_total = model.getHarga_total();
         String tgl = model.getTgl();
         Integer img = model.getImg_bg_card();
         Integer bg_label = model.getImg_bg_label();
+        Integer color = model.getColor_label();
 
         img_background.setImageResource(img);
         tv_nm_penyedia.setText(nm_penyedia);
@@ -67,7 +69,8 @@ public class myAdapter extends PagerAdapter {
         tv_area.setText(area);
         tv_status.setText(status);
         tv_status.setBackgroundResource(bg_label);
-        tv_hrg_total.setText(hrg_total);
+        tv_status.setTextColor(color);
+        tv_hrg_total.setText(String.valueOf(hrg_total));
         tv_tgl.setText(tgl);
 
         view.setOnClickListener(new View.OnClickListener() {

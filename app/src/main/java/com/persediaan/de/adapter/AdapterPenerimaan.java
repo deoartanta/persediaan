@@ -1,11 +1,15 @@
 package com.persediaan.de.adapter;
 
+import android.content.res.ColorStateList;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.annotation.ColorInt;
+import androidx.annotation.ColorRes;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -15,6 +19,7 @@ import com.persediaan.de.model.ModelPenerimaan;
 import java.util.ArrayList;
 
 public class AdapterPenerimaan extends RecyclerView.Adapter<AdapterPenerimaan.penerimaanBrgViewHolder> {
+
     ArrayList<ModelPenerimaan> datalist;
     private RecyclerViewClickInterface recyclerViewClickInterface;
 
@@ -25,7 +30,7 @@ public class AdapterPenerimaan extends RecyclerView.Adapter<AdapterPenerimaan.pe
 
     @NonNull
     @Override
-    public penerimaanBrgViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public AdapterPenerimaan.penerimaanBrgViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater layoutInflater = LayoutInflater.from(parent.getContext());
         View view = layoutInflater.inflate(R.layout.card_penerimaan,parent,false);
         return new penerimaanBrgViewHolder(view);
@@ -43,16 +48,15 @@ public class AdapterPenerimaan extends RecyclerView.Adapter<AdapterPenerimaan.pe
         Integer bg_label = datalist.get(position).getImg_bg_label();
         int color = datalist.get(position).getColor_label();
 
-        if (color != 0){
-            holder.tv_status.setTextColor(color);
-        }
+        holder.tv_status.setTextColor(color);
+
         holder.img_background.setImageResource(img);
         holder.tv_nm_penyedia.setText(nm_penyedia);
         holder.tv_alamat.setText(alamat);
         holder.tv_area.setText(area);
         holder.tv_status.setText(status);
         holder.tv_status.setBackgroundResource(bg_label);
-        holder.tv_hrg_total.setText(hrg_total);
+        holder.tv_hrg_total.setText(String.valueOf(hrg_total));
         holder.tv_tgl.setText(tgl);
     }
 

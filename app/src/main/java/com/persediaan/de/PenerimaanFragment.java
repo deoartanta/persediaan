@@ -3,11 +3,15 @@ package com.persediaan.de;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.DefaultItemAnimator;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.persediaan.de.adapter.AdapterPenerimaan;
 import com.persediaan.de.adapter.RecyclerViewClickInterface;
@@ -72,36 +76,23 @@ public class PenerimaanFragment extends Fragment implements RecyclerViewClickInt
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_penerimaan,container,false);
         recyclerPenerimaan = view.findViewById(R.id.recyclerPenerimaan);
-
-
-        modelPenerimaanArrayList = new ArrayList<ModelPenerimaan>();
-
-        dataDummyn = new dataDummy();
-        ArrayList<ModelPenerimaan> listPenerimaan = dataDummyn.getPenerimaan();
-        for (ModelPenerimaan modelPenerimaan :listPenerimaan){
-            modelPenerimaanArrayList.add(new ModelPenerimaan(
-                    modelPenerimaan.getName_penyedia(),
-                    modelPenerimaan.getStatus(),
-                    modelPenerimaan.getArea(),
-                    modelPenerimaan.getAlamat(),
-                    modelPenerimaan.getHarga_total(),
-                    modelPenerimaan.getTgl(),
-                    modelPenerimaan.getImg_bg_card(),
-                    modelPenerimaan.getNo_penerimaan()
-            ));
-        }
-        adapter= new AdapterPenerimaan(modelPenerimaanArrayList,
-                PenerimaanFragment.this);
+        Toast.makeText(getContext(), "Halaman Penerimaan", Toast.LENGTH_SHORT).show();
+        adapter = loadCards();
+        recyclerPenerimaan.setLayoutManager(new LinearLayoutManager(getContext(),
+                LinearLayoutManager.VERTICAL, false));
+        recyclerPenerimaan.setHasFixedSize(true);
+        recyclerPenerimaan.setItemAnimator(new DefaultItemAnimator());
         recyclerPenerimaan.setAdapter(adapter);
         return view;
     }
 
     @Override
     public void onItemClick(int position,View v) {
-
+        TextView nm_penyedia=v.findViewById(R.id.tvNamePenyedia);
+        Toast.makeText(getContext(), "Position : "+position+"\n Nama Penyedia : "+nm_penyedia.getText(), Toast.LENGTH_SHORT).show();
     }
 
-    private void loadCards() {
+    private AdapterPenerimaan loadCards() {
         modelPenerimaanArrayList = new ArrayList<ModelPenerimaan>();
 
         modelPenerimaanArrayList.add(new ModelPenerimaan(
@@ -111,7 +102,11 @@ public class PenerimaanFragment extends Fragment implements RecyclerViewClickInt
                 "Jl. Cempaka no.27",
                 200000,
                 "25 September 2021",
-                R.drawable.ic_bubble_chart_24,"001"));
+                "001",
+                0,
+                getResources().getColor(R.color.white),
+                R.drawable.ic_bubble_chart_24,
+                R.drawable.ic_bg_label_red_1));
         modelPenerimaanArrayList.add(new ModelPenerimaan(
                 "Totok Risqy",
                 "Sudah",
@@ -119,17 +114,23 @@ public class PenerimaanFragment extends Fragment implements RecyclerViewClickInt
                 "Jl. Sumbersari no.35",
                 300000,
                 "19 September2021",
+                "002",
+                0,
+                getResources().getColor(R.color.colorBgGreen),
                 R.drawable.ic_bubble_chart_24,
-                "002"));
-        modelPenerimaanArrayList.add(new myModel(
+                R.drawable.ic_bg_label_green));
+        modelPenerimaanArrayList.add(new ModelPenerimaan(
                 "Shohib Habibullah",
                 "Sudah",
                 "20 Item",
                 "Jl. Dermaga IV no.50",
-                "Rp. 1.000.000",
+                1000000,
                 "20 September 2021",
+                "003",
+                0,
+                getResources().getColor(R.color.colorBgGreen),
                 R.drawable.ic_bubble_chart_24,
                 R.drawable.ic_bg_label_green));
-        adapter = new myAdapter(getContext(),modelPenerimaanArrayList);
+        return new AdapterPenerimaan(modelPenerimaanArrayList,PenerimaanFragment.this);
     }
 }

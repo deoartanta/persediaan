@@ -4,7 +4,7 @@
     android:viewportWidth="300"
     android:viewportHeight="224">
     <path
-        android:fillColor="#59FD0000"
+        android:fillColor="#FD0000"
         android:name="Rectangle 1"
         android:pathData="m0 0c100 0 200 0 300 0c-2.74 76.13 -6.58 78.87 -21.39 125.42c-15.9 29.57 -43.61 109.58 -278.47 98.72c-0.12 -74.76 -0.14 -149.45 -0.14 -224.14z" />
 </vector>

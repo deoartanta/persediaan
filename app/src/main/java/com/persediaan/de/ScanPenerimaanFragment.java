@@ -71,10 +71,8 @@ public class ScanPenerimaanFragment extends Fragment implements ZXingScannerView
                         String R = edtCode.getText().toString();
                         String rArr[]=R.split("-");
                         String r = "0";
-                        if (rArr.length<1){
+                        if (rArr.length>1){
                             r = rArr[1];
-                        }else{
-                            r = R;
                         }
                         scan_session.createSessionScan(r,null,R);
                         dialog.dismiss();
@@ -104,10 +102,16 @@ public class ScanPenerimaanFragment extends Fragment implements ZXingScannerView
     @Override
     public void handleResult(Result rawResult) {
         scan_barcode.stopCamera();
+        String R = rawResult.getText();
+        String rArr[]=R.split("-");
+        String r = "0";
+        if (rArr.length>1){
+            r = rArr[1];
+        }
 
         AlertDialog alertDialog = new AlertDialog.Builder(getContext()).create();
         alertDialog.setTitle("Hasil Scan");
-        alertDialog.setMessage("Hasil : "+rawResult.getText()+"\nFormat : "+rawResult.getBarcodeFormat().toString());
+        alertDialog.setMessage("Hasil : "+rawResult.getText()+"\n Code Barang : "+r+"\nFormat : "+rawResult.getBarcodeFormat().toString());
         alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "NEXT", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
@@ -115,14 +119,8 @@ public class ScanPenerimaanFragment extends Fragment implements ZXingScannerView
             }
         });
         alertDialog.show();
-        String R = rawResult.getText();
-        String rArr[]=R.split("-");
-        String r = "0";
-        if (rArr.length<1){
-            r = rArr[1];
-        }
         scan_session.createSessionScan(r,rawResult.getBarcodeFormat().toString(),R);
-        newPage(ctx);
+//        newPage(ctx);
 
     }
 

@@ -12,7 +12,15 @@ public class ModelPenerimaan {
     int ppn=0;
     int color_label;
 
-    public ModelPenerimaan(String name_penyedia, String status, String area, String alamat, int hrg_total, String tgl, int img_bg_card, String no_penerimaan) {
+    public ModelPenerimaan(
+            String name_penyedia,
+            String status,
+            String area,
+            String alamat,
+            int hrg_total,
+            String tgl,
+            int img_bg_card,
+            String no_penerimaan) {
         this.name_penyedia = name_penyedia;
         this.status = status;
         this.area = area;
@@ -21,6 +29,31 @@ public class ModelPenerimaan {
         this.tgl = tgl;
         this.img_bg_card = img_bg_card;
         this.no_penerimaan = no_penerimaan;
+    }
+
+    public ModelPenerimaan(
+            String name_penyedia,
+            String status,
+            String area,
+            String alamat,
+            int hrg_total,
+            String tgl,
+            String no_penerimaan,
+            int ppn,
+            int color_label,
+            int img_bg_card,
+            int img_bg_label) {
+        this.name_penyedia = name_penyedia;
+        this.status = status;
+        this.area = area;
+        this.alamat = alamat;
+        this.tgl = tgl;
+        this.img_bg_card = img_bg_card;
+        this.img_bg_label = img_bg_label;
+        this.no_penerimaan = no_penerimaan;
+        this.harga_total = hrg_total;
+        this.ppn = ppn;
+        this.color_label = color_label;
     }
 
     public int getHarga_total() {

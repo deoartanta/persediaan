@@ -6,6 +6,7 @@ import androidx.fragment.app.Fragment;
 import android.Manifest;
 import android.content.Intent;
 import android.os.Bundle;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.etebarian.meowbottomnavigation.MeowBottomNavigation;
@@ -23,6 +24,8 @@ import java.util.HashMap;
 public class MainActivity extends AppCompatActivity implements ScanInterface{
     MeowBottomNavigation bottomNavigation;
 
+    LinearLayout main_linearlayout;
+
     SessionManager sessionManager;
     HashMap<String,String> user;
 
@@ -39,6 +42,8 @@ public class MainActivity extends AppCompatActivity implements ScanInterface{
         sessionManager = new SessionManager(this,"login");
         sessionManager.checkLogin();
         user = sessionManager.getUserDetail();
+
+        main_linearlayout = findViewById(R.id.mainLinearLayout);
 
         bottomNavigation.add(new MeowBottomNavigation.Model(1,R.drawable.ic_home_24));
         bottomNavigation.add(new MeowBottomNavigation.Model(2,R.drawable.ic_penerimaan));
@@ -69,9 +74,13 @@ public class MainActivity extends AppCompatActivity implements ScanInterface{
                         break;
                     case 4:
                         page = "barang keluar";
+                        fragment = new BrgKeluarFragment();
+                        loadFragment(fragment);
                         break;
                     case 5:
                         page = "profil";
+                        fragment = new ProfileFragment();
+                        loadFragment(fragment);
                         break;
                 }
             }
