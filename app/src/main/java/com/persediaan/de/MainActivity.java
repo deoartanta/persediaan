@@ -6,6 +6,9 @@ import androidx.fragment.app.Fragment;
 import android.Manifest;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
@@ -54,32 +57,48 @@ public class MainActivity extends AppCompatActivity implements ScanInterface{
             @Override
             public void onShowItem(MeowBottomNavigation.Model item) {
                 Fragment fragment = null;
+                Animation goUp = AnimationUtils.loadAnimation(getApplicationContext(),R.anim.go_up);
+                Animation goDown = AnimationUtils.loadAnimation(getApplicationContext(),R.anim.go_down);
                 switch (item.getId()){
                     case 1:
                         page = "home";
                         fragment = new HomeFragment();
-
+                        main_linearlayout.setVisibility(View.VISIBLE);
+                        main_linearlayout.setAnimation(goDown);
                         loadFragment(fragment);
                         break;
                     case 2:
                         page = "penerimaan";
                         fragment = new PenerimaanFragment();
+                        main_linearlayout.setVisibility(View.VISIBLE);
+                        main_linearlayout.setAnimation(goDown);
                         loadFragment(fragment);
 
                         break;
                     case 3:
                         page = "scan";
                         runScanner(new ScanPenerimaanFragment());
+                        main_linearlayout.setVisibility(View.GONE);
+
 //                        finish();
                         break;
                     case 4:
                         page = "barang keluar";
                         fragment = new BrgKeluarFragment();
+                        main_linearlayout.setVisibility(View.VISIBLE);
+                        main_linearlayout.setAnimation(goDown);
                         loadFragment(fragment);
                         break;
                     case 5:
                         page = "profil";
                         fragment = new ProfileFragment();
+                        main_linearlayout.setAnimation(goUp);
+                        main_linearlayout.postDelayed(new Runnable() {
+                            @Override
+                            public void run() {
+                                main_linearlayout.setVisibility(View.GONE);
+                            }
+                        },200);
                         loadFragment(fragment);
                         break;
                 }
