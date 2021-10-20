@@ -11,6 +11,7 @@ public class ModelPenerimaan {
     int harga_total=0;
     int ppn=0;
     int color_label;
+    int paddingBot=0;
 
     public ModelPenerimaan(
             String name_penyedia,
@@ -54,6 +55,36 @@ public class ModelPenerimaan {
         this.harga_total = hrg_total;
         this.ppn = ppn;
         this.color_label = color_label;
+    }
+    public ModelPenerimaan(
+            String name_penyedia,
+            String status,
+            String area,
+            String alamat,
+            int hrg_total,
+            String tgl,
+            String no_penerimaan,
+            int ppn,
+            int color_label,
+            int img_bg_card,
+            int img_bg_label,
+            int paddingBot) {
+        this.name_penyedia = name_penyedia;
+        this.status = status;
+        this.area = area;
+        this.alamat = alamat;
+        this.tgl = tgl;
+        this.img_bg_card = img_bg_card;
+        this.img_bg_label = img_bg_label;
+        this.no_penerimaan = no_penerimaan;
+        this.harga_total = hrg_total;
+        this.ppn = ppn;
+        this.color_label = color_label;
+        this.paddingBot = paddingBot;
+    }
+
+    public int getPaddingBot() {
+        return paddingBot;
     }
 
     public int getHarga_total() {

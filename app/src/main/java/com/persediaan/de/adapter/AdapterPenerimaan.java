@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.ColorInt;
@@ -47,8 +48,10 @@ public class AdapterPenerimaan extends RecyclerView.Adapter<AdapterPenerimaan.pe
         Integer img = datalist.get(position).getImg_bg_card();
         Integer bg_label = datalist.get(position).getImg_bg_label();
         int color = datalist.get(position).getColor_label();
+        int paddingBot = datalist.get(position).getPaddingBot();
 
         holder.tv_status.setTextColor(color);
+        holder.cardLinear.setPadding(0,0,0,paddingBot);
 
         holder.img_background.setImageResource(img);
         holder.tv_nm_penyedia.setText(nm_penyedia);
@@ -68,6 +71,7 @@ public class AdapterPenerimaan extends RecyclerView.Adapter<AdapterPenerimaan.pe
     public class penerimaanBrgViewHolder extends RecyclerView.ViewHolder {
         ImageView img_background;
         TextView tv_nm_penyedia,tv_alamat,tv_area,tv_status,tv_hrg_total,tv_tgl;
+        LinearLayout cardLinear;
         public penerimaanBrgViewHolder(@NonNull View itemView) {
             super(itemView);
 
@@ -78,6 +82,7 @@ public class AdapterPenerimaan extends RecyclerView.Adapter<AdapterPenerimaan.pe
             tv_status = itemView.findViewById(R.id.tvSts);
             tv_hrg_total = itemView.findViewById(R.id.tvHrgTotal);
             tv_tgl = itemView.findViewById(R.id.tvTgl);
+            cardLinear = itemView.findViewById(R.id.cardLinear);
 
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override

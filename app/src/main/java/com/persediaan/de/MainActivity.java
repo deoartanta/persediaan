@@ -125,6 +125,30 @@ public class MainActivity extends AppCompatActivity implements ScanInterface{
             }
         });
     }
+    int count = 0;
+
+    @Override
+    public void onBackPressed() {
+//        super.onBackPressed();
+        if (page.equals("home")) {
+            count++;
+        } else {
+            page = "noHome";
+            bottomNavigation.show(1,true);
+            count = 0;
+
+        }
+        if(count==1){
+            if(page.equals("home")){
+                Toast.makeText(getApplicationContext(), "Tekan lagi untuk menutup "+page, Toast.LENGTH_SHORT).show();
+            }
+        }else if(count>=2){
+            if(page.equals("home")){
+                finish();
+            }
+        }
+        page = "home";
+    }
 
     private void loadFragment(Fragment pFragment) {
         getSupportFragmentManager()
@@ -142,6 +166,12 @@ public class MainActivity extends AppCompatActivity implements ScanInterface{
                     .beginTransaction()
                     .show(pFragment).commit();
         }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        count =0;
     }
 
     public void runScanner(Fragment pFragment){

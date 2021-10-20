@@ -82,7 +82,9 @@ public class PenerimaanFragment extends Fragment implements RecyclerViewClickInt
                 LinearLayoutManager.VERTICAL, false));
         recyclerPenerimaan.setHasFixedSize(true);
         recyclerPenerimaan.setItemAnimator(new DefaultItemAnimator());
+
         recyclerPenerimaan.setAdapter(adapter);
+
         return view;
     }
 
@@ -130,7 +132,8 @@ public class PenerimaanFragment extends Fragment implements RecyclerViewClickInt
                 0,
                 getResources().getColor(R.color.colorBgGreen),
                 R.drawable.ic_bubble_chart_24,
-                R.drawable.ic_bg_label_green));
+                R.drawable.ic_bg_label_green,
+                120));
         return new AdapterPenerimaan(modelPenerimaanArrayList,PenerimaanFragment.this);
     }
 }

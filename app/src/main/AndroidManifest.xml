@@ -15,6 +15,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Persediaan">
         <activity
+            android:name=".DetailPenerimaanActivity"
+            android:exported="true" />
+        <activity
             android:name=".ActionPenerimaanActivity"
             android:exported="true" />
         <activity
@@ -22,8 +25,8 @@
             android:exported="true" />
         <activity
             android:name=".MainActivity"
-            android:windowSoftInputMode="adjustNothing"
-            android:exported="true" />
+            android:exported="true"
+            android:windowSoftInputMode="adjustNothing" />
         <activity
             android:name=".SplashscreenActivity"
             android:exported="true">
