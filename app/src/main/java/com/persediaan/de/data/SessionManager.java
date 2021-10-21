@@ -15,11 +15,26 @@ public class SessionManager {
     public Context context;
     int PRIVATE_MODE = 0;
     private static final String LOGIN = "IS_LOGIN";
+//    URL
+    public static final String HOSTNAME = "https://depo.gemes.id/";
 
 //    User
     public static final String USERNAME = "USERNAME";
     public static final String PASSW = "PASWORD";
-    public static final String AREA = "AREA";
+    public static final String USER_ID = "USER_ID";
+    public static final String AREA_ID = "AREA_ID";
+    public static final String NAMA = "NAMA";
+    public static final String ALAMAT = "ALAMAT";
+    public static final String LEVEL = "LEVEL";
+    public static final String GAMBAR = "GAMBAR";
+    public static final String AREA_NM = "AREA_NM";
+    public static final String AREA_NM_SHORT = "AREA_NM_SHORT";
+    public static final String SATKER_ID = "SATKER_ID";
+    public static final String SATKER_KODE = "SATKER_KODE";
+    public static final String SATKER_NM = "SATKER_NM";
+    public static final String JENIS_KEW = "JENIS_KEW";
+    public static final String ALAMAT_KANTOR = "ALAMAT_KANTOR";
+    public static final String KPPN = "KPPN";
 
 //    Scan
     public static final String SCANR = "SCANR";
@@ -32,11 +47,30 @@ public class SessionManager {
         editor = sharedPreferences.edit();
     }
 
-    public void Login(String username,String pasword,String area){
+    public void Login(
+            String username,String pasword,String area,int user_id,
+            int area_id, String nama, String alamat,int level,String gambar,
+            String area_nm,String area_nm_short,int satker_id,int satker_kode,
+            String satker_nm,String jenis_kew,String alamat_kantor,int kppn
+    ){
         editor.putBoolean(LOGIN,true);
         editor.putString(USERNAME,username);
         editor.putString(USERNAME,pasword);
-        editor.putString(AREA,area);
+        editor.putInt(USER_ID,user_id);
+        editor.putInt(AREA_ID,area_id);
+        editor.putString(NAMA,nama);
+        editor.putString(ALAMAT,alamat);
+        editor.putInt(LEVEL,level);
+        editor.putString(GAMBAR,gambar);
+        editor.putString(AREA_NM,area_nm);
+        editor.putString(AREA_NM_SHORT,area_nm_short);
+        editor.putInt(SATKER_ID,satker_id);
+        editor.putInt(SATKER_KODE,satker_kode);
+        editor.putString(SATKER_NM,satker_nm);
+        editor.putString(JENIS_KEW,jenis_kew);
+        editor.putString(ALAMAT_KANTOR,alamat_kantor);
+        editor.putInt(KPPN,kppn);
+
         editor.apply();
     }
     public boolean isLoggin(){
@@ -55,7 +89,8 @@ public class SessionManager {
         HashMap<String, String> user = new HashMap<>();
         user.put(USERNAME,sharedPreferences.getString(USERNAME,null));
         user.put(PASSW,sharedPreferences.getString(PASSW,null));
-        user.put(AREA,sharedPreferences.getString(AREA,null));
+        user.put(NAMA,sharedPreferences.getString(NAMA,null));
+        user.put(AREA_NM,sharedPreferences.getString(AREA_NM,null));
         return user;
     }
 

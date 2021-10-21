@@ -12,25 +12,39 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
+import com.persediaan.de.api.*;
 import com.persediaan.de.data.SessionManager;
 
 import java.util.ArrayList;
+import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
 
 public class LoginActivity extends AppCompatActivity {
     SessionManager sessionManager;
     String item[] = {"Malang","Jember","Probolinggo"},
             valItem,msgErrorPassw=null,msgErrorUsername=null;
-    Boolean stsArea = false;
+    Boolean stsArea = true;
     Intent home;
 
     ArrayAdapter <String> adapter;
     AutoCompleteTextView autoCompleteTextView;
     TextInputEditText tiet_username,tiet_passw;
     Button btn_signin;
+    ProgressBar progess_login;
+
+//    Connection
+    Retrofit retrofit;
+    JsonPlaceHolderApi jsonPlaceHolderApi;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,11 +57,14 @@ public class LoginActivity extends AppCompatActivity {
         tiet_username = findViewById(R.id.tietUsername);
         tiet_passw = findViewById(R.id.tietPassw);
         btn_signin = findViewById(R.id.btnSignin);
+        
+        progess_login = findViewById(R.id.progressLoginBar);
 
         adapter = new ArrayAdapter<>(this,R.layout.list_item,item);
         autoCompleteTextView.setAdapter(adapter);
         sessionManager = new SessionManager(getApplicationContext(),"login");
-//        Cek status login
+
+        //        Cek status login
         if (sessionManager.isLoggin()) {
             startActivity(home);
             finish();
@@ -87,18 +104,81 @@ public class LoginActivity extends AppCompatActivity {
         btn_signin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                
+                progess_login.setVisibility(View.VISIBLE);
+                btn_signin.setText(null);
+                btn_signin.setEnabled(false);
+
+                retrofit = new Retrofit.Builder()
+                        .baseUrl(SessionManager.HOSTNAME)
+                        .addConverterFactory(GsonConverterFactory.create())
+                        .build();
+                jsonPlaceHolderApi = retrofit.create(JsonPlaceHolderApi.class);
 
                 String username = tiet_username.getText().toString(),
                         password = tiet_passw.getText().toString(),
                         area = valItem;
-                sessionManager.Login(username,password,area);
-//                if (sessionManager.isLoggin()){
-                    startActivity(home);
-                    finish();
-//                }else{
-//                    Toast.makeText(getApplicationContext(),
-//                            "Login gagal", Toast.LENGTH_SHORT).show();
-//                }
+                Call<ApiLogin> call=jsonPlaceHolderApi.getResponLogin(
+                        username,
+                        password);
+                call.enqueue(new Callback<ApiLogin>() {
+                    @Override
+                    public void onResponse(Call<ApiLogin> call, Response<ApiLogin> response) {
+                        ApiLogin login = response.body();
+//                        if(response.isSuccessful()){
+//                            Toast.makeText(getApplicationContext(), "Login gagal", Toast.LENGTH_SHORT).show();
+//                            progess_login.setVisibility(View.GONE);
+//                            btn_signin.setText("SIGN IN");
+//                            return ;
+//                        }
+//
+//                        System.out.println(login.toString());
+
+                        String nama = login.getNama();
+                        String username = login.getUsername();
+                        int user_id = login.getUser_id();
+                        String password = login.getPassword();
+                        int area_id = login.getId_area();
+                        String alamat = login.getAlamat();
+                        int level = login.getLevel();
+                        String gambar = login.getGambar();
+                        String area_nm = login.getNm_area();
+                        String area_singkat_nm = login.getNm_singkat();
+                        int satker_id = login.getId_satker();
+                        int kode_satker = login.getKode_satker();
+                        String satker_nm = login.getNm_satker();
+                        String jenis_kew = login.getJenis_kew();
+                        String alamat_kantor = login.getAlamat_kantor();
+                        int kppn = login.getKppn();
+                        Toast.makeText(getApplicationContext(), "Nama : "+nama, Toast.LENGTH_SHORT).show();
+
+
+                            sessionManager.Login(
+                                    username,password,area,user_id,area_id,nama,alamat,level,
+                                    gambar,area_nm,area_singkat_nm,satker_id,kode_satker,satker_nm
+                                    ,jenis_kew,alamat_kantor,kppn
+
+                            );
+                        if (sessionManager.isLoggin()){
+                            startActivity(home);
+                            finish();
+                        }else{
+                            Toast.makeText(getApplicationContext(),
+                                    "Login gagal", Toast.LENGTH_SHORT).show();
+                        }
+                        progess_login.setVisibility(View.GONE);
+                        btn_signin.setText("SIGN IN");
+                        btn_signin.setEnabled(true);
+                    }
+
+                    @Override
+                    public void onFailure(Call<ApiLogin> call, Throwable t) {
+                        progess_login.setVisibility(View.GONE);
+                        btn_signin.setText("SIGN IN");
+                        btn_signin.setEnabled(true);
+                        Toast.makeText(getApplicationContext(), "Login Error", Toast.LENGTH_SHORT).show();
+                    }
+                });
             }
         });
     }

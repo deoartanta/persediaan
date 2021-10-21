@@ -48,6 +48,8 @@ public class MainActivity extends AppCompatActivity implements ScanInterface{
 
         main_linearlayout = findViewById(R.id.mainLinearLayout);
 
+        Toast.makeText(getApplicationContext(), "Welcome "+user.get(SessionManager.NAMA), Toast.LENGTH_SHORT).show();
+
         bottomNavigation.add(new MeowBottomNavigation.Model(1,R.drawable.ic_home_24));
         bottomNavigation.add(new MeowBottomNavigation.Model(2,R.drawable.ic_penerimaan));
         bottomNavigation.add(new MeowBottomNavigation.Model(3,R.drawable.ic_qr_code_scanner_24));
