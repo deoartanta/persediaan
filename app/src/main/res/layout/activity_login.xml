@@ -12,24 +12,35 @@
         android:layout_height="100dp"
         android:layout_marginTop="32dp"
         android:transitionName="imgTrans"
+        android:src="@drawable/avatar"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/ic_person_24" />
+        app:layout_constraintTop_toTopOf="parent" />
+
+
+    <ImageButton
+        android:id="@+id/btnRefresh"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="#00000000"
+        app:layout_constraintEnd_toEndOf="@+id/imgLogin"
+        app:layout_constraintStart_toStartOf="@+id/imgLogin"
+        app:layout_constraintTop_toBottomOf="@+id/imgLogin"
+        app:srcCompat="@drawable/ic_baseline_autorenew_24" />
 
     <TextView
         android:id="@+id/tvSignin"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:fontFamily="@font/bangers"
+        android:fontFamily="@font/poppins_bold"
         android:text="Sign in"
         android:textAlignment="center"
-        android:transitionName="titleTrans"
         android:textAllCaps="true"
         android:textSize="40sp"
+        android:transitionName="titleTrans"
         app:layout_constraintEnd_toEndOf="@+id/imgLogin"
         app:layout_constraintStart_toStartOf="@+id/imgLogin"
-        app:layout_constraintTop_toBottomOf="@+id/imgLogin" />
+        app:layout_constraintTop_toBottomOf="@+id/btnRefresh" />
 
     <LinearLayout
         android:layout_width="match_parent"

@@ -48,20 +48,20 @@ public class SessionManager {
     }
 
     public void Login(
-            String username,String pasword,String area,int user_id,
-            int area_id, String nama, String alamat,int level,String gambar,
-            String area_nm,String area_nm_short,int satker_id,int satker_kode,
-            String satker_nm,String jenis_kew,String alamat_kantor,int kppn
+            String username, String pasword, String area, int user_id,
+            int area_id, String nama, String alamat, int level, int gambar,
+            String area_nm, String area_nm_short, int satker_id, int satker_kode,
+            String satker_nm, String jenis_kew, String alamat_kantor, int kppn
     ){
         editor.putBoolean(LOGIN,true);
         editor.putString(USERNAME,username);
-        editor.putString(USERNAME,pasword);
+        editor.putString(PASSW,pasword);
         editor.putInt(USER_ID,user_id);
         editor.putInt(AREA_ID,area_id);
         editor.putString(NAMA,nama);
         editor.putString(ALAMAT,alamat);
         editor.putInt(LEVEL,level);
-        editor.putString(GAMBAR,gambar);
+        editor.putInt(GAMBAR,gambar);
         editor.putString(AREA_NM,area_nm);
         editor.putString(AREA_NM_SHORT,area_nm_short);
         editor.putInt(SATKER_ID,satker_id);
@@ -91,7 +91,17 @@ public class SessionManager {
         user.put(PASSW,sharedPreferences.getString(PASSW,null));
         user.put(NAMA,sharedPreferences.getString(NAMA,null));
         user.put(AREA_NM,sharedPreferences.getString(AREA_NM,null));
+        user.put(ALAMAT,sharedPreferences.getString(ALAMAT,null));
+        user.put(SATKER_NM,sharedPreferences.getString(SATKER_NM,null));
+        user.put(AREA_NM_SHORT,sharedPreferences.getString(AREA_NM_SHORT,null));
+        user.put(ALAMAT_KANTOR,sharedPreferences.getString(ALAMAT_KANTOR,null));
         return user;
+    }
+    public HashMap<String,Integer> getUserDetailInt(){
+        HashMap<String,Integer> userInt = new HashMap<>();
+        userInt.put(USER_ID,sharedPreferences.getInt(USER_ID,0));
+        userInt.put(GAMBAR,sharedPreferences.getInt(GAMBAR,0));
+        return userInt;
     }
 
     public  void logout(){
