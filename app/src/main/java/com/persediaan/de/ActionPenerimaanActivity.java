@@ -38,7 +38,7 @@ public class ActionPenerimaanActivity extends AppCompatActivity {
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                finish();
+                onBackPressed();
             }
         });
     }
@@ -47,6 +47,9 @@ public class ActionPenerimaanActivity extends AppCompatActivity {
     public void onBackPressed() {
 //        super.onBackPressed();
         Intent PageDetailPenerimaan = new Intent(getApplicationContext(),DetailPenerimaanActivity.class);
+        String idtrans = result_scanner.get(SessionManager.SCANFULLR);
+        PageDetailPenerimaan.putExtra(DetailPenerimaanActivity.ID_TRANS,
+                idtrans);
         startActivity(PageDetailPenerimaan);
         finish();
     }

@@ -1,86 +1,37 @@
 package com.persediaan.de.model;
 
 public class ModelPenerimaan {
-    String name_penyedia,
-            status,
-            area,
-            alamat,tgl;
-    int img_bg_card;
-    int img_bg_label;
-    String no_penerimaan;
-    int harga_total=0;
-    int ppn=0;
-    int color_label;
-    int paddingBot=0;
+    String name_penyedia,status,area,
+            alamat,tgl,id_trans,no_purchase;
+    int img_bg_card,img_bg_label,harga_total=0,
+            ppn=0,color_label,paddingBot=0,qty;
+    boolean lastItem = false;
+    boolean expand = false;
 
     public ModelPenerimaan(
-            String name_penyedia,
-            String status,
-            String area,
-            String alamat,
-            int hrg_total,
-            String tgl,
-            int img_bg_card,
-            String no_penerimaan) {
-        this.name_penyedia = name_penyedia;
-        this.status = status;
-        this.area = area;
-        this.alamat = alamat;
-        this.harga_total = hrg_total;
-        this.tgl = tgl;
-        this.img_bg_card = img_bg_card;
-        this.no_penerimaan = no_penerimaan;
+            String name_penyedia,String status,String area,
+            String alamat,int qty,int hrg_total,String tgl,
+            String id_trans,String no_purchase,int ppn,int color_label,
+            int img_bg_card,int img_bg_label,boolean lastItem) {
+
+        this.name_penyedia = name_penyedia;this.status = status;
+        this.area = area;this.alamat = alamat;this.tgl = tgl;
+        this.img_bg_card = img_bg_card;this.img_bg_label = img_bg_label;
+        this.id_trans = id_trans;this.no_purchase = no_purchase;
+        this.qty = qty;this.harga_total = hrg_total;this.ppn = ppn;
+        this.color_label = color_label;this.lastItem = lastItem;
     }
 
-    public ModelPenerimaan(
-            String name_penyedia,
-            String status,
-            String area,
-            String alamat,
-            int hrg_total,
-            String tgl,
-            String no_penerimaan,
-            int ppn,
-            int color_label,
-            int img_bg_card,
-            int img_bg_label) {
-        this.name_penyedia = name_penyedia;
-        this.status = status;
-        this.area = area;
-        this.alamat = alamat;
-        this.tgl = tgl;
-        this.img_bg_card = img_bg_card;
-        this.img_bg_label = img_bg_label;
-        this.no_penerimaan = no_penerimaan;
-        this.harga_total = hrg_total;
-        this.ppn = ppn;
-        this.color_label = color_label;
+    public String getNo_purchase() {
+        return no_purchase;
     }
-    public ModelPenerimaan(
-            String name_penyedia,
-            String status,
-            String area,
-            String alamat,
-            int hrg_total,
-            String tgl,
-            String no_penerimaan,
-            int ppn,
-            int color_label,
-            int img_bg_card,
-            int img_bg_label,
-            int paddingBot) {
-        this.name_penyedia = name_penyedia;
-        this.status = status;
-        this.area = area;
-        this.alamat = alamat;
-        this.tgl = tgl;
-        this.img_bg_card = img_bg_card;
-        this.img_bg_label = img_bg_label;
-        this.no_penerimaan = no_penerimaan;
-        this.harga_total = hrg_total;
-        this.ppn = ppn;
-        this.color_label = color_label;
-        this.paddingBot = paddingBot;
+
+    public void setExpand(boolean expand) {
+        this.expand = expand;
+    }
+
+    public boolean isExpand() {
+        return expand;
     }
 
     public int getPaddingBot() {
@@ -123,6 +74,14 @@ public class ModelPenerimaan {
         return area;
     }
 
+    public int getQty() {
+        return qty;
+    }
+
+    public boolean isLastItem() {
+        return lastItem;
+    }
+
     public String getAlamat() {
         return alamat;
     }
@@ -139,8 +98,8 @@ public class ModelPenerimaan {
         return img_bg_label;
     }
 
-    public String getNo_penerimaan() {
-        return no_penerimaan;
+    public String getId_Trans() {
+        return id_trans;
     }
 
     public int getColor_label() {
@@ -153,14 +112,16 @@ public class ModelPenerimaan {
                 "name_penyedia='" + name_penyedia + '\'' +
                 ", status='" + status + '\'' +
                 ", area='" + area + '\'' +
+                ", qty='" + qty + '\'' +
                 ", alamat='" + alamat + '\'' +
                 ", tgl='" + tgl + '\'' +
                 ", img_bg_card=" + img_bg_card +
                 ", img_bg_label=" + img_bg_label +
-                ", no_penerimaan='" + no_penerimaan + '\'' +
+                ", id_trans='" + id_trans + '\'' +
                 ", harga_total=" + harga_total +
                 ", ppn=" + ppn +
                 ", color_label=" + color_label +
+                ", LastItem=" + lastItem +
                 '}';
     }
 }

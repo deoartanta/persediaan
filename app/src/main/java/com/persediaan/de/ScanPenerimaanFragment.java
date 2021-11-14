@@ -2,7 +2,6 @@ package com.persediaan.de;
 
 import android.app.Activity;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 
@@ -18,11 +17,11 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
+import com.etebarian.meowbottomnavigation.MeowBottomNavigation;
 import com.google.zxing.Result;
 import com.persediaan.de.data.SessionManager;
 
 import java.util.HashMap;
-import java.util.Objects;
 
 import me.dm7.barcodescanner.zxing.ZXingScannerView;
 
@@ -35,8 +34,9 @@ public class ScanPenerimaanFragment extends Fragment implements ZXingScannerView
     Button btn_manual;
     Context ctx;
     boolean cam = true;
-    public ScanPenerimaanFragment() {
-        // Required empty public constructor
+    MeowBottomNavigation btnNavBottom;
+    public ScanPenerimaanFragment(MeowBottomNavigation btnNavBottom) {
+        this.btnNavBottom = btnNavBottom;
     }
 
     @Override
@@ -112,13 +112,14 @@ public class ScanPenerimaanFragment extends Fragment implements ZXingScannerView
     private void newPage(Context context) {
         Intent pener_action = new Intent(context,ActionPenerimaanActivity.class);
         startActivity(pener_action);
-        Fragment frg = new PenerimaanFragment();
-        getParentFragmentManager()
-                .beginTransaction()
-                .replace(R.id.frame_layout,frg)
-                .commit();
-        LinearLayout main_linearlayout = requireActivity().findViewById(R.id.mainLinearLayout);
-        main_linearlayout.setVisibility(View.VISIBLE);
+//        Fragment frg = new PenerimaanFragment();
+//        getParentFragmentManager()
+//                .beginTransaction()
+//                .replace(R.id.frame_layout,frg)
+//                .commit();
+        btnNavBottom.show(2,true);
+//        LinearLayout main_linearlayout = requireActivity().findViewById(R.id.mainLinearLayout);
+//        main_linearlayout.setVisibility(View.VISIBLE);
     }
 
     @Override

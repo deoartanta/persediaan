@@ -1,5 +1,6 @@
 package com.persediaan.de;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -14,14 +15,11 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.persediaan.de.adapter.AdapterPenerimaan;
+import com.persediaan.de.adapter.AdapterPenerimaan2;
 import com.persediaan.de.adapter.RecyclerViewClickInterface;
-import com.persediaan.de.adapter.myAdapter;
-import com.persediaan.de.data.dataDummy;
 import com.persediaan.de.model.ModelPenerimaan;
-import com.persediaan.de.model.myModel;
 
 import java.util.ArrayList;
-import java.util.List;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -30,9 +28,8 @@ import java.util.List;
  */
 public class PenerimaanFragment extends Fragment implements RecyclerViewClickInterface {
 
-    private AdapterPenerimaan adapter;
+    private AdapterPenerimaan2 adapter;
     ArrayList<ModelPenerimaan> modelPenerimaanArrayList;
-    dataDummy dataDummyn;
     RecyclerView recyclerPenerimaan;
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
@@ -76,7 +73,7 @@ public class PenerimaanFragment extends Fragment implements RecyclerViewClickInt
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_penerimaan,container,false);
         recyclerPenerimaan = view.findViewById(R.id.recyclerPenerimaan);
-        Toast.makeText(getContext(), "Halaman Penerimaan", Toast.LENGTH_SHORT).show();
+//        Toast.makeText(getContext(), "Halaman Penerimaan", Toast.LENGTH_SHORT).show();
         adapter = loadCards();
         recyclerPenerimaan.setLayoutManager(new LinearLayoutManager(getContext(),
                 LinearLayoutManager.VERTICAL, false));
@@ -90,50 +87,42 @@ public class PenerimaanFragment extends Fragment implements RecyclerViewClickInt
 
     @Override
     public void onItemClick(int position,View v) {
-        TextView nm_penyedia=v.findViewById(R.id.tvNamePenyedia);
-        Toast.makeText(getContext(), "Position : "+position+"\n Nama Penyedia : "+nm_penyedia.getText(), Toast.LENGTH_SHORT).show();
+        TextView tv_idtrans=v.findViewById(R.id.tvResIdTrans);
+        TextView tv_admin=v.findViewById(R.id.tvResAdmin);
+        Intent i = new Intent(requireContext(),DetailPenerimaanActivity.class);
+
+        String id_trans = (tv_idtrans!=null)?(String) tv_idtrans.getText():"null"+tv_admin.getText();
+        i.putExtra(DetailPenerimaanActivity.ID_TRANS,id_trans);
+        startActivity(i);
+//        Toast.makeText(getContext(), "Position : "+position+"\n Nama Penyedia : "+nm_penyedia.getText(), Toast.LENGTH_SHORT).show();
     }
 
-    private AdapterPenerimaan loadCards() {
+    private AdapterPenerimaan2 loadCards() {
         modelPenerimaanArrayList = new ArrayList<ModelPenerimaan>();
 
         modelPenerimaanArrayList.add(new ModelPenerimaan(
-                "Deo Artanta",
-                "Belum",
-                "3 Item",
-                "Jl. Cempaka no.27",
-                200000,
-                "25 September 2021",
-                "001",
-                0,
+                "Deo Artanta","Belum","Surabaya/perikanan",
+                "Jl. Cempaka no.27",5,200000,
+                "25 September 2021","001","sby-002-200",0,
                 getResources().getColor(R.color.white),
                 R.drawable.ic_bubble_chart_24,
-                R.drawable.ic_bg_label_red_1));
+                R.drawable.ic_bg_label_red_1,false));
+
         modelPenerimaanArrayList.add(new ModelPenerimaan(
-                "Totok Risqy",
-                "Sudah",
-                "10 Item",
-                "Jl. Sumbersari no.35",
-                300000,
-                "19 September2021",
-                "002",
-                0,
+                "Totok Risqy","Sudah","Jember",
+                "Jl. Sumbersari no.35",4,300000,
+                "19 September2021","002","sby-003-200",0,
                 getResources().getColor(R.color.colorBgGreen),
                 R.drawable.ic_bubble_chart_24,
-                R.drawable.ic_bg_label_green));
+                R.drawable.ic_bg_label_green,false));
         modelPenerimaanArrayList.add(new ModelPenerimaan(
-                "Shohib Habibullah",
-                "Sudah",
-                "20 Item",
-                "Jl. Dermaga IV no.50",
-                1000000,
-                "20 September 2021",
-                "003",
-                0,
+                "Shohib Habibullah","Sudah","20 Item",
+                "Jl. Dermaga IV no.50",6,1000000,
+                "20 September 2021","003","sby-004-200",0,
                 getResources().getColor(R.color.colorBgGreen),
                 R.drawable.ic_bubble_chart_24,
                 R.drawable.ic_bg_label_green,
-                120));
-        return new AdapterPenerimaan(modelPenerimaanArrayList,PenerimaanFragment.this);
+                true));
+        return new AdapterPenerimaan2(modelPenerimaanArrayList,PenerimaanFragment.this);
     }
 }

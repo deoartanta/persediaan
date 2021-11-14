@@ -5,7 +5,9 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@drawable/stroke_bordered"
-    android:layout_marginVertical="10dp"
+    android:gravity="center"
+    android:layout_marginVertical="5dp"
+    android:paddingVertical="5dp"
     android:orientation="vertical">
 
 
@@ -24,6 +26,7 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:gravity="center_vertical"
             android:padding="10dp">
 
             <ImageView
@@ -40,8 +43,8 @@
                 android:id="@+id/tvRowName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_toEndOf="@+id/imgLeft"
                 android:layout_centerVertical="true"
+                android:layout_toEndOf="@+id/imgLeft"
                 android:text="TextView"
                 android:textSize="16dp" />
 
@@ -50,7 +53,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="10dp"
-                android:layout_toStartOf="@+id/imgRight" />
+                android:layout_toStartOf="@+id/imgRight"/>
 
             <ImageView
                 android:id="@+id/imgRight"
@@ -65,8 +68,7 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
-            android:padding="10dp">
+            android:layout_marginLeft="10dp">
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recyclerRowDetail"
@@ -79,7 +81,7 @@
         <TextView
             android:id="@+id/textView4"
             android:layout_width="match_parent"
-            android:layout_height="3dp"
+            android:layout_height="wrap_content"
             android:background="#4B000000"
             android:visibility="gone" />
     </LinearLayout>

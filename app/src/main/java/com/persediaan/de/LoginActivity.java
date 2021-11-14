@@ -190,12 +190,14 @@ public class LoginActivity extends AppCompatActivity {
                         Toast.makeText(getApplicationContext(), "Username : "+username, Toast.LENGTH_SHORT).show();
 
 
+                        if(nama!=null){
                             sessionManager.Login(
                                     username,password,area_nm,user_id,area_id,nama,alamat,level,
                                     gambar,area_nm,area_singkat_nm,satker_id,kode_satker,satker_nm
                                     ,jenis_kew,alamat_kantor,kppn
 
                             );
+                        }
                         if (sessionManager.isLoggin()){
                             startActivity(home);
                             finish();

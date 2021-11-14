@@ -10,5 +10,8 @@
     <color name="splashBackground">#146CEF</color>
     <color name="colorBgGreen">#4A4A4A</color>
     <color name="BgGreen">#2BA600</color>
+    <color name="buttonTransBackground">#00020202</color>
+    <color name="buttonTransTextColor">#0142E4</color>
+    <color name="buttonTransClicked">#0F000000</color>
     <color name="BgRed">#A60600</color>
 </resources>
