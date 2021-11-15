@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.ColorInt;
@@ -40,20 +41,26 @@ public class AdapterPenerimaan extends RecyclerView.Adapter<AdapterPenerimaan.pe
     public void onBindViewHolder(@NonNull penerimaanBrgViewHolder holder, int position) {
         String nm_penyedia = datalist.get(position).getName_penyedia();
         String alamat = datalist.get(position).getAlamat();
+        int qty = datalist.get(position).getQty();
         String area = datalist.get(position).getArea();
         String status = datalist.get(position).getStatus();
         int hrg_total = datalist.get(position).getHarga_total();
         String tgl = datalist.get(position).getTgl();
+        String idtrans = datalist.get(position).getId_Trans();
         Integer img = datalist.get(position).getImg_bg_card();
         Integer bg_label = datalist.get(position).getImg_bg_label();
         int color = datalist.get(position).getColor_label();
-
         holder.tv_status.setTextColor(color);
+        if (datalist.get(position).isLastItem()) {
+            holder.cardLinear.setPadding(0, 0, 0, 50);
+        }
 
         holder.img_background.setImageResource(img);
         holder.tv_nm_penyedia.setText(nm_penyedia);
         holder.tv_alamat.setText(alamat);
         holder.tv_area.setText(area);
+        holder.tv_idtrans.setText(idtrans);
+        holder.tv_qty.setText(String.valueOf(qty)+" ITEM");
         holder.tv_status.setText(status);
         holder.tv_status.setBackgroundResource(bg_label);
         holder.tv_hrg_total.setText(String.valueOf(hrg_total));
@@ -67,7 +74,9 @@ public class AdapterPenerimaan extends RecyclerView.Adapter<AdapterPenerimaan.pe
 
     public class penerimaanBrgViewHolder extends RecyclerView.ViewHolder {
         ImageView img_background;
-        TextView tv_nm_penyedia,tv_alamat,tv_area,tv_status,tv_hrg_total,tv_tgl;
+        TextView tv_nm_penyedia,tv_alamat,tv_area,
+                tv_status,tv_hrg_total,tv_tgl,tv_qty,tv_idtrans;
+        LinearLayout cardLinear;
         public penerimaanBrgViewHolder(@NonNull View itemView) {
             super(itemView);
 
@@ -75,13 +84,17 @@ public class AdapterPenerimaan extends RecyclerView.Adapter<AdapterPenerimaan.pe
             tv_nm_penyedia = itemView.findViewById(R.id.tvNamePenyedia);
             tv_alamat = itemView.findViewById(R.id.tvAlamat);
             tv_area = itemView.findViewById(R.id.tvArea);
+            tv_qty = itemView.findViewById(R.id.tvQTY);
             tv_status = itemView.findViewById(R.id.tvSts);
             tv_hrg_total = itemView.findViewById(R.id.tvHrgTotal);
             tv_tgl = itemView.findViewById(R.id.tvTgl);
+            tv_idtrans = itemView.findViewById(R.id.tvIdTrans);
+            cardLinear = itemView.findViewById(R.id.cardLinear);
 
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
+                    notifyItemChanged(getAdapterPosition());
                     recyclerViewClickInterface.onItemClick(getAdapterPosition(),view);
                 }
             });

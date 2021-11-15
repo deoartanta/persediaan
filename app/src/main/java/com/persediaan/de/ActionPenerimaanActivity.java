@@ -3,6 +3,7 @@ package com.persediaan.de;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
@@ -37,9 +38,20 @@ public class ActionPenerimaanActivity extends AppCompatActivity {
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                finish();
+                onBackPressed();
             }
         });
+    }
+
+    @Override
+    public void onBackPressed() {
+//        super.onBackPressed();
+        Intent PageDetailPenerimaan = new Intent(getApplicationContext(),DetailPenerimaanActivity.class);
+        String idtrans = result_scanner.get(SessionManager.SCANFULLR);
+        PageDetailPenerimaan.putExtra(DetailPenerimaanActivity.ID_TRANS,
+                idtrans);
+        startActivity(PageDetailPenerimaan);
+        finish();
     }
 
     @Override

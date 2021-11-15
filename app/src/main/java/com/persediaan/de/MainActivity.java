@@ -1,15 +1,16 @@
 package com.persediaan.de;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
 
 import android.Manifest;
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.etebarian.meowbottomnavigation.MeowBottomNavigation;
@@ -24,15 +25,22 @@ import com.karumi.dexter.listener.single.PermissionListener;
 
 import java.util.HashMap;
 
+import de.hdodenhof.circleimageview.CircleImageView;
+
 public class MainActivity extends AppCompatActivity implements ScanInterface{
     MeowBottomNavigation bottomNavigation;
 
     LinearLayout main_linearlayout;
+    CardView cardViewprofile;
 
     SessionManager sessionManager;
     HashMap<String,String> user;
+    HashMap<String,Integer> user_Int;
 
     String permissionMsg;
+//  Profile
+    CircleImageView img_Profile;
+    TextView tv_name,username,tv_satker,tv_alamat;
 
     String page="";
     @Override
@@ -45,8 +53,25 @@ public class MainActivity extends AppCompatActivity implements ScanInterface{
         sessionManager = new SessionManager(this,"login");
         sessionManager.checkLogin();
         user = sessionManager.getUserDetail();
+        user_Int = sessionManager.getUserDetailInt();
 
         main_linearlayout = findViewById(R.id.mainLinearLayout);
+        cardViewprofile = findViewById(R.id.cardView);
+
+        img_Profile = findViewById(R.id.imgProfilUser);
+        tv_name = findViewById(R.id.tvName);
+        tv_satker = findViewById(R.id.tvSatker);
+        tv_alamat = findViewById(R.id.tvAlamat);
+        username = findViewById(R.id.tvUserName);
+
+        tv_name.setText(user.get(SessionManager.NAMA));
+        tv_satker.setText(user.get(SessionManager.SATKER_NM));
+        tv_alamat.setText(user.get(SessionManager.AREA_NM));
+        username.setText(user.get(SessionManager.USERNAME));
+        img_Profile.setImageResource(user_Int.get(SessionManager.GAMBAR));
+
+
+//        Toast.makeText(getApplicationContext(), "Welcome "+user.get(SessionManager.NAMA), Toast.LENGTH_SHORT).show();
 
         bottomNavigation.add(new MeowBottomNavigation.Model(1,R.drawable.ic_home_24));
         bottomNavigation.add(new MeowBottomNavigation.Model(2,R.drawable.ic_penerimaan));
@@ -57,46 +82,43 @@ public class MainActivity extends AppCompatActivity implements ScanInterface{
             @Override
             public void onShowItem(MeowBottomNavigation.Model item) {
                 Fragment fragment = null;
-                Animation goUp = AnimationUtils.loadAnimation(getApplicationContext(),R.anim.go_up);
-                Animation goDown = AnimationUtils.loadAnimation(getApplicationContext(),R.anim.go_down);
+//                <<Animation>>
+//                Animation goUp = AnimationUtils.loadAnimation(getApplicationContext(),R.anim.go_up);
+//                Animation goDown = AnimationUtils.loadAnimation(getApplicationContext(),R.anim.go_down);
                 switch (item.getId()){
                     case 1:
                         page = "home";
-                        fragment = new HomeFragment();
-                        main_linearlayout.setVisibility(View.VISIBLE);
-                        main_linearlayout.setAnimation(goDown);
+                        fragment = new HomeFragment(bottomNavigation);
+                        cardViewprofile.setVisibility(View.VISIBLE);
                         loadFragment(fragment);
                         break;
                     case 2:
                         page = "penerimaan";
                         fragment = new PenerimaanFragment();
-                        main_linearlayout.setVisibility(View.VISIBLE);
-                        main_linearlayout.setAnimation(goDown);
+                        cardViewprofile.setVisibility(View.VISIBLE);
                         loadFragment(fragment);
 
                         break;
                     case 3:
                         page = "scan";
-                        runScanner(new ScanPenerimaanFragment());
-                        main_linearlayout.setVisibility(View.GONE);
+                        runScanner(new ScanPenerimaanFragment(bottomNavigation));
+                        cardViewprofile.setVisibility(View.GONE);
 
 //                        finish();
                         break;
                     case 4:
                         page = "barang keluar";
                         fragment = new BrgKeluarFragment();
-                        main_linearlayout.setVisibility(View.VISIBLE);
-                        main_linearlayout.setAnimation(goDown);
+                        cardViewprofile.setVisibility(View.VISIBLE);
                         loadFragment(fragment);
                         break;
                     case 5:
                         page = "profil";
                         fragment = new ProfileFragment();
-                        main_linearlayout.setAnimation(goUp);
-                        main_linearlayout.postDelayed(new Runnable() {
+                        cardViewprofile.postDelayed(new Runnable() {
                             @Override
                             public void run() {
-                                main_linearlayout.setVisibility(View.GONE);
+                                cardViewprofile.setVisibility(View.GONE);
                             }
                         },200);
                         loadFragment(fragment);
@@ -111,19 +133,39 @@ public class MainActivity extends AppCompatActivity implements ScanInterface{
         bottomNavigation.setOnClickMenuListener(new MeowBottomNavigation.ClickListener() {
             @Override
             public void onClickItem(MeowBottomNavigation.Model item) {
-                Toast.makeText(getApplicationContext(),
-                        "You clicked "+page+" : "+item.getId(),
-                        Toast.LENGTH_SHORT).show();
+
             }
         });
         bottomNavigation.setOnReselectListener(new MeowBottomNavigation.ReselectListener() {
             @Override
             public void onReselectItem(MeowBottomNavigation.Model item) {
-                Toast.makeText(getApplicationContext(),
-                        "You Reselected "+page+" : "+item.getId(),
-                        Toast.LENGTH_SHORT).show();
+
             }
         });
+    }
+    int count = 0;
+
+    @Override
+    public void onBackPressed() {
+//        super.onBackPressed();
+        if (page.equals("home")) {
+            count++;
+        } else {
+            page = "noHome";
+            bottomNavigation.show(1,true);
+            count = 0;
+
+        }
+        if(count==1){
+            if(page.equals("home")){
+                Toast.makeText(getApplicationContext(), "Tekan lagi untuk menutup "+page, Toast.LENGTH_SHORT).show();
+            }
+        }else if(count>=2){
+            if(page.equals("home")){
+                finish();
+            }
+        }
+        page = "home";
     }
 
     private void loadFragment(Fragment pFragment) {
@@ -132,16 +174,11 @@ public class MainActivity extends AppCompatActivity implements ScanInterface{
                 .replace(R.id.frame_layout,pFragment)
                 .commit();
     }
-    private void fragmentAction(Fragment pFragment, String action) {
-        if (action=="hide") {
-            getSupportFragmentManager()
-                    .beginTransaction()
-                    .hide(pFragment).commit();
-        }else if(action == "show"){
-            getSupportFragmentManager()
-                    .beginTransaction()
-                    .show(pFragment).commit();
-        }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        count =0;
     }
 
     public void runScanner(Fragment pFragment){
@@ -178,7 +215,7 @@ public class MainActivity extends AppCompatActivity implements ScanInterface{
 
     @Override
     public void OnHandlerResult(String r) {
-        Fragment fragment = new ScanPenerimaanFragment();
+        Fragment fragment = new ScanPenerimaanFragment(bottomNavigation);
         loadFragment(fragment);
     }
 }

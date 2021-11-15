@@ -1,21 +1,32 @@
 package com.persediaan.de;
 
 import android.app.ActionBar;
+import android.content.Intent;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.DefaultItemAnimator;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager.widget.ViewPager;
+import androidx.viewpager2.widget.CompositePageTransformer;
+import androidx.viewpager2.widget.MarginPageTransformer;
 import androidx.viewpager2.widget.ViewPager2;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
+import android.widget.LinearLayout;
+import android.widget.ScrollView;
+import android.widget.TextView;
 
+import com.etebarian.meowbottomnavigation.MeowBottomNavigation;
 import com.persediaan.de.adapter.AdapterPenerimaan;
+import com.persediaan.de.adapter.RecyclerViewClickInterface;
 import com.persediaan.de.adapter.myAdapter;
 import com.persediaan.de.model.ModelPenerimaan;
-import com.persediaan.de.model.myModel;
 
 import java.util.ArrayList;
 
@@ -24,7 +35,7 @@ import java.util.ArrayList;
  * Use the {@link HomeFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class HomeFragment extends Fragment {
+public class HomeFragment extends Fragment implements RecyclerViewClickInterface {
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -35,14 +46,20 @@ public class HomeFragment extends Fragment {
     private ArrayList<ModelPenerimaan> modelPenerimaanArrayList;
 
     private myAdapter adapter;
+    private AdapterPenerimaan adapterPenerimaan;
 
     ViewPager viewPager;
+    ViewPager2 viewPager2;
+    RecyclerView home_penerimaan,home_brgout;
+    ScrollView svHome;
+
+    MeowBottomNavigation bottomNavigation;
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
 
-    public HomeFragment() {
-        // Required empty public constructor
+    public HomeFragment(MeowBottomNavigation bottomNavigation) {
+        this.bottomNavigation = bottomNavigation;
     }
 
     /**
@@ -54,8 +71,8 @@ public class HomeFragment extends Fragment {
      * @return A new instance of fragment HomeFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static HomeFragment newInstance(String param1, String param2) {
-        HomeFragment fragment = new HomeFragment();
+    public static HomeFragment newInstance(String param1, String param2, MeowBottomNavigation btnNavBottom) {
+        HomeFragment fragment = new HomeFragment(btnNavBottom);
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
@@ -78,7 +95,10 @@ public class HomeFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_home,container,false);
-        viewPager = view.findViewById(R.id.vp2Home);
+        view.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,ViewGroup.LayoutParams.MATCH_PARENT));
+
+        home_penerimaan = view.findViewById(R.id.recyclerHomePenerimaan);
+        home_brgout = view.findViewById(R.id.recyclerHomeBrgKeluar);
         loadCards();
         return view;
     }
@@ -87,43 +107,50 @@ public class HomeFragment extends Fragment {
         modelPenerimaanArrayList = new ArrayList<ModelPenerimaan>();
 
         modelPenerimaanArrayList.add(new ModelPenerimaan(
-                "Deo Artanta",
-                "Belum",
-                "3 Item",
-                "Jl. Cempaka no.27",
-                200000,
-                "25 September 2021",
-                "001",
-                0,
+                "Deo Artanta","Belum","Surabaya",
+                "Jl. Cempaka no.27",10,200000,
+                "25 September 2021","001","sby-002-200",0,
                 getResources().getColor(R.color.white),
                 R.drawable.ic_bubble_chart_24,
-                R.drawable.ic_bg_label_red_1));
+                R.drawable.ic_bg_label_red_1,false));
         modelPenerimaanArrayList.add(new ModelPenerimaan(
-                "Totok Risqy",
-                "Sudah",
-                "10 Item",
-                "Jl. Sumbersari no.35",
-                300000,
-                "19 September2021",
-                "002",
-                0,
+                "Totok Risqy","Sudah","Jember",
+                "Jl. Sumbersari no.35",5,300000,
+                "19 September2021","002","sby-002-200",0,
                 getResources().getColor(R.color.colorBgGreen),
                 R.drawable.ic_bubble_chart_24,
-                R.drawable.ic_bg_label_green));
+                R.drawable.ic_bg_label_green,false));
         modelPenerimaanArrayList.add(new ModelPenerimaan(
-                "Shohib Habibullah",
-                "Sudah",
-                "20 Item",
-                "Jl. Dermaga IV no.50",
-                1000000,
-                "20 September 2021",
-                "003",
-                0,
+                "Shohib Habibullah","Sudah",
+                "Malang","Jl. Dermaga IV no.50",6,1000000,
+                "20 September 2021","003","sby-002-200",0,
                 getResources().getColor(R.color.colorBgGreen),
                 R.drawable.ic_bubble_chart_24,
-                R.drawable.ic_bg_label_green));
+                R.drawable.ic_bg_label_green,false));
          adapter = new myAdapter(getContext(),modelPenerimaanArrayList);
-         viewPager.setAdapter(adapter);
-         viewPager.setPadding(0,0,10,0);
+         adapterPenerimaan = new AdapterPenerimaan(modelPenerimaanArrayList,this);
+
+         home_brgout.setLayoutManager(new LinearLayoutManager(getContext(),
+                 LinearLayoutManager.HORIZONTAL, false));
+         home_brgout.setItemAnimator(new DefaultItemAnimator());
+         home_brgout.setAdapter(adapterPenerimaan);
+
+         home_penerimaan.setLayoutManager(new LinearLayoutManager(getContext(),
+                LinearLayoutManager.HORIZONTAL, false));
+//        home_penerimaan.setHasFixedSize(true);
+        home_penerimaan.setItemAnimator(new DefaultItemAnimator());
+
+        home_penerimaan.setAdapter(adapterPenerimaan);
+
+    }
+
+    @Override
+    public void onItemClick(int position, View view) {
+        TextView tv_idtrans = view.findViewById(R.id.tvIdTrans);
+        Intent i = new Intent(requireContext(),DetailPenerimaanActivity.class);
+
+        String id_trans = (String) tv_idtrans.getText();
+        i.putExtra(DetailPenerimaanActivity.ID_TRANS,id_trans);
+        startActivity(i);
     }
 }

@@ -12,24 +12,35 @@
         android:layout_height="100dp"
         android:layout_marginTop="32dp"
         android:transitionName="imgTrans"
+        android:src="@drawable/avatar"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/ic_person_24" />
+        app:layout_constraintTop_toTopOf="parent" />
+
+
+    <ImageButton
+        android:id="@+id/btnRefresh"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="#00000000"
+        app:layout_constraintEnd_toEndOf="@+id/imgLogin"
+        app:layout_constraintStart_toStartOf="@+id/imgLogin"
+        app:layout_constraintTop_toBottomOf="@+id/imgLogin"
+        app:srcCompat="@drawable/ic_baseline_autorenew_24" />
 
     <TextView
         android:id="@+id/tvSignin"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:fontFamily="@font/bangers"
+        android:fontFamily="@font/poppins_bold"
         android:text="Sign in"
         android:textAlignment="center"
-        android:transitionName="titleTrans"
         android:textAllCaps="true"
         android:textSize="40sp"
+        android:transitionName="titleTrans"
         app:layout_constraintEnd_toEndOf="@+id/imgLogin"
         app:layout_constraintStart_toStartOf="@+id/imgLogin"
-        app:layout_constraintTop_toBottomOf="@+id/imgLogin" />
+        app:layout_constraintTop_toBottomOf="@+id/btnRefresh" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -69,6 +80,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="textPassword"
+                android:paddingEnd="40dp"
                 android:id="@+id/tietPassw"/>
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -78,13 +90,14 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="10dp"
-            android:hint="Pilih Area">
+            android:hint="Pilih Area"
+            android:visibility="gone">
 
             <AutoCompleteTextView
                 android:id="@+id/autoCompleteArea"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:inputType="none"/>
+                android:inputType="none" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <Button
@@ -92,28 +105,54 @@
             android:layout_height="wrap_content"
             android:layout_gravity="right"
             android:layout_margin="5dp"
-            android:fontFamily="@font/antic"
             android:background="#00000000"
             android:elevation="0dp"
-            android:text="Forget Password?"
-            android:textColor="#000" />
-        <Button
-            android:id="@+id/btnSignin"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Sign In"
-            android:enabled="false"
-            android:background="@color/teal_700"
-            android:textColor="#fff"
-            android:layout_margin="5dp"/>
-        <Button
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="New User? SIGN UP"
             android:fontFamily="@font/antic"
+            android:text="Forget Password?"
             android:textColor="#000"
+            android:visibility="gone" />
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <Button
+                android:id="@+id/btnSignin"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                android:background="@color/teal_700"
+                android:enabled="false"
+                android:text="Sign In"
+                android:textColor="#fff"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <ProgressBar
+                android:id="@+id/progressLoginBar"
+                style="?android:attr/progressBarStyle"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="8dp"
+                android:visibility="gone"
+                app:layout_constraintBottom_toBottomOf="@+id/btnSignin"
+                app:layout_constraintEnd_toEndOf="@+id/btnSignin"
+                app:layout_constraintStart_toStartOf="@+id/btnSignin"
+                app:layout_constraintTop_toTopOf="@+id/btnSignin" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
             android:background="#00000000"
-            android:layout_margin="5dp"/>
+            android:fontFamily="@font/antic"
+            android:text="New User? SIGN UP"
+            android:textColor="#000"
+            android:visibility="gone" />
 
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
