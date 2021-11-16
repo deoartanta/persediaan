@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.se.omapi.Session;
 import android.text.InputType;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -23,6 +24,8 @@ import com.google.android.material.textfield.TextInputLayout;
 import com.persediaan.de.adapter.AdapterAkunSetting;
 import com.persediaan.de.adapter.RecyclerViewClickExpendInterface;
 import com.persediaan.de.adapter.RecyclerViewClickInterface;
+import com.persediaan.de.api.ApiLogin;
+import com.persediaan.de.api.JsonPlaceHolderApi;
 import com.persediaan.de.data.SessionManager;
 import com.persediaan.de.model.ModelPenerimaan;
 import com.persediaan.de.model.ModelProfileRowExpand;
@@ -31,6 +34,12 @@ import com.persediaan.de.model.ModelProfileRowItem;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
+
 /**
  * A simple {@link Fragment} subclass.
  * Use the {@link ProfileFragment#newInstance} factory method to
@@ -38,8 +47,13 @@ import java.util.HashMap;
  */
 public class ProfileFragment extends Fragment implements RecyclerViewClickExpendInterface,RecyclerViewClickInterface {
 
+    //Connection
+    private Retrofit retrofit;
+    private JsonPlaceHolderApi jsonPlaceHolderApi;
+
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
+
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
 
@@ -50,6 +64,7 @@ public class ProfileFragment extends Fragment implements RecyclerViewClickExpend
 
     SessionManager sessionManagerProfil;
     HashMap<String,String> detail_profile;
+    HashMap<String,Integer> detail_profile_int;
 
     TextView satker,nama_lengkap,alamat_profile;
     ImageView imgProfile;
@@ -101,7 +116,7 @@ public class ProfileFragment extends Fragment implements RecyclerViewClickExpend
         recyclerView_profileSetting = view.findViewById(R.id.reyclerProfileSetting);
         sessionManagerProfil = new SessionManager(requireContext(),"login");
         detail_profile = sessionManagerProfil.getUserDetail();
-        HashMap<String,Integer>detail_profile_int = sessionManagerProfil.getUserDetailInt();
+        detail_profile_int = sessionManagerProfil.getUserDetailInt();
 
         nama_lengkap = view.findViewById(R.id.profileTvName);
         satker = view.findViewById(R.id.profileTvSatker);
@@ -218,9 +233,12 @@ public class ProfileFragment extends Fragment implements RecyclerViewClickExpend
                         @Override
                         public void onClick(DialogInterface dialogInterface, int i) {
                             String m_input = EditTextInput.getText().toString();
-//                        editProfile(m_input);
-
-                            System.out.println("tes output :"+m_input);
+                            String m_output = "-";
+                            m_output = editProfile(
+                                    detail_profile_int.get(SessionManager.USER_ID),
+                                    m_input,"nama");
+                            EditTextInput.setText(m_output);
+                            System.out.println("tes output :"+m_output);
                         }
                     });
 
@@ -237,7 +255,12 @@ public class ProfileFragment extends Fragment implements RecyclerViewClickExpend
 
                     dialog1.setPositiveButton("Next", (dialogInterface,i)->{
                         String m_input = EditTextInput.getText().toString();
-                        editProfile(m_input);
+                        String m_output = "-";
+                        m_output = editProfile(
+                                detail_profile_int.get(SessionManager.USER_ID),
+                                m_input,"username");
+                        EditTextInput.setText(m_output);
+                        System.out.println("tes output :"+m_output);
                     });
 
                     dialog1.setNegativeButton("Cancel", (dialogInterface, i) -> {
@@ -254,7 +277,12 @@ public class ProfileFragment extends Fragment implements RecyclerViewClickExpend
 
                     dialog1.setPositiveButton("Next", (dialogInterface,i)->{
                         String m_input = EditTextInput.getText().toString();
-                        editProfile(m_input);
+                        String m_output = "-";
+                        m_output = editProfile(
+                                detail_profile_int.get(SessionManager.USER_ID),
+                                m_input,"password");
+                        EditTextInput.setText(m_output);
+                        System.out.println("tes output :"+m_output);
                     });
 
                     dialog1.setNegativeButton("Cancel", (dialogInterface, i) -> {
@@ -270,7 +298,12 @@ public class ProfileFragment extends Fragment implements RecyclerViewClickExpend
 
                     dialog1.setPositiveButton("Next", (dialogInterface,i)->{
                         String m_input = EditTextInput.getText().toString();
-                        editProfile(m_input);
+                        String m_output = "-";
+                        m_output = editProfile(
+                                detail_profile_int.get(SessionManager.USER_ID),
+                                m_input,"alamat");
+                        EditTextInput.setText(m_output);
+                        System.out.println("tes output :"+m_output);
                     });
 
                     dialog1.setNegativeButton("Cancel", (dialogInterface, i) -> {
@@ -289,7 +322,64 @@ public class ProfileFragment extends Fragment implements RecyclerViewClickExpend
         }
     }
 
-    private void editProfile(String m_input) {
-        Toast.makeText(requireContext(),m_input,Toast.LENGTH_SHORT);
+    private String editProfile(int p_iduser,String m_input,String type) {
+        retrofit = new Retrofit.Builder()
+                    .baseUrl(SessionManager.HOSTNAME)
+                    .addConverterFactory(GsonConverterFactory.create())
+                    .build();
+        jsonPlaceHolderApi = retrofit.create(JsonPlaceHolderApi.class);
+
+        String input_nama = detail_profile.get(SessionManager.NAMA);
+        String input_username = detail_profile.get(SessionManager.USERNAME);
+        String input_password = detail_profile.get(SessionManager.PASSW);
+        String input_alamat = detail_profile.get(SessionManager.ALAMAT);
+        String old_result="";
+
+        if (type.toLowerCase().equals("nama")){
+            input_nama = m_input;
+        }else if (type.toLowerCase().equals("username")) {
+            input_username = m_input;
+        }else if (type.toLowerCase().equals("password")) {
+            input_password = m_input;
+        } else if (type.toLowerCase().equals("alamat")) {
+            input_alamat = m_input;
+        }
+
+        Call<ApiLogin> call = jsonPlaceHolderApi.getResponEditUser(
+                p_iduser,input_nama,input_username,input_password,input_alamat
+        );
+
+        call.enqueue(new Callback<ApiLogin>() {
+            @Override
+            public void onResponse(Call<ApiLogin> call, Response<ApiLogin> response) {
+                String result = null;
+
+                ApiLogin editLogin = response.body();
+                if(!response.isSuccessful()){
+                    Toast.makeText(requireContext(), "Edit profil gagal", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                Toast.makeText(requireContext(), "Edit profil berhasil", Toast.LENGTH_SHORT).show();
+
+                if (type.toLowerCase().equals("nama")){
+                    result = editLogin.getNama();
+                }else if (type.toLowerCase().equals("username")) {
+                    result = editLogin.getAlamat();
+                }else if (type.toLowerCase().equals("password")) {
+                    result = editLogin.getPassword();
+                } else if (type.toLowerCase().equals("alamat")) {
+                    result = editLogin.getUsername();
+                }
+//                old_result = result;
+
+            }
+
+            @Override
+            public void onFailure(Call<ApiLogin> call, Throwable t) {
+                Toast.makeText(requireContext(), "Server Error", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        return old_result;
     }
 }

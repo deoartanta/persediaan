@@ -169,7 +169,7 @@ public class LoginActivity extends AppCompatActivity {
                         }
 //
 //                        System.out.println(login.toString());
-                        Log.d("19201299", "onResponse: "+login.toString());
+//                        Log.d("19201299", "onResponse: "+login.toString());
 
                         String nama = login.getNama();
                         String username = login.getUsername();
