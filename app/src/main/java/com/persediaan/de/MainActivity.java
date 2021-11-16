@@ -3,6 +3,7 @@ package com.persediaan.de;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
+import androidx.viewpager2.widget.ViewPager2;
 
 import android.Manifest;
 import android.os.Bundle;
@@ -14,6 +15,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.etebarian.meowbottomnavigation.MeowBottomNavigation;
+import com.google.android.material.tabs.TabLayout;
 import com.persediaan.de.data.SessionManager;
 
 import com.karumi.dexter.Dexter;
@@ -108,7 +110,7 @@ public class MainActivity extends AppCompatActivity implements ScanInterface{
                         break;
                     case 4:
                         page = "barang keluar";
-                        fragment = new BrgKeluarFragment();
+                        fragment = new BrgKeluarFragment(getSupportFragmentManager());
                         cardViewprofile.setVisibility(View.VISIBLE);
                         loadFragment(fragment);
                         break;
