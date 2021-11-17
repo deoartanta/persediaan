@@ -4,6 +4,7 @@ public class ModelProfileRowItem {
     String row_name_item,nama,username,password,alamat;
     int img_left;
     private String[] result;
+    private int[] typeText;
 
     public ModelProfileRowItem(String row_name_item, int img_left) {
         this.row_name_item = row_name_item;
@@ -30,8 +31,16 @@ public class ModelProfileRowItem {
         this.result = result;
         return this;
     }
+    public ModelProfileRowItem set_TypeText(int[] type) {
+        this.typeText = type;
+        return this;
+    }
 
     public String[] getResult() {
         return result;
+    }
+
+    public int[] getTypeText() {
+        return typeText;
     }
 }

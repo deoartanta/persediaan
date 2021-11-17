@@ -19,10 +19,10 @@ public interface JsonPlaceHolderApi {
     );
 
 
-    @POST("api/auth/login")
+    @POST("api/user/edit")
     @FormUrlEncoded
     Call<ApiLogin> getResponEditUser(
-            @Field("user_id") int iduser,
+            @Field("id_user") int iduser,
             @Field("nama") String nama,
             @Field("username") String username,
             @Field("password") String password,

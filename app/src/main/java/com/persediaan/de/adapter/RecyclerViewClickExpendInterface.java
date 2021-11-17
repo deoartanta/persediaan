@@ -4,5 +4,5 @@ import android.view.View;
 
 public interface RecyclerViewClickExpendInterface {
     void onItemClick(int position, View view);
-    void onItemExpendClick(int position, View view,boolean isEnable);
+    void onItemExpendClick(int id,int position, View view,boolean isEnable);
 }

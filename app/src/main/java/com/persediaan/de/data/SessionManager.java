@@ -8,6 +8,7 @@ import com.persediaan.de.LoginActivity;
 import com.persediaan.de.MainActivity;
 
 import java.util.HashMap;
+import java.util.Set;
 
 public class SessionManager {
     SharedPreferences sharedPreferences;
@@ -41,10 +42,36 @@ public class SessionManager {
     public static final String SCANF = "SCANF";
     public static final String SCANFULLR = "SCANFULLR";
 
+
     public SessionManager(Context context,String name) {
         this.context = context;
         sharedPreferences = context.getSharedPreferences(name,PRIVATE_MODE);
         editor = sharedPreferences.edit();
+    }
+
+    public void setEditUserNama(String editUserNama) {
+        editor.remove(NAMA);
+        editor.putString(NAMA,editUserNama);
+        editor.apply();
+    }
+
+    public void setEditUserUsername(String editUserUsername) {
+        editor.remove(USERNAME);
+        editor.putString(USERNAME,editUserUsername);
+        editor.apply();
+    }
+
+    public void setEditUserPassword(String editUserPassword) {
+
+        editor.remove(PASSW);
+        editor.putString(PASSW,editUserPassword);
+        editor.apply();
+    }
+
+    public void setEditUserAlamat(String editUserAlamat) {
+        editor.remove(ALAMAT);
+        editor.putString(ALAMAT,editUserAlamat);
+        editor.apply();
     }
 
     public void Login(
