@@ -77,6 +77,12 @@ public class ProfileFragment extends Fragment implements RecyclerViewClickExpend
         detail_profile = sessionManagerProfil.getUserDetail();
         detail_profile_int = sessionManagerProfil.getUserDetailInt();
 
+        retrofit = new Retrofit.Builder()
+                .baseUrl(SessionManager.HOSTNAME)
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+        jsonPlaceHolderApi = retrofit.create(JsonPlaceHolderApi.class);
+
         nama_lengkap = view.findViewById(R.id.profileTvName);
         satker = view.findViewById(R.id.profileTvSatker);
         alamat_profile = view.findViewById(R.id.profileTvAlamat);
@@ -170,7 +176,7 @@ public class ProfileFragment extends Fragment implements RecyclerViewClickExpend
                 ), true));
         arrayList_profileRowExpand.add(new ModelProfileRowExpand(
                 2,"Logout",R.drawable.ic_baseline_power_settings_new_24,
-                null, false));
+                null, false).setMarginBot(130));
 
         adapterProfile = new AdapterAkunSetting(
                 arrayList_profileRowExpand,ProfileFragment.this);
@@ -221,8 +227,6 @@ public class ProfileFragment extends Fragment implements RecyclerViewClickExpend
     @Override
     public void onItemExpendClick(int id,int position, View view,boolean isEnable) {
         TextView tv_edit_old = view.findViewById(R.id.tvSettingResult);
-
-        if (isEnable){
             AlertDialog.Builder dialog1;
             View viewInflated;
             viewInflated = LayoutInflater.from(getContext()).inflate(
@@ -331,25 +335,16 @@ public class ProfileFragment extends Fragment implements RecyclerViewClickExpend
                             break;
                     }
                 case 1:
-                    Toast.makeText(requireContext(), tv_edit_old.getText(), Toast.LENGTH_SHORT).show();
-            }
-
-        }else{
-            switch (position){
-                case 1:
+                    Toast.makeText(requireContext(), ""+position+tv_edit_old.getText(),
+                            Toast.LENGTH_SHORT).show();
+                    break;
+                case 2:
                     sessionManagerProfil.logout();
                     break;
             }
-        }
     }
 
     private String editProfile(TextView tv_edit_old, int p_iduser, String m_input, String type) {
-        retrofit = new Retrofit.Builder()
-                    .baseUrl(SessionManager.HOSTNAME)
-                    .addConverterFactory(GsonConverterFactory.create())
-                    .build();
-        jsonPlaceHolderApi = retrofit.create(JsonPlaceHolderApi.class);
-
         String input_nama=detail_profile.get(SessionManager.NAMA);
         String input_username = detail_profile.get(SessionManager.USERNAME);
         String input_password =detail_profile.get(SessionManager.PASSW);

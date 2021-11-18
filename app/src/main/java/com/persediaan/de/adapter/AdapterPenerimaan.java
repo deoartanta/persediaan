@@ -39,30 +39,28 @@ public class AdapterPenerimaan extends RecyclerView.Adapter<AdapterPenerimaan.pe
 
     @Override
     public void onBindViewHolder(@NonNull penerimaanBrgViewHolder holder, int position) {
-        String nm_penyedia = datalist.get(position).getName_penyedia();
+        String nm_penyedia = datalist.get(position).getNm_suplier();
         String alamat = datalist.get(position).getAlamat();
-        int qty = datalist.get(position).getQty();
-        String area = datalist.get(position).getArea();
+//        int qty = datalist.get(position).getQty();
+        String area = datalist.get(position).getNm_area();
+//        String satker = datalist.get(position).getnm_satker();
         String status = datalist.get(position).getStatus();
         int hrg_total = datalist.get(position).getHarga_total();
         String tgl = datalist.get(position).getTgl();
-        String idtrans = datalist.get(position).getId_Trans();
-        Integer img = datalist.get(position).getImg_bg_card();
-        Integer bg_label = datalist.get(position).getImg_bg_label();
-        int color = datalist.get(position).getColor_label();
-        holder.tv_status.setTextColor(color);
-        if (datalist.get(position).isLastItem()) {
-            holder.cardLinear.setPadding(0, 0, 0, 50);
-        }
+        String idtrans = datalist.get(position).getId_trans();
+//        holder.tv_status.setTextColor(color);
+//        if (datalist.get(position).isLastItem()) {
+//            holder.cardLinear.setPadding(0, 0, 0, 50);
+//        }
 
-        holder.img_background.setImageResource(img);
+//        holder.img_background.setImageResource(img);
         holder.tv_nm_penyedia.setText(nm_penyedia);
         holder.tv_alamat.setText(alamat);
         holder.tv_area.setText(area);
         holder.tv_idtrans.setText(idtrans);
-        holder.tv_qty.setText(String.valueOf(qty)+" ITEM");
+//        holder.tv_qty.setText(String.valueOf(qty)+" ITEM");
         holder.tv_status.setText(status);
-        holder.tv_status.setBackgroundResource(bg_label);
+//        holder.tv_status.setBackgroundResource(bg_label);
         holder.tv_hrg_total.setText(String.valueOf(hrg_total));
         holder.tv_tgl.setText(tgl);
     }

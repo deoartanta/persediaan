@@ -59,17 +59,14 @@ public class myAdapter extends PagerAdapter {
         String status = model.getStatus();
         int hrg_total = model.getHarga_total();
         String tgl = model.getTgl();
-        Integer img = model.getImg_bg_card();
-        Integer bg_label = model.getImg_bg_label();
-        Integer color = model.getColor_label();
 
-        img_background.setImageResource(img);
+//        img_background.setImageResource(img);
         tv_nm_penyedia.setText(nm_penyedia);
         tv_alamat.setText(alamat);
         tv_area.setText(area);
         tv_status.setText(status);
-        tv_status.setBackgroundResource(bg_label);
-        tv_status.setTextColor(color);
+//        tv_status.setBackgroundResource(bg_label);
+//        tv_status.setTextColor(color);
         tv_hrg_total.setText(String.valueOf(hrg_total));
         tv_tgl.setText(tgl);
 

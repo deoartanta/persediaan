@@ -18,7 +18,6 @@ public interface JsonPlaceHolderApi {
             @Field("password") String password
     );
 
-
     @POST("api/user/edit")
     @FormUrlEncoded
     Call<ApiLogin> getResponEditUser(
@@ -28,5 +27,11 @@ public interface JsonPlaceHolderApi {
             @Field("password") String password,
             @Field("alamat") String alamat
 
+    );
+
+    @POST("api/reception/item")
+    @FormUrlEncoded
+    Call<List<ApiPenerimaan>> getResponPenerimaan(
+            @Field("barcode") String barcode
     );
 }

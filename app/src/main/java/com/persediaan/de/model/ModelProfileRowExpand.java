@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 public class ModelProfileRowExpand {
     String row_name,result;
-    int typeItem,index = 0;
+    int typeItem,index = 0,MarginBot = 0;
     int imgResource;
     boolean enable = false;
     boolean expandable;
@@ -54,6 +54,15 @@ public class ModelProfileRowExpand {
     public ModelProfileRowExpand setTypeText(int typeText) {
         this.typeItem = typeText;
         return this;
+    }
+
+    public ModelProfileRowExpand setMarginBot(int marginBot) {
+        MarginBot = marginBot;
+        return this;
+    }
+
+    public int getMarginBot() {
+        return MarginBot;
     }
 
     public String getResult() {

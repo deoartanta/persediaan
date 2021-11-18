@@ -134,11 +134,11 @@ public class AdapterAkunSetting extends RecyclerView.Adapter<AdapterAkunSetting.
 
             }else{
                 holder.img_left.setImageResource(img_left);
-                if ((datalist_expend.size()-1)==position) {
-                    holder.linearLayoutProfileC.setPadding(0, 0, 0, 100);
-                }
             }
             holder.recyclerViewProfileExpend.setVisibility(View.GONE);
+        }
+        if (datalist_expend.get(position).getMarginBot()!=0) {
+            holder.linearLayoutProfileC.setPadding(0, 0, 0, datalist_expend.get(position).getMarginBot());
         }
     }
 
