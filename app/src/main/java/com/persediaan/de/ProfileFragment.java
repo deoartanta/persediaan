@@ -11,7 +11,12 @@ import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.text.Editable;
 import android.text.InputType;
+import android.text.TextUtils;
+import android.text.TextWatcher;
+import android.util.Log;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -248,15 +253,13 @@ public class ProfileFragment extends Fragment implements RecyclerViewClickExpend
                                     SessionManager.NAMA
                             ));
 //                    EditTextInput.setText(tv_edit_old.getText());
-
                             dialog1.setPositiveButton("Next", new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialogInterface, int i) {
                                     String m_input = EditTextInput.getText().toString();
                                     String m_output = "-";
-                                    tv_edit_old.setText("tes");
                                     editProfile(
-                                            tv_edit_old,
+                                            "",
                                             detail_profile_int.get(
                                                     SessionManager.USER_ID
                                             ),
@@ -269,7 +272,29 @@ public class ProfileFragment extends Fragment implements RecyclerViewClickExpend
                             dialog1.setNegativeButton("Cancel", (dialogInterface, i) -> {
                                 dialogInterface.cancel();
                             });
-                            dialog1.create().show();
+                            AlertDialog dialog2 = dialog1.create();
+                            dialog2.show();
+                            ((AlertDialog) dialog2).getButton(AlertDialog.BUTTON_POSITIVE).setEnabled(false);
+                            EditTextInput.addTextChangedListener(new TextWatcher() {
+                                @Override
+                                public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+                                }
+
+                                @Override
+                                public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+                                }
+
+                                @Override
+                                public void afterTextChanged(Editable editable) {
+                                    if(TextUtils.isEmpty(editable)){
+                                        ((AlertDialog) dialog2).getButton(AlertDialog.BUTTON_POSITIVE).setEnabled(false);
+                                    }else{
+                                        ((AlertDialog) dialog2).getButton(AlertDialog.BUTTON_POSITIVE).setEnabled(true);
+                                    }
+                                }
+                            });
                             break;
                         case 1:
                             inputLayout.setHint("New Username");
@@ -283,26 +308,66 @@ public class ProfileFragment extends Fragment implements RecyclerViewClickExpend
                             dialog1.setPositiveButton("Next", (dialogInterface,i)->{
                                 String m_input = EditTextInput.getText().toString();
 //                        String m_output = "-";
-                                editProfile(tv_edit_old,
+                                editProfile("",
                                         detail_profile_int.get(SessionManager.USER_ID), m_input, "username");
                             });
 
                             dialog1.setNegativeButton("Cancel", (dialogInterface, i) -> {
                                 dialogInterface.cancel();
                             });
-                            dialog1.create().show();
+                            dialog2 = dialog1.create();
+                            dialog2.show();
+                            ((AlertDialog) dialog2).getButton(AlertDialog.BUTTON_POSITIVE).setEnabled(false);
+                            EditTextInput.addTextChangedListener(new TextWatcher() {
+                                @Override
+                                public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+                                }
+
+                                @Override
+                                public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+                                }
+
+                                @Override
+                                public void afterTextChanged(Editable editable) {
+                                    String usernameLama =
+                                            String.valueOf(detail_profile.get(SessionManager.USERNAME));
+                                    String usernameBaru = String.valueOf(editable.toString());
+//                                    Log.d("19201299",
+//                                            "afterTextChanged: \nUsernameLama : "+usernameLama+
+//                                                    "\nUsernameBaru : "+usernameBaru+
+//                                                    "\nBollean :"+TextUtils.equals(editable,
+//                                                    usernameLama));
+                                    if(TextUtils.isEmpty(editable)||TextUtils.equals(editable,
+                                            usernameLama)){
+                                        ((AlertDialog) dialog2).getButton(AlertDialog.BUTTON_POSITIVE).setEnabled(false);
+                                    }else{
+                                        ((AlertDialog) dialog2).getButton(AlertDialog.BUTTON_POSITIVE).setEnabled(true);
+                                    }
+                                }
+                            });
                             break;
                         case 2:
-                            inputLayout.setHint("New Password");
+                            final TextInputLayout inputLayout2 =
+                                    viewInflated.findViewById(R.id.layoutInput2);
+                            final TextInputEditText EditTextInput2 =
+                                    viewInflated.findViewById(R.id.editTextInput2);
+                            inputLayout2.setVisibility(View.VISIBLE);
+                            inputLayout2.setHint("New Password");
+                            inputLayout.setHint("Current Password");
                             inputLayout.setPasswordVisibilityToggleEnabled(true);
+                            inputLayout2.setPasswordVisibilityToggleEnabled(true);
                             dialog1.setTitle("Password");
                             EditTextInput.setInputType(InputType.TYPE_CLASS_TEXT|InputType.TYPE_TEXT_VARIATION_PASSWORD);
+                            EditTextInput2.setInputType(InputType.TYPE_CLASS_TEXT|InputType.TYPE_TEXT_VARIATION_PASSWORD);
                             dialog1.setView(viewInflated);
 
                             dialog1.setPositiveButton("Next", (dialogInterface,i)->{
-                                String m_input = EditTextInput.getText().toString();
+                                String m_input = EditTextInput2.getText().toString();
+                                String m_input2 = EditTextInput.getText().toString();
                                 String m_output = "-";
-                                editProfile(tv_edit_old,
+                                editProfile(m_input2,
                                         detail_profile_int.get(
                                                 SessionManager.USER_ID
                                         ), m_input, "password");
@@ -311,7 +376,82 @@ public class ProfileFragment extends Fragment implements RecyclerViewClickExpend
                             dialog1.setNegativeButton("Cancel", (dialogInterface, i) -> {
                                 dialogInterface.cancel();
                             });
-                            dialog1.create().show();
+                            dialog2 = dialog1.create();
+                            dialog2.show();
+                            ((AlertDialog) dialog2).getButton(AlertDialog.BUTTON_POSITIVE).setEnabled(false);
+                            EditTextInput.addTextChangedListener(new TextWatcher() {
+                                @Override
+                                public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+                                }
+
+                                @Override
+                                public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+                                }
+
+                                @Override
+                                public void afterTextChanged(Editable editable) {
+                                    String passwBaru = editable.toString();
+                                    String passwLama = EditTextInput2.getText().toString();
+                                    if(TextUtils.isEmpty(editable)||passwBaru.length()<6||TextUtils.equals(passwLama,passwBaru)){
+                                        if(TextUtils.equals(passwLama,passwBaru)){
+                                            EditTextInput2.setError("current and new password " +
+                                                    "cannot be the same");
+                                            EditTextInput.setPadding(20,0,80,0);
+                                            EditTextInput2.setPadding(20,0,80,0);
+                                        }else if(passwBaru.length()<6){
+                                            EditTextInput.setError("Password can't be less than " +
+                                                    "6");
+                                            EditTextInput.setPadding(20,0,80,0);
+                                        }else{
+                                            EditTextInput.setPadding(20,0,80,0);
+                                            EditTextInput.setError(null);
+                                        }
+                                        ((AlertDialog) dialog2).getButton(AlertDialog.BUTTON_POSITIVE).setEnabled(false);
+                                    }else{
+                                        EditTextInput.setPadding(20,0,0,0);
+                                        EditTextInput.setError(null);
+                                        ((AlertDialog) dialog2).getButton(AlertDialog.BUTTON_POSITIVE).setEnabled(true);
+                                    }
+                                }
+                            });
+                            EditTextInput2.addTextChangedListener(new TextWatcher() {
+                                @Override
+                                public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+                                }
+
+                                @Override
+                                public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+                                }
+
+                                @Override
+                                public void afterTextChanged(Editable editable) {
+                                    String passwBaru = editable.toString();
+                                    String passwLama = EditTextInput.getText().toString();
+                                    if(TextUtils.isEmpty(editable)||TextUtils.isEmpty(passwLama)||passwLama.length()<6||passwBaru.length()<6||TextUtils.equals(passwLama,passwBaru)){
+                                        if(TextUtils.equals(passwLama,passwBaru)){
+                                            EditTextInput2.setError("current and new password " +
+                                                    "cannot be the same");
+                                            EditTextInput2.setPadding(15,0,80,0);
+                                        }else if (passwBaru.length()<6){
+                                            EditTextInput2.setError("Password can't be less than " +
+                                                    "6");
+                                            EditTextInput2.setPadding(15,0,80,0);
+                                        }else{
+                                            EditTextInput2.setPadding(15,0,80,0);
+                                            EditTextInput2.setError(null);
+                                        }
+                                        ((AlertDialog) dialog2).getButton(AlertDialog.BUTTON_POSITIVE).setEnabled(false);
+                                    }else{
+                                        EditTextInput2.setPadding(15,0,0,0);
+                                        EditTextInput2.setError(null);
+                                        ((AlertDialog) dialog2).getButton(AlertDialog.BUTTON_POSITIVE).setEnabled(true);
+                                    }
+                                }
+                            });
                             break;
                         case 3:
                             inputLayout.setHint("New Alamat");
@@ -324,15 +464,39 @@ public class ProfileFragment extends Fragment implements RecyclerViewClickExpend
 
                             dialog1.setPositiveButton("Next", (dialogInterface,i)->{
                                 String m_input = EditTextInput.getText().toString();
-                                editProfile(tv_edit_old,
+                                editProfile("",
                                         detail_profile_int.get(SessionManager.USER_ID), m_input, "alamat");
                             });
 
                             dialog1.setNegativeButton("Cancel", (dialogInterface, i) -> {
                                 dialogInterface.cancel();
                             });
-                            dialog1.show();
+                            dialog2 = dialog1.create();
+                            dialog2.show();
+                            ((AlertDialog) dialog2).getButton(AlertDialog.BUTTON_POSITIVE).setEnabled(false);
+                            EditTextInput.addTextChangedListener(new TextWatcher() {
+                                @Override
+                                public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+                                }
+
+                                @Override
+                                public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+                                }
+
+                                @Override
+                                public void afterTextChanged(Editable editable) {
+                                    if(TextUtils.isEmpty(editable)){
+                                        ((AlertDialog) dialog2).getButton(AlertDialog.BUTTON_POSITIVE).setEnabled(false);
+                                    }else{
+                                        ((AlertDialog) dialog2).getButton(AlertDialog.BUTTON_POSITIVE).setEnabled(true);
+                                    }
+                                }
+                            });
                             break;
+                        default:
+                            throw new IllegalStateException("Unexpected value: " + position);
                     }
                 case 1:
                     Toast.makeText(requireContext(), ""+position+tv_edit_old.getText(),
@@ -344,11 +508,12 @@ public class ProfileFragment extends Fragment implements RecyclerViewClickExpend
             }
     }
 
-    private String editProfile(TextView tv_edit_old, int p_iduser, String m_input, String type) {
-        String input_nama=detail_profile.get(SessionManager.NAMA);
-        String input_username = detail_profile.get(SessionManager.USERNAME);
-        String input_password =detail_profile.get(SessionManager.PASSW);
-        String input_alamat =detail_profile.get(SessionManager.ALAMAT);
+    private String editProfile(String tv_edit_old, int p_iduser, String m_input, String type) {
+        String input_nama="";
+        String input_username = "";
+        String input_currentpassword ="";
+        String input_password ="";
+        String input_alamat ="";
         String old_result="";
 
         if (type==String.valueOf("nama")){
@@ -357,6 +522,7 @@ public class ProfileFragment extends Fragment implements RecyclerViewClickExpend
             input_username = m_input;
         }else if (type==String.valueOf("password")) {
             input_password = m_input;
+            input_currentpassword = tv_edit_old;
         } else if (type==String.valueOf("alamat")) {
             input_alamat = m_input;
         }else{
@@ -364,7 +530,7 @@ public class ProfileFragment extends Fragment implements RecyclerViewClickExpend
         }
 
         Call<ApiLogin> call = jsonPlaceHolderApi.getResponEditUser(
-                p_iduser,input_nama,input_username,input_password,input_alamat
+                p_iduser,input_nama,input_username,input_password,input_currentpassword,input_alamat
         );
 
         call.enqueue(new Callback<ApiLogin>() {
@@ -374,21 +540,30 @@ public class ProfileFragment extends Fragment implements RecyclerViewClickExpend
 
                 ApiLogin editLogin = response.body();
                 if(!response.isSuccessful()){
-                    Toast.makeText(requireContext(), "Edit profil gagal", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(requireContext(), "Edit "+type+" gagal", Toast.LENGTH_SHORT).show();
                     return;
                 }
-                Toast.makeText(requireContext(), "Edit profil berhasil", Toast.LENGTH_SHORT).show();
 
                 int user_id = detail_profile_int.get(SessionManager.USER_ID);
                 String nama = editLogin.getNama();
                 String username = editLogin.getUsername();
                 String password = editLogin.getPassword();
                 String alamat = editLogin.getAlamat();
-                sessionManagerProfil.setEditUserNama(nama);
-                sessionManagerProfil.setEditUserUsername(username);
-                sessionManagerProfil.setEditUserPassword(password);
-                sessionManagerProfil.setEditUserAlamat(alamat);
-
+                if (nama!=null) {
+                    Toast.makeText(requireContext(), "Edit "+type+" berhasil", Toast.LENGTH_SHORT).show();
+                    sessionManagerProfil.setEditUserNama(nama);
+                    sessionManagerProfil.setEditUserUsername(username);
+                    sessionManagerProfil.setEditUserPassword(password);
+                    sessionManagerProfil.setEditUserAlamat(alamat);
+                    setProfile();
+                    loadSettingProfile("akun");
+                }else{
+                    if (!editLogin.getSts()){
+                        Toast.makeText(requireContext(), ""+editLogin.getMsg(), Toast.LENGTH_SHORT).show();
+                    }else{
+                        Toast.makeText(requireContext(), "Gagal edit "+type, Toast.LENGTH_SHORT).show();
+                    }
+                }
 //                String area_nm = editLogin.getNm_area();
 //                String area_singkat_nm = editLogin.getNm_singkat();
 //                int satker_id = editLogin.getId_satker();
@@ -397,8 +572,6 @@ public class ProfileFragment extends Fragment implements RecyclerViewClickExpend
 //                String jenis_kew = editLogin.getJenis_kew();
 //                String alamat_kantor = editLogin.getAlamat_kantor();
 //                int kppn = editLogin.getKppn();
-                    setProfile();
-                    loadSettingProfile("akun");
 //                if (type=="password") {
 //                     tv_edit_old.setText(textWrap(m_input,8,"password"));
 //                }else{

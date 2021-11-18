@@ -161,6 +161,7 @@ public class LoginActivity extends AppCompatActivity {
                     @Override
                     public void onResponse(Call<ApiLogin> call, Response<ApiLogin> response) {
                         ApiLogin login = response.body();
+                        boolean sts = false;
                         if(!response.isSuccessful()){
                             Toast.makeText(getApplicationContext(), "Login gagal", Toast.LENGTH_SHORT).show();
                             progess_login.setVisibility(View.GONE);

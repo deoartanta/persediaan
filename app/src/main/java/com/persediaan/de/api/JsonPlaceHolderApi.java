@@ -25,6 +25,7 @@ public interface JsonPlaceHolderApi {
             @Field("nama") String nama,
             @Field("username") String username,
             @Field("password") String password,
+            @Field("pass_lama") String current_password,
             @Field("alamat") String alamat
 
     );
