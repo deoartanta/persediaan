@@ -99,34 +99,21 @@ public class HomeFragment extends Fragment implements RecyclerViewClickInterface
 
         home_penerimaan = view.findViewById(R.id.recyclerHomePenerimaan);
         home_brgout = view.findViewById(R.id.recyclerHomeBrgKeluar);
-        loadCards();
+//        loadCards();
         return view;
     }
 
     private void loadCards() {
         modelPenerimaanArrayList = new ArrayList<ModelPenerimaan>();
 
-        modelPenerimaanArrayList.add(new ModelPenerimaan(
-                "Deo Artanta","Belum","Surabaya",
-                "Jl. Cempaka no.27",10,200000,
-                "25 September 2021","001","sby-002-200",0,
-                getResources().getColor(R.color.white),
-                R.drawable.ic_bubble_chart_24,
-                R.drawable.ic_bg_label_red_1,false));
-        modelPenerimaanArrayList.add(new ModelPenerimaan(
-                "Totok Risqy","Sudah","Jember",
-                "Jl. Sumbersari no.35",5,300000,
-                "19 September2021","002","sby-002-200",0,
-                getResources().getColor(R.color.colorBgGreen),
-                R.drawable.ic_bubble_chart_24,
-                R.drawable.ic_bg_label_green,false));
-        modelPenerimaanArrayList.add(new ModelPenerimaan(
-                "Shohib Habibullah","Sudah",
-                "Malang","Jl. Dermaga IV no.50",6,1000000,
-                "20 September 2021","003","sby-002-200",0,
-                getResources().getColor(R.color.colorBgGreen),
-                R.drawable.ic_bubble_chart_24,
-                R.drawable.ic_bg_label_green,false));
+//        modelPenerimaanArrayList.add(new ModelPenerimaan(
+//                "Deo Artanta","Belum","Surabaya",
+//                "Jl. Cempaka no.27",10,200000,
+//                "25 September 2021","001","sby-002-200",0,
+//                getResources().getColor(R.color.white),
+//                R.drawable.ic_bubble_chart_24,
+//                R.drawable.ic_bg_label_red_1,false));
+
          adapter = new myAdapter(getContext(),modelPenerimaanArrayList);
          adapterPenerimaan = new AdapterPenerimaan(modelPenerimaanArrayList,this);
 

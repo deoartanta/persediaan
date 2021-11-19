@@ -26,6 +26,7 @@ import com.karumi.dexter.listener.PermissionRequest;
 import com.karumi.dexter.listener.single.PermissionListener;
 
 import java.util.HashMap;
+import java.util.Locale;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
@@ -68,7 +69,7 @@ public class MainActivity extends AppCompatActivity implements ScanInterface{
 
         tv_name.setText(user.get(SessionManager.NAMA));
         tv_satker.setText(user.get(SessionManager.SATKER_NM));
-        tv_alamat.setText(user.get(SessionManager.AREA_NM));
+        tv_alamat.setText(user.get(SessionManager.AREA_NM).toLowerCase(Locale.ROOT));
         username.setText(user.get(SessionManager.USERNAME));
         img_Profile.setImageResource(user_Int.get(SessionManager.GAMBAR));
 

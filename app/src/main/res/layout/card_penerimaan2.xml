@@ -48,7 +48,7 @@
                             android:layout_height="wrap_content"
                             android:text="sby-001-11"
                             android:textSize="14sp"
-                            android:visibility="visible" />
+                            android:visibility="gone"/>
 
                         <LinearLayout
                             android:layout_width="match_parent"

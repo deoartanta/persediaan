@@ -1,11 +1,13 @@
 package com.persediaan.de.adapter;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.DefaultItemAnimator;
@@ -25,6 +27,7 @@ public class AdapterAkunSetting extends RecyclerView.Adapter<AdapterAkunSetting.
     private RecyclerViewClickExpendInterface recyclerViewClickExpendInterface;
     ArrayList<ModelProfileRowExpand> datalist_item;
     boolean itemExpend=false;
+    public static String STATE_EXPAND = "STATE_EXPAND";
 
     public AdapterAkunSetting(ArrayList<ModelProfileRowExpand> datalist, RecyclerViewClickExpendInterface recyclerViewClickInterface) {
         this.datalist_expend = datalist;
@@ -51,6 +54,37 @@ public class AdapterAkunSetting extends RecyclerView.Adapter<AdapterAkunSetting.
             holder.img_right.setVisibility(View.VISIBLE);
             holder.recyclerViewProfileExpend.setVisibility(View.VISIBLE);
             holder.img_left.setVisibility(View.VISIBLE);
+            holder.tv_row_name.setText(row_name);
+            holder.img_left.setImageResource(img_row_left);
+//            holder.img_right.setImageResource(R.drawable.ic_baseline_keyboard_arrow_right_24);
+            ArrayList <ModelProfileRowItem> dataPeritem;
+            datalist_item = new ArrayList<>();
+            dataPeritem = datalist_expend.get(position).getModelProfileRowItems();
+            int i= 0;
+            for (ModelProfileRowItem data_Hsl_row_item : dataPeritem){
+                ModelProfileRowExpand modelProfileRowExpand;
+                if (data_Hsl_row_item.getRow_name_item()!="state"){
+                    datalist_item.add(new ModelProfileRowExpand(
+                            datalist_expend.get(position).getID(), data_Hsl_row_item.getRow_name_item(),
+                            0,null,
+                            false).setResult(
+                            (data_Hsl_row_item.getResult())!=null?
+                                    (data_Hsl_row_item.getResult())[i]:""
+                            ).setTypeText(
+                            (data_Hsl_row_item.getTypeText())!=null?
+                                    (data_Hsl_row_item.getTypeText())[i]:0));
+                }else{
+                    if (data_Hsl_row_item.getRow_name_item()=="state"&&data_Hsl_row_item.getResult()[i]==
+                            "true"){
+                        datalist_expend.get(position).setExpandable(true);
+                        data_Hsl_row_item.getResult()[i] = "false";
+                    }
+                    Log.d("19201299",
+                            "onBindViewHolder: \nState("+data_Hsl_row_item.getRow_name_item()+" " +
+                                    "result("+data_Hsl_row_item.getResult()[i]+")");
+                }
+                i++;
+            }
 
             if (datalist_expend.get(position).isExpandable()){
                 holder.recyclerViewProfileExpend.setVisibility(View.VISIBLE);
@@ -60,23 +94,7 @@ public class AdapterAkunSetting extends RecyclerView.Adapter<AdapterAkunSetting.
                 holder.img_right.setImageResource(R.drawable.ic_baseline_keyboard_arrow_right_24);
             }
 
-            holder.tv_row_name.setText(row_name);
-            holder.img_left.setImageResource(img_row_left);
-//            holder.img_right.setImageResource(R.drawable.ic_baseline_keyboard_arrow_right_24);
-            ArrayList <ModelProfileRowItem> dataPeritem;
-            datalist_item = new ArrayList<>();
-            dataPeritem = datalist_expend.get(position).getModelProfileRowItems();
-            int i= 0;
-            for (ModelProfileRowItem data_Hsl_row_item : dataPeritem){
-                datalist_item.add(
-                        new ModelProfileRowExpand(
-                                data_Hsl_row_item.getRow_name_item(),0,null,
-                                false).setResult((data_Hsl_row_item.getResult())!=null?(data_Hsl_row_item.getResult())[i]:"")
-
-                );
-                i++;
-            }
-                holder.recyclerViewProfileExpend.setLayoutManager(new LinearLayoutManager(holder.view.getContext(),
+            holder.recyclerViewProfileExpend.setLayoutManager(new LinearLayoutManager(holder.view.getContext(),
                         LinearLayoutManager.VERTICAL, false));
 
                 holder.recyclerViewProfileExpend.setHasFixedSize(true);
@@ -94,7 +112,19 @@ public class AdapterAkunSetting extends RecyclerView.Adapter<AdapterAkunSetting.
 //            holder.tv_row_name.setPadding(0,0,10,0);
             holder.img_right.setVisibility(View.GONE);
             holder.img_left.setVisibility(View.VISIBLE);
-            holder.tv_result.setText(datalist_expend.get(position).getResult());
+            if (datalist_expend.get(position).getTypeItem()==ModelProfileRowExpand.TYPE_TEXT){
+                holder.tv_result_area.setVisibility(View.GONE);
+                holder.tv_result.setVisibility(View.VISIBLE);
+                holder.tv_result.setText(datalist_expend.get(position).getResult());
+            }else if(datalist_expend.get(position).getTypeItem()==ModelProfileRowExpand.TYPE_TEXT_AREA){
+                holder.tv_result.setVisibility(View.GONE);
+                holder.tv_result_area.setVisibility(View.VISIBLE);
+                holder.tv_result_area.setText(datalist_expend.get(position).getResult());
+            }else if(datalist_expend.get(position).getTypeItem()==ModelProfileRowExpand.TYPE_TEXT_PASSWORD){
+                holder.tv_result_area.setVisibility(View.GONE);
+                holder.tv_result.setVisibility(View.VISIBLE);
+                holder.tv_result.setText(datalist_expend.get(position).getResult());
+            }
             if (img_left==0){
                 holder.img_left.setVisibility(View.GONE);
                 holder.img_right.setVisibility(View.VISIBLE);
@@ -107,6 +137,9 @@ public class AdapterAkunSetting extends RecyclerView.Adapter<AdapterAkunSetting.
             }
             holder.recyclerViewProfileExpend.setVisibility(View.GONE);
         }
+        if (datalist_expend.get(position).getMarginBot()!=0) {
+            holder.linearLayoutProfileC.setPadding(0, 0, 0, datalist_expend.get(position).getMarginBot());
+        }
     }
 
     @Override
@@ -116,9 +149,9 @@ public class AdapterAkunSetting extends RecyclerView.Adapter<AdapterAkunSetting.
 
     public class akunSettingViewHolder extends RecyclerView.ViewHolder {
         ImageView img_left,img_right;
-        TextView tv_row_name,tv_result;
+        TextView tv_row_name,tv_result,tv_result_area;
         RecyclerView recyclerViewProfileExpend;
-        LinearLayout linearLayoutProfile;
+        LinearLayout linearLayoutProfile,linearLayoutProfileC;
         View view;
 
         public akunSettingViewHolder(@NonNull View itemView, ViewGroup parent) {
@@ -126,10 +159,12 @@ public class AdapterAkunSetting extends RecyclerView.Adapter<AdapterAkunSetting.
 
             tv_row_name = itemView.findViewById(R.id.tvRowName);
             tv_result = itemView.findViewById(R.id.tvSettingResult);
+            tv_result_area = itemView.findViewById(R.id.tvSettingResultArea);
             img_right = itemView.findViewById(R.id.imgRight);
             img_left = itemView.findViewById(R.id.imgLeft);
             recyclerViewProfileExpend = itemView.findViewById(R.id.recyclerRowDetail);
             linearLayoutProfile = itemView.findViewById(R.id.linear_card_profile_expand);
+            linearLayoutProfileC = itemView.findViewById(R.id.linear_card_profile_expand_container);
             view = itemView;
 
 
@@ -144,9 +179,11 @@ public class AdapterAkunSetting extends RecyclerView.Adapter<AdapterAkunSetting.
                     }else{
                         if (datalist_expend.get(getAdapterPosition()).getimgResource()==0){
                             recyclerViewClickExpendInterface.onItemExpendClick(
+                                    datalist_expend.get(getAdapterPosition()).getID(),
                                     getAdapterPosition(), view, true);
                         }else {
                             recyclerViewClickExpendInterface.onItemExpendClick(
+                                    datalist_expend.get(getAdapterPosition()).getID(),
                                     getAdapterPosition(), view, false);
                         }
                     }

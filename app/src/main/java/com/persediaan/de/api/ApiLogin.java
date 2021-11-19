@@ -17,6 +17,7 @@ public class ApiLogin {
     private String jenis_kew;
     private String alamat_kantor;
     private String msg;
+    private boolean sts;
     private int kppn;
 
 
@@ -24,13 +25,17 @@ public class ApiLogin {
         return user_id;
     }
 
-    public String getUsername() {
-        return username;
-    }
-    public String getMSG() {
+    public String getMsg() {
         return msg;
     }
 
+    public boolean getSts() {
+        return sts;
+    }
+
+    public String getUsername() {
+        return username;
+    }
 
     public String getPassword() {
         return password;

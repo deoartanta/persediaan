@@ -6,11 +6,18 @@
     tools:context=".PenerimaanFragment">
 
     <!-- TODO: Update blank fragment layout -->
+    <ProgressBar
+        android:id="@+id/progressBarPenerimaan"
+        style="?android:attr/progressBarStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"/>
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerPenerimaan"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_margin="10dp"
-        tools:listitem="@layout/card_penerimaan2" />
+        tools:listitem="@layout/card_penerimaan2"/>
 
 </FrameLayout>
