@@ -11,13 +11,13 @@ public interface JsonPlaceHolderApi {
     public static String API_KEY_NAME ="API-KEY";
     public static String API_KEY_VALUE = "keycoba";
 
+    //User
     @POST("api/auth/login")
     @FormUrlEncoded
     Call<ApiLogin> getResponLogin(
             @Field("username") String username,
             @Field("password") String password
     );
-
     @POST("api/user/edit")
     @FormUrlEncoded
     Call<ApiLogin> getResponEditUser(
@@ -35,4 +35,11 @@ public interface JsonPlaceHolderApi {
     Call<List<ApiPenerimaan>> getResponPenerimaan(
             @Field("barcode") String barcode
     );
+
+    @POST("api/konversi/show")
+    @FormUrlEncoded
+    Call<List<ApiKonversi>> getResponKonversi(
+            @Field("nokonversi")String no_konversi
+    );
+
 }

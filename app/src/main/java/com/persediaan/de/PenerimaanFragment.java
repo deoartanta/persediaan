@@ -46,6 +46,7 @@ public class PenerimaanFragment extends Fragment implements RecyclerViewClickInt
     //Connection
     private Retrofit retrofit;
     private JsonPlaceHolderApi jsonPlaceHolderApi;
+
     RecyclerView recyclerPenerimaan;
     ShimmerFrameLayout shimmerFrameLayout;
 
