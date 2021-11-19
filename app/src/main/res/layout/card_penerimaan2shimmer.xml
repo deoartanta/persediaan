@@ -47,7 +47,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:text="OOO OOO OOO"
-                            android:textColor="#C6C6C6"
+                            android:textColor="#4AAEAEAE"
                             android:textSize="14sp"
                             android:visibility="gone" />
 
@@ -68,7 +68,7 @@
                                 android:gravity="start|center_vertical"
                                 android:text="OOO OOO OOO"
                                 android:textAllCaps="true"
-                                android:textColor="#C6C6C6"
+                                android:textColor="#4AAEAEAE"
                                 android:textSize="14sp" />
 
                             <TextView
@@ -80,7 +80,7 @@
                                 android:fontFamily="@font/antic"
                                 android:gravity="start|center_vertical"
                                 android:text="OOO-OOO-OOO"
-                                android:textColor="#C6C6C6"
+                                android:textColor="#4AAEAEAE"
                                 android:textSize="14sp" />
 
                         </LinearLayout>
@@ -102,7 +102,7 @@
                                 android:gravity="start|center_vertical"
                                 android:text="OOO OOO OOO"
                                 android:textAllCaps="true"
-                                android:textColor="#C6C6C6"
+                                android:textColor="#4AAEAEAE"
                                 android:textSize="14sp" />
 
                             <TextView
@@ -113,7 +113,7 @@
                                 android:background="#BEA6A5A5"
                                 android:fontFamily="@font/antic"
                                 android:text="OOO OOO OOO"
-                                android:textColor="#C6C6C6"
+                                android:textColor="#4AAEAEAE"
                                 android:textSize="14sp" />
 
                         </LinearLayout>
@@ -143,7 +143,7 @@
                                     android:gravity="start|center_vertical"
                                     android:text="OOO OOO OOO"
                                     android:textAllCaps="true"
-                                    android:textColor="#C6C6C6"
+                                    android:textColor="#4AAEAEAE"
                                     android:textSize="14sp" />
 
                                 <TextView
@@ -157,7 +157,7 @@
                                     android:gravity="start|center_vertical"
                                     android:paddingRight="5dp"
                                     android:text="OOO OOO OOO"
-                                    android:textColor="#C6C6C6"
+                                    android:textColor="#4AAEAEAE"
                                     android:textSize="14sp"
                                     tools:ignore="TouchTargetSizeCheck" />
 
@@ -181,7 +181,7 @@
                                     android:gravity="start|center_vertical"
                                     android:text="OOO OOO OOO"
                                     android:textAllCaps="true"
-                                    android:textColor="#C6C6C6"
+                                    android:textColor="#4AAEAEAE"
                                     android:textSize="14sp" />
 
                                 <TextView
@@ -193,7 +193,7 @@
                                     android:fontFamily="@font/antic"
                                     android:gravity="start|center_vertical"
                                     android:text="OOO OOO OOO"
-                                    android:textColor="#C6C6C6"
+                                    android:textColor="#4AAEAEAE"
                                     android:textSize="14sp" />
 
                             </LinearLayout>
@@ -215,7 +215,7 @@
                                     android:gravity="start|center_vertical"
                                     android:text="OOO OOO OOO"
                                     android:textAllCaps="true"
-                                    android:textColor="#C6C6C6"
+                                    android:textColor="#4AAEAEAE"
                                     android:textSize="14sp" />
 
                                 <TextView
@@ -229,7 +229,7 @@
                                     android:gravity="start|center_vertical"
                                     android:paddingRight="5dp"
                                     android:text="OOO OOO OOO"
-                                    android:textColor="#C6C6C6"
+                                    android:textColor="#4AAEAEAE"
                                     android:textSize="14sp" />
                             </LinearLayout>
                         </LinearLayout>
@@ -251,7 +251,7 @@
                                 android:gravity="start|center_vertical"
                                 android:text="OOO OOO OOO"
                                 android:textAllCaps="true"
-                                android:textColor="#C6C6C6"
+                                android:textColor="#4AAEAEAE"
                                 android:textSize="14sp" />
 
                             <TextView
@@ -263,7 +263,7 @@
                                 android:fontFamily="@font/antic"
                                 android:gravity="start|center_vertical"
                                 android:text="OOO OOO OOO"
-                                android:textColor="#C6C6C6"
+                                android:textColor="#4AAEAEAE"
                                 android:textSize="14sp" />
 
                         </LinearLayout>
@@ -286,7 +286,7 @@
                                 android:gravity="start|center_vertical"
                                 android:text="OOO OOO OOO"
                                 android:textAllCaps="true"
-                                android:textColor="#C6C6C6"
+                                android:textColor="#4AAEAEAE"
                                 android:textSize="14sp" />
 
                             <TextView
@@ -300,7 +300,7 @@
                                 android:gravity="start|center_vertical"
                                 android:paddingRight="5dp"
                                 android:text="OOO OOO OOO"
-                                android:textColor="#C6C6C6"
+                                android:textColor="#4AAEAEAE"
                                 android:textSize="14sp"
                                 tools:ignore="TouchTargetSizeCheck" />
                         </LinearLayout>
@@ -314,7 +314,7 @@
                             android:background="#BEA6A5A5"
                             android:drawableBottom="@drawable/ic_baseline_keyboard_arrow_down_24_shimming"
                             android:text="OOO OOO OOO"
-                            android:textColor="#C6C6C6" />
+                            android:textColor="#4AAEAEAE" />
 
                     </LinearLayout>
                 </androidx.cardview.widget.CardView>
@@ -327,7 +327,7 @@
                     android:gravity="center"
                     android:paddingHorizontal="10dp"
                     android:text="OOO OOO OOO"
-                    android:textColor="#C6C6C6"
+                    android:textColor="#4AAEAEAE"
                     android:textSize="14sp" />
 
             </LinearLayout>
