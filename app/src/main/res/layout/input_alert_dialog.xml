@@ -4,6 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical">
+
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/layoutInput"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
@@ -11,8 +12,6 @@
         android:layout_height="wrap_content"
         android:layout_margin="15dp"
         android:hint="Username">
-
-
 
     <com.google.android.material.textfield.TextInputEditText
         android:layout_width="match_parent"
