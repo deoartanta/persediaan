@@ -16,6 +16,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.facebook.shimmer.ShimmerFrameLayout;
 import com.persediaan.de.adapter.AdapterPenerimaan;
 import com.persediaan.de.adapter.AdapterPenerimaan2;
 import com.persediaan.de.adapter.RecyclerViewClickInterface;
@@ -46,7 +47,9 @@ public class PenerimaanFragment extends Fragment implements RecyclerViewClickInt
     private Retrofit retrofit;
     private JsonPlaceHolderApi jsonPlaceHolderApi;
     RecyclerView recyclerPenerimaan;
-    ProgressBar loading;
+    ShimmerFrameLayout shimmerFrameLayout;
+
+    TextView tv_lblDtKosong;
 
     public PenerimaanFragment() {
         // Required empty public constructor
@@ -57,8 +60,11 @@ public class PenerimaanFragment extends Fragment implements RecyclerViewClickInt
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_penerimaan,container,false);
         recyclerPenerimaan = view.findViewById(R.id.recyclerPenerimaan);
-        loading = view.findViewById(R.id.progressBarPenerimaan);
+        tv_lblDtKosong = view.findViewById(R.id.tv_lbl_dtkosong);
 //        Toast.makeText(getContext(), "Halaman Penerimaan", Toast.LENGTH_SHORT).show();
+        shimmerFrameLayout = view.findViewById(R.id.shimerLayout);
+        shimmerFrameLayout.startShimmer();
+        recyclerPenerimaan.setVisibility(View.GONE);
         loadCards();
         return view;
     }
@@ -87,11 +93,12 @@ public class PenerimaanFragment extends Fragment implements RecyclerViewClickInt
         call.enqueue(new Callback<List<ApiPenerimaan>>() {
             @Override
             public void onResponse(Call<List<ApiPenerimaan>> call, Response<List<ApiPenerimaan>> response) {
-                loading.setVisibility(View.GONE);
+
                 List<ApiPenerimaan> apiPenerimaans = response.body();
                 modelPenerimaanArrayList = new ArrayList<ModelPenerimaan>();
                 if (!response.isSuccessful()){
                     Toast.makeText(requireContext(), "Error yang tidak diketahui", Toast.LENGTH_SHORT).show();
+                    tv_lblDtKosong.setVisibility(View.GONE);
                     return;
                 }
                 ArrayList<ModelItemBrg> modelItemBrgs;
@@ -104,7 +111,7 @@ public class PenerimaanFragment extends Fragment implements RecyclerViewClickInt
 
                 modelItemBrgs = new ArrayList<ModelItemBrg>();
                 for (ApiPenerimaan apiPenerimaan:apiPenerimaans){
-
+                    tv_lblDtKosong.setVisibility(View.GONE);
                     modelItemBrgs.add(new ModelItemBrg(
                             apiPenerimaan.getId_item(),
                             apiPenerimaan.getQty(),
@@ -163,11 +170,15 @@ public class PenerimaanFragment extends Fragment implements RecyclerViewClickInt
                 recyclerPenerimaan.setItemAnimator(new DefaultItemAnimator());
 
                 recyclerPenerimaan.setAdapter(adapter);
+                shimmerFrameLayout.stopShimmer();
+                shimmerFrameLayout.setVisibility(View.GONE);
+                recyclerPenerimaan.setVisibility(View.VISIBLE);
             }
 
             @Override
             public void onFailure(Call<List<ApiPenerimaan>> call, Throwable t) {
-                loading.setVisibility(View.GONE);
+                shimmerFrameLayout.setVisibility(View.GONE);
+                tv_lblDtKosong.setVisibility(View.VISIBLE);
                 Toast.makeText(requireContext(), "Server Error", Toast.LENGTH_SHORT).show();
             }
         });
