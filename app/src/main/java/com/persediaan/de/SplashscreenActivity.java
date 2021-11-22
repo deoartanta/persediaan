@@ -37,20 +37,20 @@ public class SplashscreenActivity extends AppCompatActivity {
         imgAnim = findViewById(R.id.animation_view);
         title = findViewById(R.id.tvTitle);
 
-        progressBar = findViewById(R.id.progressSplash);
-        progressBar.setVisibility(View.GONE);
+//        progressBar = findViewById(R.id.progressSplash);
+//        progressBar.setVisibility(View.GONE);
 
         topAnim = AnimationUtils.loadAnimation(this,R.anim.top_to_bottom);
         botAnim = AnimationUtils.loadAnimation(this,R.anim.bottom_to_top);
 
         imgAnim.setAnimation(topAnim);
         title.setAnimation(botAnim);
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                progressBar.setVisibility(View.VISIBLE);
-            }
-        },1000);
+//        new Handler().postDelayed(new Runnable() {
+//            @Override
+//            public void run() {
+//                progressBar.setVisibility(View.VISIBLE);
+//            }
+//        },1000);
 
         new Handler().postDelayed(new Runnable() {
             @Override

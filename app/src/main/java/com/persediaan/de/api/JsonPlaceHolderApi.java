@@ -36,10 +36,21 @@ public interface JsonPlaceHolderApi {
             @Field("barcode") String barcode
     );
 
-    @POST("api/konversi/show")
+    //Konversi
+    @POST("api/konversi/noKonversi")
     @FormUrlEncoded
-    Call<List<ApiKonversi>> getResponKonversi(
-            @Field("nokonversi")String no_konversi
+    Call<String> getResponNoKonversi(
+            @Field("id_user") String id_user
+    );
+    @POST("api/konversi/noReceipt")
+    @FormUrlEncoded
+    Call<List<ApiKonversi>> getResponNoReceipt(
+            @Field("id_user") Integer id_user
+    );
+    @POST("api/konversi/items")
+    @FormUrlEncoded
+    Call<List<ApiKonversi>> getResponItems(
+            @Field("id_trans") String id_trans
     );
 
 }
