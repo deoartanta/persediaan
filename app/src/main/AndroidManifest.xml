@@ -30,6 +30,7 @@
             android:screenOrientation="portrait"/>
         <activity
             android:name=".SplashscreenActivity"
+            android:theme="@style/Theme.Persediaan.NoStatusBar"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
