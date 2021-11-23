@@ -24,6 +24,29 @@ public class ModelItemsKonv {
         this.jumlah = jumlah;
     }
 
+    @Override
+    public String toString() {
+        return "{" +
+                "no_receipt='" + no_receipt + '\'' +
+                ", id_purchase='" + id_purchase + '\'' +
+                ", nm_item='" + nm_item + '\'' +
+                ", nm_area='" + nm_area + '\'' +
+                ", nm_singkat='" + nm_singkat + '\'' +
+                ", nm_satuan='" + nm_satuan + '\'' +
+                ", eceran='" + eceran + '\'' +
+                ", id=" + id +
+                ", id_area=" + id_area +
+                ", id_item=" + id_item +
+                ", qty=" + qty +
+                ", id_satuan=" + id_satuan +
+                ", harga=" + harga +
+                ", dikonversi=" + dikonversi +
+                ", created=" + created +
+                ", updated=" + updated +
+                ", jumlah=" + jumlah +
+                '}';
+    }
+
     public String getNo_receipt() {
         return no_receipt;
     }
