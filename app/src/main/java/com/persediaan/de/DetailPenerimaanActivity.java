@@ -32,23 +32,23 @@ public class DetailPenerimaanActivity extends AppCompatActivity {
 
         setContentView(R.layout.activity_detail_penerimaan);
 
-        toolbar =findViewById(R.id.toolbar);
-        toolbar.setNavigationIcon(R.drawable.ic_baseline_arrow_back_24);
-        toolbar.setTitle("Detail Penerimaan");
-        toolbar.setTitleMarginStart(0);
-        toolbar.setTextAlignment(View.TEXT_ALIGNMENT_TEXT_START);
-        setSupportActionBar(toolbar);
+//        toolbar =findViewById(R.id.toolbar);
+//        toolbar.setNavigationIcon(R.drawable.ic_baseline_arrow_back_24);
+//        toolbar.setTitle("Detail Penerimaan");
+//        toolbar.setTitleMarginStart(0);
+//        toolbar.setTextAlignment(View.TEXT_ALIGNMENT_TEXT_START);
+//        setSupportActionBar(toolbar);
 
 //        if(toolbar!=null) {
 //            getSupportActionBar().setTitle();
 //        }
-        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                finish();
-            }
-
-        });
+//        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                finish();
+//            }
+//
+//        });
 
         tv_idtrans = findViewById(R.id.tvPurchase);
         Bundle extras = getIntent().getExtras();
