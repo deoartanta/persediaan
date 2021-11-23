@@ -32,7 +32,7 @@ public class ModelItemsKonv {
 
     @Override
     public String toString() {
-        return "ModelItemsKonv{" +
+        return "{" +
                 "no_receipt='" + no_receipt + '\'' +
                 ", id_purchase='" + id_purchase + '\'' +
                 ", nm_item='" + nm_item + '\'' +

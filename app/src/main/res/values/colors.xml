@@ -14,4 +14,5 @@
     <color name="buttonTransTextColor">#0142E4</color>
     <color name="buttonTransClicked">#0F000000</color>
     <color name="BgRed">#A60600</color>
+    <color name="transBlack">#CE000000</color>
 </resources>
