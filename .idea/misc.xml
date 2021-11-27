@@ -40,16 +40,19 @@
         <entry key="..\:/Programming/Android Studio/Persediaan/app/src/main/res/drawable/stroke_bordered_show_detail.xml" value="0.140625" />
         <entry key="..\:/Programming/Android Studio/Persediaan/app/src/main/res/font/bangers.xml" value="0.1546875" />
         <entry key="..\:/Programming/Android Studio/Persediaan/app/src/main/res/layout/activity_action_penerimaan.xml" value="0.176" />
-        <entry key="..\:/Programming/Android Studio/Persediaan/app/src/main/res/layout/activity_detail_penerimaan.xml" value="0.29578947368421055" />
+        <entry key="..\:/Programming/Android Studio/Persediaan/app/src/main/res/layout/activity_detail_penerimaan.xml" value="0.264" />
         <entry key="..\:/Programming/Android Studio/Persediaan/app/src/main/res/layout/activity_login.xml" value="0.1" />
         <entry key="..\:/Programming/Android Studio/Persediaan/app/src/main/res/layout/activity_main.xml" value="0.264" />
         <entry key="..\:/Programming/Android Studio/Persediaan/app/src/main/res/layout/activity_splashscreen.xml" value="0.2" />
+        <entry key="..\:/Programming/Android Studio/Persediaan/app/src/main/res/layout/button_sheet.xml" value="0.264" />
         <entry key="..\:/Programming/Android Studio/Persediaan/app/src/main/res/layout/card_home.xml" value="0.264" />
         <entry key="..\:/Programming/Android Studio/Persediaan/app/src/main/res/layout/card_penerimaan.xml" value="0.264" />
-        <entry key="..\:/Programming/Android Studio/Persediaan/app/src/main/res/layout/card_penerimaan2.xml" value="0.1111111111111111" />
+        <entry key="..\:/Programming/Android Studio/Persediaan/app/src/main/res/layout/card_penerimaan2.xml" value="0.478" />
         <entry key="..\:/Programming/Android Studio/Persediaan/app/src/main/res/layout/card_penerimaan2shimmer.xml" value="0.264" />
+        <entry key="..\:/Programming/Android Studio/Persediaan/app/src/main/res/layout/card_penerimaan_item.xml" value="0.4" />
         <entry key="..\:/Programming/Android Studio/Persediaan/app/src/main/res/layout/card_profile_setting.xml" value="0.1" />
         <entry key="..\:/Programming/Android Studio/Persediaan/app/src/main/res/layout/card_profile_setting_expand.xml" value="0.264" />
+        <entry key="..\:/Programming/Android Studio/Persediaan/app/src/main/res/layout/cycle_konversi.xml" value="0.4" />
         <entry key="..\:/Programming/Android Studio/Persediaan/app/src/main/res/layout/fragment_brg_keluar.xml" value="0.16" />
         <entry key="..\:/Programming/Android Studio/Persediaan/app/src/main/res/layout/fragment_home.xml" value="0.264" />
         <entry key="..\:/Programming/Android Studio/Persediaan/app/src/main/res/layout/fragment_penerimaan.xml" value="0.2" />
@@ -60,16 +63,8 @@
         <entry key="..\:/Programming/Android Studio/Persediaan/app/src/main/res/layout/tab_konversi.xml" value="0.264" />
         <entry key="..\:/Programming/Android Studio/Persediaan/app/src/main/res/layout/tab_transfer.xml" value="0.264" />
         <entry key="..\:/Programming/Android Studio/Persediaan/app/src/main/res/layout/type_item_code.xml" value="0.12447916666666667" />
-        <entry key="..\:/TITIP/Project Shipping/persediaan/app/src/main/res/drawable/bg_button_trans.xml" value="0.240625" />
-        <entry key="..\:/TITIP/Project Shipping/persediaan/app/src/main/res/drawable/btn_action.xml" value="0.240625" />
-        <entry key="..\:/TITIP/Project Shipping/persediaan/app/src/main/res/drawable/ic_dualscale.xml" value="0.240625" />
-        <entry key="..\:/TITIP/Project Shipping/persediaan/app/src/main/res/drawable/ic_onescale.xml" value="0.240625" />
-        <entry key="..\:/TITIP/Project Shipping/persediaan/app/src/main/res/drawable/round_border.xml" value="0.240625" />
-        <entry key="..\:/TITIP/Project Shipping/persediaan/app/src/main/res/drawable/stroke_bordered.xml" value="0.240625" />
         <entry key="..\:/TITIP/Project Shipping/persediaan/app/src/main/res/layout/activity_login.xml" value="0.21875" />
         <entry key="..\:/TITIP/Project Shipping/persediaan/app/src/main/res/layout/activity_main.xml" value="0.21875" />
-        <entry key="..\:/TITIP/Project Shipping/persediaan/app/src/main/res/layout/activity_splashscreen.xml" value="0.20471014492753623" />
-        <entry key="..\:/TITIP/Project Shipping/persediaan/app/src/main/res/layout/cycle_konversi.xml" value="0.33" />
         <entry key="..\:/TITIP/Project Shipping/persediaan/app/src/main/res/layout/fragment_brg_keluar.xml" value="0.33" />
         <entry key="..\:/TITIP/Project Shipping/persediaan/app/src/main/res/layout/tab_konversi.xml" value="0.5" />
         <entry key="..\:/TITIP/Project Shipping/persediaan/app/src/main/res/layout/tab_transfer.xml" value="0.21875" />

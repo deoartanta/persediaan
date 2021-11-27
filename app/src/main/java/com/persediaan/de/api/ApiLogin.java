@@ -17,7 +17,7 @@ public class ApiLogin {
     private String jenis_kew;
     private String alamat_kantor;
     private String msg;
-    private boolean sts;
+    private boolean sts = true;
     private int kppn;
 
 

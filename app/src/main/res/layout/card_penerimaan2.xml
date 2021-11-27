@@ -50,64 +50,85 @@
                             android:textSize="14sp"
                             android:visibility="gone"/>
 
-                        <LinearLayout
+                        <RelativeLayout
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="5dp"
-                            android:layout_marginBottom="5dp"
-                            android:orientation="horizontal">
+                            android:layout_height="match_parent"
+                            android:layout_marginTop="20dp">
 
                             <TextView
                                 android:id="@+id/tvLblPurchase"
-                                android:layout_width="match_parent"
+                                android:layout_width="110dp"
                                 android:layout_height="wrap_content"
-                                android:layout_weight="1"
-                                android:fontFamily="@font/abril_fatface"
+                                android:layout_alignParentStart="true"
+                                android:layout_alignParentTop="true"
+                                android:fontFamily="@font/poppins_semibold"
                                 android:gravity="start|center_vertical"
                                 android:text="No Purchase"
                                 android:textAllCaps="true"
                                 android:textSize="14sp" />
 
                             <TextView
+                                android:id="@+id/tv_titikd1"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_toEndOf="@id/tvLblPurchase"
+                                android:fontFamily="@font/poppins_semibold"
+                                android:gravity="center"
+                                android:paddingHorizontal="5dp"
+                                android:text=":" />
+
+                            <TextView
                                 android:id="@+id/tvResPurchase"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:layout_weight="1"
-                                android:fontFamily="@font/antic"
+                                android:layout_toEndOf="@id/tv_titikd1"
+                                android:fontFamily="@font/poppins"
                                 android:gravity="start|center_vertical"
-                                android:text=": mlg-001-12"
+                                android:paddingEnd="5dp"
+                                android:text="mlg-001-12"
                                 android:textSize="14sp" />
+                        </RelativeLayout>
 
-                        </LinearLayout>
                         <!--Tanggal-->
-                        <LinearLayout
+                        <RelativeLayout
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
+                            android:layout_height="match_parent"
                             android:layout_marginTop="5dp"
-                            android:layout_marginBottom="5dp"
-                            android:orientation="horizontal">
+                            android:layout_marginBottom="5dp">
 
                             <TextView
                                 android:id="@+id/tvLblTGL"
-                                android:layout_width="match_parent"
+                                android:layout_width="110dp"
                                 android:layout_height="wrap_content"
-                                android:layout_weight="1"
-                                android:fontFamily="@font/abril_fatface"
+                                android:layout_alignParentStart="true"
+                                android:layout_alignParentTop="true"
+                                android:fontFamily="@font/poppins_semibold"
                                 android:gravity="start|center_vertical"
                                 android:text="Tanggal"
                                 android:textAllCaps="true"
                                 android:textSize="14sp" />
 
                             <TextView
+                                android:id="@+id/tv_titikd2"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_toEndOf="@id/tvLblTGL"
+                                android:fontFamily="@font/poppins_semibold"
+                                android:gravity="center"
+                                android:paddingHorizontal="5dp"
+                                android:text=":" />
+
+                            <TextView
                                 android:id="@+id/tvResTGL"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:layout_weight="1"
-                                android:fontFamily="@font/antic"
-                                android:text=": 12 Juli 2021"
+                                android:layout_toEndOf="@id/tv_titikd2"
+                                android:fontFamily="@font/poppins"
+                                android:gravity="start|center_vertical"
+                                android:text="12 Juli 2021"
                                 android:textSize="14sp" />
 
-                        </LinearLayout>
+                        </RelativeLayout>
 
                         <LinearLayout
                             android:id="@+id/linearExpandDetailContainer"
@@ -116,165 +137,216 @@
                             android:orientation="vertical"
                             android:visibility="visible">
                             <!--Admin-->
-                            <LinearLayout
+                            <RelativeLayout
                                 android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
+                                android:layout_height="match_parent"
                                 android:layout_marginTop="5dp"
-                                android:layout_marginBottom="5dp"
-                                android:layout_weight="1"
-                                android:orientation="horizontal">
+                                android:layout_marginBottom="5dp">
 
                                 <TextView
-                                    android:id="@+id/tvLblAdmin"
-                                    android:layout_width="match_parent"
+                                    android:id="@+id/tvLblSupplier"
+                                    android:layout_width="110dp"
                                     android:layout_height="wrap_content"
-                                    android:layout_weight="1"
-                                    android:fontFamily="@font/abril_fatface"
+                                    android:layout_alignParentStart="true"
+                                    android:layout_alignParentTop="true"
+                                    android:fontFamily="@font/poppins_semibold"
                                     android:gravity="start|center_vertical"
                                     android:text="Admin"
                                     android:textAllCaps="true"
                                     android:textSize="14sp" />
 
                                 <TextView
-                                    android:id="@+id/tvResAdmin"
+                                    android:id="@+id/tv_titikd3"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_toEndOf="@id/tvLblSupplier"
+                                    android:fontFamily="@font/poppins_semibold"
+                                    android:gravity="center"
+                                    android:paddingHorizontal="5dp"
+                                    android:text=":" />
+
+                                <TextView
+                                    android:id="@+id/tvResSupplier"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
-                                    android:layout_gravity="left"
-                                    android:layout_weight="1"
-                                    android:fontFamily="@font/antic"
+                                    android:layout_toEndOf="@id/tv_titikd3"
+                                    android:fontFamily="@font/poppins"
                                     android:gravity="start|center_vertical"
                                     android:paddingRight="5dp"
-                                    android:text=": Admin"
+                                    android:text="Admin"
                                     android:textSize="14sp"
                                     tools:ignore="TouchTargetSizeCheck" />
 
-                            </LinearLayout>
+                            </RelativeLayout>
+
                             <!--Area/Satker-->
-                            <LinearLayout
+                            <RelativeLayout
                                 android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
+                                android:layout_height="match_parent"
                                 android:layout_marginTop="5dp"
-                                android:layout_marginBottom="5dp"
-                                android:layout_weight="1"
-                                android:orientation="horizontal">
+                                android:layout_marginBottom="5dp">
 
                                 <TextView
                                     android:id="@+id/tvLblArea"
-                                    android:layout_width="match_parent"
+                                    android:layout_width="110dp"
                                     android:layout_height="wrap_content"
-                                    android:layout_weight="1"
-                                    android:fontFamily="@font/abril_fatface"
+                                    android:layout_alignParentStart="true"
+                                    android:layout_alignParentTop="true"
+                                    android:fontFamily="@font/poppins_semibold"
                                     android:gravity="start|center_vertical"
-                                    android:text="Area/Satker"
+                                    android:text="Area"
                                     android:textAllCaps="true"
                                     android:textSize="14sp" />
+
+                                <TextView
+                                    android:id="@+id/tv_titikd4"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_toEndOf="@id/tvLblArea"
+                                    android:fontFamily="@font/poppins_semibold"
+                                    android:gravity="center"
+                                    android:paddingHorizontal="5dp"
+                                    android:text=":" />
+
 
                                 <TextView
                                     android:id="@+id/tvResArea"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
-                                    android:layout_weight="1"
-                                    android:fontFamily="@font/antic"
+                                    android:layout_toEndOf="@id/tv_titikd4"
+                                    android:fontFamily="@font/poppins"
                                     android:gravity="start|center_vertical"
-                                    android:text=": Malang/Perikanan"
+                                    android:text="Malang/Perikanan"
                                     android:textSize="14sp" />
 
-                            </LinearLayout>
+                            </RelativeLayout>
+
                             <!--Status-->
-                            <LinearLayout
+                            <RelativeLayout
                                 android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
+                                android:layout_height="match_parent"
                                 android:layout_marginTop="5dp"
-                                android:layout_marginBottom="5dp"
-                                android:orientation="horizontal">
+                                android:layout_marginBottom="5dp">
 
                                 <TextView
                                     android:id="@+id/tvLblSTS"
-                                    android:layout_width="match_parent"
+                                    android:layout_width="110dp"
                                     android:layout_height="wrap_content"
-                                    android:layout_weight="1"
-                                    android:fontFamily="@font/abril_fatface"
+                                    android:layout_alignParentStart="true"
+                                    android:layout_alignParentTop="true"
+                                    android:fontFamily="@font/poppins_semibold"
                                     android:gravity="start|center_vertical"
                                     android:text="Status"
                                     android:textAllCaps="true"
                                     android:textSize="14sp" />
 
                                 <TextView
+                                    android:id="@+id/tv_titikd5"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_toEndOf="@id/tvLblSTS"
+                                    android:fontFamily="@font/poppins_semibold"
+                                    android:gravity="center"
+                                    android:paddingHorizontal="5dp"
+                                    android:text=":" />
+
+                                <TextView
                                     android:id="@+id/tvResSTS"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
-                                    android:layout_gravity="left"
-                                    android:layout_weight="1"
-                                    android:fontFamily="@font/antic"
+                                    android:layout_toEndOf="@id/tv_titikd5"
+                                    android:fontFamily="@font/poppins"
                                     android:gravity="start|center_vertical"
                                     android:paddingRight="5dp"
-                                    android:text=": Belum dikonvert"
+                                    android:text="Belum dikonvert"
                                     android:textSize="14sp" />
-                            </LinearLayout>
+
+                            </RelativeLayout>
                         </LinearLayout>
+
                         <!--Jumlah-->
-                        <LinearLayout
+                        <RelativeLayout
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
+                            android:layout_height="match_parent"
                             android:layout_marginTop="5dp"
-                            android:layout_marginBottom="5dp"
-                            android:orientation="horizontal">
+                            android:layout_marginBottom="5dp">
 
                             <TextView
                                 android:id="@+id/tvLblJMLItem"
-                                android:layout_width="match_parent"
+                                android:layout_width="110dp"
                                 android:layout_height="wrap_content"
-                                android:layout_weight="1"
-                                android:fontFamily="@font/abril_fatface"
+                                android:layout_alignParentStart="true"
+                                android:layout_alignParentTop="true"
+                                android:fontFamily="@font/poppins_semibold"
                                 android:gravity="start|center_vertical"
                                 android:text="Jumlah"
                                 android:textAllCaps="true"
                                 android:textSize="14sp" />
 
                             <TextView
+                                android:id="@+id/tv_titikd6"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_toEndOf="@id/tvLblJMLItem"
+                                android:fontFamily="@font/poppins_semibold"
+                                android:gravity="center"
+                                android:paddingHorizontal="5dp"
+                                android:text=":" />
+
+                            <TextView
                                 android:id="@+id/tvResJMLItem"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:layout_weight="1"
-                                android:fontFamily="@font/antic"
+                                android:layout_toEndOf="@id/tv_titikd6"
+                                android:fontFamily="@font/poppins"
                                 android:gravity="start|center_vertical"
-                                android:text=": 3 item"
+                                android:text="3 item"
                                 android:textSize="14sp" />
 
-                        </LinearLayout>
+                        </RelativeLayout>
+
                         <!--Total Harga-->
-                        <LinearLayout
+                        <RelativeLayout
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
+                            android:layout_height="match_parent"
                             android:layout_marginTop="5dp"
-                            android:layout_marginBottom="5dp"
-                            android:layout_weight="1"
-                            android:orientation="horizontal">
+                            android:layout_marginBottom="5dp">
 
                             <TextView
                                 android:id="@+id/tvLblTotalHrg"
-                                android:layout_width="match_parent"
+                                android:layout_width="110dp"
                                 android:layout_height="wrap_content"
-                                android:layout_weight="1"
-                                android:fontFamily="@font/abril_fatface"
+                                android:layout_alignParentStart="true"
+                                android:layout_alignParentTop="true"
+                                android:fontFamily="@font/poppins_semibold"
                                 android:gravity="start|center_vertical"
                                 android:text="Total Harga"
                                 android:textAllCaps="true"
                                 android:textSize="14sp" />
 
                             <TextView
+                                android:id="@+id/tv_titikd7"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_toEndOf="@id/tvLblTotalHrg"
+                                android:fontFamily="@font/poppins_semibold"
+                                android:gravity="center"
+                                android:paddingHorizontal="5dp"
+                                android:text=":" />
+
+                            <TextView
                                 android:id="@+id/tvResTotalHrg"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:layout_gravity="left"
-                                android:layout_weight="1"
-                                android:fontFamily="@font/antic"
+                                android:layout_toEndOf="@id/tv_titikd7"
+                                android:fontFamily="@font/poppins"
                                 android:gravity="start|center_vertical"
                                 android:paddingRight="5dp"
-                                android:text=": Rp 15.000"
+                                android:text="Rp 15.000"
                                 android:textSize="14sp"
                                 tools:ignore="TouchTargetSizeCheck" />
-                        </LinearLayout>
+
+                        </RelativeLayout>
                         <!--Button-->
 
                         <TextView

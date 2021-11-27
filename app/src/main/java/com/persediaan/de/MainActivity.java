@@ -7,6 +7,7 @@ import androidx.viewpager2.widget.ViewPager2;
 
 import android.Manifest;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
@@ -69,11 +70,15 @@ public class MainActivity extends AppCompatActivity implements ScanInterface{
 
         tv_name.setText(user.get(SessionManager.NAMA));
         tv_satker.setText(user.get(SessionManager.SATKER_NM));
-        tv_alamat.setText(user.get(SessionManager.AREA_NM).toLowerCase(Locale.ROOT));
+        tv_alamat.setText(user.get(SessionManager.AREA_NM)!=null?
+                user.get(SessionManager.AREA_NM).toLowerCase(Locale.ROOT):
+                user.get(SessionManager.AREA_NM)+"null");
         username.setText(user.get(SessionManager.USERNAME));
         img_Profile.setImageResource(user_Int.get(SessionManager.GAMBAR));
-
-
+//        Log.d("19201299", "onCreate: "+sessionManager.toString());
+//        Toast.makeText(this, user.get(SessionManager.AREA_NM), Toast.LENGTH_SHORT).show();
+//
+//
 //        Toast.makeText(getApplicationContext(), "Welcome "+user.get(SessionManager.NAMA), Toast.LENGTH_SHORT).show();
 
         bottomNavigation.add(new MeowBottomNavigation.Model(1,R.drawable.ic_home_24));

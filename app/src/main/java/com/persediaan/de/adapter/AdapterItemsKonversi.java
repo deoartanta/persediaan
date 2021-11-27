@@ -5,6 +5,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -39,6 +40,11 @@ public class AdapterItemsKonversi extends RecyclerView.Adapter<AdapterItemsKonve
         holder.tvNmItem.setText(listItems.get(position).getNm_item());
         holder.tvNmSatuan.setText(listItems.get(position).getNm_satuan());
         holder.tvQty.setText(String.valueOf(listItems.get(position).getQty()));
+
+        if (listItems.get(position).isPaddingLastItem()){
+            holder.container_layout.setPadding(0,0,0,100);
+        }
+
     }
 
     @Override
@@ -49,6 +55,8 @@ public class AdapterItemsKonversi extends RecyclerView.Adapter<AdapterItemsKonve
     public class itemsKonversiViewHolder extends RecyclerView.ViewHolder {
         TextView tvNmItem, tvQty, tvNmSatuan;
         ImageButton btnEdtKonversi;
+
+        LinearLayout container_layout;
         public itemsKonversiViewHolder(@NonNull View itemView) {
             super(itemView);
 
@@ -56,6 +64,7 @@ public class AdapterItemsKonversi extends RecyclerView.Adapter<AdapterItemsKonve
             tvQty = itemView.findViewById(R.id.tvQty);
             tvNmSatuan = itemView.findViewById(R.id.tvNmSatuan);
             btnEdtKonversi = itemView.findViewById(R.id.btnEdtKonversi);
+            container_layout = itemView.findViewById(R.id.containerLayout);
         }
     }
 }

@@ -12,24 +12,20 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.facebook.shimmer.ShimmerFrameLayout;
-import com.persediaan.de.adapter.AdapterPenerimaan;
 import com.persediaan.de.adapter.AdapterPenerimaan2;
 import com.persediaan.de.adapter.RecyclerViewClickInterface;
-import com.persediaan.de.api.ApiLogin;
 import com.persediaan.de.api.ApiPenerimaan;
 import com.persediaan.de.api.JsonPlaceHolderApi;
 import com.persediaan.de.data.SessionManager;
 import com.persediaan.de.model.ModelItemBrg;
 import com.persediaan.de.model.ModelPenerimaan;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 
 import retrofit2.Call;
@@ -51,6 +47,8 @@ public class PenerimaanFragment extends Fragment implements RecyclerViewClickInt
     ShimmerFrameLayout shimmerFrameLayout;
 
     TextView tv_lblDtKosong;
+    SessionManager sessionManagerUser;
+    HashMap<String,Integer> detailUserInt;
 
     public PenerimaanFragment() {
         // Required empty public constructor
@@ -66,23 +64,44 @@ public class PenerimaanFragment extends Fragment implements RecyclerViewClickInt
         shimmerFrameLayout = view.findViewById(R.id.shimerLayout);
         shimmerFrameLayout.startShimmer();
         recyclerPenerimaan.setVisibility(View.GONE);
-        loadCards();
+
+        sessionManagerUser = new SessionManager(requireContext(),"login");
+        detailUserInt = sessionManagerUser.getUserDetailInt();
+        loadCards(detailUserInt.get(SessionManager.USER_ID));
         return view;
     }
 
     @Override
     public void onItemClick(int position,View v) {
         TextView tv_idtrans=v.findViewById(R.id.tvResIdTrans);
-        TextView tv_admin=v.findViewById(R.id.tvResAdmin);
+        TextView tv_tgl_purchase=v.findViewById(R.id.tvResTGL);
+        TextView tv_penyedia=v.findViewById(R.id.tvResSupplier);
+        TextView tv_area=v.findViewById(R.id.tvResArea);
+        TextView tv_sts=v.findViewById(R.id.tvResSTS);
+        TextView tv_jumlah=v.findViewById(R.id.tvResJMLItem);
+        TextView tv_total_hrg=v.findViewById(R.id.tvResTotalHrg);
         Intent i = new Intent(requireContext(),DetailPenerimaanActivity.class);
 
-        String id_trans = (tv_idtrans!=null)?(String) tv_idtrans.getText():"null"+tv_admin.getText();
+        String id_trans = (tv_idtrans!=null)?(String) tv_idtrans.getText():"null";
+        String tgl_purchase = (tv_tgl_purchase!=null)?(String) tv_tgl_purchase.getText():"null";
+        String penyedia = (tv_penyedia!=null)?(String) tv_penyedia.getText():"null";
+        String area = (tv_area!=null)?(String) tv_area.getText():"null";
+        String sts = (tv_sts!=null)?(String) tv_sts.getText():"null";
+        String jumlah = (tv_jumlah!=null)?(String) tv_jumlah.getText():"null";
+        String total_hrg = (tv_total_hrg!=null)?(String) tv_total_hrg.getText():"null";
+
         i.putExtra(DetailPenerimaanActivity.ID_TRANS,id_trans);
+        i.putExtra(DetailPenerimaanActivity.TGL_PURCHASE,tgl_purchase);
+        i.putExtra(DetailPenerimaanActivity.PENYEDIA,penyedia);
+        i.putExtra(DetailPenerimaanActivity.AREA,area);
+        i.putExtra(DetailPenerimaanActivity.STS,sts);
+        i.putExtra(DetailPenerimaanActivity.JML_ITEM,jumlah);
+        i.putExtra(DetailPenerimaanActivity.TOTAL_HRG,total_hrg);
         startActivity(i);
 //        Toast.makeText(getContext(), "Position : "+position+"\n Nama Penyedia : "+nm_penyedia.getText(), Toast.LENGTH_SHORT).show();
     }
 
-    private void loadCards() {
+    private void loadCards(int id_user) {
 
         retrofit = new Retrofit.Builder()
                 .baseUrl(SessionManager.HOSTNAME)
@@ -90,7 +109,7 @@ public class PenerimaanFragment extends Fragment implements RecyclerViewClickInt
                 .build();
         jsonPlaceHolderApi = retrofit.create(JsonPlaceHolderApi.class);
 
-        Call<List<ApiPenerimaan>> call = jsonPlaceHolderApi.getResponPenerimaan("0009-14-11");
+        Call<List<ApiPenerimaan>> call = jsonPlaceHolderApi.getResponPenerimaanCart(id_user);
         call.enqueue(new Callback<List<ApiPenerimaan>>() {
             @Override
             public void onResponse(Call<List<ApiPenerimaan>> call, Response<List<ApiPenerimaan>> response) {
@@ -124,7 +143,7 @@ public class PenerimaanFragment extends Fragment implements RecyclerViewClickInt
                             apiPenerimaan.getNm_satuan()));
                     if (i==0){
                         id_purchase = apiPenerimaan.getId_purchase();
-                        tgl_purchase = apiPenerimaan.getTgl_purchase();
+                        tgl_purchase = apiPenerimaan.getCreated();
                         note = apiPenerimaan.getNote();
                         dt_purchase =apiPenerimaan.getDt_purchase();
                         nm_area =apiPenerimaan.getNm_area();
@@ -183,13 +202,6 @@ public class PenerimaanFragment extends Fragment implements RecyclerViewClickInt
                 Toast.makeText(requireContext(), "Server Error", Toast.LENGTH_SHORT).show();
             }
         });
-//        modelPenerimaanArrayList.add(new ModelPenerimaan(
-//                "Deo Artanta","Belum","Surabaya/perikanan",
-//                "Jl. Cempaka no.27",5,200000,
-//                "25 September 2021","001","sby-002-200",0,
-//                getResources().getColor(R.color.white),
-//                R.drawable.ic_bubble_chart_24,
-//                R.drawable.ic_bg_label_red_1,false));
         
     }
 }

@@ -3,6 +3,8 @@ package com.persediaan.de.model;
 public class ModelItemsKonv {
     String no_receipt, id_purchase, nm_item, nm_area, nm_singkat, nm_satuan, eceran;
     Integer id,id_area,id_item,qty,id_satuan,harga,dikonversi,created,updated,jumlah;
+    boolean expand = false,
+            paddingLastItem = false;
 
     public ModelItemsKonv(
             String no_receipt, String id_purchase, String nm_item,
@@ -55,6 +57,23 @@ public class ModelItemsKonv {
 
     public String getNo_receipt() {
         return no_receipt;
+    }
+
+    public ModelItemsKonv setPaddingLastItem(boolean paddingLastItem) {
+        this.paddingLastItem = paddingLastItem;
+        return this;
+    }
+
+    public void setExpand(boolean expand) {
+        this.expand = expand;
+    }
+
+    public boolean isExpand() {
+        return expand;
+    }
+
+    public boolean isPaddingLastItem() {
+        return paddingLastItem;
     }
 
     public String getId_purchase() {

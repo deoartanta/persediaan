@@ -3,6 +3,7 @@ package com.persediaan.de.data;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.widget.Toast;
 
 import com.persediaan.de.LoginActivity;
 import com.persediaan.de.MainActivity;
@@ -155,5 +156,28 @@ public class SessionManager {
         r.put(SCANF,sharedPreferences.getString(SCANF,null));
         r.put(SCANFULLR,sharedPreferences.getString(SCANFULLR,null));
         return r;
+    }
+
+    @Override
+    public String toString() {
+        return "SessionManager{" +
+                "USERNAME=" + sharedPreferences.getString(USERNAME,null) +
+                ", PASSW=" + sharedPreferences.getString(PASSW,null) +
+                ", USER_ID=" + sharedPreferences.getInt(USER_ID,0) +
+                ", AREA_ID=" + sharedPreferences.getInt(AREA_ID,0) +
+                ", NAMA=" + sharedPreferences.getString(NAMA,null) +
+                ", ALAMAT=" + sharedPreferences.getString(ALAMAT,null) +
+                ", LEVEL=" + sharedPreferences.getInt(LEVEL,0) +
+                ", GAMBAR=" + sharedPreferences.getInt(GAMBAR,0) +
+                ", AREA_NM=" + sharedPreferences.getString(AREA_NM,null) +
+                ", AREA_NM_SHORT=" + sharedPreferences.getString(AREA_NM_SHORT,null) +
+                '}';
+//        editor.putString(AREA_NM_SHORT,area_nm_short);
+//        editor.putInt(SATKER_ID,satker_id);
+//        editor.putInt(SATKER_KODE,satker_kode);
+//        editor.putString(SATKER_NM,satker_nm);
+//        editor.putString(JENIS_KEW,jenis_kew);
+//        editor.putString(ALAMAT_KANTOR,alamat_kantor);
+//        editor.putInt(KPPN,kppn);
     }
 }

@@ -129,7 +129,9 @@ public class KonversiFragment extends Fragment implements RecyclerViewClickInter
                                 public void onResponse(Call<List<ApiKonversi>> call, Response<List<ApiKonversi>> response) {
                                     List<ApiKonversi> Items = response.body();
                                     ArrayList<ModelItemsKonv> listItems = new ArrayList<>();
+                                    int ii= 0;
                                     for(ApiKonversi arr:Items){
+
                                         listItems.add(new ModelItemsKonv(
                                             arr.getId_detail(),
                                             arr.getId_purchase(),
@@ -225,25 +227,28 @@ public class KonversiFragment extends Fragment implements RecyclerViewClickInter
                                                 arr.getUpdated(),
                                                 arr.getJumlah()
                                         ));
-                                        listItems.add(new ModelItemsKonv(
-                                                arr.getId_detail(),
-                                                arr.getId_purchase(),
-                                                arr.getNm_item(),
-                                                arr.getNm_area(),
-                                                arr.getNm_singkat(),
-                                                arr.getNm_satuan(),
-                                                arr.getEceran(),
-                                                arr.getId(),
-                                                arr.getId_area(),
-                                                arr.getId_item(),
-                                                arr.getQty(),
-                                                arr.getId_satuan(),
-                                                arr.getHarga(),
-                                                arr.getDikonversi(),
-                                                arr.getCreated(),
-                                                arr.getUpdated(),
-                                                arr.getJumlah()
-                                        ));
+                                        ii++;
+                                        if (listItems.size()<=ii){
+                                            listItems.add(new ModelItemsKonv(
+                                                    arr.getId_detail(),
+                                                    arr.getId_purchase(),
+                                                    arr.getNm_item(),
+                                                    arr.getNm_area(),
+                                                    arr.getNm_singkat(),
+                                                    arr.getNm_satuan(),
+                                                    arr.getEceran(),
+                                                    arr.getId(),
+                                                    arr.getId_area(),
+                                                    arr.getId_item(),
+                                                    arr.getQty(),
+                                                    arr.getId_satuan(),
+                                                    arr.getHarga(),
+                                                    arr.getDikonversi(),
+                                                    arr.getCreated(),
+                                                    arr.getUpdated(),
+                                                    arr.getJumlah()
+                                            ).setPaddingLastItem(true));
+                                        }
                                     }
                                     AdapterItemsKonversi cycleItems;
                                     for(int i = 0; i < listItems.size(); i++)

@@ -175,7 +175,7 @@ public class LoginActivity extends AppCompatActivity {
                         String nama = login.getNama();
                         String username = login.getUsername();
                         int user_id = login.getUser_id();
-//                        String password = login.getPassword();
+                        String password = login.getPassword();
                         int area_id = login.getId_area();
                         String alamat = login.getAlamat();
                         int level = login.getLevel();

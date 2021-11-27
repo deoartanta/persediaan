@@ -7,7 +7,7 @@ public class ApiPenerimaan {
             name_penyedia,area,alamat,id_trans;
 
     private int admin,id,id_area,id_suplier,id_item,qty,id_satuan,
-            harga,diterima,jumlah,harga_total=0,tgl_purchase;
+            harga,diterima,jumlah,harga_total=0,tgl_purchase,created;
 
     public String getId_purchase() {
         return id_purchase;
@@ -15,6 +15,10 @@ public class ApiPenerimaan {
 
     public int getTgl_purchase() {
         return tgl_purchase;
+    }
+
+    public int getCreated() {
+        return created;
     }
 
     public String getNote() {

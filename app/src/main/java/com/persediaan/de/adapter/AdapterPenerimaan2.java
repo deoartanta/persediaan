@@ -1,6 +1,5 @@
 package com.persediaan.de.adapter;
 
-import android.graphics.drawable.Drawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,7 +9,6 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.widget.AppCompatButton;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.persediaan.de.R;
@@ -18,10 +16,10 @@ import com.persediaan.de.model.ModelPenerimaan;
 
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
-import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Locale;
 
 public class AdapterPenerimaan2 extends RecyclerView.Adapter<AdapterPenerimaan2.penerimaanBrgViewHolder> {
 
@@ -77,18 +75,18 @@ public class AdapterPenerimaan2 extends RecyclerView.Adapter<AdapterPenerimaan2.
         }
 
 //        holder.img_background.setImageResource(img);
-        holder.tv_nm_penyedia.setText(": "+nm_penyedia);
+        holder.tv_nm_penyedia.setText(""+nm_penyedia);
 //        holder.tv_alamat.setText(alamat);
-        holder.tv_area.setText(": "+area);
+        holder.tv_area.setText(""+area);
         holder.tv_idtrans.setText(idtrans);
 
-        holder.tv_nopurchase.setText(": "+idpurchase);
+        holder.tv_nopurchase.setText(""+idpurchase);
 
-        holder.tv_jml_item.setText(": "+String.valueOf(jmlitem)+" ITEM");
-        holder.tv_status.setText(": "+status);
+        holder.tv_jml_item.setText(""+String.valueOf(jmlitem)+" ITEM");
+        holder.tv_status.setText(""+status);
 //        holder.tv_status.setBackgroundResource(bg_label);
-        holder.tv_hrg_total.setText(": "+String.valueOf(kursID.format(hrg_total)));
-        holder.tv_tgl.setText(": "+(new SimpleDateFormat("dd MMM yyyy")
+        holder.tv_hrg_total.setText(""+String.valueOf(kursID.format(hrg_total)));
+        holder.tv_tgl.setText((new SimpleDateFormat("dd MMMM yyyy", Locale.US)
                 .format(
                         new Date((Long.parseLong(String.valueOf(tgl))*1000))
                 )).toString());
@@ -110,7 +108,7 @@ public class AdapterPenerimaan2 extends RecyclerView.Adapter<AdapterPenerimaan2.
 
             img_background = itemView.findViewById(R.id.imgBgCard);
 
-            tv_nm_penyedia = itemView.findViewById(R.id.tvResAdmin);
+            tv_nm_penyedia = itemView.findViewById(R.id.tvResSupplier);
             tv_area = itemView.findViewById(R.id.tvResArea);
             tv_alamat = itemView.findViewById(R.id.tvAlamat);
             tv_status = itemView.findViewById(R.id.tvResSTS);
