@@ -22,6 +22,7 @@ import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 import com.persediaan.de.adapter.AdapterItemsKonversi;
 import com.persediaan.de.adapter.RecyclerViewClickInterface;
@@ -56,7 +57,8 @@ public class KonversiFragment extends Fragment implements RecyclerViewClickInter
 
     SessionManager sessionManagerProfil;
     HashMap<String, Integer> detailUser;
-    TextView tv_no_konversi, tvTglBarang, tvNmItem, tvNmSatuan, tvQty;
+    TextView tv_no_konversi, tvTglBarang, tvNmItem, tvNmSatuan, tvQty, tvNmSatuanEdt, tvNmEceranEdt;
+    TextInputEditText edtQtySatu, edtQtyEcer;
     RecyclerView recycleKonversi;
     AutoCompleteTextView autoCompleteNoReceipt;
     CardView crdListBarang;
@@ -148,101 +150,6 @@ public class KonversiFragment extends Fragment implements RecyclerViewClickInter
                                             arr.getCreated(),
                                             arr.getUpdated(),
                                             arr.getJumlah()
-                                        ));
-                                        listItems.add(new ModelItemsKonv(
-                                                arr.getId_detail(),
-                                                arr.getId_purchase(),
-                                                arr.getNm_item(),
-                                                arr.getNm_area(),
-                                                arr.getNm_singkat(),
-                                                arr.getNm_satuan(),
-                                                arr.getEceran(),
-                                                arr.getId(),
-                                                arr.getId_area(),
-                                                arr.getId_item(),
-                                                arr.getQty(),
-                                                arr.getId_satuan(),
-                                                arr.getHarga(),
-                                                arr.getDikonversi(),
-                                                arr.getCreated(),
-                                                arr.getUpdated(),
-                                                arr.getJumlah()
-                                        ));
-                                        listItems.add(new ModelItemsKonv(
-                                                arr.getId_detail(),
-                                                arr.getId_purchase(),
-                                                arr.getNm_item(),
-                                                arr.getNm_area(),
-                                                arr.getNm_singkat(),
-                                                arr.getNm_satuan(),
-                                                arr.getEceran(),
-                                                arr.getId(),
-                                                arr.getId_area(),
-                                                arr.getId_item(),
-                                                arr.getQty(),
-                                                arr.getId_satuan(),
-                                                arr.getHarga(),
-                                                arr.getDikonversi(),
-                                                arr.getCreated(),
-                                                arr.getUpdated(),
-                                                arr.getJumlah()
-                                        ));
-                                        listItems.add(new ModelItemsKonv(
-                                                arr.getId_detail(),
-                                                arr.getId_purchase(),
-                                                arr.getNm_item(),
-                                                arr.getNm_area(),
-                                                arr.getNm_singkat(),
-                                                arr.getNm_satuan(),
-                                                arr.getEceran(),
-                                                arr.getId(),
-                                                arr.getId_area(),
-                                                arr.getId_item(),
-                                                arr.getQty(),
-                                                arr.getId_satuan(),
-                                                arr.getHarga(),
-                                                arr.getDikonversi(),
-                                                arr.getCreated(),
-                                                arr.getUpdated(),
-                                                arr.getJumlah()
-                                        ));
-                                        listItems.add(new ModelItemsKonv(
-                                                arr.getId_detail(),
-                                                arr.getId_purchase(),
-                                                arr.getNm_item(),
-                                                arr.getNm_area(),
-                                                arr.getNm_singkat(),
-                                                arr.getNm_satuan(),
-                                                arr.getEceran(),
-                                                arr.getId(),
-                                                arr.getId_area(),
-                                                arr.getId_item(),
-                                                arr.getQty(),
-                                                arr.getId_satuan(),
-                                                arr.getHarga(),
-                                                arr.getDikonversi(),
-                                                arr.getCreated(),
-                                                arr.getUpdated(),
-                                                arr.getJumlah()
-                                        ));
-                                        listItems.add(new ModelItemsKonv(
-                                                arr.getId_detail(),
-                                                arr.getId_purchase(),
-                                                arr.getNm_item(),
-                                                arr.getNm_area(),
-                                                arr.getNm_singkat(),
-                                                arr.getNm_satuan(),
-                                                arr.getEceran(),
-                                                arr.getId(),
-                                                arr.getId_area(),
-                                                arr.getId_item(),
-                                                arr.getQty(),
-                                                arr.getId_satuan(),
-                                                arr.getHarga(),
-                                                arr.getDikonversi(),
-                                                arr.getCreated(),
-                                                arr.getUpdated(),
-                                                arr.getJumlah()
                                         ));
                                     }
                                     AdapterItemsKonversi cycleItems;
