@@ -22,6 +22,7 @@ import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 import com.persediaan.de.adapter.AdapterItemsKonversi;
 import com.persediaan.de.adapter.RecyclerViewClickInterface;
@@ -56,7 +57,8 @@ public class KonversiFragment extends Fragment implements RecyclerViewClickInter
 
     SessionManager sessionManagerProfil;
     HashMap<String, Integer> detailUser;
-    TextView tv_no_konversi, tvTglBarang, tvNmItem, tvNmSatuan, tvQty;
+    TextView tv_no_konversi, tvTglBarang, tvNmItem, tvNmSatuan, tvQty, tvNmSatuanEdt, tvNmEceranEdt;
+    TextInputEditText edtQtySatu, edtQtyEcer;
     RecyclerView recycleKonversi;
     AutoCompleteTextView autoCompleteNoReceipt;
     CardView crdListBarang;
@@ -129,7 +131,7 @@ public class KonversiFragment extends Fragment implements RecyclerViewClickInter
                                 public void onResponse(Call<List<ApiKonversi>> call, Response<List<ApiKonversi>> response) {
                                     List<ApiKonversi> Items = response.body();
                                     ArrayList<ModelItemsKonv> listItems = new ArrayList<>();
-                                    int ii= 0;
+                                    int ii= 1;
                                     for(ApiKonversi arr:Items){
 
                                         listItems.add(new ModelItemsKonv(
@@ -228,7 +230,7 @@ public class KonversiFragment extends Fragment implements RecyclerViewClickInter
                                                 arr.getJumlah()
                                         ));
                                         ii++;
-                                        if (listItems.size()<=ii){
+                                        if (listItems.size()<ii){
                                             listItems.add(new ModelItemsKonv(
                                                     arr.getId_detail(),
                                                     arr.getId_purchase(),
@@ -248,7 +250,9 @@ public class KonversiFragment extends Fragment implements RecyclerViewClickInter
                                                     arr.getUpdated(),
                                                     arr.getJumlah()
                                             ).setPaddingLastItem(true));
+                                            Log.d("19201299", ""+ii);
                                         }
+
                                     }
                                     AdapterItemsKonversi cycleItems;
                                     for(int i = 0; i < listItems.size(); i++)

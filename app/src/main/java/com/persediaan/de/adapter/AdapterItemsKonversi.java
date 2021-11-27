@@ -11,6 +11,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.material.textfield.TextInputEditText;
 import com.persediaan.de.R;
 import com.persediaan.de.model.ModelItemsKonv;
 
@@ -45,6 +46,9 @@ public class AdapterItemsKonversi extends RecyclerView.Adapter<AdapterItemsKonve
             holder.container_layout.setPadding(0,0,0,100);
         }
 
+        holder.tvNmSatuanEdt.setText(listItems.get(position).getNm_satuan());
+        holder.tvNmEceranEdt.setText(listItems.get(position).getEceran());
+        holder.edtQtySatu.setText(String.valueOf(listItems.get(position).getQty()));
     }
 
     @Override
@@ -53,7 +57,8 @@ public class AdapterItemsKonversi extends RecyclerView.Adapter<AdapterItemsKonve
     }
 
     public class itemsKonversiViewHolder extends RecyclerView.ViewHolder {
-        TextView tvNmItem, tvQty, tvNmSatuan;
+        TextView tvNmItem, tvQty, tvNmSatuan, tvNmSatuanEdt, tvNmEceranEdt;
+        TextInputEditText edtQtySatu, edtQtyEcer;
         ImageButton btnEdtKonversi;
 
         LinearLayout container_layout;
@@ -64,7 +69,12 @@ public class AdapterItemsKonversi extends RecyclerView.Adapter<AdapterItemsKonve
             tvQty = itemView.findViewById(R.id.tvQty);
             tvNmSatuan = itemView.findViewById(R.id.tvNmSatuan);
             btnEdtKonversi = itemView.findViewById(R.id.btnEdtKonversi);
+
             container_layout = itemView.findViewById(R.id.containerLayout);
+            tvNmSatuanEdt = itemView.findViewById(R.id.tvNmSatuanEdt);
+            tvNmEceranEdt = itemView.findViewById(R.id.tvNmEceranEdt);
+            edtQtySatu = itemView.findViewById(R.id.edtQtySatu);
+            edtQtyEcer = itemView.findViewById(R.id.edtQtyEcer);
         }
     }
 }
