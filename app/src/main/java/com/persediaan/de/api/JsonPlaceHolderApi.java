@@ -45,7 +45,7 @@ public interface JsonPlaceHolderApi {
 
     @POST("api/reception/item")
     @FormUrlEncoded
-    Call<List<ApiPenerimaan>> getResponPenerimaan(
+    Call<ApiPenerimaan> getResponPenerimaan(
             @Field("barcode") String barcode
     );
 

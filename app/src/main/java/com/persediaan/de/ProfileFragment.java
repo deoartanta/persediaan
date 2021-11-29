@@ -31,6 +31,7 @@ import com.persediaan.de.adapter.RecyclerViewClickExpendInterface;
 import com.persediaan.de.adapter.RecyclerViewClickInterface;
 import com.persediaan.de.api.ApiLogin;
 import com.persediaan.de.api.JsonPlaceHolderApi;
+import com.persediaan.de.data.DialogCustom;
 import com.persediaan.de.data.SessionManager;
 import com.persediaan.de.model.ModelPenerimaan;
 import com.persediaan.de.model.ModelProfileRowExpand;
@@ -231,16 +232,18 @@ public class ProfileFragment extends Fragment implements RecyclerViewClickExpend
 
     @Override
     public void onItemExpendClick(int id,int position, View view,boolean isEnable) {
+        DialogCustom dialogCustom = new DialogCustom(getContext(),(ViewGroup) getView(),
+                R.layout.input_alert_dialog,R.drawable.ic_person_edit);
+        dialogCustom.setCustomDialog();
+
         TextView tv_edit_old = view.findViewById(R.id.tvSettingResult);
             AlertDialog.Builder dialog1;
             View viewInflated;
-            viewInflated = LayoutInflater.from(getContext()).inflate(
-                    R.layout.input_alert_dialog, (ViewGroup) getView(), false);
+            viewInflated = dialogCustom.getViewInflated();
             final TextInputLayout inputLayout = viewInflated.findViewById(R.id.layoutInput);
             final TextInputEditText EditTextInput = viewInflated.findViewById(R.id.editTextInput);
 
-            dialog1 = new AlertDialog.Builder(requireContext());
-            dialog1.setIcon(R.drawable.ic_person_edit);
+            dialog1 = dialogCustom.getDialog();
             switch (id){
                 case 0:
                     switch (position){

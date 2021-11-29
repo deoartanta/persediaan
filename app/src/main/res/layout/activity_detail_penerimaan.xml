@@ -230,13 +230,35 @@
                                     android:background="#9F818181" />
 
                                 <TextView
-                                    android:id="@+id/textView29"
+                                    android:id="@+id/tvItemNotFound"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_below="@id/tvLine1"
                                     android:layout_centerHorizontal="true"
                                     android:layout_marginVertical="10dp"
-                                    android:text="Tidak Ada Item" />
+                                    android:text="Tidak Ada Item"
+                                    android:visibility="gone" />
+
+                                <com.facebook.shimmer.ShimmerFrameLayout
+                                    android:id="@+id/shimerLayoutItem"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_below="@id/tvLine1"
+                                    android:visibility="gone">
+
+                                    <LinearLayout
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:orientation="vertical">
+
+                                        <include layout="@layout/card_penerimaan_item_shimmer" />
+
+                                        <include layout="@layout/card_penerimaan_item_shimmer" />
+
+                                        <include layout="@layout/card_penerimaan_item_shimmer" />
+
+                                    </LinearLayout>
+                                </com.facebook.shimmer.ShimmerFrameLayout>
 
                                 <androidx.recyclerview.widget.RecyclerView
                                     android:id="@+id/recyclerItem"
@@ -288,7 +310,8 @@
             </RelativeLayout>
             <TextView
                 android:layout_width="match_parent"
-                android:layout_height="150dp"/>
+                android:layout_height="200dp"
+                android:visibility="invisible"/>
         </LinearLayout>
 
     </ScrollView>

@@ -12,6 +12,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.persediaan.de.R;
+import com.persediaan.de.data.Currency;
 import com.persediaan.de.model.ModelPenerimaan;
 
 import java.text.DecimalFormat;
@@ -41,14 +42,15 @@ public class AdapterPenerimaan2 extends RecyclerView.Adapter<AdapterPenerimaan2.
 
     @Override
     public void onBindViewHolder(@NonNull penerimaanBrgViewHolder holder, int position) {
-        DecimalFormat kursID= (DecimalFormat) DecimalFormat.getCurrencyInstance();
-        DecimalFormatSymbols satuanKursID = new DecimalFormatSymbols();
-
-        satuanKursID.setCurrencySymbol("Rp. ");
-        satuanKursID.setMonetaryDecimalSeparator(',');
-        satuanKursID.setGroupingSeparator('.');
-
-        kursID.setDecimalFormatSymbols(satuanKursID);
+//        DecimalFormat kursID= (DecimalFormat) DecimalFormat.getCurrencyInstance();
+//        DecimalFormatSymbols satuanKursID = new DecimalFormatSymbols();
+//
+//        satuanKursID.setCurrencySymbol("Rp. ");
+//        satuanKursID.setMonetaryDecimalSeparator(',');
+//        satuanKursID.setGroupingSeparator('.');
+//
+//        kursID.setDecimalFormatSymbols(satuanKursID);
+        Currency formatNumber = new Currency("Rp. ",".");
 
         String nm_penyedia = datalist.get(position).getNm_suplier();
         String alamat = datalist.get(position).getAlamat();
@@ -85,7 +87,7 @@ public class AdapterPenerimaan2 extends RecyclerView.Adapter<AdapterPenerimaan2.
         holder.tv_jml_item.setText(""+String.valueOf(jmlitem)+" ITEM");
         holder.tv_status.setText(""+status);
 //        holder.tv_status.setBackgroundResource(bg_label);
-        holder.tv_hrg_total.setText(""+String.valueOf(kursID.format(hrg_total)));
+        holder.tv_hrg_total.setText(formatNumber.setFormatCurrency((double)hrg_total));
         holder.tv_tgl.setText((new SimpleDateFormat("dd MMMM yyyy", Locale.US)
                 .format(
                         new Date((Long.parseLong(String.valueOf(tgl))*1000))

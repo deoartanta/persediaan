@@ -1,5 +1,6 @@
 package com.persediaan.de.adapter;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -45,6 +46,7 @@ public class AdapterItemsKonversi extends RecyclerView.Adapter<AdapterItemsKonve
         if (listItems.get(position).isPaddingLastItem()){
             holder.container_layout.setPadding(0,0,0,100);
         }
+        Log.d("19201299", "onBindViewHolder: "+listItems.get(position).isPaddingLastItem());
 
         holder.tvNmSatuanEdt.setText(listItems.get(position).getNm_satuan());
         holder.tvNmEceranEdt.setText(listItems.get(position).getEceran());
@@ -61,7 +63,9 @@ public class AdapterItemsKonversi extends RecyclerView.Adapter<AdapterItemsKonve
         TextInputEditText edtQtySatu, edtQtyEcer;
         ImageButton btnEdtKonversi;
 
-        LinearLayout container_layout;
+        LinearLayout container_layout,
+                     lyt_qty,
+                     lyt_sisa;
         public itemsKonversiViewHolder(@NonNull View itemView) {
             super(itemView);
 
@@ -75,6 +79,26 @@ public class AdapterItemsKonversi extends RecyclerView.Adapter<AdapterItemsKonve
             tvNmEceranEdt = itemView.findViewById(R.id.tvNmEceranEdt);
             edtQtySatu = itemView.findViewById(R.id.edtQtySatu);
             edtQtyEcer = itemView.findViewById(R.id.edtQtyEcer);
+
+            lyt_qty = itemView.findViewById(R.id.lytQty);
+            lyt_sisa = itemView.findViewById(R.id.lytSisa);
+
+            lyt_qty.setVisibility(View.GONE);
+            lyt_sisa.setVisibility(View.GONE);
+
+            btnEdtKonversi.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    listItems.get(getAdapterPosition()).setExpand(!(listItems.get(getAdapterPosition()).isExpand()));
+                    if (listItems.get(getAdapterPosition()).isExpand()){
+                        lyt_qty.setVisibility(View.VISIBLE);
+                        lyt_sisa.setVisibility(View.VISIBLE);
+                    }else {
+                        lyt_qty.setVisibility(View.GONE);
+                        lyt_sisa.setVisibility(View.GONE);
+                    }
+                }
+            });
         }
     }
 }

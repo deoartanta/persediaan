@@ -146,6 +146,13 @@ public class SplashscreenActivity extends AppCompatActivity {
                         @Override
                         public void onFailure(Call<ApiLogin> call, Throwable t) {
                             progressBar.setVisibility(View.GONE);
+                            sessionManagerLogin.clearSession();
+                            Pair[] pairs = new Pair[2];
+                            pairs[0] = new Pair<View,String>(imgAnim,"imgTrans");
+                            pairs[1] = new Pair<View,String>(title,"titleTrans");
+                            ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(SplashscreenActivity.this,pairs);
+                            startActivity(login,options.toBundle());
+                            finish();
                             Toast.makeText(getApplicationContext(), "Server Error!!", Toast.LENGTH_LONG).show();
                         }
                     });

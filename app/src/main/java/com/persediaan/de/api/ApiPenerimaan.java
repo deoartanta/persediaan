@@ -1,10 +1,14 @@
 package com.persediaan.de.api;
 
+import com.google.gson.annotations.SerializedName;
+
 public class ApiPenerimaan {
     private String id_purchase,note,dt_purchase,
             nm_area,nm_singkat,nm_item,nm_satuan,
-            eceran,nm_suplier,alasuplier,npwp,
+            eceran,alasuplier,npwp,
             name_penyedia,area,alamat,id_trans;
+    @SerializedName("nm_suplier")
+    String nm_suplier;
 
     private int admin,id,id_area,id_suplier,id_item,qty,id_satuan,
             harga,diterima,jumlah,harga_total=0,tgl_purchase,created;
@@ -119,5 +123,39 @@ public class ApiPenerimaan {
 
     public int getHarga_total() {
         return harga_total;
+    }
+
+    @Override
+    public String toString() {
+        return "ApiPenerimaan{" +
+                "id_purchase='" + id_purchase + '\'' +
+                ", note='" + note + '\'' +
+                ", dt_purchase='" + dt_purchase + '\'' +
+                ", nm_area='" + nm_area + '\'' +
+                ", nm_singkat='" + nm_singkat + '\'' +
+                ", nm_item='" + nm_item + '\'' +
+                ", nm_satuan='" + nm_satuan + '\'' +
+                ", eceran='" + eceran + '\'' +
+                ", nm_suplier='" + nm_suplier + '\'' +
+                ", alasuplier='" + alasuplier + '\'' +
+                ", npwp='" + npwp + '\'' +
+                ", name_penyedia='" + name_penyedia + '\'' +
+                ", area='" + area + '\'' +
+                ", alamat='" + alamat + '\'' +
+                ", id_trans='" + id_trans + '\'' +
+                ", admin=" + admin +
+                ", id=" + id +
+                ", id_area=" + id_area +
+                ", id_suplier=" + id_suplier +
+                ", id_item=" + id_item +
+                ", qty=" + qty +
+                ", id_satuan=" + id_satuan +
+                ", harga=" + harga +
+                ", diterima=" + diterima +
+                ", jumlah=" + jumlah +
+                ", harga_total=" + harga_total +
+                ", tgl_purchase=" + tgl_purchase +
+                ", created=" + created +
+                '}';
     }
 }

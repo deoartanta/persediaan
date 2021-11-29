@@ -2,6 +2,7 @@ package com.persediaan.de;
 
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.content.ContextCompat;
@@ -20,6 +21,7 @@ import android.view.DragEvent;
 import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.ImageView;
@@ -27,6 +29,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.facebook.shimmer.ShimmerFrameLayout;
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.android.material.textfield.TextInputEditText;
 import com.persediaan.de.adapter.AdapterItemPenerimaan;
@@ -34,6 +37,8 @@ import com.persediaan.de.adapter.AdapterPenerimaan2;
 import com.persediaan.de.adapter.RecyclerViewClickInterface;
 import com.persediaan.de.api.ApiPenerimaan;
 import com.persediaan.de.api.JsonPlaceHolderApi;
+import com.persediaan.de.data.Currency;
+import com.persediaan.de.data.DialogCustom;
 import com.persediaan.de.data.SessionManager;
 import com.persediaan.de.model.ModelItemBrg;
 import com.persediaan.de.model.ModelPenerimaan;
@@ -78,6 +83,7 @@ public class DetailPenerimaanActivity extends AppCompatActivity implements Recyc
     TextView tv_penyedia;
     TextView tv_jml_item_bottom;
     TextView tv_total_hrg;
+    TextView tv_not_found;
 
     TextInputEditText tiet_note;
 
@@ -85,9 +91,13 @@ public class DetailPenerimaanActivity extends AppCompatActivity implements Recyc
 
     LinearLayout linear_bottom_sheet;
 
+    ShimmerFrameLayout shimmerFrameLayoutItem;
+
     //Connection
     private Retrofit retrofit;
     private JsonPlaceHolderApi jsonPlaceHolderApi;
+
+    ViewGroup viewGroup;
 
     boolean stscolapse = false;
 
@@ -97,12 +107,19 @@ public class DetailPenerimaanActivity extends AppCompatActivity implements Recyc
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail_penerimaan);
 
+        viewGroup = (ViewGroup) findViewById(android.R.id.content);
+
         toolbar =findViewById(R.id.toolbar);
         tb_imgBtn = toolbar.findViewById(R.id.tbImgBtn);
         tb_title = toolbar.findViewById(R.id.tb_title);
         view_collapse = findViewById(R.id.viewCollapse);
+        tv_not_found = findViewById(R.id.tvItemNotFound);
 
         recyclerViewItem = findViewById(R.id.recyclerItem);
+
+        shimmerFrameLayoutItem = findViewById(R.id.shimerLayoutItem);
+        shimmerFrameLayoutItem.startShimmer();
+        shimmerFrameLayoutItem.setVisibility(View.VISIBLE);
 
         SessionManager sessionManagerUser;
         HashMap<String,Integer> detailUserInt;
@@ -164,19 +181,20 @@ public class DetailPenerimaanActivity extends AppCompatActivity implements Recyc
 //        tv_jml_item.setText("("+extras.getString(JML_ITEM)+")");
 //        tv_penyedia.setText(extras.getString(PENYEDIA));
 //        tv_jml_item_bottom.setText(extras.getString(JML_ITEM));
-//        tv_total_hrg.setText(extras.getString(TOTAL_HRG));
+        tv_total_hrg.setText(extras.getString(TOTAL_HRG));
 
         tiet_note.setText(extras.getString(NOTE));
-        loadItem(detailUserInt.get(SessionManager.USER_ID));
+        loadItem(detailUserInt.get(SessionManager.USER_ID), extras.getString(ID_TRANS));
     }
 
-    private void loadItem(int id_user) {
+    private void loadItem(int id_user,String id_trans) {
 
         retrofit = new Retrofit.Builder()
                 .baseUrl(SessionManager.HOSTNAME)
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
         jsonPlaceHolderApi = retrofit.create(JsonPlaceHolderApi.class);
+        Currency formatNumber = new Currency("Rp. ",",");
 
         Call<List<ApiPenerimaan>> call = jsonPlaceHolderApi.getResponPenerimaanCart(id_user);
         call.enqueue(new Callback<List<ApiPenerimaan>>() {
@@ -184,6 +202,9 @@ public class DetailPenerimaanActivity extends AppCompatActivity implements Recyc
             public void onResponse(Call<List<ApiPenerimaan>> call, Response<List<ApiPenerimaan>> response) {
 
                 List<ApiPenerimaan> apiPenerimaans = response.body();
+                shimmerFrameLayoutItem.setVisibility(View.GONE);
+                shimmerFrameLayoutItem.stopShimmer();
+//                Log.d("192012992", "onResponse2: "+apiPenerimaans.get(0).toString());
 //                ArrayList<ModelItemBrg> modelItemBrgs = new ArrayList<ModelPenerimaan>();
                 if (!response.isSuccessful()){
                     Toast.makeText(getApplicationContext(), "Error yang tidak diketahui", Toast.LENGTH_SHORT).show();
@@ -201,6 +222,7 @@ public class DetailPenerimaanActivity extends AppCompatActivity implements Recyc
                 modelItemBrgs = new ArrayList<ModelItemBrg>();
                 for (ApiPenerimaan apiPenerimaan:apiPenerimaans){
 //                    tv_lblDtKosong.setVisibility(View.GONE);
+                    Log.d("19201299", "onResponse: "+apiPenerimaan.toString());
                     modelItemBrgs.add(new ModelItemBrg(
                             apiPenerimaan.getId_item(),
                             apiPenerimaan.getQty(),
@@ -210,7 +232,7 @@ public class DetailPenerimaanActivity extends AppCompatActivity implements Recyc
                             apiPenerimaan.getNm_item(),
                             apiPenerimaan.getEceran(),
                             apiPenerimaan.getNm_satuan()));
-                    if (i==0){
+                    if (modelItemBrgs.size()==apiPenerimaans.size()){
                         id_purchase = apiPenerimaan.getId_purchase();
                         tgl_purchase = apiPenerimaan.getCreated();
                         note = apiPenerimaan.getNote();
@@ -240,7 +262,29 @@ public class DetailPenerimaanActivity extends AppCompatActivity implements Recyc
 //                            )).toString()
                     i++;
                 }
-                Log.d("19201299", "onResponse:Model Item BRGS: "+modelItemBrgs.toString());
+//                Log.d("19201299",
+//                        "onResponse:("+modelItemBrgs.size()+")Model Item BRGS: "+modelItemBrgs.get(0).toString());
+//                Log.d("19201299", "onResponse: "+
+//                                "{id_purchase = "+id_purchase+","+
+//                                "tgl_purchase = "+tgl_purchase+","+
+//                                "note = "+note+","+
+//                                "dt_purchase = "+dt_purchase+","+
+//                                "nm_area = "+nm_area+","+
+//                                "nm_singkat = "+nm_singkat+","+
+//                                "nm_suplier = "+nm_suplier+","+
+//                                "alasuplier = "+alasuplier+","+
+//                                "npwp = "+npwp+","+
+//                                "name_penyedia = "+name_penyedia+","+
+//                                "status = "+status+","+
+//                                "area = "+area+","+
+//                                "alamat = "+alamat+","+
+//                                "id_trans = "+id_trans+","+
+//                                "jml_item = "+jml_item+","+
+//                                "admin = "+admin
+//                        id,id_area,id_supplier,
+//                        diterima,
+//                        harga_total
+//                        );
                 jml_item = i;
                 if (diterima==0){
                     status = "Belum Diterima";
@@ -260,7 +304,7 @@ public class DetailPenerimaanActivity extends AppCompatActivity implements Recyc
                 recyclerViewItem.setHasFixedSize(true);
                 recyclerViewItem.setItemAnimator(new DefaultItemAnimator());
 
-                tv_idtrans.setText(id_trans);
+                tv_idtrans.setText(id_purchase);
                 tv_area.setText(nm_area);
                 tv_sts.setText(status);
                 tv_tglpurchase.setText((new SimpleDateFormat("dd MMMM yyyy", Locale.US)
@@ -270,19 +314,19 @@ public class DetailPenerimaanActivity extends AppCompatActivity implements Recyc
                 tv_jml_item.setText("("+jml_item+")");
                 tv_penyedia.setText(nm_suplier);
                 tv_jml_item_bottom.setText(String.valueOf(jml_item));
-                tv_total_hrg.setText(String.valueOf(harga_total));
+                tv_total_hrg.setText(formatNumber.setFormatCurrency((double) harga_total));
 
                 recyclerViewItem.setAdapter(adapter);
                 recyclerViewItem.setVisibility(View.VISIBLE);
-//                shimmerFrameLayout.stopShimmer();
-//                shimmerFrameLayout.setVisibility(View.GONE);
-//                recyclerPenerimaan.setVisibility(View.VISIBLE);
+                tv_not_found.setVisibility(View.GONE);
             }
 
             @Override
             public void onFailure(Call<List<ApiPenerimaan>> call, Throwable t) {
-//                shimmerFrameLayout.setVisibility(View.GONE);
-//                tv_lblDtKosong.setVisibility(View.VISIBLE);
+                shimmerFrameLayoutItem.setVisibility(View.GONE);
+                shimmerFrameLayoutItem.stopShimmer();
+                tv_not_found.setVisibility(View.VISIBLE);
+
                 Toast.makeText(getApplicationContext(), "Server Error", Toast.LENGTH_SHORT).show();
             }
         });
@@ -291,6 +335,12 @@ public class DetailPenerimaanActivity extends AppCompatActivity implements Recyc
 
     @Override
     public void onItemClick(int position, View view) {
+        DialogCustom dialogCustom = new DialogCustom(DetailPenerimaanActivity.this,
+                viewGroup,
+                R.layout.input_alert_dialog,
+                R.drawable.ic_person_edit);
+        dialogCustom.setCustomDialog();
+        dialogCustom.getDialog().create().show();
 
     }
 }
