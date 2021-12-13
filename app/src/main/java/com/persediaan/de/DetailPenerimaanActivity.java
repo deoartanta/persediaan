@@ -80,11 +80,11 @@ public class DetailPenerimaanActivity extends AppCompatActivity implements Recyc
                         TOTAL_HRG = "TOTAL_HRG",
                         NOTE = "NOTE";
     double hrg=0,qty = 0;
-    boolean isInputText=false;
+    boolean isInputText=true;
     Currency formatNumber;
 
     Toolbar toolbar;
-    ImageView tb_imgBtn;
+    ImageView tb_imgBtn,btn_add_item;
     ActionBar bar;
 
     ScrollView scrollView;
@@ -110,7 +110,9 @@ public class DetailPenerimaanActivity extends AppCompatActivity implements Recyc
 //    Session
     Bundle extras;
     HashMap<String,Integer> detailUserInt;
+    HashMap<String,String> detailScanner;
     SessionManager sessionManagerUser;
+    SessionManager sessionManagerScan;
 
     Button btn_simpan,btn_batal;
 
@@ -145,6 +147,7 @@ public class DetailPenerimaanActivity extends AppCompatActivity implements Recyc
         scrollView.setVisibility(View.GONE);
         toolbar =findViewById(R.id.toolbar);
         tb_imgBtn = toolbar.findViewById(R.id.tbImgBtn);
+        btn_add_item = findViewById(R.id.btnImageAddItem);
         tb_title = toolbar.findViewById(R.id.tb_title);
         view_collapse = findViewById(R.id.viewCollapse);
         tv_not_found = findViewById(R.id.tvItemNotFound);
@@ -183,7 +186,9 @@ public class DetailPenerimaanActivity extends AppCompatActivity implements Recyc
         bottom_sheet = findViewById(R.id.BottomSheet);
 
         sessionManagerUser = new SessionManager(getApplicationContext(),"login");
+        sessionManagerScan = new SessionManager(getApplicationContext(),"scan");
         detailUserInt = sessionManagerUser.getUserDetailInt();
+
 
 
         tb_title.setText("Detail Penerimaan");
@@ -329,6 +334,15 @@ public class DetailPenerimaanActivity extends AppCompatActivity implements Recyc
                 });
                 AlertDialog dialog1 = dialog.create();
                 dialog1.show();
+            }
+        });
+
+        btn_add_item.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                sessionManagerScan.clearSession();
+                sessionManagerScan.EditScanner(true);
+                finish();
             }
         });
     }

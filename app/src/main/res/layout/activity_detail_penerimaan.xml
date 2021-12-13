@@ -223,11 +223,23 @@
                                     android:id="@+id/tvlblDetailItem"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
+                                    android:layout_alignBottom="@+id/btnImageAddItem"
                                     android:layout_alignParentStart="true"
+                                    android:gravity="center_vertical"
                                     android:layout_alignParentTop="true"
                                     android:paddingEnd="5dp"
                                     android:text="Detail Item"
                                     android:textAllCaps="true" />
+
+                                <ImageView
+                                    android:id="@+id/btnImageAddItem"
+                                    android:layout_width="30dp"
+                                    android:layout_height="30dp"
+                                    android:layout_alignParentTop="true"
+                                    android:layout_alignParentEnd="true"
+                                    android:background="@drawable/btn_action"
+                                    android:backgroundTint="@color/white"
+                                    app:srcCompat="@drawable/ic_baseline_add_circle_24" />
 
                                 <TextView
                                     android:id="@+id/tvLine1"

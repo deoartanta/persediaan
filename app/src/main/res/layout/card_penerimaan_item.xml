@@ -67,7 +67,7 @@
                 android:layout_height="24dp"
                 android:layout_above="@id/imgHps"
                 android:layout_alignParentEnd="true"
-                app:srcCompat="@drawable/ic_baseline_create_24" />
+                app:srcCompat="@drawable/ic_baseline_create_24_primary" />
 
             <ImageView
                 android:id="@+id/imgHps"
