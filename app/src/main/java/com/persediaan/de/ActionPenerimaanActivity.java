@@ -302,7 +302,8 @@ public class ActionPenerimaanActivity extends AppCompatActivity {
             @Override
             public void onFailure(Call<List<ApiPenerimaan>> call, Throwable t) {
                 Call<ApiPenerimaan> callStatus=
-                        jsonPlaceHolderApi.getResponPenerimaanStatus(barcode);
+                        jsonPlaceHolderApi.getResponPenerimaanStatus(barcode,
+                                detailUserInt.get(SessionManager.USER_ID));
                 callStatus.enqueue(new Callback<ApiPenerimaan>() {
                     @Override
                     public void onResponse(Call<ApiPenerimaan> call, Response<ApiPenerimaan> response) {

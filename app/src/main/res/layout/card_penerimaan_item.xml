@@ -63,12 +63,20 @@
 
             <ImageView
                 android:id="@+id/imgEdit"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_above="@id/imgHps"
                 android:layout_alignParentEnd="true"
-                android:layout_alignBottom="@id/tvSatuanPener"
-                android:layout_marginBottom="5dp"
                 app:srcCompat="@drawable/ic_baseline_create_24" />
+
+            <ImageView
+                android:id="@+id/imgHps"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_alignBottom="@id/tvSatuanPener"
+                android:layout_alignParentEnd="true"
+                android:layout_marginBottom="5dp"
+                app:srcCompat="@android:drawable/ic_delete" />
 
             <TextView
                 android:id="@+id/line2"

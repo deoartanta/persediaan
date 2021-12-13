@@ -64,7 +64,14 @@ public interface JsonPlaceHolderApi {
     @POST("api/reception/item")
     @FormUrlEncoded
     Call <ApiPenerimaan> getResponPenerimaanStatus(
-            @Field("barcode") String barcode
+            @Field("barcode") String barcode,
+            @Field("id_user") int id_user
+    );
+//Delete Item
+    @POST("api/reception/deleteCart")
+    @FormUrlEncoded
+    Call <String> getResponHpsItem(
+            @Field("id") int id
     );
 
 //  Add Cart Penerimaan
@@ -80,8 +87,10 @@ public interface JsonPlaceHolderApi {
 //  Edit Cart Penerimaan
     @POST("api/reception/editCart")
     @FormUrlEncoded
-    Call<List<ApiKonversi>> getResponEditCart(
-            @Field("id_trans") String id_trans
+    Call<ApiPenerimaan> getResponEditCart(
+            @Field("id") int id,
+            @Field("qty") int qty,
+            @Field("harga") int hrg
     );
 
 //  Simpan Penerimaan

@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.annotation.TargetApi;
 import android.app.Dialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
@@ -78,6 +79,10 @@ public class DetailPenerimaanActivity extends AppCompatActivity implements Recyc
                         JML_ITEM_BOTTOM = "JML_ITEM_BOTTOM",
                         TOTAL_HRG = "TOTAL_HRG",
                         NOTE = "NOTE";
+    double hrg=0,qty = 0;
+    boolean isInputText=false;
+    Currency formatNumber;
+
     Toolbar toolbar;
     ImageView tb_imgBtn;
     ActionBar bar;
@@ -101,6 +106,11 @@ public class DetailPenerimaanActivity extends AppCompatActivity implements Recyc
 
     LinearLayout linear_bottom_sheet;
     LinearLayout bottom_sheet;
+
+//    Session
+    Bundle extras;
+    HashMap<String,Integer> detailUserInt;
+    SessionManager sessionManagerUser;
 
     Button btn_simpan,btn_batal;
 
@@ -126,6 +136,8 @@ public class DetailPenerimaanActivity extends AppCompatActivity implements Recyc
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
         jsonPlaceHolderApi = retrofit.create(JsonPlaceHolderApi.class);
+
+        formatNumber = new Currency("Rp. ",",");
 
         viewGroup = (ViewGroup) findViewById(android.R.id.content);
 
@@ -170,9 +182,6 @@ public class DetailPenerimaanActivity extends AppCompatActivity implements Recyc
         linear_bottom_sheet = findViewById(R.id.linearBottomsheet);
         bottom_sheet = findViewById(R.id.BottomSheet);
 
-        SessionManager sessionManagerUser;
-        HashMap<String,Integer> detailUserInt;
-
         sessionManagerUser = new SessionManager(getApplicationContext(),"login");
         detailUserInt = sessionManagerUser.getUserDetailInt();
 
@@ -209,7 +218,7 @@ public class DetailPenerimaanActivity extends AppCompatActivity implements Recyc
             }
         });
 
-        Bundle extras = getIntent().getExtras();
+        extras = getIntent().getExtras();
 
 //        tv_idtrans.setText(extras.getString(ID_TRANS));
 //        tv_area.setText(extras.getString(AREA));
@@ -229,56 +238,97 @@ public class DetailPenerimaanActivity extends AppCompatActivity implements Recyc
         btn_simpan.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Call<ApiSimpan> call =
-                        jsonPlaceHolderApi.getResponSimpan(detailUserInt.get(SessionManager.USER_ID),
-                                ""+tiet_note.getText());
-                call.enqueue(new Callback<ApiSimpan>() {
-                    @Override
-                    public void onResponse(Call<ApiSimpan> call, Response<ApiSimpan> response) {
-                        if (!response.isSuccessful()){
-                            Toast.makeText(getApplicationContext(), "Terjadi Error yang tidak " +
-                                    "diketahui", Toast.LENGTH_SHORT).show();
-                            return;
-                        }
-                        Toast.makeText(getApplicationContext(), "Data Disimpan", Toast.LENGTH_SHORT).show();
-                        finish();
-                    }
+                AlertDialog.Builder dialog = new AlertDialog.Builder(DetailPenerimaanActivity.this);
+                dialog.setTitle("Simpan Transaksi");
+                dialog.setMessage("Transaksi ini akan disimpan, apakah anda ingin melanjutkan?");
 
+                dialog.setIcon(R.drawable.ic_baseline_notification_important_24);
+                dialog.setCancelable(true);
+                dialog.setNegativeButton("Batal", new DialogInterface.OnClickListener() {
                     @Override
-                    public void onFailure(Call<ApiSimpan> call, Throwable t) {
-                        Toast.makeText(getApplicationContext(), "Server Error",
-                                Toast.LENGTH_SHORT).show();
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        dialogInterface.cancel();
                     }
                 });
+                dialog.setPositiveButton("Lanjut", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+
+                        Call<ApiSimpan> call =
+                                jsonPlaceHolderApi.getResponSimpan(detailUserInt.get(SessionManager.USER_ID),
+                                        ""+tiet_note.getText());
+                        call.enqueue(new Callback<ApiSimpan>() {
+                            @Override
+                            public void onResponse(Call<ApiSimpan> call, Response<ApiSimpan> response) {
+                                if (!response.isSuccessful()){
+                                    Toast.makeText(getApplicationContext(), "Terjadi Error yang tidak " +
+                                            "diketahui", Toast.LENGTH_SHORT).show();
+                                    return;
+                                }
+                                Toast.makeText(getApplicationContext(), "Data Disimpan", Toast.LENGTH_SHORT).show();
+                                finish();
+                            }
+
+                            @Override
+                            public void onFailure(Call<ApiSimpan> call, Throwable t) {
+                                Toast.makeText(getApplicationContext(), "Server Error",
+                                        Toast.LENGTH_SHORT).show();
+                            }
+                        });
+                    }
+                });
+                AlertDialog dialog1 = dialog.create();
+                dialog1.show();
             }
         });
 
         btn_batal.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Call<String> call =
-                        jsonPlaceHolderApi.getResponBatal(detailUserInt.get(SessionManager.USER_ID));
-                call.enqueue(new Callback<String>() {
-                    @Override
-                    public void onResponse(Call<String> call, Response<String> response) {
-                        if (!response.isSuccessful()){
-                            Toast.makeText(getApplicationContext(), "Terjadi Error yang tidak " +
-                                    "diketahui", Toast.LENGTH_SHORT).show();
-                            return;
-                        }
 
-                        Toast.makeText(getApplicationContext(), "No Purchase "+response.body()+
-                                        ", berhasil dibatalkan",
-                                Toast.LENGTH_SHORT).show();
-                        finish();
-                    }
+                AlertDialog.Builder dialog = new AlertDialog.Builder(DetailPenerimaanActivity.this);
+                dialog.setTitle("Batal Transaksi");
+                dialog.setMessage("Transaksi ini akan dibatalkan, apakah anda ingin melanjutkan?");
 
+                dialog.setIcon(R.drawable.ic_baseline_warning_24);
+                dialog.setCancelable(true);
+                dialog.setNegativeButton("Batal", new DialogInterface.OnClickListener() {
                     @Override
-                    public void onFailure(Call<String> call, Throwable t) {
-                        Toast.makeText(getApplicationContext(), "Server Error",
-                                Toast.LENGTH_SHORT).show();
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        dialogInterface.cancel();
                     }
                 });
+                dialog.setPositiveButton("Lanjut", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+
+                        Call<String> call =
+                                jsonPlaceHolderApi.getResponBatal(detailUserInt.get(SessionManager.USER_ID));
+                        call.enqueue(new Callback<String>() {
+                            @Override
+                            public void onResponse(Call<String> call, Response<String> response) {
+                                if (!response.isSuccessful()){
+                                    Toast.makeText(getApplicationContext(), "Terjadi Error yang tidak " +
+                                            "diketahui", Toast.LENGTH_SHORT).show();
+                                    return;
+                                }
+
+                                Toast.makeText(getApplicationContext(), "No Purchase "+response.body()+
+                                                ", berhasil dibatalkan",
+                                        Toast.LENGTH_SHORT).show();
+                                finish();
+                            }
+
+                            @Override
+                            public void onFailure(Call<String> call, Throwable t) {
+                                Toast.makeText(getApplicationContext(), "Server Error",
+                                        Toast.LENGTH_SHORT).show();
+                            }
+                        });
+                    }
+                });
+                AlertDialog dialog1 = dialog.create();
+                dialog1.show();
             }
         });
     }
@@ -307,6 +357,7 @@ public class DetailPenerimaanActivity extends AppCompatActivity implements Recyc
                     finish();
                     return;
                 }
+                recyclerViewItem.setAdapter(null);
                 String id_purchase = null,
                         note = null,dt_purchase = null,nm_area = null,nm_suplier = null,
                         alasuplier = null, npwp = null,name_penyedia = null, status = null,
@@ -321,6 +372,7 @@ public class DetailPenerimaanActivity extends AppCompatActivity implements Recyc
                     Log.d("19201299", "onResponse: "+apiPenerimaan.toString());
                     if(modelItemBrgs.size()<(apiPenerimaans.size()-1)){
                         modelItemBrgs.add(new ModelItemBrg(
+                                apiPenerimaan.getId(),
                                 apiPenerimaan.getId_item(),
                                 apiPenerimaan.getQty(),
                                 apiPenerimaan.getId_satuan(),
@@ -512,17 +564,37 @@ public class DetailPenerimaanActivity extends AppCompatActivity implements Recyc
         EditTextInput.setInputType(InputType.TYPE_CLASS_NUMBER);
         EditTextInput2.setInputType(InputType.TYPE_CLASS_NUMBER);
         EditTextInput.setText(
-                tv_qty.getText()
+                ""+formatNumber.setFormatNumber((double)modelItemBrgs.get(position).getQty())
         );
         EditTextInput2.setText(
-                ""+modelItemBrgs.get(position).getHarga()
+                "Rp. "+formatNumber.setFormatNumber((double)modelItemBrgs.get(position).getHarga())
         );
 
         dialogCustom.getDialog().setPositiveButton("Next", (dialogInterface,i)->{
             String m_input = EditTextInput.getText().toString();
             String m_input2 = EditTextInput2.getText().toString();
-            Toast.makeText(DetailPenerimaanActivity.this,
-                    "id item"+modelItemBrgs.get(position).getId_item(), Toast.LENGTH_SHORT).show();
+
+            Call <ApiPenerimaan> call =
+                    jsonPlaceHolderApi.getResponEditCart(modelItemBrgs.get(position).getId(),
+                            (int)qty,(int)hrg);
+            call.enqueue(new Callback<ApiPenerimaan>() {
+                @Override
+                public void onResponse(Call<ApiPenerimaan> call, Response<ApiPenerimaan> response) {
+                    if (!response.isSuccessful()){
+                        Toast.makeText(getApplicationContext(), "Terjadi error yang tidak diketahui", Toast.LENGTH_SHORT).show();
+                        return;
+                    }
+                    if (response.body().getMsg()!=null){
+                        Toast.makeText(getApplicationContext(), ""+response.body().getMsg(), Toast.LENGTH_LONG).show();
+                    }
+                    loadItem(detailUserInt.get(SessionManager.USER_ID),extras.getString(ID_TRANS));
+                }
+
+                @Override
+                public void onFailure(Call<ApiPenerimaan> call, Throwable t) {
+                    Toast.makeText(getApplicationContext(), "Server error", Toast.LENGTH_SHORT).show();
+                }
+            });
         });
 
         dialogCustom.getDialog().setNegativeButton("Cancel", (dialogInterface, i) -> {
@@ -540,13 +612,27 @@ public class DetailPenerimaanActivity extends AppCompatActivity implements Recyc
 
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
+                String r = (charSequence.toString()).replaceAll("[^0-9]","");
+                if (!r.isEmpty()){
+                    qty = Double.valueOf(r);
+                }else{
+                    qty = 0;
+                }
             }
 
             @Override
             public void afterTextChanged(Editable editable) {
                 String newInput = editable.toString();
                 String oldInput = EditTextInput2.getText().toString();
+
+                if (isInputText){
+                    isInputText = false;
+                    EditTextInput.setText(formatNumber.setFormatNumber(qty));
+                    EditTextInput.setSelection(EditTextInput.getText().length());
+                }else{
+                    isInputText = true;
+                }
+
                 if(TextUtils.isEmpty(editable)){
                     ((AlertDialog) dialog2).getButton(AlertDialog.BUTTON_POSITIVE).setEnabled(false);
                 }else{
@@ -562,13 +648,25 @@ public class DetailPenerimaanActivity extends AppCompatActivity implements Recyc
 
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
+                String r = (charSequence.toString()).replaceAll("[^0-9]","");
+                if (!r.isEmpty()){
+                    hrg = Double.valueOf(r);
+                }else{
+                    hrg = 0;
+                }
             }
 
             @Override
             public void afterTextChanged(Editable editable) {
                 String newInput = editable.toString();
                 String oldInput = EditTextInput2.getText().toString();
+                if (isInputText){
+                    isInputText = false;
+                    EditTextInput2.setText("Rp. "+formatNumber.setFormatNumber(hrg));
+                    EditTextInput2.setSelection(EditTextInput2.getText().length());
+                }else{
+                    isInputText = true;
+                }
                 if(TextUtils.isEmpty(editable)){
                     ((AlertDialog) dialog2).getButton(AlertDialog.BUTTON_POSITIVE).setEnabled(false);
                 }else{
@@ -577,5 +675,56 @@ public class DetailPenerimaanActivity extends AppCompatActivity implements Recyc
             }
         });
 
+    }
+
+    @Override
+    public void onItemClick1(int position, View view) {
+         TextView nm_item = view.findViewById(R.id.tvNmItemPener);
+         AlertDialog.Builder dialog = new AlertDialog.Builder(DetailPenerimaanActivity.this);
+         dialog.setTitle("Hapus Item");
+         dialog.setMessage("Apakah anda yakin ingin menghapus item "+nm_item.getText());
+
+         dialog.setIcon(R.drawable.ic_baseline_warning_24);
+         dialog.setCancelable(true);
+         dialog.setNegativeButton("Batal", new DialogInterface.OnClickListener() {
+             @Override
+             public void onClick(DialogInterface dialogInterface, int i) {
+                 dialogInterface.cancel();
+             }
+         });
+         dialog.setPositiveButton("Next", new DialogInterface.OnClickListener() {
+             @Override
+             public void onClick(DialogInterface dialogInterface, int i) {
+                Call<String> call =
+                        jsonPlaceHolderApi.getResponHpsItem(modelItemBrgs.get(position).getId());
+                call.enqueue(new Callback<String>() {
+                    @Override
+                    public void onResponse(Call<String> call, Response<String> response) {
+                        if (!response.isSuccessful()){
+                            Toast.makeText(getApplicationContext(), "Terjadi erorr yang tidak diketahui", Toast.LENGTH_SHORT).show();
+                            return;
+                        }
+                        if (response.body()!=null){
+                            Toast.makeText(getApplicationContext(),
+                                    ""+response.body(),
+                                    Toast.LENGTH_SHORT).show();
+                            loadItem(detailUserInt.get(SessionManager.USER_ID), extras.getString(ID_TRANS));
+                        }else {
+                            Toast.makeText(getApplicationContext(),
+                                    ""+response.body(),
+                                    Toast.LENGTH_SHORT).show();
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<String> call, Throwable t) {
+                        Toast.makeText(getApplicationContext(),
+                                "Server error", Toast.LENGTH_SHORT).show();
+                    }
+                });
+             }
+         });
+         AlertDialog dialog1 = dialog.create();
+         dialog1.show();
     }
 }

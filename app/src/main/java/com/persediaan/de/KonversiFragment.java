@@ -302,4 +302,9 @@ public class KonversiFragment extends Fragment implements RecyclerViewClickInter
     public void onItemClick(int position, View view) {
 
     }
+
+    @Override
+    public void onItemClick1(int position, View view) {
+
+    }
 }

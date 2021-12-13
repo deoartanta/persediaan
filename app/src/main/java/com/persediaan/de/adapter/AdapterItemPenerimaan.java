@@ -58,7 +58,7 @@ public class AdapterItemPenerimaan extends RecyclerView.Adapter<AdapterItemPener
 
     public class itemPenerimaanViewHolder extends RecyclerView.ViewHolder {
         TextView tv_nmItem,tv_qty,tv_satuan,tv_hrg,tv_ttl_hrg;
-        ImageView imgEdit;
+        ImageView imgEdit,imgHps;
         public itemPenerimaanViewHolder(@NonNull View itemView) {
             super(itemView);
             tv_nmItem = itemView.findViewById(R.id.tvNmItemPener);
@@ -69,12 +69,20 @@ public class AdapterItemPenerimaan extends RecyclerView.Adapter<AdapterItemPener
 
 
             imgEdit = itemView.findViewById(R.id.imgEdit);
+            imgHps = itemView.findViewById(R.id.imgHps);
             imgEdit.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     recyclerViewClickInterface.onItemClick(getAdapterPosition(),itemView);
 //                    Log.d("19201299",
 //                            "onClick: "+getAdapterPosition()+", Nama Item = "+listItems.get(getAdapterPosition()).getNm_item());
+                }
+            });
+
+            imgHps.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    recyclerViewClickInterface.onItemClick1(getAdapterPosition(),itemView);
                 }
             });
         }

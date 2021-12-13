@@ -8,7 +8,6 @@ import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -101,6 +100,11 @@ public class PenerimaanFragment extends Fragment implements RecyclerViewClickInt
 //        Toast.makeText(getContext(), "Position : "+position+"\n Nama Penyedia : "+nm_penyedia.getText(), Toast.LENGTH_SHORT).show();
     }
 
+    @Override
+    public void onItemClick1(int position, View view) {
+
+    }
+
     private void loadCards(int id_user) {
 
         retrofit = new Retrofit.Builder()
@@ -138,7 +142,7 @@ public class PenerimaanFragment extends Fragment implements RecyclerViewClickInt
                 for (ApiPenerimaan apiPenerimaan:apiPenerimaans){
                     tv_lblDtKosong.setVisibility(View.GONE);
                     modelItemBrgs.add(new ModelItemBrg(
-                            apiPenerimaan.getId_item(),
+                            apiPenerimaan.getId(), apiPenerimaan.getId_item(),
                             apiPenerimaan.getQty(),
                             apiPenerimaan.getId_satuan(),
                             apiPenerimaan.getHarga(),

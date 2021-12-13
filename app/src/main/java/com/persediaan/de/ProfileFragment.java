@@ -231,6 +231,11 @@ public class ProfileFragment extends Fragment implements RecyclerViewClickExpend
     }
 
     @Override
+    public void onItemClick1(int position, View view) {
+
+    }
+
+    @Override
     public void onItemExpendClick(int id,int position, View view,boolean isEnable) {
         DialogCustom dialogCustom = new DialogCustom(getContext(),(ViewGroup) getView(),
                 R.layout.input_alert_dialog,R.drawable.ic_person_edit);

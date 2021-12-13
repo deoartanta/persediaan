@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -139,5 +140,10 @@ public class HomeFragment extends Fragment implements RecyclerViewClickInterface
         String id_trans = (String) tv_idtrans.getText();
         i.putExtra(DetailPenerimaanActivity.ID_TRANS,id_trans);
         startActivity(i);
+    }
+
+    @Override
+    public void onItemClick1(int position, View view) {
+
     }
 }
