@@ -32,8 +32,12 @@ public class DialogCustom {
                 false);
         dialog1 = new AlertDialog.Builder(ctx);
         dialog1.setIcon(drawableicon);
-
-        dialog1.setView(viewInflated);
+    }
+    public void setView(View view){
+        dialog1.setView(view);
+    }
+    public void setTitle(String title){
+        dialog1.setTitle(title);
     }
     public AlertDialog.Builder getDialog(){
         return dialog1;

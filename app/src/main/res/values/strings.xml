@@ -4,4 +4,9 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="konversi">Konversi</string>
     <string name="transfer">Transfer</string>
+    <string name="pener">RECEIVE</string>
+    <string name="home">Home</string>
+    <string name="scan">SCAN</string>
+    <string name="setting">SETTING</string>
+    <string name="out_item">SPENDING</string>
 </resources>

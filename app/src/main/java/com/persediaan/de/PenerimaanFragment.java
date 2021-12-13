@@ -109,6 +109,11 @@ public class PenerimaanFragment extends Fragment implements RecyclerViewClickInt
                 .build();
         jsonPlaceHolderApi = retrofit.create(JsonPlaceHolderApi.class);
 
+        recyclerPenerimaan.setAdapter(null);
+        shimmerFrameLayout.startShimmer();
+        shimmerFrameLayout.setVisibility(View.VISIBLE);
+        recyclerPenerimaan.setVisibility(View.GONE);
+
         Call<List<ApiPenerimaan>> call = jsonPlaceHolderApi.getResponPenerimaanCart(id_user);
         call.enqueue(new Callback<List<ApiPenerimaan>>() {
             @Override
@@ -124,7 +129,7 @@ public class PenerimaanFragment extends Fragment implements RecyclerViewClickInt
                 ArrayList<ModelItemBrg> modelItemBrgs;
                 String id_purchase = null,
                         note = null,dt_purchase = null,nm_area = null,nm_suplier = null,
-                        alasuplier = null, npwp = null,name_penyedia = null, status = null,
+                        alasupplier = null, npwp = null,name_penyedia = null, status = null,
                         area = null, alamat = null, date,id_trans = null,nm_singkat = null;
                 int admin = 0,id = 0,id_area = 0,id_supplier = 0,diterima = 0,harga_total=0,i=0,
                         jml_item=0,tgl_purchase = 0;
@@ -141,6 +146,10 @@ public class PenerimaanFragment extends Fragment implements RecyclerViewClickInt
                             apiPenerimaan.getNm_item(),
                             apiPenerimaan.getEceran(),
                             apiPenerimaan.getNm_satuan()));
+                    if (i==(apiPenerimaans.size()-1)){
+                        nm_suplier = apiPenerimaan.getNm_suplier();
+                        alasupplier = apiPenerimaan.getAlasuplier();
+                    }
                     if (i==0){
                         id_purchase = apiPenerimaan.getId_purchase();
                         tgl_purchase = apiPenerimaan.getCreated();
@@ -149,8 +158,6 @@ public class PenerimaanFragment extends Fragment implements RecyclerViewClickInt
                         nm_area =apiPenerimaan.getNm_area();
                         nm_singkat =apiPenerimaan.getNm_singkat();
 
-                        nm_suplier = apiPenerimaan.getNm_suplier();
-                        alasuplier = apiPenerimaan.getAlasuplier();
                         npwp = apiPenerimaan.getNpwp();
                         name_penyedia = apiPenerimaan.getName_penyedia();
                         area = apiPenerimaan.getArea();
@@ -163,15 +170,15 @@ public class PenerimaanFragment extends Fragment implements RecyclerViewClickInt
                         id_supplier = apiPenerimaan.getId_suplier();
                         diterima = apiPenerimaan.getDiterima();
                     }
-                    harga_total +=apiPenerimaan.getHarga();
+                    harga_total +=(apiPenerimaan.getHarga()*apiPenerimaan.getQty());
 //                    (new SimpleDateFormat("dd MMM yyyy")
 //                            .format(
 //                                    new Date((Long.parseLong(penerimaanbrgApi.getCreated())*1000))
 //                            )).toString()
                     i++;
                 }
-                Log.d("19201299", "onResponse:Model Item BRGS: "+modelItemBrgs.toString());
-                jml_item = i;
+//                Log.d("19201299", "onResponse:Model Item BRGS: "+modelItemBrgs.toString());
+                jml_item = i-1;
                 if (diterima==0){
                     status = "Belum Diterima";
                 }else if (diterima ==1){
@@ -179,7 +186,7 @@ public class PenerimaanFragment extends Fragment implements RecyclerViewClickInt
                 }
                     modelPenerimaanArrayList.add(new ModelPenerimaan(
                             id_purchase,tgl_purchase,note,dt_purchase,nm_area,nm_singkat,
-                            nm_suplier,alasuplier,npwp,name_penyedia,status,area,
+                            nm_suplier,alasupplier,npwp,name_penyedia,status,area,
                             alamat,id_trans,jml_item,admin,id,id_area,id_supplier,diterima,
                             harga_total,modelItemBrgs
                     ));
@@ -197,11 +204,38 @@ public class PenerimaanFragment extends Fragment implements RecyclerViewClickInt
 
             @Override
             public void onFailure(Call<List<ApiPenerimaan>> call, Throwable t) {
-                shimmerFrameLayout.setVisibility(View.GONE);
-                tv_lblDtKosong.setVisibility(View.VISIBLE);
-                Toast.makeText(requireContext(), "Server Error", Toast.LENGTH_SHORT).show();
+                Call <ApiPenerimaan> call1 =
+                        jsonPlaceHolderApi.getResponPenerimaanCartStatus(id_user);
+                call1.enqueue(new Callback<ApiPenerimaan>() {
+                    @Override
+                    public void onResponse(Call<ApiPenerimaan> call, Response<ApiPenerimaan> response) {
+                        shimmerFrameLayout.setVisibility(View.GONE);
+                        tv_lblDtKosong.setVisibility(View.VISIBLE);
+                        if (!response.isSuccessful()){
+                            Toast.makeText(requireContext(), "Gagal terhubung ke server",
+                                    Toast.LENGTH_SHORT).show();
+                            return;
+                        }
+
+                        tv_lblDtKosong.setText(""+(response.body().getMsg()).toUpperCase());
+                    }
+
+                    @Override
+                    public void onFailure(Call<ApiPenerimaan> call, Throwable t) {
+                        shimmerFrameLayout.setVisibility(View.GONE);
+                        tv_lblDtKosong.setVisibility(View.VISIBLE);
+                        Toast.makeText(requireContext(), "Gagal terhubung ke server",
+                                Toast.LENGTH_SHORT).show();
+                    }
+                });
             }
         });
         
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        loadCards(detailUserInt.get(SessionManager.USER_ID));
     }
 }

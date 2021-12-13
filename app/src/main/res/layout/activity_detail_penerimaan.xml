@@ -42,17 +42,33 @@
             android:textSize="16sp" />
     </androidx.appcompat.widget.Toolbar>
 
+    <TextView
+        android:id="@+id/tvItemNotFoundParent"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/toolbar"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:gravity="center"
+        android:text="Tidak Ada Item"
+        android:visibility="gone" />
+
     <ScrollView
+        android:id="@+id/scrollViewDetail"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/toolbar"
-        android:layout_alignParentBottom="true">
+        android:layout_alignParentBottom="true"
+        android:nestedScrollingEnabled="false"
+        android:visibility="visible">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical">
+
             <RelativeLayout
+                android:id="@+id/RelativeContent"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
@@ -96,7 +112,7 @@
                                 android:text="No Pusrchase" />
 
                             <TextView
-                                android:id="@+id/tv_titikd1"
+                                android:id="@+id/tv_titikd3"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_toEndOf="@id/tv_lblnopurchase"
@@ -108,7 +124,7 @@
                                 android:id="@+id/tvPurchase"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:layout_toEndOf="@id/tv_titikd1"
+                                android:layout_toEndOf="@id/tv_titikd3"
                                 android:paddingEnd="5dp"
                                 android:text="TextView" />
                         </RelativeLayout>
@@ -127,7 +143,7 @@
                                 android:text="Area" />
 
                             <TextView
-                                android:id="@+id/tv_titikd3"
+                                android:id="@+id/tv_titikd4"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_toEndOf="@id/tv_lblarea"
@@ -139,7 +155,7 @@
                                 android:id="@+id/tvArea"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:layout_toEndOf="@id/tv_titikd3"
+                                android:layout_toEndOf="@id/tv_titikd4"
                                 android:paddingEnd="5dp"
                                 android:text="TextView" />
                         </RelativeLayout>
@@ -158,7 +174,7 @@
                                 android:text="Status" />
 
                             <TextView
-                                android:id="@+id/tv_titikd5"
+                                android:id="@+id/tv_titikd6"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_toEndOf="@id/tvLblsts"
@@ -170,7 +186,7 @@
                                 android:id="@+id/tvSts"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:layout_toEndOf="@id/tv_titikd5"
+                                android:layout_toEndOf="@id/tv_titikd6"
                                 android:paddingEnd="5dp"
                                 android:text="Belum Diterima" />
                         </RelativeLayout>
@@ -204,28 +220,20 @@
                                 android:layout_height="wrap_content">
 
                                 <TextView
-                                    android:id="@+id/tvSupplier"
+                                    android:id="@+id/tvlblDetailItem"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_alignParentStart="true"
                                     android:layout_alignParentTop="true"
                                     android:paddingEnd="5dp"
-                                    android:text="PT. PILIPS"
+                                    android:text="Detail Item"
                                     android:textAllCaps="true" />
-
-                                <TextView
-                                    android:id="@+id/tvJmlitem"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_gravity="start"
-                                    android:layout_toEndOf="@id/tvSupplier"
-                                    android:text="(100 item)" />
 
                                 <TextView
                                     android:id="@+id/tvLine1"
                                     android:layout_width="match_parent"
                                     android:layout_height="1dp"
-                                    android:layout_below="@id/tvSupplier"
+                                    android:layout_below="@id/tvlblDetailItem"
                                     android:layout_marginTop="5dp"
                                     android:background="#9F818181" />
 
@@ -267,7 +275,7 @@
                                     android:layout_below="@id/tvLine1"
                                     android:layout_marginStart="10dp"
                                     android:layout_marginTop="5dp"
-                                    android:visibility="invisible">
+                                    android:visibility="visible">
 
                                 </androidx.recyclerview.widget.RecyclerView>
                             </RelativeLayout>
@@ -298,7 +306,6 @@
                                 android:inputType="textMultiLine"
                                 android:minHeight="100dp"
                                 android:paddingHorizontal="15dp"
-                                android:textColor="@color/white"
                                 tools:ignore="SpeakableTextPresentCheck,TouchTargetSizeCheck" />
 
                         </com.google.android.material.textfield.TextInputLayout>
@@ -308,20 +315,41 @@
                 </androidx.cardview.widget.CardView>
 
             </RelativeLayout>
+
             <TextView
                 android:layout_width="match_parent"
-                android:layout_height="200dp"
-                android:visibility="invisible"/>
+                android:layout_height="300dp"
+                android:visibility="invisible" />
         </LinearLayout>
 
     </ScrollView>
 
-    <LinearLayout
+    <com.facebook.shimmer.ShimmerFrameLayout
+        android:id="@+id/ShimmerFrameParentDetail"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true">
-        <include
-            layout="@layout/bottom_sheet"/>
+        android:layout_below="@id/toolbar"
+        android:visibility="gone">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <include layout="@layout/activity_detail_penerimaan_shimmer" />
+        </LinearLayout>
+    </com.facebook.shimmer.ShimmerFrameLayout>
+
+    <LinearLayout
+        android:id="@+id/BottomSheet"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:visibility="invisible">
+
+        <include layout="@layout/bottom_sheet" />
     </LinearLayout>
+
+
 
 </RelativeLayout>

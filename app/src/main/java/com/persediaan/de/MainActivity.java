@@ -7,6 +7,7 @@ import androidx.viewpager2.widget.ViewPager2;
 
 import android.Manifest;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.view.View;
 import android.view.animation.Animation;
@@ -44,7 +45,10 @@ public class MainActivity extends AppCompatActivity implements ScanInterface{
     String permissionMsg;
 //  Profile
     CircleImageView img_Profile;
-    TextView tv_name,username,tv_satker,tv_alamat;
+    TextView tv_name,username,tv_satker,tv_alamat,
+            tv_lbl_tittle_home,tv_lbl_tittle_receive,
+            tv_lbl_tittle_scan,tv_lbl_tittle_spending,
+            tv_lbl_tittle_setting;
 
     String page="";
     @Override
@@ -68,6 +72,13 @@ public class MainActivity extends AppCompatActivity implements ScanInterface{
         tv_alamat = findViewById(R.id.tvAlamat);
         username = findViewById(R.id.tvUserName);
 
+//        Bottom Navigation
+        tv_lbl_tittle_home = findViewById(R.id.lblBotNavTittleHome);
+        tv_lbl_tittle_receive = findViewById(R.id.lblBotNavtittlePener);
+        tv_lbl_tittle_scan = findViewById(R.id.lblBotNavTittleScan);
+        tv_lbl_tittle_spending = findViewById(R.id.lblBotNavTittleItemOut);
+        tv_lbl_tittle_setting = findViewById(R.id.lblBotNavTittleSetting);
+
         tv_name.setText(user.get(SessionManager.NAMA));
         tv_satker.setText(user.get(SessionManager.SATKER_NM));
         tv_alamat.setText(user.get(SessionManager.AREA_NM)!=null?
@@ -80,12 +91,13 @@ public class MainActivity extends AppCompatActivity implements ScanInterface{
 //
 //
 //        Toast.makeText(getApplicationContext(), "Welcome "+user.get(SessionManager.NAMA), Toast.LENGTH_SHORT).show();
-
-        bottomNavigation.add(new MeowBottomNavigation.Model(1,R.drawable.ic_home_24));
-        bottomNavigation.add(new MeowBottomNavigation.Model(2,R.drawable.ic_penerimaan));
-        bottomNavigation.add(new MeowBottomNavigation.Model(3,R.drawable.ic_qr_code_scanner_24));
-        bottomNavigation.add(new MeowBottomNavigation.Model(4,R.drawable.rotate_sign_out_alt_solid));
-        bottomNavigation.add(new MeowBottomNavigation.Model(5,R.drawable.ic_person_24));
+        MeowBottomNavigation.Model model_bot_nav = new MeowBottomNavigation.Model(1,
+                R.drawable.ic_home_24);
+        bottomNavigation.add(new MeowBottomNavigation.Model(1,R.drawable.ic_dashicons_admin_home));
+        bottomNavigation.add(new MeowBottomNavigation.Model(2,R.drawable.ic_fluent_mail_inbox_arrow_down_16_filled));
+        bottomNavigation.add(new MeowBottomNavigation.Model(3,R.drawable.ic_bx_bx_barcode_reader));
+        bottomNavigation.add(new MeowBottomNavigation.Model(4,R.drawable.ic_fluent_mail_inbox_arrow_up_20_filled));
+        bottomNavigation.add(new MeowBottomNavigation.Model(5,R.drawable.ic_ant_design_setting_filled));
         bottomNavigation.setOnShowListener(new MeowBottomNavigation.ShowListener() {
             @Override
             public void onShowItem(MeowBottomNavigation.Model item) {
@@ -93,6 +105,7 @@ public class MainActivity extends AppCompatActivity implements ScanInterface{
 //                <<Animation>>
 //                Animation goUp = AnimationUtils.loadAnimation(getApplicationContext(),R.anim.go_up);
 //                Animation goDown = AnimationUtils.loadAnimation(getApplicationContext(),R.anim.go_down);
+
                 switch (item.getId()){
                     case 1:
                         page = "home";
@@ -132,6 +145,13 @@ public class MainActivity extends AppCompatActivity implements ScanInterface{
                         loadFragment(fragment);
                         break;
                 }
+                setTittleLabel(item.getId());
+//                new Handler().postDelayed(new Runnable() {
+//                    @Override
+//                    public void run() {
+//                        setTittleLabel(item.getId());
+//                    }
+//                },500);
             }
         });
         bottomNavigation.setCount(1,"new");
@@ -147,10 +167,136 @@ public class MainActivity extends AppCompatActivity implements ScanInterface{
         bottomNavigation.setOnReselectListener(new MeowBottomNavigation.ReselectListener() {
             @Override
             public void onReselectItem(MeowBottomNavigation.Model item) {
-
+                bottomNavigation.show(item.getId(),true);
             }
         });
     }
+
+    private void setTittleLabel(int id) {
+        Animation goDown = AnimationUtils.loadAnimation(getApplicationContext(),R.anim.go_down);
+        Animation goUp = AnimationUtils.loadAnimation(getApplicationContext(),R.anim.go_down_in);
+
+        if (tv_lbl_tittle_home.getVisibility()==View.GONE){
+            tv_lbl_tittle_home.setVisibility(View.VISIBLE);
+            tv_lbl_tittle_home.setAnimation(goUp);
+        }
+        if (tv_lbl_tittle_receive.getVisibility()==View.GONE){
+            tv_lbl_tittle_receive.setVisibility(View.VISIBLE);
+            tv_lbl_tittle_receive.setAnimation(goUp);
+        }
+        if (tv_lbl_tittle_scan.getVisibility()==View.GONE){
+            tv_lbl_tittle_scan.setVisibility(View.VISIBLE);
+            tv_lbl_tittle_scan.setAnimation(goUp);
+        }
+        if (tv_lbl_tittle_spending.getVisibility()==View.GONE){
+            tv_lbl_tittle_spending.setVisibility(View.VISIBLE);
+            tv_lbl_tittle_spending.setAnimation(goUp);
+        }
+        if (tv_lbl_tittle_setting.getVisibility()==View.GONE){
+            tv_lbl_tittle_setting.setVisibility(View.VISIBLE);
+            tv_lbl_tittle_setting.setAnimation(goUp);
+        }
+        switch (id){
+            case 1:
+                if (tv_lbl_tittle_home.getVisibility()!=View.GONE){
+                    goDown.setAnimationListener(new Animation.AnimationListener() {
+                        @Override
+                        public void onAnimationStart(Animation animation) {
+                        }
+
+                        @Override
+                        public void onAnimationEnd(Animation animation) {
+                            tv_lbl_tittle_home.setVisibility(View.GONE);
+                        }
+
+                        @Override
+                        public void onAnimationRepeat(Animation animation) {
+                        }
+                    });
+                    tv_lbl_tittle_home.startAnimation(goDown);
+                }
+
+                break;
+            case 2:
+                if (tv_lbl_tittle_receive.getVisibility()!=View.GONE){
+                    goDown.setAnimationListener(new Animation.AnimationListener() {
+                        @Override
+                        public void onAnimationStart(Animation animation) {
+                        }
+
+                        @Override
+                        public void onAnimationEnd(Animation animation) {
+                            tv_lbl_tittle_receive.setVisibility(View.GONE);
+                        }
+
+                        @Override
+                        public void onAnimationRepeat(Animation animation) {
+                        }
+                    });
+                    tv_lbl_tittle_receive.startAnimation(goDown);
+                }
+                break;
+            case 3:
+                if (tv_lbl_tittle_scan.getVisibility()!=View.GONE){
+                    goDown.setAnimationListener(new Animation.AnimationListener() {
+                        @Override
+                        public void onAnimationStart(Animation animation) {
+                        }
+
+                        @Override
+                        public void onAnimationEnd(Animation animation) {
+                            tv_lbl_tittle_scan.setVisibility(View.GONE);
+                        }
+
+                        @Override
+                        public void onAnimationRepeat(Animation animation) {
+                        }
+                    });
+                    tv_lbl_tittle_scan.startAnimation(goDown);
+                }
+                break;
+            case 4:
+                if (tv_lbl_tittle_spending.getVisibility()!=View.GONE){
+                    goDown.setAnimationListener(new Animation.AnimationListener() {
+                        @Override
+                        public void onAnimationStart(Animation animation) {
+                        }
+
+                        @Override
+                        public void onAnimationEnd(Animation animation) {
+                            tv_lbl_tittle_spending.setVisibility(View.GONE);
+                        }
+
+                        @Override
+                        public void onAnimationRepeat(Animation animation) {
+                        }
+                    });
+                    tv_lbl_tittle_spending.startAnimation(goDown);
+                }
+                break;
+            case 5:
+                if (tv_lbl_tittle_setting.getVisibility()!=View.GONE){
+                    goDown.setAnimationListener(new Animation.AnimationListener() {
+                        @Override
+                        public void onAnimationStart(Animation animation) {
+
+                        }
+
+                        @Override
+                        public void onAnimationEnd(Animation animation) {
+                            tv_lbl_tittle_setting.setVisibility(View.GONE);
+                        }
+
+                        @Override
+                        public void onAnimationRepeat(Animation animation) {
+                        }
+                    });
+                    tv_lbl_tittle_setting.startAnimation(goDown);
+                }
+                break;
+        }
+    }
+
     int count = 0;
 
     @Override
@@ -186,6 +332,10 @@ public class MainActivity extends AppCompatActivity implements ScanInterface{
     @Override
     protected void onResume() {
         super.onResume();
+        SessionManager sessionScan = new SessionManager(getApplicationContext(),"scan");
+        if (sessionScan.isEditScanner()){
+            bottomNavigation.show(3,false);
+        }
         count =0;
     }
 

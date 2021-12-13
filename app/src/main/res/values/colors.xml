@@ -16,4 +16,5 @@
     <color name="BgRed">#A60600</color>
     <color name="transBlack">#CE000000</color>
     <color name="colorShimmer">#BEA6A5A5</color>
+    <color name="colorTextShimmer">#60A6A5A5</color>
 </resources>

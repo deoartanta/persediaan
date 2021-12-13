@@ -6,67 +6,50 @@
     android:layout_height="match_parent"
     tools:context=".ActionPenerimaanActivity">
 
-    <androidx.appcompat.widget.Toolbar
-        android:id="@+id/toolbarPenerimaan"
-        android:layout_width="0dp"
-        android:layout_height="?attr/actionBarSize"
-        android:background="?attr/colorPrimary"
-        app:popupTheme="@style/Theme.Persediaan.PopupOverlay"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
     <TextView
         android:id="@+id/codeBRG"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
+        android:background="@color/colorShimmer"
         android:fontFamily="@font/abril_fatface"
         android:text="62"
+        android:textColor="@color/colorTextShimmer"
         android:textSize="40sp"
-        android:visibility="invisible"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/toolbarPenerimaan" />
+        app:layout_constraintStart_toStartOf="parent" />
 
     <ImageButton
         android:id="@+id/btnEditScan"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
         android:background="@drawable/btn_action"
-        android:backgroundTint="@color/buttonTransBackground"
-        android:visibility="invisible"
+        android:backgroundTint="@color/colorShimmer"
         app:layout_constraintBottom_toBottomOf="@+id/codeBRG"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.1"
-        app:layout_constraintStart_toEndOf="@+id/codeBRG"
-        app:srcCompat="@drawable/ic_baseline_create_24"
-        tools:ignore="TouchTargetSizeCheck,TouchTargetSizeCheck,SpeakableTextPresentCheck" />
+        app:layout_constraintStart_toEndOf="@+id/codeBRG"/>
 
     <ScrollView
-        android:id="@+id/scrollView2"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:paddingTop="16dp"
-        android:visibility="visible"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/codeBRG">
 
         <LinearLayout
-            android:id="@+id/LinearScrollAction"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:visibility="invisible">
+            android:orientation="vertical">
 
             <androidx.cardview.widget.CardView
                 android:id="@+id/cardView2"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
                 android:layout_marginTop="16dp"
+                android:layout_marginStart="16dp"
                 android:layout_marginEnd="16dp"
                 android:layout_marginBottom="16dp"
                 app:cardCornerRadius="5dp"
@@ -88,10 +71,11 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="10dp"
-                        android:background="@drawable/stroke_bordered_show_detail"
+                        android:background="@color/colorShimmer"
                         android:fontFamily="@font/poppins_bold"
                         android:gravity="center"
                         android:text="Data Supplier"
+                        android:textColor="@color/colorTextShimmer"
                         android:textSize="16sp" />
 
                     <RelativeLayout
@@ -105,10 +89,12 @@
                             android:layout_height="wrap_content"
                             android:layout_alignParentStart="true"
                             android:layout_alignParentTop="true"
+                            android:background="@color/colorShimmer"
                             android:fontFamily="@font/poppins_semibold"
                             android:gravity="start|center_vertical"
                             android:text="Nama Supplier"
                             android:textAllCaps="true"
+                            android:textColor="@color/colorTextShimmer"
                             android:textSize="14sp" />
 
                         <TextView
@@ -116,20 +102,24 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_toEndOf="@id/tvLblNmSupplier"
+                            android:background="@color/colorShimmer"
                             android:fontFamily="@font/poppins_semibold"
                             android:gravity="center"
                             android:paddingHorizontal="5dp"
-                            android:text=":" />
+                            android:text=":"
+                            android:textColor="@color/colorTextShimmer" />
 
                         <TextView
                             android:id="@+id/tvResNmSupplier"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_toEndOf="@id/tv_titikd"
+                            android:background="@color/colorShimmer"
                             android:fontFamily="@font/poppins"
                             android:gravity="start|center_vertical"
                             android:paddingEnd="5dp"
                             android:text="Nama Supplier"
+                            android:textColor="@color/colorTextShimmer"
                             android:textSize="14sp" />
                     </RelativeLayout>
 
@@ -144,10 +134,12 @@
                             android:layout_height="wrap_content"
                             android:layout_alignParentStart="true"
                             android:layout_alignParentTop="true"
+                            android:background="@color/colorShimmer"
                             android:fontFamily="@font/poppins_semibold"
                             android:gravity="start|center_vertical"
                             android:text="Alamat"
                             android:textAllCaps="true"
+                            android:textColor="@color/colorTextShimmer"
                             android:textSize="14sp" />
 
                         <TextView
@@ -155,20 +147,24 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_toEndOf="@id/tvLblAlaSupplier"
+                            android:background="@color/colorShimmer"
                             android:fontFamily="@font/poppins_semibold"
                             android:gravity="center"
                             android:paddingHorizontal="5dp"
-                            android:text=":" />
+                            android:text=":"
+                            android:textColor="@color/colorTextShimmer" />
 
                         <TextView
                             android:id="@+id/tvResAlaSupplier"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_toEndOf="@id/tv_titikd1"
+                            android:background="@color/colorShimmer"
                             android:fontFamily="@font/poppins"
                             android:gravity="start|center_vertical"
                             android:paddingEnd="5dp"
                             android:text="Id Item"
+                            android:textColor="@color/colorTextShimmer"
                             android:textSize="14sp" />
                     </RelativeLayout>
 
@@ -200,10 +196,11 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="10dp"
-                        android:background="@drawable/stroke_bordered_show_detail"
+                        android:background="@color/colorShimmer"
                         android:fontFamily="@font/poppins_bold"
                         android:gravity="center"
                         android:text="Detail Item"
+                        android:textColor="@color/colorTextShimmer"
                         android:textSize="16sp" />
 
                     <RelativeLayout
@@ -217,10 +214,12 @@
                             android:layout_height="wrap_content"
                             android:layout_alignParentStart="true"
                             android:layout_alignParentTop="true"
+                            android:background="@color/colorShimmer"
                             android:fontFamily="@font/poppins_semibold"
                             android:gravity="start|center_vertical"
                             android:text="Id Item"
                             android:textAllCaps="true"
+                            android:textColor="@color/colorTextShimmer"
                             android:textSize="14sp" />
 
                         <TextView
@@ -228,20 +227,24 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_toEndOf="@id/tvLblIdItem"
+                            android:background="@color/colorShimmer"
                             android:fontFamily="@font/poppins_semibold"
                             android:gravity="center"
                             android:paddingHorizontal="5dp"
-                            android:text=":" />
+                            android:text=":"
+                            android:textColor="@color/colorTextShimmer" />
 
                         <TextView
                             android:id="@+id/tvResIdItem"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_toEndOf="@id/tv_titikd2"
+                            android:background="@color/colorShimmer"
                             android:fontFamily="@font/poppins"
                             android:gravity="start|center_vertical"
                             android:paddingEnd="5dp"
                             android:text="Id Item"
+                            android:textColor="@color/colorTextShimmer"
                             android:textSize="14sp" />
                     </RelativeLayout>
                     <!--Nama-->
@@ -256,10 +259,12 @@
                             android:layout_height="match_parent"
                             android:layout_alignParentStart="true"
                             android:layout_alignParentTop="true"
+                            android:background="@color/colorShimmer"
                             android:fontFamily="@font/poppins_semibold"
                             android:gravity="start|center_vertical"
                             android:text="Nama Item"
                             android:textAllCaps="true"
+                            android:textColor="@color/colorTextShimmer"
                             android:textSize="14sp" />
 
                         <TextView
@@ -267,20 +272,24 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_toEndOf="@id/tvLblNmItem"
+                            android:background="@color/colorShimmer"
                             android:fontFamily="@font/poppins_semibold"
                             android:gravity="center"
                             android:paddingHorizontal="5dp"
-                            android:text=":" />
+                            android:text=":"
+                            android:textColor="@color/colorTextShimmer" />
 
                         <TextView
                             android:id="@+id/tvResNmItem"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_toEndOf="@id/tv_titikd4"
+                            android:background="@color/colorShimmer"
                             android:fontFamily="@font/poppins"
                             android:gravity="start|center_vertical"
                             android:paddingEnd="5dp"
                             android:text="Nama Item"
+                            android:textColor="@color/colorTextShimmer"
                             android:textSize="14sp" />
                     </RelativeLayout>
                     <!--Harga-->
@@ -296,10 +305,12 @@
                             android:layout_alignTop="@id/layoutInput"
                             android:layout_alignBottom="@id/layoutInput"
                             android:layout_alignParentStart="true"
+                            android:background="@color/colorShimmer"
                             android:fontFamily="@font/poppins_semibold"
                             android:gravity="start|center_vertical"
                             android:text="Harga"
                             android:textAllCaps="true"
+                            android:textColor="@color/colorTextShimmer"
                             android:textSize="14sp" />
 
                         <TextView
@@ -309,10 +320,12 @@
                             android:layout_alignTop="@id/layoutInput"
                             android:layout_alignBottom="@id/layoutInput"
                             android:layout_toEndOf="@id/tvLblHrg"
+                            android:background="@color/colorShimmer"
                             android:fontFamily="@font/poppins_semibold"
                             android:gravity="center"
                             android:paddingHorizontal="5dp"
-                            android:text=":" />
+                            android:text=":"
+                            android:textColor="@color/colorTextShimmer" />
 
                         <com.google.android.material.textfield.TextInputLayout
                             android:id="@+id/layoutInput"
@@ -325,11 +338,13 @@
                                 android:id="@+id/tietHarga"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
+                                android:background="@color/colorShimmer"
                                 android:fontFamily="@font/poppins"
                                 android:gravity="end|center_vertical"
                                 android:inputType="number"
                                 android:padding="5dp"
                                 android:text="Rp. 0"
+                                android:textColor="@color/colorTextShimmer"
                                 android:textSize="14sp"
                                 tools:ignore="TouchTargetSizeCheck" />
 
@@ -350,10 +365,12 @@
                             android:layout_alignBottom="@id/linearLayout"
                             android:layout_alignParentStart="true"
                             android:layout_marginStart="0dp"
+                            android:background="@color/colorShimmer"
                             android:fontFamily="@font/poppins_semibold"
                             android:gravity="center_vertical"
                             android:text="Qty"
                             android:textAllCaps="true"
+                            android:textColor="@color/colorTextShimmer"
                             android:textSize="14sp" />
 
                         <TextView
@@ -363,10 +380,12 @@
                             android:layout_alignTop="@id/linearLayout"
                             android:layout_alignBottom="@id/linearLayout"
                             android:layout_toEndOf="@id/tvLblQty"
+                            android:background="@color/colorShimmer"
                             android:fontFamily="@font/poppins_semibold"
                             android:gravity="center"
                             android:paddingHorizontal="5dp"
-                            android:text=":" />
+                            android:text=":"
+                            android:textColor="@color/colorTextShimmer" />
 
                         <LinearLayout
                             android:id="@+id/linearLayout"
@@ -387,11 +406,13 @@
                                     android:id="@+id/tietQty"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
+                                    android:background="@color/colorShimmer"
                                     android:fontFamily="@font/poppins"
                                     android:gravity="end|center_vertical"
                                     android:inputType="number"
                                     android:padding="5dp"
                                     android:text="000"
+                                    android:textColor="@color/colorTextShimmer"
                                     android:textSize="14sp"
                                     tools:ignore="TouchTargetSizeCheck" />
 
@@ -402,11 +423,13 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent"
                                 android:layout_weight="1"
+                                android:background="@color/colorShimmer"
                                 android:fontFamily="@font/poppins"
                                 android:gravity="start|center_vertical"
                                 android:paddingStart="5dp"
                                 android:paddingEnd="5dp"
                                 android:text="Satuan"
+                                android:textColor="@color/colorTextShimmer"
                                 android:textSize="14sp" />
                         </LinearLayout>
                     </RelativeLayout>
@@ -422,10 +445,12 @@
                             android:layout_height="wrap_content"
                             android:layout_alignParentStart="true"
                             android:layout_alignParentTop="true"
+                            android:background="@color/colorShimmer"
                             android:fontFamily="@font/poppins_semibold"
                             android:gravity="start|center_vertical"
                             android:text="Total Harga"
                             android:textAllCaps="true"
+                            android:textColor="@color/colorTextShimmer"
                             android:textSize="14sp" />
 
                         <TextView
@@ -433,20 +458,24 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_toEndOf="@id/tvLblTotalHrg"
+                            android:background="@color/colorShimmer"
                             android:fontFamily="@font/poppins_semibold"
                             android:gravity="center"
                             android:paddingHorizontal="5dp"
-                            android:text=":" />
+                            android:text=":"
+                            android:textColor="@color/colorTextShimmer" />
 
                         <TextView
                             android:id="@+id/tvResTotalHrg"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_toEndOf="@id/tv_titikd6"
+                            android:background="@color/colorShimmer"
                             android:fontFamily="@font/poppins"
                             android:gravity="start|center_vertical"
                             android:paddingEnd="5dp"
                             android:text="Total Harga"
+                            android:textColor="@color/colorTextShimmer"
                             android:textSize="14sp" />
                     </RelativeLayout>
 
@@ -461,7 +490,7 @@
                             android:id="@+id/btnAdd"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:backgroundTint="@color/BgGreen"
+                            android:backgroundTint="@color/colorShimmer"
                             android:text="Add" />
                     </LinearLayout>
 
@@ -469,22 +498,4 @@
             </androidx.cardview.widget.CardView>
         </LinearLayout>
     </ScrollView>
-
-    <com.facebook.shimmer.ShimmerFrameLayout
-        android:id="@+id/ShimmerLayout"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        app:layout_constraintBottom_toBottomOf="@+id/scrollView2"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/toolbarPenerimaan">
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical">
-
-            <include layout="@layout/activity_action_penerimaan_shimmer" />
-        </LinearLayout>
-    </com.facebook.shimmer.ShimmerFrameLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

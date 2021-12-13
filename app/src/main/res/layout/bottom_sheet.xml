@@ -40,11 +40,87 @@
                 android:layout_marginBottom="10dp"
                 android:layout_marginHorizontal="20dp"
                 android:orientation="vertical">
+
                 <LinearLayout
                     android:id="@+id/linearBottomsheet"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical">
+                    android:orientation="vertical"
+                    android:visibility="gone">
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:gravity="end"
+                        android:padding="10dp">
+
+                        <TextView
+                            android:id="@+id/tvSupplierBottom"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_toEndOf="@id/tv_titikd8"
+                            android:gravity="end"
+                            android:paddingEnd="5dp"
+                            android:text="Pt. Philips"
+                            android:textColor="@color/black" />
+
+                        <TextView
+                            android:id="@+id/tv_titikd8"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_toEndOf="@id/tvLblSupplier"
+                            android:gravity="center"
+                            android:paddingHorizontal="5dp"
+                            android:text=":"
+                            android:textColor="@color/black" />
+
+                        <TextView
+                            android:id="@+id/tvLblSupplier"
+                            android:layout_width="120dp"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentStart="true"
+                            android:layout_alignParentTop="true"
+                            android:text="Supplier"
+                            android:textColor="@color/black" />
+
+                    </RelativeLayout>
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:gravity="end"
+                        android:padding="10dp">
+
+                        <TextView
+                            android:id="@+id/tvAlamatBottom"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_toEndOf="@id/tv_titikd6"
+                            android:gravity="end"
+                            android:paddingEnd="5dp"
+                            android:text="Jl. Ikan paus no23"
+                            android:textColor="@color/black" />
+
+                        <TextView
+                            android:id="@+id/tv_titikd6"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_toEndOf="@id/tvLblAlamat"
+                            android:gravity="center"
+                            android:paddingHorizontal="5dp"
+                            android:text=":"
+                            android:textColor="@color/black" />
+
+                        <TextView
+                            android:id="@+id/tvLblAlamat"
+                            android:layout_width="120dp"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentStart="true"
+                            android:layout_alignParentTop="true"
+                            android:text="Alamat"
+                            android:textColor="@color/black" />
+
+                    </RelativeLayout>
 
                     <RelativeLayout
                         android:layout_width="match_parent"
@@ -85,8 +161,8 @@
 
                 </LinearLayout>
 
-
                 <RelativeLayout
+                    android:id="@+id/ttlHrgLayout"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:padding="10dp">
@@ -101,7 +177,7 @@
                         android:textColor="@color/black" />
 
                     <TextView
-                        android:id="@+id/tv_titikd4"
+                        android:id="@+id/tv_titikd6"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_toEndOf="@id/tvLbltotalhrg"
@@ -114,12 +190,50 @@
                         android:id="@+id/tvTotalhrg"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_toEndOf="@id/tv_titikd4"
+                        android:layout_toEndOf="@id/tv_titikd6"
                         android:gravity="end"
                         android:paddingEnd="5dp"
                         android:text="Rp. 50.000"
                         android:textColor="@color/black" />
                 </RelativeLayout>
+
+                <RelativeLayout
+                    android:id="@+id/ttlHrg2Layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:padding="10dp">
+
+                    <TextView
+                        android:id="@+id/tvLbltotalhrg2"
+                        android:layout_width="120dp"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentStart="true"
+                        android:layout_alignParentTop="true"
+                        android:text="Total Harga"
+                        android:textColor="@color/black" />
+
+                    <TextView
+                        android:id="@+id/tv_titikd7"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_toEndOf="@id/tvLbltotalhrg2"
+                        android:gravity="center"
+                        android:paddingHorizontal="5dp"
+                        android:text=":"
+                        android:textColor="@color/black" />
+
+                    <TextView
+                        android:id="@+id/tvTotalhrg2"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/tv_titikd7"
+                        android:layout_alignParentLeft="true"
+                        android:gravity="end"
+                        android:paddingEnd="5dp"
+                        android:text="Rp. 50.000"
+                        android:textColor="@color/black" />
+                </RelativeLayout>
+
 
                 <RelativeLayout
                     android:layout_width="match_parent"

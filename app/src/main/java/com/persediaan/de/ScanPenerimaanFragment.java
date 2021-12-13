@@ -27,11 +27,16 @@ import me.dm7.barcodescanner.zxing.ZXingScannerView;
 
 
 public class ScanPenerimaanFragment extends Fragment implements ZXingScannerView.ResultHandler {
+    public static String BARCODE = "BARCODE";
+
     ZXingScannerView scan_barcode;
     SessionManager scan_session;
     HashMap<String,String> getScan;
     ImageView img_edit_kode;
-    Button btn_manual;
+
+    LinearLayout linearLayout_scan;
+
+    Button btn_manual,btn_batal_edit_scan;
     Context ctx;
     boolean cam = true;
     MeowBottomNavigation btnNavBottom;
@@ -52,7 +57,21 @@ public class ScanPenerimaanFragment extends Fragment implements ZXingScannerView
         scan_barcode = view.findViewById(R.id.scanBarcode);
         scan_session = new SessionManager(requireContext(),"scan");
 
+        linearLayout_scan = view.findViewById(R.id.linearLayoutScan);
+
         btn_manual = view.findViewById(R.id.btnManualInput);
+        btn_batal_edit_scan = view.findViewById(R.id.btnBatalEditScan);
+
+        if (scan_session.isEditScanner()){
+            if ((scan_session.getScanResult().get(SessionManager.SCANFULLR))!=null) {
+                btn_batal_edit_scan.setVisibility(View.VISIBLE);
+            }else{
+                btn_batal_edit_scan.setVisibility(View.GONE);
+                scan_session.clearSession();
+            }
+        }else{
+            btn_batal_edit_scan.setVisibility(View.GONE);
+        }
 
         scan_barcode.setResultHandler(this);
         scan_barcode.startCamera();
@@ -72,7 +91,7 @@ public class ScanPenerimaanFragment extends Fragment implements ZXingScannerView
 
             scan_barcode.stopCamera();
 
-            dialog2.setPositiveButton("Lanjut", (dialog, which) -> {
+            dialog2.setPositiveButton("Next", (dialog, which) -> {
                 String R = edtCode.getText().toString();
                 String rArr[]=R.split("-");
                 String r = "0";
@@ -84,15 +103,16 @@ public class ScanPenerimaanFragment extends Fragment implements ZXingScannerView
                 dialog.dismiss();
                 newPage(ctx);
             });
-            dialog2.setNegativeButton("Batal", (dialogInterface, i) -> {
+            dialog2.setNegativeButton("Cancel", (dialogInterface, i) -> {
                 scan_barcode.startCamera();
                 dialogInterface.dismiss();
             });
 
-            InputMethodManager inputMethodManager = (InputMethodManager) requireActivity().getSystemService(Activity.INPUT_METHOD_SERVICE);
-
             dialog2.show();
 
+        });
+        btn_batal_edit_scan.setOnClickListener(view1 -> {
+            newPage(ctx);
         });
         return view;
     }
@@ -112,14 +132,7 @@ public class ScanPenerimaanFragment extends Fragment implements ZXingScannerView
     private void newPage(Context context) {
         Intent pener_action = new Intent(context,ActionPenerimaanActivity.class);
         startActivity(pener_action);
-//        Fragment frg = new PenerimaanFragment();
-//        getParentFragmentManager()
-//                .beginTransaction()
-//                .replace(R.id.frame_layout,frg)
-//                .commit();
         btnNavBottom.show(2,true);
-//        LinearLayout main_linearlayout = requireActivity().findViewById(R.id.mainLinearLayout);
-//        main_linearlayout.setVisibility(View.VISIBLE);
     }
 
     @Override
@@ -131,22 +144,18 @@ public class ScanPenerimaanFragment extends Fragment implements ZXingScannerView
         if (rArr.length>1){
             r = rArr[1];
         }
-
-        AlertDialog alertDialog = new AlertDialog.Builder(requireContext()).create();
-        alertDialog.setTitle("Hasil Scan");
-        alertDialog.setMessage("Hasil : "+rawResult.getText()+"\n Code Barang : "+r+"\nFormat : "+rawResult.getBarcodeFormat().toString());
-        alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, "NEXT", (dialogInterface, i) -> {
-            dialogInterface.dismiss();
-            newPage(ctx);
-        });
-        alertDialog.show();
-        scan_session.createSessionScan(r,rawResult.getBarcodeFormat().toString(),R);
-
+        newPage(ctx);
+        if (scan_session.isEditScanner()) {
+            scan_session.clearSession();
+        }
+        scan_session.createSessionScan(r, rawResult.getBarcodeFormat().toString(), R);
     }
+
 
     @Override
     public void onPause() {
         super.onPause();
+        ctx = requireActivity();
         scan_barcode.stopCamera();
     }
 
@@ -154,9 +163,11 @@ public class ScanPenerimaanFragment extends Fragment implements ZXingScannerView
     public void onResume() {
         super.onResume();
         if (scan_barcode!=null&&scan_session.getScanResult().get(SessionManager.SCANR)!=null){
-            newPage(ctx);
+            if (!scan_session.isEditScanner()) {
+                newPage(ctx);
+            }
         }else{
-            assert scan_barcode != null;
+//            assert scan_barcode != null;
             scan_barcode.startCamera();
         }
     }

@@ -41,11 +41,12 @@ public class AdapterItemPenerimaan extends RecyclerView.Adapter<AdapterItemPener
     @Override
     public void onBindViewHolder(@NonNull itemPenerimaanViewHolder holder, int position) {
         Currency formatNumber = new Currency("Rp. ",".");
-        double hrgSatuan = (double)(listItems.get(position).getHarga()/listItems.get(position).getQty());
+        double ttl_hrg=
+                (double)(listItems.get(position).getHarga()*listItems.get(position).getQty());
         holder.tv_nmItem.setText(listItems.get(position).getNm_item());
         holder.tv_satuan.setText(listItems.get(position).getNm_satuan());
-        holder.tv_hrg.setText(formatNumber.setFormatCurrency((double)hrgSatuan));
-        holder.tv_ttl_hrg.setText(formatNumber.setFormatCurrency((double)listItems.get(position).getHarga()));
+        holder.tv_hrg.setText("Rp. "+formatNumber.setFormatNumber((double)listItems.get(position).getHarga()));
+        holder.tv_ttl_hrg.setText("Rp. "+formatNumber.setFormatNumber(ttl_hrg));
         holder.tv_qty.setText(String.valueOf(listItems.get(position).getQty()));
 
     }
@@ -65,6 +66,7 @@ public class AdapterItemPenerimaan extends RecyclerView.Adapter<AdapterItemPener
             tv_satuan = itemView.findViewById(R.id.tvSatuanPener);
             tv_hrg = itemView.findViewById(R.id.tvHrgPener);
             tv_ttl_hrg = itemView.findViewById(R.id.tvTtlHrgPener);
+
 
             imgEdit = itemView.findViewById(R.id.imgEdit);
             imgEdit.setOnClickListener(new View.OnClickListener() {

@@ -6,9 +6,13 @@ public class ApiPenerimaan {
     private String id_purchase,note,dt_purchase,
             nm_area,nm_singkat,nm_item,nm_satuan,
             eceran,alasuplier,npwp,
-            name_penyedia,area,alamat,id_trans;
+            name_penyedia,area,alamat,id_trans,msg,sts;
     @SerializedName("nm_suplier")
     String nm_suplier;
+
+    public String getMsg() {
+        return msg;
+    }
 
     private int admin,id,id_area,id_suplier,id_item,qty,id_satuan,
             harga,diterima,jumlah,harga_total=0,tgl_purchase,created;

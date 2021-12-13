@@ -56,7 +56,7 @@
                             android:layout_marginTop="20dp">
 
                             <TextView
-                                android:id="@+id/tvLblPurchase"
+                                android:id="@+id/tvLblNamaItem"
                                 android:layout_width="110dp"
                                 android:layout_height="wrap_content"
                                 android:layout_alignParentStart="true"
@@ -68,10 +68,10 @@
                                 android:textSize="14sp" />
 
                             <TextView
-                                android:id="@+id/tv_titikd1"
+                                android:id="@+id/tv_titikd3"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:layout_toEndOf="@id/tvLblPurchase"
+                                android:layout_toEndOf="@id/tvLblNamaItem"
                                 android:fontFamily="@font/poppins_semibold"
                                 android:gravity="center"
                                 android:paddingHorizontal="5dp"
@@ -81,7 +81,7 @@
                                 android:id="@+id/tvResPurchase"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:layout_toEndOf="@id/tv_titikd1"
+                                android:layout_toEndOf="@id/tv_titikd3"
                                 android:fontFamily="@font/poppins"
                                 android:gravity="start|center_vertical"
                                 android:paddingEnd="5dp"
@@ -109,7 +109,7 @@
                                 android:textSize="14sp" />
 
                             <TextView
-                                android:id="@+id/tv_titikd2"
+                                android:id="@+id/tv_titikd5"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_toEndOf="@id/tvLblTGL"
@@ -122,7 +122,7 @@
                                 android:id="@+id/tvResTGL"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:layout_toEndOf="@id/tv_titikd2"
+                                android:layout_toEndOf="@id/tv_titikd5"
                                 android:fontFamily="@font/poppins"
                                 android:gravity="start|center_vertical"
                                 android:text="12 Juli 2021"
@@ -151,7 +151,7 @@
                                     android:layout_alignParentTop="true"
                                     android:fontFamily="@font/poppins_semibold"
                                     android:gravity="start|center_vertical"
-                                    android:text="Admin"
+                                    android:text="Supplier"
                                     android:textAllCaps="true"
                                     android:textSize="14sp" />
 
@@ -179,6 +179,48 @@
 
                             </RelativeLayout>
 
+                            <RelativeLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:layout_marginTop="5dp"
+                                android:layout_marginBottom="5dp">
+
+                                <TextView
+                                    android:id="@+id/tvLblAlaSupplier"
+                                    android:layout_width="110dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_alignParentStart="true"
+                                    android:layout_alignParentTop="true"
+                                    android:fontFamily="@font/poppins_semibold"
+                                    android:gravity="start|center_vertical"
+                                    android:text="Alamat"
+                                    android:textAllCaps="true"
+                                    android:textSize="14sp" />
+
+                                <TextView
+                                    android:id="@+id/tv_titikd9"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_toEndOf="@id/tvLblAlaSupplier"
+                                    android:fontFamily="@font/poppins_semibold"
+                                    android:gravity="center"
+                                    android:paddingHorizontal="5dp"
+                                    android:text=":" />
+
+                                <TextView
+                                    android:id="@+id/tvResAlaSupplier"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_toEndOf="@id/tv_titikd9"
+                                    android:fontFamily="@font/poppins"
+                                    android:gravity="start|center_vertical"
+                                    android:paddingRight="5dp"
+                                    android:text="Surabaya"
+                                    android:textSize="14sp"
+                                    tools:ignore="TouchTargetSizeCheck" />
+
+                            </RelativeLayout>
+
                             <!--Area/Satker-->
                             <RelativeLayout
                                 android:layout_width="match_parent"
@@ -199,7 +241,7 @@
                                     android:textSize="14sp" />
 
                                 <TextView
-                                    android:id="@+id/tv_titikd4"
+                                    android:id="@+id/tv_titikd6"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_toEndOf="@id/tvLblArea"
@@ -213,7 +255,7 @@
                                     android:id="@+id/tvResArea"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
-                                    android:layout_toEndOf="@id/tv_titikd4"
+                                    android:layout_toEndOf="@id/tv_titikd6"
                                     android:fontFamily="@font/poppins"
                                     android:gravity="start|center_vertical"
                                     android:text="Malang/Perikanan"
@@ -241,7 +283,7 @@
                                     android:textSize="14sp" />
 
                                 <TextView
-                                    android:id="@+id/tv_titikd5"
+                                    android:id="@+id/tv_titikd6"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_toEndOf="@id/tvLblSTS"
@@ -254,7 +296,7 @@
                                     android:id="@+id/tvResSTS"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
-                                    android:layout_toEndOf="@id/tv_titikd5"
+                                    android:layout_toEndOf="@id/tv_titikd6"
                                     android:fontFamily="@font/poppins"
                                     android:gravity="start|center_vertical"
                                     android:paddingRight="5dp"
