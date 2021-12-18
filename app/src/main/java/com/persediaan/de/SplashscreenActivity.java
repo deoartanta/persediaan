@@ -40,7 +40,7 @@ public class SplashscreenActivity extends AppCompatActivity {
 
     LottieAnimationView imgAnim;
 
-    TextView title;
+    TextView title,tv_notif;
     Intent home,login;
 
     SessionManager sessionManagerLogin;
@@ -58,6 +58,8 @@ public class SplashscreenActivity extends AppCompatActivity {
 
         imgAnim = findViewById(R.id.animation_view);
         title = findViewById(R.id.tvTitle);
+        tv_notif = findViewById(R.id.tvNotif);
+        tv_notif.setVisibility(View.GONE);
 
         progressBar = findViewById(R.id.progressSplash);
         progressBar.setVisibility(View.GONE);
@@ -83,11 +85,17 @@ public class SplashscreenActivity extends AppCompatActivity {
 //                progressBar.setVisibility(View.VISIBLE);
 //            }
 //        },1000);
-
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    tv_notif.setText("Menghubungkan...");
+                    tv_notif.setVisibility(View.VISIBLE);
+                }
+            },1000);
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                progressBar.setVisibility(View.VISIBLE);
+//                progressBar.setVisibility(View.VISIBLE);
                 Call<ApiLogin> call =
                         jsonPlaceHolderApi.getCheckLogin(
                                 String.valueOf(detailUserInt.get(SessionManager.USER_ID)),
@@ -101,6 +109,7 @@ public class SplashscreenActivity extends AppCompatActivity {
                             if (!response.isSuccessful()){
                                 Toast.makeText(getApplicationContext(), "login gagal",
                                         Toast.LENGTH_SHORT).show();
+                                tv_notif.setText("Gagal terhubung");
                                 return;
                             }
                             System.out.println(responLogin.toString());
@@ -134,7 +143,9 @@ public class SplashscreenActivity extends AppCompatActivity {
                                 Toast.makeText(getApplicationContext(), responLogin.getMsg()+
                                                 "\nSilahkan Login Kembali",
                                         Toast.LENGTH_SHORT).show();
+                                tv_notif.setText("Gagal terhubung");
                             }
+                            tv_notif.setText("Terhubung");
                             Pair[] pairs = new Pair[2];
                             pairs[0] = new Pair<View,String>(imgAnim,"imgTrans");
                             pairs[1] = new Pair<View,String>(title,"titleTrans");
@@ -147,6 +158,7 @@ public class SplashscreenActivity extends AppCompatActivity {
                         public void onFailure(Call<ApiLogin> call, Throwable t) {
                             progressBar.setVisibility(View.GONE);
                             sessionManagerLogin.clearSession();
+                            tv_notif.setText("Gagal terhubung");
                             Pair[] pairs = new Pair[2];
                             pairs[0] = new Pair<View,String>(imgAnim,"imgTrans");
                             pairs[1] = new Pair<View,String>(title,"titleTrans");
@@ -157,6 +169,7 @@ public class SplashscreenActivity extends AppCompatActivity {
                         }
                     });
                 }else{
+                    tv_notif.setText("Membuka halaman login...");
                     Pair[] pairs = new Pair[2];
                     pairs[0] = new Pair<View,String>(imgAnim,"imgTrans");
                     pairs[1] = new Pair<View,String>(title,"titleTrans");
@@ -165,6 +178,6 @@ public class SplashscreenActivity extends AppCompatActivity {
                     finish();
                 }
             }
-        },3000);
+        },2000);
     }
 }

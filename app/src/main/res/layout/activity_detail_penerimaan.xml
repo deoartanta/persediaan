@@ -316,6 +316,7 @@
                                 android:layout_height="wrap_content"
                                 android:gravity="top"
                                 android:inputType="textMultiLine"
+                                android:ems="10"
                                 android:minHeight="100dp"
                                 android:paddingHorizontal="15dp"
                                 tools:ignore="SpeakableTextPresentCheck,TouchTargetSizeCheck" />

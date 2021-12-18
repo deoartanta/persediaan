@@ -5,6 +5,7 @@ import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.cardview.widget.CardView;
 import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -12,6 +13,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.annotation.TargetApi;
 import android.app.Dialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
@@ -24,12 +26,14 @@ import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.DragEvent;
+import android.view.GestureDetector;
 import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -80,6 +84,7 @@ public class DetailPenerimaanActivity extends AppCompatActivity implements Recyc
                         TOTAL_HRG = "TOTAL_HRG",
                         NOTE = "NOTE";
     double hrg=0,qty = 0;
+    int height=0;
     boolean isInputText=true;
     Currency formatNumber;
 
@@ -97,6 +102,8 @@ public class DetailPenerimaanActivity extends AppCompatActivity implements Recyc
     RelativeLayout ttl_hrg_layout;
     RelativeLayout ttl_hrg2_layout;
     RelativeLayout relative_content;
+
+    CardView card_bottom_sheet;
 
     TextInputEditText tiet_note;
 
@@ -126,7 +133,6 @@ public class DetailPenerimaanActivity extends AppCompatActivity implements Recyc
 
     boolean stscolapse = true;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -143,17 +149,19 @@ public class DetailPenerimaanActivity extends AppCompatActivity implements Recyc
 
         viewGroup = (ViewGroup) findViewById(android.R.id.content);
 
-        scrollView = findViewById(R.id.scrollViewDetail);
+        scrollView = (ScrollView) findViewById(R.id.scrollViewDetail);
         scrollView.setVisibility(View.GONE);
         toolbar =findViewById(R.id.toolbar);
         tb_imgBtn = toolbar.findViewById(R.id.tbImgBtn);
         btn_add_item = findViewById(R.id.btnImageAddItem);
         tb_title = toolbar.findViewById(R.id.tb_title);
         view_collapse = findViewById(R.id.viewCollapse);
+        card_bottom_sheet = findViewById(R.id.card3);
         tv_not_found = findViewById(R.id.tvItemNotFound);
         tv_not_found_parent = findViewById(R.id.tvItemNotFoundParent);
 
         recyclerViewItem = findViewById(R.id.recyclerItem);
+
 
         ttl_hrg_layout = findViewById(R.id.ttlHrgLayout);
         ttl_hrg2_layout = findViewById(R.id.ttlHrg2Layout);
@@ -193,29 +201,69 @@ public class DetailPenerimaanActivity extends AppCompatActivity implements Recyc
 
         tb_title.setText("Detail Penerimaan");
 
+        card_bottom_sheet.getLayoutParams().height = 600;
+        card_bottom_sheet.requestLayout();
+
+        view_collapse.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View view, MotionEvent motionEvent) {
+                float xDown=0,yDown=0,movedX=0,movedY=0;
+                switch (motionEvent.getAction()){
+                    case MotionEvent.ACTION_DOWN:
+                        xDown = motionEvent.getX();
+                        yDown = motionEvent.getY();
+                        height = card_bottom_sheet.getHeight();
+                        break;
+                    case MotionEvent.ACTION_MOVE:
+                        movedX = motionEvent.getX();
+                        movedY = motionEvent.getY();
+
+                        float distanceX = movedX-xDown;
+                        float distancey = movedY-yDown;
+//                        if (((card_bottom_sheet.getHeight())-distancey)<430){
+//                            linear_bottom_sheet.setVisibility(View.GONE);
+//                        }else if (((card_bottom_sheet.getHeight())-distancey)>430){
+//                            linear_bottom_sheet.setVisibility(View.VISIBLE);
+//                        }
+                        if ((((card_bottom_sheet.getHeight())-distancey)>400&&
+                            ((card_bottom_sheet.getHeight())-distancey)<600)) {
+//                            tv_total_hrg2.setText(""+((card_bottom_sheet.getHeight())-distancey));
+                            card_bottom_sheet.getLayoutParams().height = (int) ((card_bottom_sheet.getHeight()) - distancey);
+                            card_bottom_sheet.requestLayout();
+                            height = (int) ((card_bottom_sheet.getHeight())-distancey);
+                        }
+                        xDown= movedX;
+                        yDown = movedY;
+                        break;
+                    case MotionEvent.ACTION_UP:
+                        if ((height<450)){
+                            card_bottom_sheet.getLayoutParams().height = 400;
+                            card_bottom_sheet.requestLayout();
+//                            linear_bottom_sheet.setVisibility(View.GONE);
+                            stscolapse = true;
+                        }else{
+                            card_bottom_sheet.getLayoutParams().height = 600;
+                            card_bottom_sheet.requestLayout();
+//                            card_bottom_sheet.setMinimumHeight(600);
+//                            linear_bottom_sheet.setVisibility(View.VISIBLE);
+//                            stscolapse = false;
+                        }
+                        break;
+                }
+                return false;
+            }
+        });
         view_collapse.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if (stscolapse) {
-                    linear_bottom_sheet.setVisibility(View.VISIBLE);
+//                    linear_bottom_sheet.setVisibility(View.VISIBLE);
                 }else {
-                    linear_bottom_sheet.setVisibility(View.GONE);
+//                    linear_bottom_sheet.setVisibility(View.GONE);
                 }
-                stscolapse = (!stscolapse);
             }
         });
-        view_collapse.setOnLongClickListener(new View.OnLongClickListener() {
-            @Override
-            public boolean onLongClick(View view) {
-                if (stscolapse) {
-                    linear_bottom_sheet.setVisibility(View.VISIBLE);
-                }else {
-                    linear_bottom_sheet.setVisibility(View.GONE);
-                }
-                stscolapse = (!stscolapse);
-                return false;
-            }
-        });
+
         tb_imgBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -224,14 +272,6 @@ public class DetailPenerimaanActivity extends AppCompatActivity implements Recyc
         });
 
         extras = getIntent().getExtras();
-
-//        tv_idtrans.setText(extras.getString(ID_TRANS));
-//        tv_area.setText(extras.getString(AREA));
-//        tv_sts.setText(extras.getString(STS));
-//        tv_tglpurchase.setText(extras.getString(TGL_PURCHASE));
-//        tv_jml_item.setText("("+extras.getString(JML_ITEM)+")");
-//        tv_penyedia.setText(extras.getString(PENYEDIA));
-//        tv_jml_item_bottom.setText(extras.getString(JML_ITEM));
         tv_total_hrg.setText(extras.getString(TOTAL_HRG));
 
         tiet_note.setText(extras.getString(NOTE));
@@ -240,6 +280,21 @@ public class DetailPenerimaanActivity extends AppCompatActivity implements Recyc
         }else{
             finish();
         }
+        tiet_note.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View view, boolean b) {
+                if (b){
+                    card_bottom_sheet.getLayoutParams().height = 400;
+                    card_bottom_sheet.requestLayout();
+                    scrollView.postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            scrollView.setScrollY(500);
+                        }
+                    },500);
+                }
+            }
+        });
         btn_simpan.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -547,6 +602,7 @@ public class DetailPenerimaanActivity extends AppCompatActivity implements Recyc
     public void onItemClick(int position, View view) {
         AlertDialog.Builder dialog;
         TextView tv_qty,tv_ttlHarga;
+        lostFocus(getWindow().getCurrentFocus());
 
         tv_qty = view.findViewById(R.id.tvQtyPener);
         tv_ttlHarga = view.findViewById(R.id.tvTtlHrgPener);
@@ -694,6 +750,7 @@ public class DetailPenerimaanActivity extends AppCompatActivity implements Recyc
     @Override
     public void onItemClick1(int position, View view) {
          TextView nm_item = view.findViewById(R.id.tvNmItemPener);
+         lostFocus(getWindow().getCurrentFocus());
          AlertDialog.Builder dialog = new AlertDialog.Builder(DetailPenerimaanActivity.this);
          dialog.setTitle("Hapus Item");
          dialog.setMessage("Apakah anda yakin ingin menghapus item "+nm_item.getText());
@@ -740,5 +797,12 @@ public class DetailPenerimaanActivity extends AppCompatActivity implements Recyc
          });
          AlertDialog dialog1 = dialog.create();
          dialog1.show();
+    }
+    public void lostFocus(View viewFocus){
+        tiet_note.clearFocus();
+        if (viewFocus!=null){
+            InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+            imm.hideSoftInputFromWindow(viewFocus.getWindowToken(),0);
+        }
     }
 }
