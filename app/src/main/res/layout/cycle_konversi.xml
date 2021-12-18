@@ -62,6 +62,17 @@
                 android:backgroundTint="@color/splashBackground"
                 app:srcCompat="@drawable/ic_dualscale"
                 tools:ignore="TouchTargetSizeCheck,SpeakableTextPresentCheck" />
+
+            <ImageButton
+                android:id="@+id/btnAddKonversi"
+                android:layout_width="60dp"
+                android:layout_height="40dp"
+                android:layout_marginRight="15dp"
+                android:background="@drawable/btn_action"
+                android:backgroundTint="@color/splashBackground"
+                app:srcCompat="@drawable/ic_kirim"
+                android:visibility="gone"
+                tools:ignore="TouchTargetSizeCheck,SpeakableTextPresentCheck" />
         </LinearLayout>
 
     </LinearLayout>
@@ -79,7 +90,7 @@
             android:layout_width="50dp"
             android:layout_height="wrap_content"
             android:layout_marginLeft="20dp"
-            android:layout_weight="1"
+            android:layout_weight="2"
             android:text="Kuantitas" />
 
         <com.google.android.material.textfield.TextInputLayout
@@ -89,7 +100,7 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
             android:layout_marginRight="15dp"
-            android:layout_weight="10">
+            android:layout_weight="8">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/edtQtySatu"
@@ -106,7 +117,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginRight="20dp"
-            android:layout_weight="1"
+            android:layout_weight="2"
             android:text="Satuan" />
     </LinearLayout>
 
@@ -123,7 +134,7 @@
             android:layout_width="50dp"
             android:layout_height="wrap_content"
             android:layout_marginLeft="20dp"
-            android:layout_weight="1"
+            android:layout_weight="2"
             android:text="Sisa" />
 
         <com.google.android.material.textfield.TextInputLayout
@@ -133,7 +144,7 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
             android:layout_marginRight="15dp"
-            android:layout_weight="10">
+            android:layout_weight="8">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/edtQtyEcer"
@@ -150,7 +161,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginRight="20dp"
-            android:layout_weight="1"
+            android:layout_weight="2"
             android:text="Eceran" />
     </LinearLayout>
 </LinearLayout>

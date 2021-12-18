@@ -116,7 +116,7 @@ public class MainActivity extends AppCompatActivity implements ScanInterface{
                         break;
                     case 4:
                         page = "barang keluar";
-                        fragment = new BrgKeluarFragment(getSupportFragmentManager());
+                        fragment = new BrgKeluarFragment(getSupportFragmentManager(), bottomNavigation);
                         cardViewprofile.setVisibility(View.VISIBLE);
                         loadFragment(fragment);
                         break;
