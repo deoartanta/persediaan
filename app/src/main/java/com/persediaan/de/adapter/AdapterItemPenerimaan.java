@@ -41,11 +41,12 @@ public class AdapterItemPenerimaan extends RecyclerView.Adapter<AdapterItemPener
     @Override
     public void onBindViewHolder(@NonNull itemPenerimaanViewHolder holder, int position) {
         Currency formatNumber = new Currency("Rp. ",".");
-        double hrgSatuan = (double)(listItems.get(position).getHarga()/listItems.get(position).getQty());
+        double ttl_hrg=
+                (double)(listItems.get(position).getHarga()*listItems.get(position).getQty());
         holder.tv_nmItem.setText(listItems.get(position).getNm_item());
         holder.tv_satuan.setText(listItems.get(position).getNm_satuan());
-        holder.tv_hrg.setText(formatNumber.setFormatCurrency((double)hrgSatuan));
-        holder.tv_ttl_hrg.setText(formatNumber.setFormatCurrency((double)listItems.get(position).getHarga()));
+        holder.tv_hrg.setText("Rp. "+formatNumber.setFormatNumber((double)listItems.get(position).getHarga()));
+        holder.tv_ttl_hrg.setText("Rp. "+formatNumber.setFormatNumber(ttl_hrg));
         holder.tv_qty.setText(String.valueOf(listItems.get(position).getQty()));
 
     }
@@ -57,7 +58,7 @@ public class AdapterItemPenerimaan extends RecyclerView.Adapter<AdapterItemPener
 
     public class itemPenerimaanViewHolder extends RecyclerView.ViewHolder {
         TextView tv_nmItem,tv_qty,tv_satuan,tv_hrg,tv_ttl_hrg;
-        ImageView imgEdit;
+        ImageView imgEdit,imgHps;
         public itemPenerimaanViewHolder(@NonNull View itemView) {
             super(itemView);
             tv_nmItem = itemView.findViewById(R.id.tvNmItemPener);
@@ -66,13 +67,22 @@ public class AdapterItemPenerimaan extends RecyclerView.Adapter<AdapterItemPener
             tv_hrg = itemView.findViewById(R.id.tvHrgPener);
             tv_ttl_hrg = itemView.findViewById(R.id.tvTtlHrgPener);
 
+
             imgEdit = itemView.findViewById(R.id.imgEdit);
+            imgHps = itemView.findViewById(R.id.imgHps);
             imgEdit.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     recyclerViewClickInterface.onItemClick(getAdapterPosition(),itemView);
 //                    Log.d("19201299",
 //                            "onClick: "+getAdapterPosition()+", Nama Item = "+listItems.get(getAdapterPosition()).getNm_item());
+                }
+            });
+
+            imgHps.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    recyclerViewClickInterface.onItemClick1(getAdapterPosition(),itemView);
                 }
             });
         }

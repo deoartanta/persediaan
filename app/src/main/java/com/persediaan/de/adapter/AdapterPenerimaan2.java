@@ -56,6 +56,7 @@ public class AdapterPenerimaan2 extends RecyclerView.Adapter<AdapterPenerimaan2.
         String alamat = datalist.get(position).getAlamat();
         int jmlitem = datalist.get(position).getJml_item();
         String area = datalist.get(position).getNm_area();
+        String ala_supplier = datalist.get(position).getAlasuplier();
         String status = datalist.get(position).getStatus();
         int hrg_total = datalist.get(position).getHarga_total();
         int tgl = datalist.get(position).getTgl_purchase();
@@ -78,7 +79,7 @@ public class AdapterPenerimaan2 extends RecyclerView.Adapter<AdapterPenerimaan2.
 
 //        holder.img_background.setImageResource(img);
         holder.tv_nm_penyedia.setText(""+nm_penyedia);
-//        holder.tv_alamat.setText(alamat);
+        holder.tv_alaSupplier.setText(ala_supplier);
         holder.tv_area.setText(""+area);
         holder.tv_idtrans.setText(idtrans);
 
@@ -87,7 +88,7 @@ public class AdapterPenerimaan2 extends RecyclerView.Adapter<AdapterPenerimaan2.
         holder.tv_jml_item.setText(""+String.valueOf(jmlitem)+" ITEM");
         holder.tv_status.setText(""+status);
 //        holder.tv_status.setBackgroundResource(bg_label);
-        holder.tv_hrg_total.setText(formatNumber.setFormatCurrency((double)hrg_total));
+        holder.tv_hrg_total.setText("Rp. "+formatNumber.setFormatNumber((double)hrg_total));
         holder.tv_tgl.setText((new SimpleDateFormat("dd MMMM yyyy", Locale.US)
                 .format(
                         new Date((Long.parseLong(String.valueOf(tgl))*1000))
@@ -102,7 +103,8 @@ public class AdapterPenerimaan2 extends RecyclerView.Adapter<AdapterPenerimaan2.
     public class penerimaanBrgViewHolder extends RecyclerView.ViewHolder {
         ImageView img_background;
         TextView tv_nm_penyedia,tv_alamat,tv_area,tv_status,tv_hrg_total,
-                tv_tgl,tv_jml_item,tv_idtrans,tv_nopurchase,tv_imgExpand;
+                tv_tgl,tv_jml_item,tv_idtrans,tv_nopurchase,tv_imgExpand,
+                tv_alaSupplier;
         Button btn_detail;
         LinearLayout cardLinear,expandDetailpener;
         public penerimaanBrgViewHolder(@NonNull View itemView) {
@@ -113,6 +115,7 @@ public class AdapterPenerimaan2 extends RecyclerView.Adapter<AdapterPenerimaan2.
             tv_nm_penyedia = itemView.findViewById(R.id.tvResSupplier);
             tv_area = itemView.findViewById(R.id.tvResArea);
             tv_alamat = itemView.findViewById(R.id.tvAlamat);
+            tv_alaSupplier = itemView.findViewById(R.id.tvResAlaSupplier);
             tv_status = itemView.findViewById(R.id.tvResSTS);
             tv_hrg_total = itemView.findViewById(R.id.tvResTotalHrg);
             tv_jml_item = itemView.findViewById(R.id.tvResJMLItem);

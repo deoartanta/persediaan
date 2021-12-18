@@ -42,6 +42,7 @@ public class SessionManager {
     public static final String SCANR = "SCANR";
     public static final String SCANF = "SCANF";
     public static final String SCANFULLR = "SCANFULLR";
+    public static final String EDITSCANNER = "EDITSCANNER";
 
 
     public SessionManager(Context context,String name) {
@@ -179,5 +180,13 @@ public class SessionManager {
 //        editor.putString(JENIS_KEW,jenis_kew);
 //        editor.putString(ALAMAT_KANTOR,alamat_kantor);
 //        editor.putInt(KPPN,kppn);
+    }
+
+    public void EditScanner(boolean editScanner) {
+        editor.putBoolean(EDITSCANNER,editScanner);
+        editor.apply();
+    }
+    public boolean isEditScanner(){
+        return sharedPreferences.getBoolean(EDITSCANNER,false);
     }
 }

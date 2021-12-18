@@ -1,0 +1,313 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".DetailPenerimaanActivity">
+
+    <TextView
+        android:id="@+id/tvItemNotFoundParent"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:gravity="center"
+        android:text="Tidak Ada Item"
+        android:visibility="gone" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:layout_alignParentBottom="true">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/RelativeContent">
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/card1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentTop="true"
+                android:layout_marginBottom="5dp"
+                app:cardElevation="5dp"
+                app:cardUseCompatPadding="false">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+                    android:paddingVertical="10dp"
+                    android:paddingStart="10dp">
+
+                    <TextView
+                        android:id="@+id/tvTglpurchase"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="end"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginEnd="10dp"
+                        android:background="@color/colorShimmer"
+                        android:text="07 Januari 2021"
+                        android:textColor="@color/colorTextShimmer" />
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginTop="20dp">
+
+                        <TextView
+                            android:id="@+id/tv_lblnopurchase"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentStart="true"
+                            android:layout_alignParentTop="true"
+                            android:background="@color/colorShimmer"
+                            android:text="No Pusrchase"
+                            android:textColor="@color/colorTextShimmer" />
+
+                        <TextView
+                            android:id="@+id/tv_titikd3"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_toEndOf="@id/tv_lblnopurchase"
+                            android:background="@color/colorShimmer"
+                            android:gravity="center"
+                            android:paddingHorizontal="5dp"
+                            android:text=":"
+                            android:textColor="@color/colorTextShimmer" />
+
+                        <TextView
+                            android:id="@+id/tvPurchase"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_toEndOf="@id/tv_titikd3"
+                            android:background="@color/colorShimmer"
+                            android:paddingEnd="5dp"
+                            android:text="TextView"
+                            android:textColor="@color/colorTextShimmer" />
+                    </RelativeLayout>
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginTop="10dp">
+
+                        <TextView
+                            android:id="@+id/tv_lblarea"
+                            android:layout_width="95dp"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentStart="true"
+                            android:layout_alignParentTop="true"
+                            android:background="@color/colorShimmer"
+                            android:text="Area"
+                            android:textColor="@color/colorTextShimmer" />
+
+                        <TextView
+                            android:id="@+id/tv_titikd4"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_toEndOf="@id/tv_lblarea"
+                            android:background="@color/colorShimmer"
+                            android:gravity="center"
+                            android:paddingHorizontal="5dp"
+                            android:text=":"
+                            android:textColor="@color/colorTextShimmer" />
+
+                        <TextView
+                            android:id="@+id/tvArea"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_toEndOf="@id/tv_titikd4"
+                            android:background="@color/colorShimmer"
+                            android:paddingEnd="5dp"
+                            android:text="TextView"
+                            android:textColor="@color/colorTextShimmer" />
+                    </RelativeLayout>
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginTop="10dp">
+
+                        <TextView
+                            android:id="@+id/tvLblsts"
+                            android:layout_width="95dp"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentStart="true"
+                            android:layout_alignParentTop="true"
+                            android:background="@color/colorShimmer"
+                            android:text="Status"
+                            android:textColor="@color/colorTextShimmer" />
+
+                        <TextView
+                            android:id="@+id/tv_titikd6"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_toEndOf="@id/tvLblsts"
+                            android:background="@color/colorShimmer"
+                            android:gravity="center"
+                            android:paddingHorizontal="5dp"
+                            android:text=":"
+                            android:textColor="@color/colorTextShimmer" />
+
+                        <TextView
+                            android:id="@+id/tvSts"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_toEndOf="@id/tv_titikd6"
+                            android:background="@color/colorShimmer"
+                            android:paddingEnd="5dp"
+                            android:text="Belum Diterima"
+                            android:textColor="@color/colorTextShimmer" />
+                    </RelativeLayout>
+
+                </LinearLayout>
+
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/card2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/card1"
+                android:orientation="vertical"
+                app:cardElevation="5dp"
+                app:cardUseCompatPadding="false">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:padding="10dp">
+
+                    <androidx.cardview.widget.CardView
+                        android:id="@+id/card2_0"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        app:cardUseCompatPadding="false">
+
+                        <RelativeLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content">
+
+                            <TextView
+                                android:id="@+id/tvlblDetailItem"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_alignParentStart="true"
+                                android:layout_alignParentTop="true"
+                                android:background="@color/colorShimmer"
+                                android:paddingEnd="5dp"
+                                android:text="Detail Item"
+                                android:textAllCaps="true"
+                                android:textColor="@color/colorTextShimmer" />
+
+                            <TextView
+                                android:id="@+id/tvLine1"
+                                android:layout_width="match_parent"
+                                android:layout_height="1dp"
+                                android:layout_below="@id/tvlblDetailItem"
+                                android:layout_marginTop="5dp"
+                                android:background="@color/colorShimmer"
+                                android:textColor="@color/colorTextShimmer" />
+
+                            <TextView
+                                android:id="@+id/tvItemNotFound"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_below="@id/tvLine1"
+                                android:layout_centerHorizontal="true"
+                                android:layout_marginVertical="10dp"
+                                android:background="@color/colorShimmer"
+                                android:text="Tidak Ada Item"
+                                android:textColor="@color/colorTextShimmer"
+                                android:visibility="gone" />
+
+                            <com.facebook.shimmer.ShimmerFrameLayout
+                                android:id="@+id/shimerLayoutItem"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_below="@id/tvLine1"
+                                android:visibility="visible">
+
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:orientation="vertical">
+
+                                    <include layout="@layout/card_penerimaan_item_shimmer" />
+
+                                    <include layout="@layout/card_penerimaan_item_shimmer" />
+
+                                </LinearLayout>
+                            </com.facebook.shimmer.ShimmerFrameLayout>
+
+                            <androidx.recyclerview.widget.RecyclerView
+                                android:id="@+id/recyclerItem"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_below="@id/tvLine1"
+                                android:layout_marginStart="10dp"
+                                android:layout_marginTop="5dp"
+                                android:background="@color/colorShimmer"
+                                android:visibility="invisible">
+
+                            </androidx.recyclerview.widget.RecyclerView>
+                        </RelativeLayout>
+                    </androidx.cardview.widget.CardView>
+
+                    <TextView
+                        android:id="@+id/tvNote"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/card2_0"
+                        android:layout_marginTop="10dp"
+                        android:background="@color/colorShimmer"
+                        android:text="Note"
+                        android:textColor="@color/colorTextShimmer" />
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/layoutInput2"
+                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/tvNote"
+                        android:layout_centerHorizontal="true"
+                        android:visibility="visible">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/tietNote"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:background="@color/colorShimmer"
+                            android:gravity="top"
+                            android:inputType="textMultiLine"
+                            android:minHeight="100dp"
+                            android:paddingHorizontal="15dp"
+                            tools:ignore="SpeakableTextPresentCheck,TouchTargetSizeCheck"
+                            android:textColor="@color/colorTextShimmer" />
+
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                </RelativeLayout>
+
+            </androidx.cardview.widget.CardView>
+
+        </RelativeLayout>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="350dp"
+            android:background="@color/colorShimmer"
+            android:textColor="@color/colorTextShimmer"
+            android:visibility="invisible" />
+    </LinearLayout>
+
+
+</RelativeLayout>

@@ -2,6 +2,7 @@ package com.persediaan.de;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
@@ -12,6 +13,7 @@ import android.util.Patterns;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
@@ -145,6 +147,7 @@ public class LoginActivity extends AppCompatActivity {
                 btn_signin.setText(null);
                 btn_signin.setEnabled(false);
 
+                lostFocus(getWindow().getCurrentFocus());
                 retrofit = new Retrofit.Builder()
                         .baseUrl(SessionManager.HOSTNAME)
                         .addConverterFactory(GsonConverterFactory.create())
@@ -188,7 +191,7 @@ public class LoginActivity extends AppCompatActivity {
                         String jenis_kew = login.getJenis_kew();
                         String alamat_kantor = login.getAlamat_kantor();
                         int kppn = login.getKppn();
-                        Toast.makeText(getApplicationContext(), "Username : "+username, Toast.LENGTH_SHORT).show();
+//                        Toast.makeText(getApplicationContext(), "Username : "+username, Toast.LENGTH_SHORT).show();
 
 
                         if(nama!=null){
@@ -276,13 +279,23 @@ public class LoginActivity extends AppCompatActivity {
     public void loginDataChanged(String username, String password) {
         if (!isUserNameValid(username)) {
             tiet_username.setError(getMsgErrorUsername());
+//            tiet_username.requestFocus();
         } else if (!isPasswordValid(password)) {
             tiet_passw.setError(getMsgPassw());
+//            tiet_passw.requestFocus();
         }
         if (isPasswordValid(password) && isUserNameValid(username) && stsArea){
             btn_signin.setEnabled(true);
         }else{
             btn_signin.setEnabled(false);
+        }
+    }
+    public void lostFocus(View viewFocus){
+        tiet_username.clearFocus();
+        tiet_passw.clearFocus();
+        if (viewFocus!=null){
+            InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+            imm.hideSoftInputFromWindow(viewFocus.getWindowToken(),0);
         }
     }
 }
