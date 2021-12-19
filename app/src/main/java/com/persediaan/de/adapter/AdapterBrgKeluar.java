@@ -6,12 +6,15 @@ import androidx.fragment.app.FragmentManager;
 import androidx.lifecycle.Lifecycle;
 import androidx.viewpager2.adapter.FragmentStateAdapter;
 
+import com.etebarian.meowbottomnavigation.MeowBottomNavigation;
 import com.persediaan.de.KonversiFragment;
 import com.persediaan.de.TransferFragment;
 
 public class AdapterBrgKeluar extends FragmentStateAdapter {
-    public AdapterBrgKeluar(@NonNull FragmentManager fragmentManager, @NonNull Lifecycle lifecycle) {
+    MeowBottomNavigation meowBottomNavigation;
+    public AdapterBrgKeluar(@NonNull FragmentManager fragmentManager, @NonNull Lifecycle lifecycle, MeowBottomNavigation meowBottomNavigation) {
         super(fragmentManager, lifecycle);
+        this.meowBottomNavigation = meowBottomNavigation;
     }
 
     @NonNull
@@ -22,7 +25,7 @@ public class AdapterBrgKeluar extends FragmentStateAdapter {
             case 1 :
                 return new TransferFragment();
         }
-        return new KonversiFragment();
+        return new KonversiFragment(meowBottomNavigation);
     }
 
     @Override

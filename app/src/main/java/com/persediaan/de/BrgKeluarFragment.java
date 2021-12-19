@@ -11,18 +11,25 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.etebarian.meowbottomnavigation.MeowBottomNavigation;
 import com.google.android.material.tabs.TabLayout;
 import com.persediaan.de.adapter.AdapterBrgKeluar;
+import com.persediaan.de.adapter.RecyclerViewKonversiInterface;
 
-public class BrgKeluarFragment extends Fragment {
+public class BrgKeluarFragment extends Fragment implements RecyclerViewKonversiInterface {
     TabLayout tabLayout;
     ViewPager2 pager2;
     AdapterBrgKeluar adapter;
     FragmentManager supportFragmentManager;
+    MeowBottomNavigation BtnNavigation;
 
 
-    public BrgKeluarFragment(FragmentManager supportFragmentManager) {
+    public BrgKeluarFragment(FragmentManager supportFragmentManager, MeowBottomNavigation BtnNavigation) {
         this.supportFragmentManager = supportFragmentManager;
+        this.BtnNavigation = BtnNavigation;
+    }
+    public RecyclerViewKonversiInterface recyclerViewKonversiInterface(){
+        return this;
     }
 
     @Override
@@ -33,7 +40,7 @@ public class BrgKeluarFragment extends Fragment {
 
         tabLayout = view.findViewById(R.id.tab_pengeluaran);
         pager2 = view.findViewById(R.id.view_pager2);
-        adapter = new AdapterBrgKeluar(supportFragmentManager, getLifecycle());
+        adapter = new AdapterBrgKeluar(supportFragmentManager, getLifecycle(),BtnNavigation);
         pager2.setAdapter(adapter);
 
 //        tabLayout.addTab(tabLayout.newTab().setText("Konversi"));
@@ -63,5 +70,15 @@ public class BrgKeluarFragment extends Fragment {
             }
         });
         return view;
+    }
+
+    @Override
+    public void AddCartKonversi(View view, int Position) {
+
+    }
+
+    @Override
+    public void DelCartKonversi(View view, int Position, int Id) {
+
     }
 }

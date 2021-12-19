@@ -124,4 +124,27 @@ public interface JsonPlaceHolderApi {
     Call<List<ApiKonversi>> getResponItems(
             @Field("id_trans") String id_trans
     );
+    @POST("api/konversi/addCart")
+    @FormUrlEncoded
+    Call<ApiKonversi> getAddCartKonversi(
+            @Field("id_user") Integer id_user,
+            @Field("id") Integer id,
+            @Field("qty") Integer qty,
+            @Field("sisa") Integer sisa
+    );
+    @POST("api/konversi/cart")
+    @FormUrlEncoded
+    Call<List<ApiKonversi>> getShowCartKonversi(
+            @Field("id_user") Integer id_user
+    );
+    @POST("api/konversi/deleteCart")
+    @FormUrlEncoded
+    Call<Integer> getDeleteCartKonversi(
+            @Field("id") Integer id
+    );
+    @POST("api/konversi/batal")
+    @FormUrlEncoded
+    Call<String> getCancelKonversi(
+            @Field("id_user") String id_user
+    );
 }
