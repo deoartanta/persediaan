@@ -10,10 +10,10 @@
     <androidx.cardview.widget.CardView
         android:id="@+id/card3"
         android:layout_width="match_parent"
-        android:layout_height="200dp"
-        android:layout_alignParentBottom="true"
+        android:layout_height="340dp"
         android:layout_marginTop="10dp"
         android:layout_marginBottom="-25dp"
+        app:cardBackgroundColor="#B5FFFFFF"
         app:cardCornerRadius="30dp"
         app:cardElevation="20dp"
         app:cardUseCompatPadding="false">
@@ -22,218 +22,231 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="10dp"
-            android:layout_marginTop="20dp"
-            android:layout_marginHorizontal="20dp"
+            android:layout_marginTop="50dp"
+            android:layout_marginHorizontal="30dp"
+            android:background="@color/white"
             android:orientation="vertical">
 
-            <LinearLayout
+            <RelativeLayout
                 android:id="@+id/linearBottomsheet"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:layout_above="@id/ttlHrgLayout"
+                android:layout_above="@id/linearLayoutTllHrg"
                 android:visibility="visible">
 
-                <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:gravity="end"
-                    android:padding="10dp">
-
-                    <TextView
-                        android:id="@+id/tvSupplierBottom"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_toEndOf="@id/tv_titikd8"
-                        android:gravity="end"
-                        android:paddingEnd="5dp"
-                        android:text="Pt. Philips"
-                        android:textColor="@color/black" />
-
-                    <TextView
-                        android:id="@+id/tv_titikd8"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_toEndOf="@id/tvLblSupplier"
-                        android:gravity="center"
-                        android:paddingHorizontal="5dp"
-                        android:text=":"
-                        android:textColor="@color/black" />
-
-                    <TextView
-                        android:id="@+id/tvLblSupplier"
-                        android:layout_width="120dp"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentStart="true"
-                        android:layout_alignParentTop="true"
-                        android:text="Supplier"
-                        android:textColor="@color/black" />
-
-                </RelativeLayout>
-
-                <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:gravity="end"
-                    android:padding="10dp">
-
-                    <TextView
-                        android:id="@+id/tvAlamatBottom"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_toEndOf="@id/tv_titikd10"
-                        android:gravity="end"
-                        android:paddingEnd="5dp"
-                        android:text="Jl. Ikan paus no23"
-                        android:textColor="@color/black" />
-
-                    <TextView
-                        android:id="@+id/tv_titikd10"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_toEndOf="@id/tvLblAlamat"
-                        android:gravity="center"
-                        android:paddingHorizontal="5dp"
-                        android:text=":"
-                        android:textColor="@color/black" />
-
-                    <TextView
-                        android:id="@+id/tvLblAlamat"
-                        android:layout_width="120dp"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentStart="true"
-                        android:layout_alignParentTop="true"
-                        android:text="Alamat"
-                        android:textColor="@color/black" />
-
-                </RelativeLayout>
-
-                <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:gravity="end"
-                    android:padding="10dp">
-
-                    <TextView
-                        android:id="@+id/tvJmlItemBottom"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_toEndOf="@id/tv_titikd11"
-                        android:gravity="end"
-                        android:paddingEnd="5dp"
-                        android:text="100 Item"
-                        android:textColor="@color/black" />
-
-                    <TextView
-                        android:id="@+id/tv_titikd11"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_toEndOf="@id/tvLblitem"
-                        android:gravity="center"
-                        android:paddingHorizontal="5dp"
-                        android:text=":"
-                        android:textColor="@color/black" />
-
-                    <TextView
-                        android:id="@+id/tvLblitem"
-                        android:layout_width="120dp"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentStart="true"
-                        android:layout_alignParentTop="true"
-                        android:text="Jumlah Item"
-                        android:textColor="@color/black" />
-
-                </RelativeLayout>
-
-            </LinearLayout>
-            <!--Total Harga 1-->
-            <RelativeLayout
-                android:id="@+id/ttlHrgLayout"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_above="@id/ttlHrg2Layout"
-                android:padding="10dp">
-
-                <TextView
-                    android:id="@+id/tvLbltotalhrg"
-                    android:layout_width="120dp"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentStart="true"
-                    android:layout_alignParentTop="true"
-                    android:text="Total Harga"
-                    android:textColor="@color/black" />
-
-                <TextView
-                    android:id="@+id/tv_titikd6"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_toEndOf="@id/tvLbltotalhrg"
-                    android:gravity="center"
-                    android:paddingHorizontal="5dp"
-                    android:text=":"
-                    android:textColor="@color/black" />
-
-                <TextView
-                    android:id="@+id/tvTotalhrg"
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_toEndOf="@id/tv_titikd6"
-                    android:gravity="end"
-                    android:paddingEnd="5dp"
-                    android:text="Rp. 50.000"
-                    android:textColor="@color/black" />
+                    android:layout_alignParentBottom="true"
+                    android:orientation="vertical">
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="end"
+                        android:padding="10dp">
+
+                        <TextView
+                            android:id="@+id/tvSupplierBottom"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_toEndOf="@id/tv_titikd8"
+                            android:gravity="end"
+                            android:paddingEnd="5dp"
+                            android:text="Pt. Philips"
+                            android:textColor="@color/black" />
+
+                        <TextView
+                            android:id="@+id/tv_titikd8"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_toEndOf="@id/tvLblSupplier"
+                            android:gravity="center"
+                            android:paddingHorizontal="5dp"
+                            android:text=":"
+                            android:textColor="@color/black" />
+
+                        <TextView
+                            android:id="@+id/tvLblSupplier"
+                            android:layout_width="120dp"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentStart="true"
+                            android:layout_alignParentTop="true"
+                            android:text="Supplier"
+                            android:textColor="@color/black" />
+
+                    </RelativeLayout>
+
+                    <RelativeLayout
+                        android:id="@+id/lytAla"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="end"
+                        android:padding="10dp">
+
+                        <TextView
+                            android:id="@+id/tvAlamatBottom"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_toEndOf="@id/tv_titikd10"
+                            android:gravity="end"
+                            android:paddingEnd="5dp"
+                            android:text="Jl. Ikan paus no23"
+                            android:textColor="@color/black" />
+
+                        <TextView
+                            android:id="@+id/tv_titikd10"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_toEndOf="@id/tvLblAlamat"
+                            android:gravity="center"
+                            android:paddingHorizontal="5dp"
+                            android:text=":"
+                            android:textColor="@color/black" />
+
+                        <TextView
+                            android:id="@+id/tvLblAlamat"
+                            android:layout_width="120dp"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentStart="true"
+                            android:layout_alignParentTop="true"
+                            android:text="Alamat"
+                            android:textColor="@color/black" />
+
+                    </RelativeLayout>
+
+                    <RelativeLayout
+                        android:id="@+id/lytJmlitem"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="end"
+                        android:padding="10dp">
+
+                        <TextView
+                            android:id="@+id/tvJmlItemBottom"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_toEndOf="@id/tv_titikd11"
+                            android:gravity="end"
+                            android:paddingEnd="5dp"
+                            android:text="100 Item"
+                            android:textColor="@color/black" />
+
+                        <TextView
+                            android:id="@+id/tv_titikd11"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_toEndOf="@id/tvLblitem"
+                            android:gravity="center"
+                            android:paddingHorizontal="5dp"
+                            android:text=":"
+                            android:textColor="@color/black" />
+
+                        <TextView
+                            android:id="@+id/tvLblitem"
+                            android:layout_width="120dp"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentStart="true"
+                            android:layout_alignParentTop="true"
+                            android:text="Jumlah Item"
+                            android:textColor="@color/black" />
+
+                    </RelativeLayout>
+                </LinearLayout>
+
             </RelativeLayout>
-            <!--Total Harga 2-->
-            <RelativeLayout
-                android:id="@+id/ttlHrg2Layout"
+            <LinearLayout
+                android:id="@+id/linearLayoutTllHrg"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_above="@id/btnLayoutBottomSheet"
-                android:padding="10dp">
-
-                <TextView
-                    android:id="@+id/tvLbltotalhrg2"
-                    android:layout_width="120dp"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentStart="true"
-                    android:layout_alignParentTop="true"
-                    android:text="Total Harga"
-                    android:textColor="@color/black" />
-
-                <TextView
-                    android:id="@+id/tv_titikd7"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_toEndOf="@id/tvLbltotalhrg2"
-                    android:gravity="center"
-                    android:paddingHorizontal="5dp"
-                    android:text=":"
-                    android:textColor="@color/black" />
-
-                <TextView
-                    android:id="@+id/tvTotalhrg2"
+                android:orientation="vertical">
+                <!--Total Harga 1-->
+                <RelativeLayout
+                    android:id="@+id/ttlHrgLayout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_below="@id/tv_titikd7"
-                    android:layout_alignParentLeft="true"
-                    android:gravity="end"
-                    android:paddingEnd="5dp"
-                    android:text="Rp. 50.000"
-                    android:textColor="@color/black" />
-            </RelativeLayout>
+                    android:padding="10dp">
 
+                    <TextView
+                        android:id="@+id/tvLbltotalhrg"
+                        android:layout_width="120dp"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentStart="true"
+                        android:layout_alignParentTop="true"
+                        android:text="Total Harga"
+                        android:textColor="@color/black" />
 
+                    <TextView
+                        android:id="@+id/tv_titikd6"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_toEndOf="@id/tvLbltotalhrg"
+                        android:gravity="center"
+                        android:paddingHorizontal="5dp"
+                        android:text=":"
+                        android:textColor="@color/black" />
+
+                    <TextView
+                        android:id="@+id/tvTotalhrg"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_toEndOf="@id/tv_titikd6"
+                        android:gravity="end"
+                        android:paddingEnd="5dp"
+                        android:text="Rp. 50.000"
+                        android:textColor="@color/black" />
+                </RelativeLayout>
+                <!--Total Harga 2-->
+                <RelativeLayout
+                    android:id="@+id/ttlHrg2Layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="10dp">
+
+                    <TextView
+                        android:id="@+id/tvLbltotalhrg2"
+                        android:layout_width="120dp"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentStart="true"
+                        android:layout_alignParentTop="true"
+                        android:text="Total Harga"
+                        android:textColor="@color/black" />
+
+                    <TextView
+                        android:id="@+id/tv_titikd7"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_toEndOf="@id/tvLbltotalhrg2"
+                        android:gravity="center"
+                        android:paddingHorizontal="5dp"
+                        android:text=":"
+                        android:textColor="@color/black" />
+
+                    <TextView
+                        android:id="@+id/tvTotalhrg2"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/tv_titikd7"
+                        android:layout_alignParentLeft="true"
+                        android:gravity="end"
+                        android:paddingEnd="5dp"
+                        android:text="Rp. 50.000"
+                        android:textColor="@color/black" />
+                </RelativeLayout>
+            </LinearLayout>
+            <!--Bottom Sheet-->
             <RelativeLayout
                 android:id="@+id/btnLayoutBottomSheet"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_alignParentBottom="true"
-                android:paddingBottom="30dp">
+                android:layout_alignParentBottom="true">
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_centerInParent="true"
+                    android:layout_marginBottom="30dp"
                     android:gravity="center"
                     android:orientation="horizontal">
 
@@ -272,8 +285,6 @@
 
                 </LinearLayout>
             </RelativeLayout>
-
-
         </RelativeLayout>
         <LinearLayout
             android:layout_width="match_parent"
@@ -291,7 +302,7 @@
                     android:layout_width="30dp"
                     android:layout_height="5dp"
                     android:background="@drawable/btn_action"
-                    android:backgroundTint="@color/black"/>
+                    android:backgroundTint="#9E000000"/>
             </LinearLayout>
         </LinearLayout>
 

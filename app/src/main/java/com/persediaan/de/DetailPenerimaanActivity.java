@@ -20,6 +20,7 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
 import android.text.Editable;
 import android.text.InputType;
 import android.text.TextUtils;
@@ -84,7 +85,7 @@ public class DetailPenerimaanActivity extends AppCompatActivity implements Recyc
                         TOTAL_HRG = "TOTAL_HRG",
                         NOTE = "NOTE";
     double hrg=0,qty = 0;
-    int height=0;
+    int heightLong=0,heightShort=0,height = 0;
     boolean isInputText=true;
     Currency formatNumber;
 
@@ -98,10 +99,14 @@ public class DetailPenerimaanActivity extends AppCompatActivity implements Recyc
 
     TextView tb_title,tv_idtrans,tv_area,tv_sts,tv_tglpurchase,tv_jml_item_bottom,tv_total_hrg,
             tv_total_hrg2,tv_not_found,tv_not_found_parent,tv_ala_supplier;
-
+//    Button Sheet
     RelativeLayout ttl_hrg_layout;
     RelativeLayout ttl_hrg2_layout;
+    RelativeLayout btn_layout_bottom_sheet;
+    LinearLayout linear_layout_tll_hrg;
+
     RelativeLayout relative_content;
+
 
     CardView card_bottom_sheet;
 
@@ -111,7 +116,7 @@ public class DetailPenerimaanActivity extends AppCompatActivity implements Recyc
 
     View view_collapse;
 
-    LinearLayout linear_bottom_sheet;
+    RelativeLayout linear_bottom_sheet;
     LinearLayout bottom_sheet;
 
 //    Session
@@ -162,9 +167,11 @@ public class DetailPenerimaanActivity extends AppCompatActivity implements Recyc
 
         recyclerViewItem = findViewById(R.id.recyclerItem);
 
-
+//      Bottom Sheet
         ttl_hrg_layout = findViewById(R.id.ttlHrgLayout);
         ttl_hrg2_layout = findViewById(R.id.ttlHrg2Layout);
+        linear_layout_tll_hrg = findViewById(R.id.linearLayoutTllHrg);
+        btn_layout_bottom_sheet = findViewById(R.id.btnLayoutBottomSheet);
         tv_total_hrg2 = findViewById(R.id.tvTotalhrg2);
         tv_ala_supplier = findViewById(R.id.tvAlamatBottom);
 
@@ -200,10 +207,6 @@ public class DetailPenerimaanActivity extends AppCompatActivity implements Recyc
 
 
         tb_title.setText("Detail Penerimaan");
-
-        card_bottom_sheet.getLayoutParams().height = 600;
-        card_bottom_sheet.requestLayout();
-
         view_collapse.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View view, MotionEvent motionEvent) {
@@ -220,32 +223,46 @@ public class DetailPenerimaanActivity extends AppCompatActivity implements Recyc
 
                         float distanceX = movedX-xDown;
                         float distancey = movedY-yDown;
-//                        if (((card_bottom_sheet.getHeight())-distancey)<430){
-//                            linear_bottom_sheet.setVisibility(View.GONE);
-//                        }else if (((card_bottom_sheet.getHeight())-distancey)>430){
-//                            linear_bottom_sheet.setVisibility(View.VISIBLE);
+
+//                        if (((card_bottom_sheet.getHeight())-distancey)>400&&
+//                                (((card_bottom_sheet.getHeight())-distancey)<800)) {
+//                            tv_total_hrg2.setText(""+((card_bottom_sheet.getHeight())-distancey));
+//                            card_bottom_sheet.getLayoutParams().height = (int) ((card_bottom_sheet.getHeight()) - distancey);
+//                            card_bottom_sheet.requestLayout();
+//                            height = (int) ((card_bottom_sheet.getHeight())-distancey);
 //                        }
-                        if ((((card_bottom_sheet.getHeight())-distancey)>400&&
-                            ((card_bottom_sheet.getHeight())-distancey)<600)) {
+                        if (((card_bottom_sheet.getHeight())-distancey)>((heightShort)-50)&&
+                                (((card_bottom_sheet.getHeight())-distancey)<heightLong+70)) {
+                            linear_bottom_sheet.setVisibility(View.VISIBLE);
 //                            tv_total_hrg2.setText(""+((card_bottom_sheet.getHeight())-distancey));
                             card_bottom_sheet.getLayoutParams().height = (int) ((card_bottom_sheet.getHeight()) - distancey);
                             card_bottom_sheet.requestLayout();
                             height = (int) ((card_bottom_sheet.getHeight())-distancey);
                         }
+//                        tv_total_hrg2.setText(""+height+", "+heightLong+", "+heightShort);
                         xDown= movedX;
                         yDown = movedY;
                         break;
                     case MotionEvent.ACTION_UP:
-                        if ((height<450)){
-                            card_bottom_sheet.getLayoutParams().height = 400;
+                        if ((height<((heightShort+btn_layout_bottom_sheet.getHeight())+50))&&
+                            height>((heightShort))){
+                            card_bottom_sheet.getLayoutParams().height =
+                                    (heightShort+btn_layout_bottom_sheet.getHeight()-100);
                             card_bottom_sheet.requestLayout();
-//                            linear_bottom_sheet.setVisibility(View.GONE);
-                            stscolapse = true;
+                            linear_bottom_sheet.setVisibility(View.GONE);
+                            linear_layout_tll_hrg.setVisibility(View.VISIBLE);
+                        }else if((height<((heightShort)+100))){
+                            card_bottom_sheet.getLayoutParams().height =
+                                    ((heightShort)-50);
+                            card_bottom_sheet.requestLayout();
+                            linear_bottom_sheet.setVisibility(View.GONE);
+                            linear_layout_tll_hrg.setVisibility(View.GONE);
                         }else{
-                            card_bottom_sheet.getLayoutParams().height = 600;
+                            card_bottom_sheet.getLayoutParams().height = heightLong+70;
                             card_bottom_sheet.requestLayout();
 //                            card_bottom_sheet.setMinimumHeight(600);
-//                            linear_bottom_sheet.setVisibility(View.VISIBLE);
+                            linear_bottom_sheet.setVisibility(View.VISIBLE);
+                            linear_layout_tll_hrg.setVisibility(View.VISIBLE);
 //                            stscolapse = false;
                         }
                         break;
@@ -253,14 +270,19 @@ public class DetailPenerimaanActivity extends AppCompatActivity implements Recyc
                 return false;
             }
         });
+
         view_collapse.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+//                heightLong = btn_layout_bottom_sheet.getHeight()+
+//                        linear_bottom_sheet.getHeight()+
+//                        ttl_hrg2_layout.getHeight();
                 if (stscolapse) {
 //                    linear_bottom_sheet.setVisibility(View.VISIBLE);
                 }else {
 //                    linear_bottom_sheet.setVisibility(View.GONE);
                 }
+                stscolapse = !stscolapse;
             }
         });
 
@@ -284,12 +306,16 @@ public class DetailPenerimaanActivity extends AppCompatActivity implements Recyc
             @Override
             public void onFocusChange(View view, boolean b) {
                 if (b){
-                    card_bottom_sheet.getLayoutParams().height = 400;
+                    card_bottom_sheet.getLayoutParams().height =
+                            ((heightShort)-50);
                     card_bottom_sheet.requestLayout();
+                    linear_bottom_sheet.setVisibility(View.GONE);
+                    linear_layout_tll_hrg.setVisibility(View.GONE);
+
                     scrollView.postDelayed(new Runnable() {
                         @Override
                         public void run() {
-                            scrollView.setScrollY(500);
+                            scrollView.setScrollY(600);
                         }
                     },500);
                 }
@@ -552,6 +578,18 @@ public class DetailPenerimaanActivity extends AppCompatActivity implements Recyc
                 relative_content.setVisibility(View.VISIBLE);
                 bottom_sheet.setVisibility(View.VISIBLE);
                 tv_not_found.setVisibility(View.GONE);
+
+                heightLong = (btn_layout_bottom_sheet.getHeight()+50)+
+                        linear_bottom_sheet.getHeight()+
+                        linear_layout_tll_hrg.getHeight();
+                heightShort =
+                        heightLong - (linear_bottom_sheet.getHeight());
+                linear_bottom_sheet.setMinimumHeight(linear_bottom_sheet.getHeight());
+//                tv_total_hrg2.setText(btn_layout_bottom_sheet.getHeight()+", " +
+//                        linear_bottom_sheet.getHeight()+", "+linear_layout_tll_hrg.getHeight()+
+//                                ", "+heightLong+", "+heightShort);
+                card_bottom_sheet.getLayoutParams().height = heightLong;
+                card_bottom_sheet.requestLayout();
             }
 
             @Override
