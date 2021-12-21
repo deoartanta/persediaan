@@ -17,4 +17,6 @@
     <color name="transBlack">#CE000000</color>
     <color name="colorShimmer">#BEA6A5A5</color>
     <color name="colorTextShimmer">#60A6A5A5</color>
+    <color name="splashBackgroundTranparant">#80146CEF</color>
+    <color name="bg_transparant_manual_book">#80000000</color>
 </resources>

@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".TestingTranstitionFragment">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:orientation="vertical">
+        <FrameLayout
+            android:id="@+id/frameTesting"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:layout_margin="10dp"/>
+        <LinearLayout
+            android:id="@+id/linearButtonTesting"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:orientation="horizontal"
+            android:gravity="center"
+            android:layout_margin="10dp"
+            android:layout_weight="1">
+            <Button
+                android:id="@+id/scanner1"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_margin="10dp"
+                android:text="Scanner 1"/>
+            <Button
+                android:id="@+id/scanner2"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_margin="10dp"
+                android:text="Scanner 2"/>
+            <Button
+                android:id="@+id/scanner3"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_margin="10dp"
+                android:text="Scanner 3"/>
+
+        </LinearLayout>
+        <LinearLayout
+            android:id="@+id/linearButtonTesting2"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:orientation="horizontal"
+            android:gravity="center"
+            android:layout_margin="10dp"
+            android:visibility="gone"
+            android:layout_weight="1">
+            <Button
+                android:id="@+id/scanner4"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_margin="10dp"
+                android:text="Scanner 4"/>
+            <Button
+                android:id="@+id/scanner5"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_margin="10dp"
+                android:text="Scanner 5"/>
+            <Button
+                android:id="@+id/scanner6"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_margin="10dp"
+                android:text="Scanner 6"/>
+
+        </LinearLayout>
+        <LinearLayout
+            android:id="@+id/linearButtonTesting3"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:orientation="horizontal"
+            android:gravity="center"
+            android:layout_margin="10dp"
+            android:layout_weight="1"
+            android:visibility="gone">
+            <Button
+                android:id="@+id/scanner7"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_margin="10dp"
+                android:text="Scanner 1"/>
+            <Button
+                android:id="@+id/scanner8"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_margin="10dp"
+                android:text="Scanner 2"/>
+            <Button
+                android:id="@+id/scanner9"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_margin="10dp"
+                android:text="Scanner 3"/>
+
+        </LinearLayout>
+    </LinearLayout>
+</FrameLayout>

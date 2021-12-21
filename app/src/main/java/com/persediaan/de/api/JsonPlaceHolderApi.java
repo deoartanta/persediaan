@@ -1,11 +1,14 @@
 package com.persediaan.de.api;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
+import retrofit2.http.GET;
 import retrofit2.http.POST;
+import retrofit2.http.Path;
 
 public interface JsonPlaceHolderApi {
     public static String API_KEY_NAME ="API-KEY";
@@ -147,4 +150,32 @@ public interface JsonPlaceHolderApi {
     Call<String> getCancelKonversi(
             @Field("id_user") String id_user
     );
+//    daftar item
+    @GET("api/item")
+    Call<ArrayList<ApiDaftarBarang>> getiItem(
+
+    );
+    @POST("api/item/delete")
+    @FormUrlEncoded
+    Call<ApiDaftarBarang> getHpsItem(
+            @Field("id_item") int id_item
+    );
+    @POST("api/item/add")
+    @FormUrlEncoded
+    Call<ApiDaftarBarang> getAdditem(
+            @Field("nm_item") String nm_item,
+            @Field("id_satuan") int id_satuan
+    );
+    @POST("api/item/edit")
+    @FormUrlEncoded
+    Call<ArrayList<ApiDaftarBarang>> getEdititem(
+            @Field("id_item") int id_item,
+            @Field("nm_item") String nm_item,
+            @Field("id_satuan") int id_satuan
+    );
+//    Satuan
+@GET("api/item/listSatuan")
+Call<ArrayList<ApiSatuan>> getSatuan(
+
+);
 }

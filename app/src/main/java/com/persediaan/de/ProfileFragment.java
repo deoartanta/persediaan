@@ -1,6 +1,7 @@
 package com.persediaan.de;
 
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -181,7 +182,10 @@ public class ProfileFragment extends Fragment implements RecyclerViewClickExpend
                         new String[]{"Portrait","Light"}
                 ), true));
         arrayList_profileRowExpand.add(new ModelProfileRowExpand(
-                2,"Logout",R.drawable.ic_baseline_power_settings_new_24,
+                2,"Daftar Barang",R.drawable.ic_baseline_view_list_24,
+                null, false));
+        arrayList_profileRowExpand.add(new ModelProfileRowExpand(
+                3,"Logout",R.drawable.ic_baseline_power_settings_new_24,
                 null, false).setMarginBot(130));
 
         adapterProfile = new AdapterAkunSetting(
@@ -511,9 +515,17 @@ public class ProfileFragment extends Fragment implements RecyclerViewClickExpend
                             Toast.LENGTH_SHORT).show();
                     break;
                 case 2:
+                    newPage(ItemActivity.class);
+                    break;
+                case 3:
                     sessionManagerProfil.logout();
                     break;
             }
+    }
+
+    private void newPage(Class cls) {
+        Intent i = new Intent(requireContext(),cls);
+        startActivity(i);
     }
 
     private String editProfile(String tv_edit_old, int p_iduser, String m_input, String type) {

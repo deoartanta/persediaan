@@ -189,4 +189,20 @@ public class SessionManager {
     public boolean isEditScanner(){
         return sharedPreferences.getBoolean(EDITSCANNER,false);
     }
+    public void setManualBook(String key,boolean status){
+        editor.putBoolean(key,status);
+        editor.apply();
+    }
+    public void setTranstition(String key,boolean status){
+        editor.putBoolean(key,status);
+        editor.apply();
+    }
+
+    public boolean getTranstition(String key){
+        return sharedPreferences.getBoolean(key,false);
+    }
+
+    public boolean getManualBook(String key){
+        return sharedPreferences.getBoolean(key,false);
+    }
 }

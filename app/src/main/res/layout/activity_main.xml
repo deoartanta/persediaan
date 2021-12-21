@@ -149,7 +149,7 @@
                 android:id="@+id/lblBotNavTittleHome"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:background="@color/splashBackground"
+                android:background="@color/splashBackgroundTranparant"
                 android:fontFamily="@font/poppins_bold"
                 android:text="@string/home"
                 android:textColor="@color/white"
@@ -167,7 +167,7 @@
                 android:id="@+id/lblBotNavtittlePener"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:background="@color/splashBackground"
+                android:background="@color/splashBackgroundTranparant"
                 android:fontFamily="@font/poppins_bold"
                 android:text="@string/pener"
                 android:textColor="@color/white"
@@ -185,7 +185,7 @@
                 android:id="@+id/lblBotNavTittleScan"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:background="@color/splashBackground"
+                android:background="@color/splashBackgroundTranparant"
                 android:fontFamily="@font/poppins_bold"
                 android:text="@string/scan"
                 android:textColor="@color/white"
@@ -203,7 +203,7 @@
                 android:id="@+id/lblBotNavTittleItemOut"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:background="@color/splashBackground"
+                android:background="@color/splashBackgroundTranparant"
                 android:fontFamily="@font/poppins_bold"
                 android:text="@string/out_item"
                 android:textColor="@color/white"
@@ -221,7 +221,7 @@
                 android:id="@+id/lblBotNavTittleSetting"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:background="@color/splashBackground"
+                android:background="@color/splashBackgroundTranparant"
                 android:fontFamily="@font/poppins_bold"
                 android:text="@string/setting"
                 android:textColor="@color/white"
@@ -229,6 +229,15 @@
         </LinearLayout>
 
     </LinearLayout>
+
+    <FrameLayout
+        android:id="@+id/frameManualBook"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

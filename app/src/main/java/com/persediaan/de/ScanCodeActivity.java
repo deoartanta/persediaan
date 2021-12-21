@@ -1,11 +1,12 @@
 package com.persediaan.de;
 
+import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.os.PersistableBundle;
 
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.zxing.Result;
@@ -13,19 +14,34 @@ import com.persediaan.de.data.SessionManager;
 
 import me.dm7.barcodescanner.zxing.ZXingScannerView;
 
-public class ScanCodeActivity extends AppCompatActivity implements ZXingScannerView.ResultHandler {
+public class ScanCodeActivity extends Activity implements ZXingScannerView.ResultHandler {
     public static String BARCODE = "BARCODE";
 
     public ZXingScannerView mSanView;
-    public SessionManager sessionManager;
+    public SessionManager session_scan;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState,@Nullable PersistableBundle persistentState) {
         super.onCreate(savedInstanceState,persistentState);
-        mSanView =  new ZXingScannerView(this);
+        mSanView =  new ZXingScannerView(ScanCodeActivity.this);
         setContentView(mSanView);
         mSanView.setResultHandler(this);
         mSanView.startCamera();
+        new AlertDialog.Builder(ScanCodeActivity.this)
+                .setTitle("Hasil")
+                .setMessage("Page Scanner")
+                .setCancelable(false)
+                .setNeutralButton("ok", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        dialogInterface.dismiss();
+                        setContentView(mSanView);
+                        mSanView.setResultHandler(ScanCodeActivity.this);
+                        mSanView.startCamera();
+//                        mSanView.startCamera();
+//                        mSanView.resumeCameraPreview(ScanCodeActivity.this);
+                    }
+                }).create().show();
     }
 
     @Override
@@ -36,27 +52,27 @@ public class ScanCodeActivity extends AppCompatActivity implements ZXingScannerV
         if (rArr.length!=0){
             r = rArr[1];
         }
-//        AlertDialog alertDialog = new AlertDialog.Builder(this).create();
-//        alertDialog.setTitle("Hasil Scan");
-//        alertDialog.setMessage("Hasil : "+rawResult.getText()+"\n Code Barang : "+r+"\nFormat : "+rawResult.getBarcodeFormat().toString());
-//        alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "NEXT", new DialogInterface.OnClickListener() {
-//            @Override
-//            public void onClick(DialogInterface dialogInterface, int i) {
-//                dialogInterface.dismiss();
-//                finish();
-//            }
-//        });
-//        alertDialog.show();
         Bundle bundle = new Bundle();
         bundle.putString(BARCODE,R);
-        onBackPressed();
-        sessionManager = new SessionManager(getApplicationContext(),"scan");
-        sessionManager.createSessionScan(r,rawResult.getBarcodeFormat().toString(),R);
-//        Log.d("19201299Hasil",
-//                "onResponseErrors: "+
-//                        data[8]);
-//        onBackPressed();
-//        FragmentPenerimaanBrg.textView.setText("HASIL SCANNER : \n"+"   result : "+rawResult.getText()+"\n   Format : "+rawResult.getBarcodeFormat().toString());
+
+        if (session_scan.isEditScanner()){
+            session_scan.clearSession();
+        }
+        new AlertDialog.Builder(ScanCodeActivity.this)
+                .setTitle("Hasil")
+                .setMessage("Result : "+R+"\nCode : "+rawResult.getBarcodeFormat())
+                .setCancelable(false)
+                .setNeutralButton("ok", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        dialogInterface.dismiss();
+                        mSanView.startCamera();
+                        mSanView.resumeCameraPreview(ScanCodeActivity.this);
+                    }
+                }).create().show();
+        session_scan = new SessionManager(getApplicationContext(),"scan");
+        session_scan.createSessionScan(r,rawResult.getBarcodeFormat().toString(),R);
+
     }
 
     @Override
@@ -71,6 +87,7 @@ public class ScanCodeActivity extends AppCompatActivity implements ZXingScannerV
     public void onResume() {
         super.onResume();
         if (mSanView!=null){
+            mSanView.setResultHandler(this);
             mSanView.startCamera();
         }
     }

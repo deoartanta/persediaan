@@ -56,6 +56,7 @@ public class ActionPenerimaanActivity extends AppCompatActivity {
 //  Session
     SessionManager sessionScanner;
     SessionManager sessionUser;
+    SessionManager sessionTranstition;
     HashMap<String,Integer> detailUserInt;
     HashMap<String,String> detailUserString;
 
@@ -84,6 +85,8 @@ public class ActionPenerimaanActivity extends AppCompatActivity {
         setContentView(R.layout.activity_action_penerimaan);
 
         formatNumber = new Currency("Rp. ",",");
+
+        sessionTranstition = new SessionManager(this, "transtition");
 
 //        Connection
         retrofit = new Retrofit.Builder()
@@ -219,6 +222,7 @@ public class ActionPenerimaanActivity extends AppCompatActivity {
             public void onClick(View view) {
                 editScanner = true;
                 sessionScanner.EditScanner(editScanner);
+                sessionTranstition.setTranstition("scan",true);
                 finish();
             }
         });
@@ -325,7 +329,8 @@ public class ActionPenerimaanActivity extends AppCompatActivity {
 
                     @Override
                     public void onFailure(Call<ApiPenerimaan> call, Throwable t) {
-                        Toast.makeText(getApplicationContext(), "Server Error"+t.getMessage(),
+                        Toast.makeText(getApplicationContext(),
+                                "Format barcode tidak sesuai",
                                 Toast.LENGTH_SHORT).show();
                         sessionScanner.clearSession();
                         sessionScanner.EditScanner(true);
@@ -361,6 +366,7 @@ public class ActionPenerimaanActivity extends AppCompatActivity {
             startActivity(PageDetailPenerimaan);
         }else {
             sessionScanner.EditScanner(false);
+            sessionTranstition.setTranstition("receive",true);
         }
         finish();
     }

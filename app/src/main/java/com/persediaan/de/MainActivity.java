@@ -51,12 +51,19 @@ public class MainActivity extends AppCompatActivity implements ScanInterface{
     LinearLayout main_linearlayout;
     CardView cardViewprofile;
 
+//<</User
     SessionManager sessionManager;
     HashMap<String,String> user;
     HashMap<String,Integer> user_Int;
+//User/>>
 
+//    <</Transtition
+    SessionManager sessionTranstition;
+//    Transtition/>>
     String permissionMsg;
     FrameLayout frame_layout;
+    FrameLayout frame_layout_manual_book;
+
 //  Profile
     CircleImageView img_Profile;
     TextView tv_name,username,tv_satker,tv_alamat,
@@ -74,6 +81,8 @@ public class MainActivity extends AppCompatActivity implements ScanInterface{
 
         sessionManager = new SessionManager(this,"login");
         sessionManager.checkLogin();
+
+        sessionTranstition = new SessionManager(this,"transtition");
         user = sessionManager.getUserDetail();
         user_Int = sessionManager.getUserDetailInt();
 
@@ -88,6 +97,7 @@ public class MainActivity extends AppCompatActivity implements ScanInterface{
 
 //        Fragment Layout
         frame_layout = findViewById(R.id.frame_layout);
+        frame_layout_manual_book = findViewById(R.id.frameManualBook);
 
 //        Bottom Navigation
         tv_lbl_tittle_home = findViewById(R.id.lblBotNavTittleHome);
@@ -114,10 +124,13 @@ public class MainActivity extends AppCompatActivity implements ScanInterface{
         bottomNavigation.add(new MeowBottomNavigation.Model(2,R.drawable.ic_fluent_mail_inbox_arrow_down_16_filled));
         bottomNavigation.add(new MeowBottomNavigation.Model(3,R.drawable.ic_bx_bx_barcode_reader));
         bottomNavigation.add(new MeowBottomNavigation.Model(4,R.drawable.ic_fluent_mail_inbox_arrow_up_20_filled));
-        bottomNavigation.add(new MeowBottomNavigation.Model(5,R.drawable.ic_ant_design_setting_filled));
+        bottomNavigation.add(new MeowBottomNavigation.Model(5,
+                R.drawable.ic_ant_design_setting_filled));
         bottomNavigation.setOnShowListener(new MeowBottomNavigation.ShowListener() {
             @Override
             public void onShowItem(MeowBottomNavigation.Model item) {
+                SessionManager session_manual_book = new SessionManager(MainActivity.this,
+                        "manualbook");
                 Fragment fragment = null;
 //                <<Animation>>
 //                Animation goUp = AnimationUtils.loadAnimation(getApplicationContext(),R.anim.go_up);
@@ -125,12 +138,23 @@ public class MainActivity extends AppCompatActivity implements ScanInterface{
 
                 switch (item.getId()){
                     case 1:
+                        if (!session_manual_book.getManualBook("home")){
+                            loadFragmentManualBook(new ManualBookFragment(bottomNavigation.getModels(),
+                                    frame_layout_manual_book,main_linearlayout));
+                            main_linearlayout.setVisibility(View.GONE);
+                            session_manual_book.setManualBook("home",true);
+                        }
                         page = "home";
                         fragment = new HomeFragment(bottomNavigation);
                         cardViewprofile.setVisibility(View.VISIBLE);
                         loadFragment(fragment);
                         break;
                     case 2:
+                        if (!session_manual_book.getManualBook("receive")){
+                            loadFragmentManualBook(new ReceivedManualBookFragment(frame_layout_manual_book,main_linearlayout));
+                            main_linearlayout.setVisibility(View.GONE);
+                            session_manual_book.setManualBook("receive",true);
+                        }
                         page = "penerimaan";
                         fragment = new PenerimaanFragment();
                         cardViewprofile.setVisibility(View.VISIBLE);
@@ -143,8 +167,10 @@ public class MainActivity extends AppCompatActivity implements ScanInterface{
                                 PackageManager.PERMISSION_GRANTED){
 //                            Toast.makeText(getApplicationContext(),
 //                                    "You have already granted this permission!", Toast.LENGTH_SHORT).show();
-                            loadFragment(new ScanPenerimaanFragment(bottomNavigation));
-                            cardViewprofile.setVisibility(View.GONE);
+//                            loadFragment(new ScanPenerimaanFragment(bottomNavigation));
+//                            loadFragment(new TestingTranstitionFragment(bottomNavigation));
+                            openPage(ScanActivity.class,ScanActivity.SCANNER_TYPE_2);
+//                            cardViewprofile.setVisibility(View.GONE);
                         }else
                         {
                             requestCameraPermission();
@@ -159,6 +185,7 @@ public class MainActivity extends AppCompatActivity implements ScanInterface{
                         cardViewprofile.setVisibility(View.VISIBLE);
                         loadFragment(fragment);
                         break;
+
                     case 5:
                         page = "profil";
                         fragment = new ProfileFragment();
@@ -180,7 +207,8 @@ public class MainActivity extends AppCompatActivity implements ScanInterface{
 //                },500);
             }
         });
-        bottomNavigation.setCount(1,"new");
+
+//        bottomNavigation.setCount(1,"new");
         bottomNavigation.show(1,true);
 
 
@@ -358,19 +386,39 @@ public class MainActivity extends AppCompatActivity implements ScanInterface{
 
     }
 
-    private void loadFragment(Fragment pFragment) {
+    public void loadFragment(Fragment pFragment) {
         getSupportFragmentManager()
                 .beginTransaction()
                 .replace(R.id.frame_layout,pFragment)
                 .commit();
+    }
+    public void loadFragmentManualBook(Fragment pFragment) {
+        getSupportFragmentManager()
+                .beginTransaction()
+                .replace(R.id.frameManualBook,pFragment)
+                .commit();
+    }
+
+    private void openPage(Class cls, String scannerType){
+        Intent i = new Intent(MainActivity.this,cls);
+        if (scannerType!=null){
+            i.putExtra(ScanActivity.TYPESCAN,scannerType);
+        }
+
+        startActivity(i);
     }
 
     @Override
     protected void onResume() {
         super.onResume();
         SessionManager sessionScan = new SessionManager(getApplicationContext(),"scan");
-        if (sessionScan.isEditScanner()){
-            bottomNavigation.show(3,false);
+
+        if(sessionTranstition.getTranstition("receive")){
+            bottomNavigation.show(2,true);
+            sessionTranstition.clearSession();
+        }else if(sessionTranstition.getTranstition("scan")){
+            bottomNavigation.show(3,true);
+            sessionTranstition.clearSession();
         }
         count =0;
     }
@@ -408,7 +456,8 @@ public class MainActivity extends AppCompatActivity implements ScanInterface{
             if(grantResults.length>0&&grantResults[0]==PackageManager.PERMISSION_GRANTED){
                 Toast.makeText(getApplicationContext(), "Permission Granted", Toast.LENGTH_SHORT).show();
                 cardViewprofile.setVisibility(View.GONE);
-                loadFragment(new ScanPenerimaanFragment(bottomNavigation));
+//                loadFragment(new ScanPenerimaanFragment(bottomNavigation));
+                openPage(ScanActivity.class,ScanActivity.SCANNER_TYPE_1);
             }else{
                 new Handler().postDelayed(new Runnable() {
                     @Override
@@ -423,7 +472,7 @@ public class MainActivity extends AppCompatActivity implements ScanInterface{
 
     @Override
     public void OnHandlerResult(String r) {
-        Fragment fragment = new ScanPenerimaanFragment(bottomNavigation);
-        loadFragment(fragment);
+//        Fragment fragment = new ScanPenerimaanFragment(bottomNavigation);
+//        loadFragment(fragment);
     }
 }
