@@ -1,17 +1,29 @@
 package com.persediaan.de;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.viewpager2.widget.ViewPager2;
 
 import android.Manifest;
+import android.content.DialogInterface;
+import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.content.res.Resources;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
+import android.provider.Settings;
 import android.util.Log;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -31,6 +43,7 @@ import java.util.HashMap;
 import java.util.Locale;
 
 import de.hdodenhof.circleimageview.CircleImageView;
+import me.dm7.barcodescanner.zxing.ZXingScannerView;
 
 public class MainActivity extends AppCompatActivity implements ScanInterface{
     MeowBottomNavigation bottomNavigation;
@@ -43,6 +56,7 @@ public class MainActivity extends AppCompatActivity implements ScanInterface{
     HashMap<String,Integer> user_Int;
 
     String permissionMsg;
+    FrameLayout frame_layout;
 //  Profile
     CircleImageView img_Profile;
     TextView tv_name,username,tv_satker,tv_alamat,
@@ -71,6 +85,9 @@ public class MainActivity extends AppCompatActivity implements ScanInterface{
         tv_satker = findViewById(R.id.tvSatker);
         tv_alamat = findViewById(R.id.tvAlamat);
         username = findViewById(R.id.tvUserName);
+
+//        Fragment Layout
+        frame_layout = findViewById(R.id.frame_layout);
 
 //        Bottom Navigation
         tv_lbl_tittle_home = findViewById(R.id.lblBotNavTittleHome);
@@ -122,8 +139,17 @@ public class MainActivity extends AppCompatActivity implements ScanInterface{
                         break;
                     case 3:
                         page = "scan";
-                        runScanner(new ScanPenerimaanFragment(bottomNavigation));
-                        cardViewprofile.setVisibility(View.GONE);
+                        if (ContextCompat.checkSelfPermission(MainActivity.this,Manifest.permission.CAMERA)==
+                                PackageManager.PERMISSION_GRANTED){
+//                            Toast.makeText(getApplicationContext(),
+//                                    "You have already granted this permission!", Toast.LENGTH_SHORT).show();
+                            loadFragment(new ScanPenerimaanFragment(bottomNavigation));
+                            cardViewprofile.setVisibility(View.GONE);
+                        }else
+                        {
+                            requestCameraPermission();
+                        }
+//                        runScanner();
 
 //                        finish();
                         break;
@@ -321,6 +347,16 @@ public class MainActivity extends AppCompatActivity implements ScanInterface{
         }
         page = "home";
     }
+    void runScanner(){
+
+        ZXingScannerView zXingScannerView = new ZXingScannerView(MainActivity.this);
+//        View view_btn_action = View.inflate(MainActivity.this,R.layout.btn_action_scan,
+//                (ViewGroup) getWindow().getCurrentFocus().getRootView());
+        zXingScannerView.startCamera();
+//        zXingScannerView.setFlash(true);
+        frame_layout.addView(zXingScannerView);
+
+    }
 
     private void loadFragment(Fragment pFragment) {
         getSupportFragmentManager()
@@ -339,35 +375,49 @@ public class MainActivity extends AppCompatActivity implements ScanInterface{
         count =0;
     }
 
-    public void runScanner(Fragment pFragment){
+    private void requestCameraPermission() {
+        if (ActivityCompat.shouldShowRequestPermissionRationale(MainActivity.this,
+                Manifest.permission.CAMERA)){
+            new AlertDialog.Builder(MainActivity.this)
+                    .setTitle("Permession Needed")
+                    .setMessage("This permission is needed bacause of this and that")
+                    .setPositiveButton("ok", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            ActivityCompat.requestPermissions(MainActivity.this,
+                                    new String[]{Manifest.permission.CAMERA},1);
+                        }
+                    })
+                    .setNegativeButton("cancel", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            bottomNavigation.show(1,false);
+                            dialogInterface.dismiss();
+                        }
+                    }).create().show();
+        }else {
+            ActivityCompat.requestPermissions(MainActivity.this,
+                    new String[]{Manifest.permission.CAMERA},1);
+        }
+    }
 
-        Dexter.withContext(getApplicationContext())
-                .withPermission(Manifest.permission.CAMERA)
-                .withListener(new PermissionListener() {
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if (requestCode == 1){
+            if(grantResults.length>0&&grantResults[0]==PackageManager.PERMISSION_GRANTED){
+                Toast.makeText(getApplicationContext(), "Permission Granted", Toast.LENGTH_SHORT).show();
+                cardViewprofile.setVisibility(View.GONE);
+                loadFragment(new ScanPenerimaanFragment(bottomNavigation));
+            }else{
+                new Handler().postDelayed(new Runnable() {
                     @Override
-                    public void onPermissionGranted(PermissionGrantedResponse permissionGrantedResponse) {
-                        permissionMsg = null;
-                        loadFragment(pFragment);
-
+                    public void run() {
+                        bottomNavigation.show(1,false);
                     }
-
-                    @Override
-                    public void onPermissionDenied(PermissionDeniedResponse permissionDeniedResponse) {
-                        permissionMsg = "Anda bisa menyalakan perizinan camera di pengaturan";
-                        permissionDeniedResponse.getRequestedPermission();
-                    }
-
-                    @Override
-                    public void onPermissionRationaleShouldBeShown(
-                            PermissionRequest permissionRequest,
-                            PermissionToken permissionToken) {
-                        permissionMsg = "Akses kamera belum diizinkan";
-                    }
-                }).check();
-        if (permissionMsg!=null) {
-            Toast.makeText(getApplicationContext(), permissionMsg, Toast.LENGTH_LONG).show();
-//            Snackbar.make(getCurrentFocus(), permissionMsg, Snackbar.LENGTH_LONG)
-//                    .setAction("Info", null).show();
+                }, 500);
+                Toast.makeText(getApplicationContext(), "Permission Denied", Toast.LENGTH_SHORT).show();
+            }
         }
     }
 

@@ -1,38 +1,136 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".ScanPenerimaanFragment">
 
     <!-- TODO: Update blank fragment layout -->
-    <me.dm7.barcodescanner.zxing.ZXingScannerView
+    <FrameLayout
+        android:id="@+id/scanBarcode"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/scanBarcode"/>
-    <LinearLayout
-        android:id="@+id/linearLayoutScan"
+        android:layout_marginBottom="-200dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cardBtnActionScanner"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_marginBottom="100dp"
-        android:layout_marginHorizontal="20dp"
-        android:layout_gravity="bottom|center_horizontal"
-        android:gravity="center">
+        android:layout_gravity="bottom"
+        app:cardBackgroundColor="#8DFFFFFF"
+        app:cardCornerRadius="30dp"
+        app:cardElevation="20dp"
+        app:cardUseCompatPadding="false"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
 
-        <Button
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:id="@+id/linearLayoutScan"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="10dp"
-            android:text="Type Item Code"
-            android:id="@+id/btnManualInput"/>
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="10dp"
-            android:backgroundTint="@color/BgRed"
-            android:text="Batal"
-            android:id="@+id/btnBatalEditScan"/>
-    </LinearLayout>
+            android:layout_gravity="bottom|center_horizontal"
+            android:layout_marginHorizontal="20dp"
+            android:layout_marginTop="30dp"
+            android:layout_marginBottom="80dp"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:padding="20dp">
 
-</FrameLayout>
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <LinearLayout
+                    android:id="@+id/linearLayoutStting"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginVertical="20dp"
+                    android:orientation="vertical"
+                    app:layout_constraintBottom_toTopOf="@+id/linearLayoutBtnScan"
+                    app:layout_constraintEnd_toEndOf="@+id/linearLayoutBtnScan"
+                    app:layout_constraintStart_toStartOf="@+id/linearLayoutBtnScan">
+
+                    <Switch
+                        android:id="@+id/switchAutoFocus"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/poppins_bold"
+                        android:text="Auto Focus"
+                        tools:ignore="TouchTargetSizeCheck" />
+
+                    <Switch
+                        android:id="@+id/switchFlash"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/poppins_bold"
+                        android:minHeight="48dp"
+                        android:text="Flash" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/linearLayoutBtnScan"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_horizontal"
+                        android:orientation="horizontal">
+
+                        <Button
+                            android:id="@+id/btnManualInput"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginEnd="10dp"
+                            android:backgroundTint="#248503"
+                            android:text="Type Item Code" />
+
+                        <Button
+                            android:id="@+id/btnBatalEditScan"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="10dp"
+                            android:backgroundTint="@color/BgRed"
+                            android:text="Batal" />
+                    </LinearLayout>
+                </LinearLayout>
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:id="@+id/viewCollapseScan"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
+                android:paddingTop="15dp"
+                android:paddingBottom="20dp">
+
+                <View
+                    android:layout_width="30dp"
+                    android:layout_height="5dp"
+                    android:background="@drawable/btn_action"
+                    android:backgroundTint="#9E000000" />
+            </LinearLayout>
+        </LinearLayout>
+
+    </androidx.cardview.widget.CardView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
