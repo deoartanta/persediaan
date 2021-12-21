@@ -228,10 +228,12 @@ public class DetailPenerimaanActivity extends AppCompatActivity implements Recyc
                         if ((((card_bottom_sheet.getHeight())-distancey)>400&&
                             ((card_bottom_sheet.getHeight())-distancey)<600)) {
 //                            tv_total_hrg2.setText(""+((card_bottom_sheet.getHeight())-distancey));
-                            card_bottom_sheet.getLayoutParams().height = (int) ((card_bottom_sheet.getHeight()) - distancey);
-                            card_bottom_sheet.requestLayout();
-                            height = (int) ((card_bottom_sheet.getHeight())-distancey);
                         }
+                        card_bottom_sheet.getLayoutParams().height = (int) ((card_bottom_sheet.getHeight()) - distancey);
+                        card_bottom_sheet.requestLayout();
+                        height = (int) ((card_bottom_sheet.getHeight())-distancey);
+
+                        tv_total_hrg2.setText(""+height);
                         xDown= movedX;
                         yDown = movedY;
                         break;

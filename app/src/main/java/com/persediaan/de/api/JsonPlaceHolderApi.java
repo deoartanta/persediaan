@@ -108,7 +108,7 @@ public interface JsonPlaceHolderApi {
             @Field("id_user") int id_user
     );
 
-    //Konversi
+                                //----------Konversi----------\\
     @POST("api/konversi/noKonversi")
     @FormUrlEncoded
     Call<String> getResponNoKonversi(
@@ -145,6 +145,11 @@ public interface JsonPlaceHolderApi {
     @POST("api/konversi/batal")
     @FormUrlEncoded
     Call<String> getCancelKonversi(
+            @Field("id_user") String id_user
+    );
+    @POST("api/konversi/simpan")
+    @FormUrlEncoded
+    Call<ApiKonversi> getSimpanKonversi(
             @Field("id_user") String id_user
     );
 }
