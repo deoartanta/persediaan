@@ -73,7 +73,7 @@
                             android:textColor="@color/colorTextShimmer" />
 
                         <TextView
-                            android:id="@+id/tv_titikd3"
+                            android:id="@+id/tv_titikd"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_toEndOf="@id/tv_lblnopurchase"
@@ -87,7 +87,7 @@
                             android:id="@+id/tvPurchase"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_toEndOf="@id/tv_titikd3"
+                            android:layout_toEndOf="@id/tv_titikd"
                             android:background="@color/colorShimmer"
                             android:paddingEnd="5dp"
                             android:text="TextView"

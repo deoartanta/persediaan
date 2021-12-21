@@ -69,7 +69,7 @@
                                 android:textSize="14sp" />
 
                             <TextView
-                                android:id="@+id/tv_titikd3"
+                                android:id="@+id/tv_titikd"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_toEndOf="@id/tvLblNamaItem"
@@ -79,10 +79,10 @@
                                 android:text=":" />
 
                             <TextView
-                                android:id="@+id/tvResPurchase"
+                                android:id="@+id/tvResNmItem"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:layout_toEndOf="@id/tv_titikd3"
+                                android:layout_toEndOf="@id/tv_titikd"
                                 android:fontFamily="@font/poppins"
                                 android:gravity="start|center_vertical"
                                 android:paddingEnd="5dp"

@@ -334,6 +334,7 @@ public class ActionPenerimaanActivity extends AppCompatActivity {
                                 Toast.LENGTH_SHORT).show();
                         sessionScanner.clearSession();
                         sessionScanner.EditScanner(true);
+                        sessionTranstition.setTranstition("scan",true);
                         finish();
                     }
                 });

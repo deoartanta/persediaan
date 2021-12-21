@@ -215,8 +215,8 @@ public class DetailPenerimaanActivity extends AppCompatActivity implements Recyc
 //            public boolean onTouch(View view, MotionEvent motionEvent) {
 //                float xDown=0,yDown=0,movedX=0,movedY=0;
 //                switch (motionEvent.getAction()){
-//                    case MotionEvent.ACTION_DOWN:
-//                        xDown = motionEvent.getX();
+////                    case MotionEvent.ACTION_DOWN:
+////                        xDown = motionEvent.getX();
 //                        yDown = motionEvent.getY();
 //                        height = card_bottom_sheet.getHeight();
 //                        break;

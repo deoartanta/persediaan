@@ -15,8 +15,6 @@ import com.persediaan.de.R;
 import com.persediaan.de.data.Currency;
 import com.persediaan.de.model.ModelPenerimaan;
 
-import java.text.DecimalFormat;
-import java.text.DecimalFormatSymbols;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -121,7 +119,7 @@ public class AdapterPenerimaan2 extends RecyclerView.Adapter<AdapterPenerimaan2.
             tv_jml_item = itemView.findViewById(R.id.tvResJMLItem);
             tv_tgl = itemView.findViewById(R.id.tvResTGL);
             tv_idtrans = itemView.findViewById(R.id.tvResIdTrans);
-            tv_nopurchase = itemView.findViewById(R.id.tvResPurchase);
+            tv_nopurchase = itemView.findViewById(R.id.tvResNmItem);
             tv_imgExpand = itemView.findViewById(R.id.imgDetailpener);
 
             btn_detail = itemView.findViewById(R.id.btnShowDetail);

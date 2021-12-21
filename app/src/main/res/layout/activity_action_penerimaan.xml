@@ -303,7 +303,7 @@
                             android:textSize="14sp" />
 
                         <TextView
-                            android:id="@+id/tv_titikd3"
+                            android:id="@+id/tv_titikd15"
                             android:layout_width="wrap_content"
                             android:layout_height="match_parent"
                             android:layout_alignTop="@id/layoutInput"
@@ -319,7 +319,7 @@
                             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_toEndOf="@id/tv_titikd3">
+                            android:layout_toEndOf="@id/tv_titikd15">
 
                             <com.google.android.material.textfield.TextInputEditText
                                 android:id="@+id/tietHarga"

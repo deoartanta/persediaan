@@ -198,7 +198,9 @@ public class MainActivity extends AppCompatActivity implements ScanInterface{
                         loadFragment(fragment);
                         break;
                 }
-                setTittleLabel(item.getId());
+//                if(bottomNavigation.isShowing(item.getId())){
+                    setTittleLabel(item.getId());
+//                };
 //                new Handler().postDelayed(new Runnable() {
 //                    @Override
 //                    public void run() {
@@ -418,6 +420,9 @@ public class MainActivity extends AppCompatActivity implements ScanInterface{
             sessionTranstition.clearSession();
         }else if(sessionTranstition.getTranstition("scan")){
             bottomNavigation.show(3,true);
+            sessionTranstition.clearSession();
+        }else if(sessionTranstition.getTranstition("setting")){
+            bottomNavigation.show(5,true);
             sessionTranstition.clearSession();
         }
         count =0;

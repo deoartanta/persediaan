@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
@@ -14,8 +15,11 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -53,6 +57,7 @@ public class ItemActivity extends AppCompatActivity implements RecyclerViewClick
     AdapterDaftartBarang adapterDaftartBarang;
 
     HashMap<String,Integer>modelSatuan;
+    ImageButton tb_img_btn;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -66,6 +71,13 @@ public class ItemActivity extends AppCompatActivity implements RecyclerViewClick
         jsonPlaceHolderApi = retrofit.create(JsonPlaceHolderApi.class);
 
         btn_add = findViewById(R.id.btnAddItem);
+        tb_img_btn = findViewById(R.id.tbImgBtnItem);
+        tb_img_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onBackPressed();
+            }
+        });
         recycle_daftar_barang = findViewById(R.id.recycleDaftarBarang);
         loadData();
 
@@ -81,7 +93,7 @@ public class ItemActivity extends AppCompatActivity implements RecyclerViewClick
 
                 loadSatuan(autoCompleteSatuan);
                 new AlertDialog.Builder(ItemActivity.this)
-                        .setIcon(R.drawable.ic_baseline_create_24_primary)
+                        .setIcon(R.drawable.ic_baseline_add_circle_24_success)
                         .setTitle("Add Item")
                         .setView(viewinflater)
                         .setCancelable(true)
@@ -192,9 +204,23 @@ public class ItemActivity extends AppCompatActivity implements RecyclerViewClick
                     listSatuan.add(apiSatuan.getNm_satuan());
                     modelSatuan.put(apiSatuan.getNm_satuan().toString(),apiSatuan.getId_satuan());
                 }
-                adapter_item = new ArrayAdapter<>(getApplicationContext(),R.layout.list_item,
+                adapter_item = new ArrayAdapter<>(getApplicationContext(),R.layout.tv_daftar_item,
                         listSatuan);
                 autoCompleteSatuan.setAdapter(adapter_item);
+
+                autoCompleteSatuan.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+                    @Override
+                    public void onFocusChange(View view, boolean b) {
+
+                    }
+                });
+
+                autoCompleteSatuan.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                        lostFocus(getWindow().getCurrentFocus());
+                    }
+                });
 
 
 
@@ -216,7 +242,9 @@ public class ItemActivity extends AppCompatActivity implements RecyclerViewClick
                 for (ApiDaftarBarang apiDaftarBarang:response.body()) {
                     if (apiDaftarBarang.getMsg()==null) {
                         loadData();
-                        Toast.makeText(getApplicationContext(), "Edit data berhasil", Toast.LENGTH_SHORT).show();
+                      Toast.makeText(getApplicationContext(), "Edit data berhasil", Toast.LENGTH_SHORT).show();
+//                        Snackbar.make(ItemActivity.this,findViewById(android.R.id.content),
+//                                "Berhasil edit data",Snackbar.LENGTH_LONG).show();
                     }else {
                         Toast.makeText(getApplicationContext(),
                                 ""+apiDaftarBarang.getMsg(),
@@ -235,6 +263,8 @@ public class ItemActivity extends AppCompatActivity implements RecyclerViewClick
     @Override
     public void onItemClick(int position, View view) {
         TextView nm_item = view.findViewById(R.id.tvResNmItem);
+        TextView nm_stn = view.findViewById(R.id.tvResNmStn);
+
 
         LayoutInflater layoutInflater= getLayoutInflater();
         View viewinflater =layoutInflater.inflate(R.layout.input_alert_dialog_item,null);
@@ -243,9 +273,10 @@ public class ItemActivity extends AppCompatActivity implements RecyclerViewClick
         AutoCompleteTextView autoCompleteSatuan= viewinflater.findViewById(R.id.autoCompleteSatuan);
         tiet_nm_item.setText(nm_item.getText().toString().toUpperCase(Locale.ROOT));
         loadSatuan(autoCompleteSatuan);
+        autoCompleteSatuan.setText(nm_stn.getText());
         new AlertDialog.Builder(ItemActivity.this)
                 .setIcon(R.drawable.ic_baseline_create_24_primary)
-                .setTitle("Add Item")
+                .setTitle("Edit Item")
                 .setView(viewinflater)
                 .setCancelable(true)
                 .setPositiveButton("Lanjut", new DialogInterface.OnClickListener() {
@@ -317,5 +348,20 @@ public class ItemActivity extends AppCompatActivity implements RecyclerViewClick
                         dialogInterface.dismiss();
                     }
                 }).create().show();
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        SessionManager sessionTranstition = new SessionManager(getApplicationContext(),
+                "transtition");
+        sessionTranstition.setTranstition("setting",true);
+
+    }
+    public void lostFocus(View viewFocus){
+        if (viewFocus!=null){
+            InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+            imm.hideSoftInputFromWindow(viewFocus.getWindowToken(),0);
+        }
     }
 }
