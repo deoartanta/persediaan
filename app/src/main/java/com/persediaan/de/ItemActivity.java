@@ -216,6 +216,7 @@ public class ItemActivity extends AppCompatActivity implements RecyclerViewClick
                 for (ApiDaftarBarang apiDaftarBarang:response.body()) {
                     if (apiDaftarBarang.getMsg()==null) {
                         loadData();
+                        Toast.makeText(getApplicationContext(), "Edit data berhasil", Toast.LENGTH_SHORT).show();
                     }else {
                         Toast.makeText(getApplicationContext(),
                                 ""+apiDaftarBarang.getMsg(),

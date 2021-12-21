@@ -289,6 +289,47 @@ public class DetailPenerimaanActivity extends AppCompatActivity implements Recyc
 //                return false;
 //            }
 //        });
+//                        if (((card_bottom_sheet.getHeight())-distancey)>((heightShort)-50)&&
+//                                (((card_bottom_sheet.getHeight())-distancey)<heightLong+70)) {
+//                            linear_bottom_sheet.setVisibility(View.VISIBLE);
+//                            tv_total_hrg2.setText(""+((card_bottom_sheet.getHeight())-distancey));
+//                        }
+//                        card_bottom_sheet.getLayoutParams().height = (int) ((card_bottom_sheet.getHeight()) - distancey);
+//                        card_bottom_sheet.requestLayout();
+//                        height = (int) ((card_bottom_sheet.getHeight())-distancey);
+//
+//                        tv_total_hrg2.setText(""+height);
+//                        tv_total_hrg2.setText(""+height+", "+heightLong+", "+heightShort);
+//                        xDown= movedX;
+//                        yDown = movedY;
+//                        break;
+//                    case MotionEvent.ACTION_UP:
+//                        if ((height<((heightShort+btn_layout_bottom_sheet.getHeight())+50))&&
+//                            height>((heightShort))){
+//                            card_bottom_sheet.getLayoutParams().height =
+//                                    (heightShort+btn_layout_bottom_sheet.getHeight()-100);
+//                            card_bottom_sheet.requestLayout();
+//                            linear_bottom_sheet.setVisibility(View.GONE);
+//                            linear_layout_tll_hrg.setVisibility(View.VISIBLE);
+//                        }else if((height<((heightShort)+100))){
+//                            card_bottom_sheet.getLayoutParams().height =
+//                                    ((heightShort)-50);
+//                            card_bottom_sheet.requestLayout();
+//                            linear_bottom_sheet.setVisibility(View.GONE);
+//                            linear_layout_tll_hrg.setVisibility(View.GONE);
+//                        }else{
+//                            card_bottom_sheet.getLayoutParams().height = heightLong+70;
+//                            card_bottom_sheet.requestLayout();
+////                            card_bottom_sheet.setMinimumHeight(600);
+//                            linear_bottom_sheet.setVisibility(View.VISIBLE);
+//                            linear_layout_tll_hrg.setVisibility(View.VISIBLE);
+////                            stscolapse = false;
+//                        }
+//                        break;
+//                }
+//                return false;
+//            }
+//        });
 
         view_collapse.setOnClickListener(new View.OnClickListener() {
             @Override

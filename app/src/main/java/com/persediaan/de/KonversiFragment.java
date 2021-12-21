@@ -128,81 +128,80 @@ public class KonversiFragment extends Fragment implements RecyclerViewClickInter
                 for (ApiKonversi arr:noReceipts){
                     MdlNoReceipt.add(arr.getId_trans());
                 }
-                adapterItems = new ArrayAdapter<String>(getActivity(),R.layout.list_item, MdlNoReceipt);
-                autoCompleteNoReceipt.setAdapter(adapterItems);
-                autoCompleteNoReceipt.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                    @Override
-                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                        String id_trans = parent.getItemAtPosition(position).toString();
-                        if(id_trans != null) {
-                            crdListBarang.setVisibility(View.VISIBLE);
-                            Call<List<ApiKonversi>> callItems = jsonPlaceHolderApi.getResponItems(id_trans);
-                            callItems.enqueue(new Callback<List<ApiKonversi>>() {
-                                @Override
-                                public void onResponse(Call<List<ApiKonversi>> call, Response<List<ApiKonversi>> response) {
-                                    List<ApiKonversi> Items = response.body();
-                                    listItems = new ArrayList<>();
-                                    int ii= 1;
-                                    for(ApiKonversi arr:Items){
-                                        listItems.add(new ModelItemsKonv(
-                                                arr.getId_detail(),
-                                                arr.getId_purchase(),
-                                                arr.getNm_item(),
-                                                arr.getNm_area(),
-                                                arr.getNm_singkat(),
-                                                arr.getNm_satuan(),
-                                                arr.getEceran(),
-                                                arr.getId(),
-                                                arr.getId_area(),
-                                                arr.getId_item(),
-                                                arr.getQty(),
-                                                arr.getId_satuan(),
-                                                arr.getHarga(),
-                                                arr.getDikonversi(),
-                                                arr.getCreated(),
-                                                arr.getUpdated(),
-                                                arr.getJumlah()
-                                        ));
-                                    }
-                                    AdapterItemsKonversi cycleItems;
-                                    for(int i = 0; i < listItems.size(); i++)
-                                    {
-                                        String date = String.valueOf(listItems.get(0).getCreated());
-                                        Date expiry = new Date(Long.parseLong(date) * 1000);
-                                        SimpleDateFormat sdf = new SimpleDateFormat("dd MMMM yyyy", Locale.US);
-                                        tvTglBarang.setText(sdf.format(expiry));
-                                    }
-                                    cycleItems = new AdapterItemsKonversi(requireContext(), listItems, KonversiFragment.this);
-                                    recycleKonversi.setLayoutManager(new LinearLayoutManager(getContext(),
-                                            LinearLayoutManager.VERTICAL, false));
-                                    recycleKonversi.setHasFixedSize(true);
-                                    recycleKonversi.setItemAnimator(new DefaultItemAnimator());
-                                    recycleKonversi.setAdapter(cycleItems);
+                if(noReceipts.get(0).getMsg() != null){
+                    autoCompleteNoReceipt.setText("Tidak Ada No Receipt");
+                } else {
+                    adapterItems = new ArrayAdapter<String>(getActivity(),R.layout.list_item, MdlNoReceipt);
+                    autoCompleteNoReceipt.setAdapter(adapterItems);
+                    autoCompleteNoReceipt.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                        @Override
+                        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                            String id_trans = parent.getItemAtPosition(position).toString();
+                            if(id_trans != null) {
+                                crdListBarang.setVisibility(View.VISIBLE);
+                                Call<List<ApiKonversi>> callItems = jsonPlaceHolderApi.getResponItems(id_trans);
+                                callItems.enqueue(new Callback<List<ApiKonversi>>() {
+                                    @Override
+                                    public void onResponse(Call<List<ApiKonversi>> call, Response<List<ApiKonversi>> response) {
+                                        List<ApiKonversi> Items = response.body();
+                                        listItems = new ArrayList<>();
+                                        int ii= 1;
+                                        for(ApiKonversi arr:Items){
+                                            listItems.add(new ModelItemsKonv(
+                                                    arr.getId_detail(),
+                                                    arr.getId_purchase(),
+                                                    arr.getNm_item(),
+                                                    arr.getNm_area(),
+                                                    arr.getNm_singkat(),
+                                                    arr.getNm_satuan(),
+                                                    arr.getEceran(),
+                                                    arr.getId(),
+                                                    arr.getId_area(),
+                                                    arr.getId_item(),
+                                                    arr.getQty(),
+                                                    arr.getId_satuan(),
+                                                    arr.getHarga(),
+                                                    arr.getDikonversi(),
+                                                    arr.getCreated(),
+                                                    arr.getUpdated(),
+                                                    arr.getJumlah()
+                                            ));
+                                        }
+                                        AdapterItemsKonversi cycleItems;
+                                        for(int i = 0; i < listItems.size(); i++)
+                                        {
+                                            String date = String.valueOf(listItems.get(0).getCreated());
+                                            Date expiry = new Date(Long.parseLong(date) * 1000);
+                                            SimpleDateFormat sdf = new SimpleDateFormat("dd MMMM yyyy", Locale.US);
+                                            tvTglBarang.setText(sdf.format(expiry));
+                                        }
+                                        cycleItems = new AdapterItemsKonversi(requireContext(), listItems, KonversiFragment.this);
+                                        recycleKonversi.setLayoutManager(new LinearLayoutManager(getContext(),
+                                                LinearLayoutManager.VERTICAL, false));
+                                        recycleKonversi.setHasFixedSize(true);
+                                        recycleKonversi.setItemAnimator(new DefaultItemAnimator());
+                                        recycleKonversi.setAdapter(cycleItems);
 
-                                    if (!response.isSuccessful()){
-                                        Toast.makeText(requireContext(), "Tidak ada data", Toast.LENGTH_SHORT).show();
-                                        return;
+                                        if (!response.isSuccessful()){
+                                            Toast.makeText(requireContext(), "Tidak ada data", Toast.LENGTH_SHORT).show();
+                                            return;
+                                        }
                                     }
-                                }
 
-                                @Override
-                                public void onFailure(Call<List<ApiKonversi>> call, Throwable t) {
-                                    Toast.makeText(requireContext(), "Server Error", Toast.LENGTH_SHORT).show();
-                                }
-                            });
+                                    @Override
+                                    public void onFailure(Call<List<ApiKonversi>> call, Throwable t) {
+                                        Toast.makeText(requireContext(), "Server Error", Toast.LENGTH_SHORT).show();
+                                    }
+                                });
+                            }
                         }
-                    }
-                });
-
-                if (!response.isSuccessful()){
-                    Toast.makeText(requireContext(), "Tidak ada data", Toast.LENGTH_SHORT).show();
-                    return;
+                    });
                 }
             }
 
             @Override
             public void onFailure(Call<List<ApiKonversi>> call, Throwable t) {
-                Toast.makeText(requireContext(), "Gagal", Toast.LENGTH_SHORT).show();
+                Toast.makeText(requireContext(), "Server Error", Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -234,7 +233,29 @@ public class KonversiFragment extends Fragment implements RecyclerViewClickInter
         btnSimpanKonversi.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                meowBottomNavigation.show(4,false);
+                Call<ApiKonversi> saveKonv = jsonPlaceHolderApi.getSimpanKonversi(String.valueOf(detailUser.get(SessionManager.USER_ID)));
+                saveKonv.enqueue(new Callback<ApiKonversi>() {
+                    @Override
+                    public void onResponse(Call<ApiKonversi> call, Response<ApiKonversi> response) {
+                        ApiKonversi tersimpan = response.body();
+                        if(tersimpan != null){
+                            Toast.makeText(getContext(), "Berhasil simpan data", Toast.LENGTH_SHORT).show();
+                            new Handler().postDelayed(new Runnable() {
+                                @Override
+                                public void run() {
+                                    meowBottomNavigation.show(4,false);
+                                }
+                            }, 500);
+                        }else {
+                            Toast.makeText(getContext(), "Gagal simpan data", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<ApiKonversi> call, Throwable t) {
+                        Toast.makeText(getContext(), "Server Error", Toast.LENGTH_SHORT).show();
+                    }
+                });
             }
         });
 

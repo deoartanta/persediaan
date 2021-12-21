@@ -111,7 +111,7 @@ public interface JsonPlaceHolderApi {
             @Field("id_user") int id_user
     );
 
-    //Konversi
+                                //----------Konversi----------\\
     @POST("api/konversi/noKonversi")
     @FormUrlEncoded
     Call<String> getResponNoKonversi(
@@ -150,7 +150,6 @@ public interface JsonPlaceHolderApi {
     Call<String> getCancelKonversi(
             @Field("id_user") String id_user
     );
-//    daftar item
     @GET("api/item")
     Call<ArrayList<ApiDaftarBarang>> getiItem(
 
@@ -178,4 +177,10 @@ public interface JsonPlaceHolderApi {
 Call<ArrayList<ApiSatuan>> getSatuan(
 
 );
+
+    @POST("api/konversi/simpan")
+    @FormUrlEncoded
+    Call<ApiKonversi> getSimpanKonversi(
+            @Field("id_user") String id_user
+    );
 }
