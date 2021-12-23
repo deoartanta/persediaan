@@ -151,6 +151,13 @@ public interface JsonPlaceHolderApi {
     Call<String> getCancelKonversi(
             @Field("id_user") String id_user
     );
+    @POST("api/konversi/simpan")
+    @FormUrlEncoded
+    Call<ApiKonversi> getSimpanKonversi(
+            @Field("id_user") String id_user
+    );
+
+    // Item
     @GET("api/item")
     Call<ArrayList<ApiDaftarBarang>> getiItem(
 
@@ -173,18 +180,18 @@ public interface JsonPlaceHolderApi {
             @Field("nm_item") String nm_item,
             @Field("id_satuan") int id_satuan
     );
+
 //    Satuan
-@GET("api/item/listSatuan")
-Call<ArrayList<ApiSatuan>> getSatuan(
+    @GET("api/item/listSatuan")
+    Call<ArrayList<ApiSatuan>> getSatuan(
 
-);
-
-    @POST("api/konversi/simpan")
-    @FormUrlEncoded
-    Call<ApiKonversi> getSimpanKonversi(
-            @Field("id_user") String id_user
     );
-//Transfer
+
+                        //----------Stock/Home----------\\
+    @GET("api/stock/index")
+    Call<List<ApiStock>> getStock();
+
+                       //----------Transfer----------\\
     @POST("api/transfer/noTransfer")
     @FormUrlEncoded
     Call<String> getResponNoTransfer(
@@ -236,5 +243,4 @@ Call<ArrayList<ApiSatuan>> getSatuan(
             @Field("id_user") int id_user,
             @Field("note") String note
     );
-
 }

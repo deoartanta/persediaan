@@ -25,11 +25,23 @@ import android.widget.TextView;
 
 import com.etebarian.meowbottomnavigation.MeowBottomNavigation;
 import com.persediaan.de.adapter.AdapterPenerimaan;
+import com.persediaan.de.adapter.AdapterStock;
 import com.persediaan.de.adapter.RecyclerViewClickInterface;
 import com.persediaan.de.adapter.myAdapter;
+import com.persediaan.de.api.ApiStock;
+import com.persediaan.de.api.JsonPlaceHolderApi;
+import com.persediaan.de.data.SessionManager;
 import com.persediaan.de.model.ModelPenerimaan;
+import com.persediaan.de.model.ModelStock;
 
 import java.util.ArrayList;
+import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -43,15 +55,17 @@ public class HomeFragment extends Fragment implements RecyclerViewClickInterface
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
 
+    private Retrofit retrofit;
+    private JsonPlaceHolderApi jsonPlaceHolderApi;
     private ActionBar actionBar;
-    private ArrayList<ModelPenerimaan> modelPenerimaanArrayList;
+    private ArrayList<ModelStock> mdlStock;
 
     private myAdapter adapter;
-    private AdapterPenerimaan adapterPenerimaan;
+    private AdapterStock adapterStock;
 
     ViewPager viewPager;
     ViewPager2 viewPager2;
-    RecyclerView home_penerimaan,home_brgout;
+    RecyclerView recycle_stock;
     ScrollView svHome;
 
     MeowBottomNavigation bottomNavigation;
@@ -98,38 +112,57 @@ public class HomeFragment extends Fragment implements RecyclerViewClickInterface
         View view = inflater.inflate(R.layout.fragment_home,container,false);
         view.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,ViewGroup.LayoutParams.MATCH_PARENT));
 
-        home_penerimaan = view.findViewById(R.id.recyclerHomePenerimaan);
-        home_brgout = view.findViewById(R.id.recyclerHomeBrgKeluar);
-//        loadCards();
+        recycle_stock = view.findViewById(R.id.recycle_stock);
+        retrofit = new Retrofit.Builder()
+                .baseUrl(SessionManager.HOSTNAME)
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+        jsonPlaceHolderApi = retrofit.create(JsonPlaceHolderApi.class);
+        loadCards();
         return view;
     }
 
     private void loadCards() {
-        modelPenerimaanArrayList = new ArrayList<ModelPenerimaan>();
+        mdlStock = new ArrayList<ModelStock>();
+        Call<List<ApiStock>> call = jsonPlaceHolderApi.getStock();
+        call.enqueue(new Callback<List<ApiStock>>() {
+            @Override
+            public void onResponse(Call<List<ApiStock>> call, Response<List<ApiStock>> response) {
+                List<ApiStock> Items = response.body();
+                mdlStock = new ArrayList<>();
+                for(ApiStock arr:Items){
+                    mdlStock.add(new ModelStock(
+                            arr.getId(),
+                            arr.getDt_gudang(),
+                            arr.getAdmin(),
+                            arr.getId_area(),
+                            arr.getId_item(),
+                            arr.getQty(),
+                            arr.getHarga(),
+                            arr.getTipe(),
+                            arr.getTgl_gudang(),
+                            arr.getSisa(),
+                            arr.getNm_item(),
+                            arr.getId_satuan(),
+                            arr.getNm_satuan(),
+                            arr.getJumlah(),
+                            arr.getEceran(),
+                            arr.getNm_area(),
+                            arr.getNm_singkat()
+                    ));
+                }
+                adapterStock = new AdapterStock(getContext(), mdlStock);
+                recycle_stock.setLayoutManager(new LinearLayoutManager(getContext(),
+                        LinearLayoutManager.HORIZONTAL, false));
+                recycle_stock.setItemAnimator(new DefaultItemAnimator());
+                recycle_stock.setAdapter(adapterStock);
+            }
 
-//        modelPenerimaanArrayList.add(new ModelPenerimaan(
-//                "Deo Artanta","Belum","Surabaya",
-//                "Jl. Cempaka no.27",10,200000,
-//                "25 September 2021","001","sby-002-200",0,
-//                getResources().getColor(R.color.white),
-//                R.drawable.ic_bubble_chart_24,
-//                R.drawable.ic_bg_label_red_1,false));
+            @Override
+            public void onFailure(Call<List<ApiStock>> call, Throwable t) {
 
-         adapter = new myAdapter(getContext(),modelPenerimaanArrayList);
-         adapterPenerimaan = new AdapterPenerimaan(modelPenerimaanArrayList,this);
-
-         home_brgout.setLayoutManager(new LinearLayoutManager(getContext(),
-                 LinearLayoutManager.HORIZONTAL, false));
-         home_brgout.setItemAnimator(new DefaultItemAnimator());
-         home_brgout.setAdapter(adapterPenerimaan);
-
-         home_penerimaan.setLayoutManager(new LinearLayoutManager(getContext(),
-                LinearLayoutManager.HORIZONTAL, false));
-//        home_penerimaan.setHasFixedSize(true);
-        home_penerimaan.setItemAnimator(new DefaultItemAnimator());
-
-        home_penerimaan.setAdapter(adapterPenerimaan);
-
+            }
+        });
     }
 
     @Override

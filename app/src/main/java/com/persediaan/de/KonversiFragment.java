@@ -436,7 +436,7 @@ public class KonversiFragment extends Fragment implements RecyclerViewClickInter
 
             @Override
             public void onFailure(Call<List<ApiKonversi>> call, Throwable t) {
-                Toast.makeText(getContext(), "Server Error", Toast.LENGTH_SHORT).show();
+//                Toast.makeText(getContext(), "Server Error", Toast.LENGTH_SHORT).show();
             }
         });
     }
