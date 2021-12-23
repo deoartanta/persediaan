@@ -5,6 +5,7 @@ import java.util.List;
 import retrofit2.Call;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
+import retrofit2.http.GET;
 import retrofit2.http.POST;
 
 public interface JsonPlaceHolderApi {
@@ -152,4 +153,8 @@ public interface JsonPlaceHolderApi {
     Call<ApiKonversi> getSimpanKonversi(
             @Field("id_user") String id_user
     );
+
+                        //----------Stock/Home----------\\
+    @GET("api/stock/index")
+    Call<List<ApiStock>> getStock();
 }
