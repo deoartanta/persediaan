@@ -1,5 +1,6 @@
 package com.persediaan.de.api;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import retrofit2.Call;
@@ -7,6 +8,7 @@ import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
+import retrofit2.http.Path;
 
 public interface JsonPlaceHolderApi {
     public static String API_KEY_NAME ="API-KEY";
@@ -115,6 +117,7 @@ public interface JsonPlaceHolderApi {
     Call<String> getResponNoKonversi(
             @Field("id_user") String id_user
     );
+
     @POST("api/konversi/noReceipt")
     @FormUrlEncoded
     Call<List<ApiKonversi>> getResponNoReceipt(
@@ -154,7 +157,90 @@ public interface JsonPlaceHolderApi {
             @Field("id_user") String id_user
     );
 
+    // Item
+    @GET("api/item")
+    Call<ArrayList<ApiDaftarBarang>> getiItem(
+
+    );
+    @POST("api/item/delete")
+    @FormUrlEncoded
+    Call<ApiDaftarBarang> getHpsItem(
+            @Field("id_item") int id_item
+    );
+    @POST("api/item/add")
+    @FormUrlEncoded
+    Call<ApiDaftarBarang> getAdditem(
+            @Field("nm_item") String nm_item,
+            @Field("id_satuan") int id_satuan
+    );
+    @POST("api/item/edit")
+    @FormUrlEncoded
+    Call<ArrayList<ApiDaftarBarang>> getEdititem(
+            @Field("id_item") int id_item,
+            @Field("nm_item") String nm_item,
+            @Field("id_satuan") int id_satuan
+    );
+
+//    Satuan
+    @GET("api/item/listSatuan")
+    Call<ArrayList<ApiSatuan>> getSatuan(
+
+    );
+
                         //----------Stock/Home----------\\
     @GET("api/stock/index")
     Call<List<ApiStock>> getStock();
+
+                       //----------Transfer----------\\
+    @POST("api/transfer/noTransfer")
+    @FormUrlEncoded
+    Call<String> getResponNoTransfer(
+            @Field("id_user") int id_user
+    );
+
+    @POST("api/transfer/listGudang")
+    @FormUrlEncoded
+    Call<ArrayList<ApiDaftarGudang>> getDaftarGudang(
+            @Field("id_user") int id_user
+    );
+
+    @POST("api/transfer")
+    @FormUrlEncoded
+    Call<ArrayList<ApiItemGudang>> getItemGudang(
+            @Field("id_user") int id_user
+    );
+    @POST("api/transfer/cart")
+    @FormUrlEncoded
+    Call<ArrayList<ApiTransferDetail>> getTransferCart(
+            @Field("id_user") int id_user
+    );
+
+    @POST("api/transfer/addCart")
+    @FormUrlEncoded
+    Call<ApiTransferDetail> getTransferAddCart(
+            @Field("id_user") int id_user,
+            @Field("g_tujuan") int g_tujuan,
+            @Field("dt_gudang") String dt_gudang,
+            @Field("id_item") int id_item,
+            @Field("qty_satu") String qty_satu,
+            @Field("qty_ecer") String qty_ecer
+    );
+
+    @POST("api/transfer/deleteCart")
+    @FormUrlEncoded
+    Call<ApiTransferDetail> getTransferDelCart(
+            @Field("id_peng") int id_peng
+    );
+
+    @POST("api/transfer/batal")
+    @FormUrlEncoded
+    Call<ApiTransferDetail> getTransferCancelCart(
+            @Field("dt_keluar") String dt_keluar
+    );
+    @POST("api/transfer/simpan")
+    @FormUrlEncoded
+    Call<ApiTransferDetail> getTransferSimpanCart(
+            @Field("id_user") int id_user,
+            @Field("note") String note
+    );
 }

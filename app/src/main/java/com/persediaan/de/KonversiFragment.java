@@ -87,14 +87,14 @@ public class KonversiFragment extends Fragment implements RecyclerViewClickInter
         btnEdtKonversi = view.findViewById(R.id.btnEdtKonversi);
         btnAddKonversi = view.findViewById(R.id.btnAddKonversi);
         crdListBarang = view.findViewById(R.id.crdListBarang);
-        crdHasilKonversi = view.findViewById(R.id.crdHasilKonversi);
+        crdHasilKonversi = view.findViewById(R.id.cardTransferDetail);
         autoCompleteNoReceipt = view.findViewById(R.id.autoCompleteNo_receipt);
         tvTglBarang = view.findViewById(R.id.tvTglBarang);
         tvNmItem = view.findViewById(R.id.tvNmItem);
         tvNmSatuan = view.findViewById(R.id.tvNmSatuan);
         tvQty = view.findViewById(R.id.tvQty);
         recycleKonversi = view.findViewById(R.id.recycleKonversi);
-        recycleHasilKonversi = view.findViewById(R.id.recycleHasilKonversi);
+        recycleHasilKonversi = view.findViewById(R.id.recyclerTransferDetail);
         btnCancelKonversi = view.findViewById(R.id.btnCancelKonversi);
         btnSimpanKonversi = view.findViewById(R.id.btnSimpanKonversi);
 

@@ -91,9 +91,8 @@ public class ScanPenerimaanFragment extends Fragment implements ZXingScannerView
         View view = inflater.inflate(R.layout.fragment_scan_penerimaan,container,false);
 
         frameLayout = view.findViewById(R.id.scanBarcode);
-        scan_barcode = new ZXingScannerView(requireContext());
+        scan_barcode = (ZXingScannerView) new ZXingScannerView(requireContext());
 
-        frameLayout.addView(scan_barcode);
 //        scan_barcode.setFlash(true);
         scan_session = new SessionManager(requireContext(),"scan");
 
@@ -109,6 +108,8 @@ public class ScanPenerimaanFragment extends Fragment implements ZXingScannerView
 
         btn_manual = view.findViewById(R.id.btnManualInput);
         btn_batal_edit_scan = view.findViewById(R.id.btnBatalEditScan);
+
+        frameLayout.addView(scan_barcode);
 
         if (scan_session.isEditScanner()){
             if ((scan_session.getScanResult().get(SessionManager.SCANFULLR))!=null) {
@@ -280,49 +281,6 @@ public class ScanPenerimaanFragment extends Fragment implements ZXingScannerView
         return view;
     }
 
-    @Override
-    public void onStart() {
-        super.onStart();
-
-    }
-
-    private void requestCameraPermission() {
-        if (ActivityCompat.shouldShowRequestPermissionRationale(requireActivity(),
-                Manifest.permission.CAMERA)){
-            new AlertDialog.Builder(requireContext())
-                    .setTitle("Permession Needed")
-                    .setMessage("This permission is needed bacause of this and that")
-                    .setPositiveButton("ok", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialogInterface, int i) {
-                            ActivityCompat.requestPermissions(requireActivity(),
-                                    new String[]{Manifest.permission.CAMERA},1);
-                        }
-                    })
-                    .setNegativeButton("cancel", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialogInterface, int i) {
-                            dialogInterface.dismiss();
-                        }
-                    }).create().show();
-        }else {
-            ActivityCompat.requestPermissions(requireActivity(),
-                    new String[]{Manifest.permission.CAMERA},1);
-        }
-    }
-
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        if (requestCode == 1){
-            if(grantResults.length>0&&grantResults[0]==PackageManager.PERMISSION_GRANTED){
-                Toast.makeText(requireContext(), "Permission Granted", Toast.LENGTH_SHORT).show();
-            }else{
-                Toast.makeText(requireContext(), "Permission Denied", Toast.LENGTH_SHORT).show();
-            }
-        }
-    }
-
     private void showSoftKeyboard(Fragment fragment) {
         InputMethodManager inputMethodManager = (InputMethodManager) requireActivity().getSystemService(Activity.INPUT_METHOD_SERVICE);
 
@@ -361,7 +319,7 @@ public class ScanPenerimaanFragment extends Fragment implements ZXingScannerView
     @Override
     public void onPause() {
         super.onPause();
-        ctx = requireActivity();
+//        ctx = requireActivity();
         scan_barcode.stopCamera();
     }
 
@@ -373,10 +331,6 @@ public class ScanPenerimaanFragment extends Fragment implements ZXingScannerView
             if (!scan_session.isEditScanner()) {
                 newPage(ctx);
             }
-        }else{
-//            assert scan_barcode != null;
-            scan_barcode.resumeCameraPreview(this);
-            scan_barcode.startCamera();
         }
     }
 }

@@ -15,6 +15,12 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Persediaan">
         <activity
+            android:name=".ItemActivity"
+            android:exported="true" />
+        <activity
+            android:name=".ScanActivity"
+            android:exported="true" />
+        <activity
             android:name=".DetailPenerimaanActivity"
             android:exported="true" />
         <activity
@@ -26,19 +32,23 @@
         <activity
             android:name=".MainActivity"
             android:exported="true"
-            android:windowSoftInputMode="adjustNothing"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustNothing" />
         <activity
             android:name=".SplashscreenActivity"
-            android:theme="@style/Theme.Persediaan.NoStatusBar"
-            android:exported="true">
+            android:exported="true"
+            android:theme="@style/Theme.Persediaan.NoStatusBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".ScanCodeActivity" />
+        <activity
+            android:name=".ScanCodeActivity"
+            android:exported="true"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustNothing" />
 
         <meta-data
             android:name="preloaded_fonts"

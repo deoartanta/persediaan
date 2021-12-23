@@ -8,17 +8,16 @@
     android:orientation="vertical">
 
     <androidx.cardview.widget.CardView
-        android:id="@+id/card3"
+        android:id="@+id/card3Pener"
         android:layout_width="match_parent"
-        android:layout_height="340dp"
+        android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
         android:layout_marginBottom="-25dp"
-        app:cardBackgroundColor="#B5FFFFFF"
         app:cardCornerRadius="30dp"
         app:cardElevation="20dp"
         app:cardUseCompatPadding="false">
 
-        <RelativeLayout
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="10dp"
@@ -27,18 +26,19 @@
             android:background="@color/white"
             android:orientation="vertical">
 
-            <RelativeLayout
+            <LinearLayout
                 android:id="@+id/linearBottomsheet"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:layout_above="@id/linearLayoutTllHrg"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintBottom_toTopOf="@id/linearLayoutTllHrg"
                 android:visibility="visible">
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_alignParentBottom="true"
                     android:orientation="vertical">
                     <RelativeLayout
                         android:layout_width="match_parent"
@@ -154,13 +154,15 @@
                     </RelativeLayout>
                 </LinearLayout>
 
-            </RelativeLayout>
+            </LinearLayout>
             <LinearLayout
                 android:id="@+id/linearLayoutTllHrg"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_above="@id/btnLayoutBottomSheet"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintBottom_toTopOf="@id/btnLayoutBottomSheet">
                 <!--Total Harga 1-->
                 <RelativeLayout
                     android:id="@+id/ttlHrgLayout"
@@ -240,7 +242,9 @@
                 android:id="@+id/btnLayoutBottomSheet"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_alignParentBottom="true">
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -285,7 +289,7 @@
 
                 </LinearLayout>
             </RelativeLayout>
-        </RelativeLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

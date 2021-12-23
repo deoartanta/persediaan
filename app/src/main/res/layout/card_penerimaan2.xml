@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -68,7 +69,7 @@
                                 android:textSize="14sp" />
 
                             <TextView
-                                android:id="@+id/tv_titikd3"
+                                android:id="@+id/tv_titikd"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_toEndOf="@id/tvLblNamaItem"
@@ -78,10 +79,10 @@
                                 android:text=":" />
 
                             <TextView
-                                android:id="@+id/tvResPurchase"
+                                android:id="@+id/tvResNmItem"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:layout_toEndOf="@id/tv_titikd3"
+                                android:layout_toEndOf="@id/tv_titikd"
                                 android:fontFamily="@font/poppins"
                                 android:gravity="start|center_vertical"
                                 android:paddingEnd="5dp"
@@ -156,7 +157,7 @@
                                     android:textSize="14sp" />
 
                                 <TextView
-                                    android:id="@+id/tv_titikd3"
+                                    android:id="@+id/tv_titikd12"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_toEndOf="@id/tvLblSupplier"
@@ -169,7 +170,7 @@
                                     android:id="@+id/tvResSupplier"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
-                                    android:layout_toEndOf="@id/tv_titikd3"
+                                    android:layout_toEndOf="@id/tv_titikd12"
                                     android:fontFamily="@font/poppins"
                                     android:gravity="start|center_vertical"
                                     android:paddingRight="5dp"
@@ -283,7 +284,7 @@
                                     android:textSize="14sp" />
 
                                 <TextView
-                                    android:id="@+id/tv_titikd6"
+                                    android:id="@+id/tv_titikd13"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_toEndOf="@id/tvLblSTS"
@@ -296,7 +297,7 @@
                                     android:id="@+id/tvResSTS"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
-                                    android:layout_toEndOf="@id/tv_titikd6"
+                                    android:layout_toEndOf="@id/tv_titikd13"
                                     android:fontFamily="@font/poppins"
                                     android:gravity="start|center_vertical"
                                     android:paddingRight="5dp"
@@ -326,7 +327,7 @@
                                 android:textSize="14sp" />
 
                             <TextView
-                                android:id="@+id/tv_titikd6"
+                                android:id="@+id/tv_titikd14"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_toEndOf="@id/tvLblJMLItem"
@@ -339,7 +340,7 @@
                                 android:id="@+id/tvResJMLItem"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:layout_toEndOf="@id/tv_titikd6"
+                                android:layout_toEndOf="@id/tv_titikd14"
                                 android:fontFamily="@font/poppins"
                                 android:gravity="start|center_vertical"
                                 android:text="3 item"

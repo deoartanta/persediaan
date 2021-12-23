@@ -1,6 +1,7 @@
 package com.persediaan.de;
 
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -95,7 +96,7 @@ public class ProfileFragment extends Fragment implements RecyclerViewClickExpend
         imgProfile = view.findViewById(R.id.imgProfilUser);
 
         setProfile();
-        loadSettingProfile("akun");
+        loadSettingProfile("");
         return view;
     }
     public void setProfile(){
@@ -175,13 +176,16 @@ public class ProfileFragment extends Fragment implements RecyclerViewClickExpend
                         ), true));
 
         arrayList_profileRowExpand.add(new ModelProfileRowExpand(
-                1,"Setting", R.drawable.ic_baseline_settings_24,
+                1,"Daftar Barang",R.drawable.ic_baseline_view_list_24,
+                null, false));
+        arrayList_profileRowExpand.add(new ModelProfileRowExpand(
+                2,"Setting", R.drawable.ic_baseline_settings_24,
                 createRowItem(
                         new String[]{"Screen Orientation","Themes"},
                         new String[]{"Portrait","Light"}
                 ), true));
         arrayList_profileRowExpand.add(new ModelProfileRowExpand(
-                2,"Logout",R.drawable.ic_baseline_power_settings_new_24,
+                3,"Logout",R.drawable.ic_baseline_power_settings_new_24,
                 null, false).setMarginBot(130));
 
         adapterProfile = new AdapterAkunSetting(
@@ -227,7 +231,7 @@ public class ProfileFragment extends Fragment implements RecyclerViewClickExpend
 
     @Override
     public void onItemClick(int position, View view) {
-        Toast.makeText(requireContext(), "Position "+position, Toast.LENGTH_SHORT).show();
+//        Toast.makeText(requireContext(), "Position "+position, Toast.LENGTH_SHORT).show();
     }
 
     @Override
@@ -507,13 +511,21 @@ public class ProfileFragment extends Fragment implements RecyclerViewClickExpend
                             throw new IllegalStateException("Unexpected value: " + position);
                     }
                 case 1:
-                    Toast.makeText(requireContext(), ""+position+tv_edit_old.getText(),
-                            Toast.LENGTH_SHORT).show();
+                    newPage(ItemActivity.class);
                     break;
                 case 2:
+                    Toast.makeText(requireContext(), ""+tv_edit_old.getText(),
+                            Toast.LENGTH_SHORT).show();
+                    break;
+                case 3:
                     sessionManagerProfil.logout();
                     break;
             }
+    }
+
+    private void newPage(Class cls) {
+        Intent i = new Intent(requireContext(),cls);
+        startActivity(i);
     }
 
     private String editProfile(String tv_edit_old, int p_iduser, String m_input, String type) {

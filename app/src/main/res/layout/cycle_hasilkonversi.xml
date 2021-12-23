@@ -26,14 +26,14 @@
             android:orientation="horizontal">
 
             <TextView
-                android:id="@+id/tvNmItemHKonv"
+                android:id="@+id/tvDetailTransferNmItem"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
                 android:text="Kertas A4" />
 
             <TextView
-                android:id="@+id/tvQtyKonversi"
+                android:id="@+id/tvDetailTransferQty"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
@@ -41,7 +41,7 @@
                 android:textStyle="bold" />
 
             <TextView
-                android:id="@+id/tvEceranHKonv"
+                android:id="@+id/tvDetailTransferEceran"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
@@ -56,7 +56,7 @@
             android:orientation="horizontal">
 
             <Button
-                android:id="@+id/btnDeleteCrtKonversi"
+                android:id="@+id/btnDetailTransferDel"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginRight="10dp"
