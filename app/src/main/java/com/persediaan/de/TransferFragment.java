@@ -426,7 +426,7 @@ public class TransferFragment extends Fragment implements RecyclerViewClickInter
             @Override
             public void onFailure(Call<ArrayList<ApiTransferDetail>> call, Throwable t) {
                 Log.d("19201299", "onFailure: "+t.getMessage());
-                Toast.makeText(requireContext(), "Server Error", Toast.LENGTH_SHORT).show();
+//                Toast.makeText(requireContext(), "Server Error", Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -554,7 +554,7 @@ public class TransferFragment extends Fragment implements RecyclerViewClickInter
                     @Override
                     public void onFailure(Call<ApiTransferDetail> call, Throwable t) {
                         Log.d("19201299", "onFailure: "+t.getMessage());
-                        Toast.makeText(requireContext(), "Server error", Toast.LENGTH_SHORT).show();
+//                        Toast.makeText(requireContext(), "Server error", Toast.LENGTH_SHORT).show();
                     }
                 });
             }
