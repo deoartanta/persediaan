@@ -176,16 +176,16 @@ public class ProfileFragment extends Fragment implements RecyclerViewClickExpend
                         ), true));
 
         arrayList_profileRowExpand.add(new ModelProfileRowExpand(
-                1,"Daftar Barang",R.drawable.ic_baseline_view_list_24,
+                2,"Daftar Barang",R.drawable.ic_baseline_view_list_24,
                 null, false));
         arrayList_profileRowExpand.add(new ModelProfileRowExpand(
-                2,"Setting", R.drawable.ic_baseline_settings_24,
+                3,"Setting", R.drawable.ic_baseline_settings_24,
                 createRowItem(
                         new String[]{"Screen Orientation","Themes"},
                         new String[]{"Portrait","Light"}
                 ), true));
         arrayList_profileRowExpand.add(new ModelProfileRowExpand(
-                3,"Logout",R.drawable.ic_baseline_power_settings_new_24,
+                4,"Logout",R.drawable.ic_baseline_power_settings_new_24,
                 null, false).setMarginBot(130));
 
         adapterProfile = new AdapterAkunSetting(
@@ -511,13 +511,16 @@ public class ProfileFragment extends Fragment implements RecyclerViewClickExpend
                             throw new IllegalStateException("Unexpected value: " + position);
                     }
                 case 1:
-                    newPage(ItemActivity.class);
+
                     break;
                 case 2:
+                    newPage(ItemActivity.class);
+                    break;
+                case 3:
                     Toast.makeText(requireContext(), ""+tv_edit_old.getText(),
                             Toast.LENGTH_SHORT).show();
                     break;
-                case 3:
+                case 4:
                     sessionManagerProfil.logout();
                     break;
             }
