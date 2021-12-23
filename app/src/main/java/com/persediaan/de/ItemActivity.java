@@ -9,21 +9,18 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Context;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.textfield.TextInputEditText;
 import com.persediaan.de.adapter.AdapterDaftartBarang;
 import com.persediaan.de.adapter.RecyclerViewClickInterface;
@@ -31,6 +28,7 @@ import com.persediaan.de.api.ApiDaftarBarang;
 import com.persediaan.de.api.ApiSatuan;
 import com.persediaan.de.api.JsonPlaceHolderApi;
 import com.persediaan.de.data.SessionManager;
+import com.persediaan.de.javaKey.JavaKeyBoard;
 import com.persediaan.de.model.ModelDaftarItem;
 
 import java.util.ArrayList;
@@ -58,6 +56,8 @@ public class ItemActivity extends AppCompatActivity implements RecyclerViewClick
 
     HashMap<String,Integer>modelSatuan;
     ImageButton tb_img_btn;
+
+    JavaKeyBoard javaKeyBoard;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -92,7 +92,7 @@ public class ItemActivity extends AppCompatActivity implements RecyclerViewClick
                 AutoCompleteTextView autoCompleteSatuan= viewinflater.findViewById(R.id.autoCompleteSatuan);
 
                 loadSatuan(autoCompleteSatuan);
-                new AlertDialog.Builder(ItemActivity.this)
+                AlertDialog dialogAdd= new AlertDialog.Builder(ItemActivity.this)
                         .setIcon(R.drawable.ic_baseline_add_circle_24_success)
                         .setTitle("Add Item")
                         .setView(viewinflater)
@@ -115,7 +115,22 @@ public class ItemActivity extends AppCompatActivity implements RecyclerViewClick
                             public void onClick(DialogInterface dialogInterface, int i) {
                                 dialogInterface.dismiss();
                             }
-                        }).create().show();
+                        }).create();
+                javaKeyBoard = new JavaKeyBoard(dialogAdd.getWindow());
+                javaKeyBoard.showInput();
+                dialogAdd.show();
+                tiet_nm_item.requestFocus();
+                autoCompleteSatuan.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        InputMethodManager imm =
+                                (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                        javaKeyBoard = new JavaKeyBoard(dialogAdd.getWindow());
+                        javaKeyBoard.setInputMethodManager(imm);
+                        javaKeyBoard.hideInput();
+
+                    }
+                });
             }
         });
 
@@ -214,16 +229,6 @@ public class ItemActivity extends AppCompatActivity implements RecyclerViewClick
 
                     }
                 });
-
-                autoCompleteSatuan.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                    @Override
-                    public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                        lostFocus(getWindow().getCurrentFocus());
-                    }
-                });
-
-
-
             }
 
             @Override
@@ -274,7 +279,7 @@ public class ItemActivity extends AppCompatActivity implements RecyclerViewClick
         tiet_nm_item.setText(nm_item.getText().toString().toUpperCase(Locale.ROOT));
         loadSatuan(autoCompleteSatuan);
         autoCompleteSatuan.setText(nm_stn.getText());
-        new AlertDialog.Builder(ItemActivity.this)
+        AlertDialog dialogEdit = new AlertDialog.Builder(ItemActivity.this)
                 .setIcon(R.drawable.ic_baseline_create_24_primary)
                 .setTitle("Edit Item")
                 .setView(viewinflater)
@@ -298,7 +303,21 @@ public class ItemActivity extends AppCompatActivity implements RecyclerViewClick
                     public void onClick(DialogInterface dialogInterface, int i) {
                         dialogInterface.dismiss();
                     }
-                }).create().show();
+                }).create();
+        javaKeyBoard = new JavaKeyBoard(dialogEdit.getWindow());
+        javaKeyBoard.showInput();
+        dialogEdit.show();
+        tiet_nm_item.requestFocus();
+        autoCompleteSatuan.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                InputMethodManager imm=
+                        (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                javaKeyBoard = new JavaKeyBoard(dialogEdit.getWindow());
+                javaKeyBoard.setInputMethodManager(imm);
+                javaKeyBoard.hideInput();
+            }
+        });
     }
 
     @Override
@@ -362,6 +381,8 @@ public class ItemActivity extends AppCompatActivity implements RecyclerViewClick
         if (viewFocus!=null){
             InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
             imm.hideSoftInputFromWindow(viewFocus.getWindowToken(),0);
+        }else{
+            Toast.makeText(getApplicationContext(), "ViewFocus null", Toast.LENGTH_SHORT).show();
         }
     }
 }

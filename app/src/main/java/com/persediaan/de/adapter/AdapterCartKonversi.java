@@ -1,23 +1,17 @@
 package com.persediaan.de.adapter;
 
 import android.content.Context;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.ImageButton;
-import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.google.android.material.textfield.TextInputEditText;
 import com.persediaan.de.R;
 import com.persediaan.de.model.ModelCartKonv;
-import com.persediaan.de.model.ModelItemsKonv;
 
 import java.util.ArrayList;
 
@@ -61,10 +55,10 @@ public class AdapterCartKonversi extends RecyclerView.Adapter<AdapterCartKonvers
         public itemsKonversiViewHolder(@NonNull View itemView) {
             super(itemView);
 
-            tvNmItemHKonv = itemView.findViewById(R.id.tvNmItemHKonv);
-            tvQtyKonversi = itemView.findViewById(R.id.tvQtyKonversi);
-            tvEceranHKonv = itemView.findViewById(R.id.tvEceranHKonv);
-            btnDeleteCrtKonversi = itemView.findViewById(R.id.btnDeleteCrtKonversi);
+            tvNmItemHKonv = itemView.findViewById(R.id.tvDetailTransferNmItem);
+            tvQtyKonversi = itemView.findViewById(R.id.tvDetailTransferQty);
+            tvEceranHKonv = itemView.findViewById(R.id.tvDetailTransferEceran);
+            btnDeleteCrtKonversi = itemView.findViewById(R.id.btnDetailTransferDel);
 
             btnDeleteCrtKonversi.setOnClickListener(new View.OnClickListener() {
                 @Override

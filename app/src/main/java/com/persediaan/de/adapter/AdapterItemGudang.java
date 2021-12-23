@@ -1,5 +1,6 @@
 package com.persediaan.de.adapter;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -7,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.widget.AppCompatButton;
@@ -14,6 +16,8 @@ import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.persediaan.de.R;
+import com.persediaan.de.javatouch.JavaHover;
+import com.persediaan.de.javatouch.JavaHoverListener;
 import com.persediaan.de.model.ModelDaftarItem;
 import com.persediaan.de.model.ModelItemGudang;
 
@@ -41,7 +45,7 @@ public class AdapterItemGudang extends RecyclerView.Adapter<AdapterItemGudang.Ad
     @Override
     public void onBindViewHolder(@NonNull AdapterItemGudang.AdapterViewHolder holder, int position) {
         holder.tv_nm_item.setText(listItem.get(position).getNm_item());
-        holder.tv_stock.setText(""+listItem.get(position).getSisa());
+        holder.tv_stock.setText(""+listItem.get(position).getSisa()+" "+listItem.get(position).getEceran());
         holder.tv_area.setText(listItem.get(position).getNm_area());
 
 
@@ -55,6 +59,7 @@ public class AdapterItemGudang extends RecyclerView.Adapter<AdapterItemGudang.Ad
     public class AdapterViewHolder extends RecyclerView.ViewHolder {
         TextView tv_nm_item,tv_stock,tv_area;
         LinearLayout linear_item_gudang;
+        boolean itemClicked = false;
         CardView card_item_gudang;
         public AdapterViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -63,21 +68,25 @@ public class AdapterItemGudang extends RecyclerView.Adapter<AdapterItemGudang.Ad
             tv_area =itemView.findViewById(R.id.tvArea);
             linear_item_gudang =itemView.findViewById(R.id.linearItemGudang);
             card_item_gudang =itemView.findViewById(R.id.cardItemGudang);
-//            linear_item_gudang.setOnTouchListener(new View.OnTouchListener() {
-//                @Override
-//                public boolean onTouch(View view, MotionEvent motionEvent) {
-//                    switch (motionEvent.getAction()){
-//                        case MotionEvent.ACTION_DOWN:
-//                            card_item_gudang.setBackgroundResource(R.color.bgcCickedSplas);
-//
-//                            break;
-//                        case MotionEvent.ACTION_UP:
-//                            card_item_gudang.setBackgroundResource(R.color.splashBackground);
-//                    }
-//                    return true;
-//                }
-//            });
-            linear_item_gudang.setOnClickListener(new View.OnClickListener() {
+
+            new JavaHover(card_item_gudang,R.color.bgcCickedSplas,
+                    R.color.splashBackground).create()
+                    .setJavaHoverListener(new JavaHoverListener() {
+                @Override
+                public void hoverIn(View view) {
+
+                }
+
+                @Override
+                public void hoverOut(View view) {
+
+                }
+
+                @Override
+                public void hoverMove(View view) {
+
+                }
+
                 @Override
                 public void onClick(View view) {
                     recyclerViewClickInterface.onItemClick(getAdapterPosition(),itemView);

@@ -10,16 +10,17 @@ public class ApiItemGudang {
     int tipe;
     int tgl_gudang;
 
+    int sisa;
+
+    int id_satuan;
+    int jumlah;
+    String dt_gudang,nm_item,nm_satuan,eceran,nm_area,nm_singkat;
+
     public ApiItemGudang(int sisa, String nm_item, String nm_area) {
         this.sisa = sisa;
         this.nm_item = nm_item;
         this.nm_area = nm_area;
     }
-
-    int sisa;
-    int id_satuan;
-    int jumlah;
-    String dt_gudang,nm_item,nm_satuan,eceran,nm_area,nm_singkat;
 
     public int getId() {
         return id;

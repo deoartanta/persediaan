@@ -202,5 +202,39 @@ Call<ArrayList<ApiSatuan>> getSatuan(
     Call<ArrayList<ApiItemGudang>> getItemGudang(
             @Field("id_user") int id_user
     );
+    @POST("api/transfer/cart")
+    @FormUrlEncoded
+    Call<ArrayList<ApiTransferDetail>> getTransferCart(
+            @Field("id_user") int id_user
+    );
+
+    @POST("api/transfer/addCart")
+    @FormUrlEncoded
+    Call<ApiTransferDetail> getTransferAddCart(
+            @Field("id_user") int id_user,
+            @Field("g_tujuan") int g_tujuan,
+            @Field("dt_gudang") String dt_gudang,
+            @Field("id_item") int id_item,
+            @Field("qty_satu") String qty_satu,
+            @Field("qty_ecer") String qty_ecer
+    );
+
+    @POST("api/transfer/deleteCart")
+    @FormUrlEncoded
+    Call<ApiTransferDetail> getTransferDelCart(
+            @Field("id_peng") int id_peng
+    );
+
+    @POST("api/transfer/batal")
+    @FormUrlEncoded
+    Call<ApiTransferDetail> getTransferCancelCart(
+            @Field("dt_keluar") String dt_keluar
+    );
+    @POST("api/transfer/simpan")
+    @FormUrlEncoded
+    Call<ApiTransferDetail> getTransferSimpanCart(
+            @Field("id_user") int id_user,
+            @Field("note") String note
+    );
 
 }
