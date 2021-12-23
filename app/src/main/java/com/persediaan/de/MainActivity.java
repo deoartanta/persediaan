@@ -462,7 +462,7 @@ public class MainActivity extends AppCompatActivity implements ScanInterface{
                 Toast.makeText(getApplicationContext(), "Permission Granted", Toast.LENGTH_SHORT).show();
                 cardViewprofile.setVisibility(View.GONE);
 //                loadFragment(new ScanPenerimaanFragment(bottomNavigation));
-                openPage(ScanActivity.class,ScanActivity.SCANNER_TYPE_1);
+                openPage(ScanActivity.class,ScanActivity.SCANNER_TYPE_2);
             }else{
                 new Handler().postDelayed(new Runnable() {
                     @Override
