@@ -3,6 +3,7 @@ package com.persediaan.de;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatButton;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -10,7 +11,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
-import android.os.Handler;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -21,6 +21,7 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.facebook.shimmer.ShimmerFrameLayout;
 import com.google.android.material.textfield.TextInputEditText;
 import com.persediaan.de.adapter.AdapterDaftartBarang;
 import com.persediaan.de.adapter.RecyclerViewClickInterface;
@@ -58,6 +59,9 @@ public class ItemActivity extends AppCompatActivity implements RecyclerViewClick
     ImageButton tb_img_btn;
 
     JavaKeyBoard javaKeyBoard;
+
+    ShimmerFrameLayout shimmer_item_avtivity;
+    ConstraintLayout constraint_item_content;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -69,6 +73,9 @@ public class ItemActivity extends AppCompatActivity implements RecyclerViewClick
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
         jsonPlaceHolderApi = retrofit.create(JsonPlaceHolderApi.class);
+        shimmer_item_avtivity = findViewById(R.id.shimmerItemActivity);
+        constraint_item_content = findViewById(R.id.constraintItemContent);
+        constraint_item_content.setVisibility(View.GONE);
 
         btn_add = findViewById(R.id.btnAddItem);
         tb_img_btn = findViewById(R.id.tbImgBtnItem);
@@ -165,6 +172,8 @@ public class ItemActivity extends AppCompatActivity implements RecyclerViewClick
     }
 
     private void loadData(){
+        shimmer_item_avtivity.setVisibility(View.VISIBLE);
+        constraint_item_content.setVisibility(View.GONE);
         recycle_daftar_barang.setAdapter(null);
         Call<ArrayList<ApiDaftarBarang>> call = jsonPlaceHolderApi.getiItem();
         call.enqueue(new Callback<ArrayList<ApiDaftarBarang>>() {
@@ -173,6 +182,10 @@ public class ItemActivity extends AppCompatActivity implements RecyclerViewClick
                 if (!response.isSuccessful()){
                     Toast.makeText(ItemActivity.this, "Terjadi error yang tidak diketahui",
                             Toast.LENGTH_SHORT).show();
+
+                    shimmer_item_avtivity.setVisibility(View.GONE);
+                    constraint_item_content.setVisibility(View.VISIBLE);
+
                     return;
                 }
                 ArrayList<ApiDaftarBarang> apiDaftarBarangs = response.body();
@@ -194,10 +207,15 @@ public class ItemActivity extends AppCompatActivity implements RecyclerViewClick
                         LinearLayoutManager.VERTICAL, false));
                 recycle_daftar_barang.setHasFixedSize(true);
                 recycle_daftar_barang.setItemAnimator(new DefaultItemAnimator());
+
+                shimmer_item_avtivity.setVisibility(View.GONE);
+                constraint_item_content.setVisibility(View.VISIBLE);
             }
 
             @Override
             public void onFailure(Call<ArrayList<ApiDaftarBarang>> call, Throwable t) {
+                shimmer_item_avtivity.setVisibility(View.GONE);
+                constraint_item_content.setVisibility(View.VISIBLE);
                 Toast.makeText(ItemActivity.this, "Server error", Toast.LENGTH_SHORT).show();
             }
         });

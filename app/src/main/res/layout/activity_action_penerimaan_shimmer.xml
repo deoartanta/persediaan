@@ -17,7 +17,8 @@
         android:textColor="@color/colorTextShimmer"
         android:textSize="40sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"/>
 
     <ImageButton
         android:id="@+id/btnEditScan"
@@ -69,104 +70,77 @@
                     <TextView
                         android:id="@+id/LblCard"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
+                        android:layout_height="match_parent"
                         android:layout_marginTop="10dp"
                         android:background="@color/colorShimmer"
                         android:fontFamily="@font/poppins_bold"
                         android:gravity="center"
-                        android:text="Data Supplier"
                         android:textColor="@color/colorTextShimmer"
                         android:textSize="16sp" />
 
-                    <RelativeLayout
+                    <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
+                        android:orientation="horizontal"
                         android:layout_marginTop="10dp">
 
                         <TextView
-                            android:id="@+id/tvLblNmSupplier"
-                            android:layout_width="110dp"
-                            android:layout_height="wrap_content"
-                            android:layout_alignParentStart="true"
-                            android:layout_alignParentTop="true"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
                             android:background="@color/colorShimmer"
                             android:fontFamily="@font/poppins_semibold"
-                            android:gravity="start|center_vertical"
-                            android:text="Nama Supplier"
+                            android:layout_marginEnd="20dp"
+                            android:text=""
+                            android:textAllCaps="true"
+                            android:textColor="@color/colorTextShimmer"
+                            android:textSize="14sp" />
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:background="@color/colorShimmer"
+                            android:fontFamily="@font/poppins_semibold"
+                            android:text=""
                             android:textAllCaps="true"
                             android:textColor="@color/colorTextShimmer"
                             android:textSize="14sp" />
 
-                        <TextView
-                            android:id="@+id/tv_titikd16"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_toEndOf="@id/tvLblNmSupplier"
-                            android:background="@color/colorShimmer"
-                            android:fontFamily="@font/poppins_semibold"
-                            android:gravity="center"
-                            android:paddingHorizontal="5dp"
-                            android:text=":"
-                            android:textColor="@color/colorTextShimmer" />
+                    </LinearLayout>
 
-                        <TextView
-                            android:id="@+id/tvResNmSupplier"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_toEndOf="@id/tv_titikd"
-                            android:background="@color/colorShimmer"
-                            android:fontFamily="@font/poppins"
-                            android:gravity="start|center_vertical"
-                            android:paddingEnd="5dp"
-                            android:text="Nama Supplier"
-                            android:textColor="@color/colorTextShimmer"
-                            android:textSize="14sp" />
-                    </RelativeLayout>
-
-                    <RelativeLayout
+                    <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
+                        android:orientation="horizontal"
                         android:layout_marginTop="20dp">
 
                         <TextView
-                            android:id="@+id/tvLblAlaSupplier"
                             android:layout_width="110dp"
                             android:layout_height="wrap_content"
-                            android:layout_alignParentStart="true"
-                            android:layout_alignParentTop="true"
                             android:background="@color/colorShimmer"
                             android:fontFamily="@font/poppins_semibold"
                             android:gravity="start|center_vertical"
-                            android:text="Alamat"
-                            android:textAllCaps="true"
                             android:textColor="@color/colorTextShimmer"
                             android:textSize="14sp" />
 
                         <TextView
-                            android:id="@+id/tv_titikd1"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_toEndOf="@id/tvLblAlaSupplier"
                             android:background="@color/colorShimmer"
                             android:fontFamily="@font/poppins_semibold"
-                            android:gravity="center"
-                            android:paddingHorizontal="5dp"
-                            android:text=":"
+                            android:paddingHorizontal="10dp"
+                            android:layout_marginHorizontal="10dp"
                             android:textColor="@color/colorTextShimmer" />
 
                         <TextView
-                            android:id="@+id/tvResAlaSupplier"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_toEndOf="@id/tv_titikd1"
                             android:background="@color/colorShimmer"
                             android:fontFamily="@font/poppins"
                             android:gravity="start|center_vertical"
-                            android:paddingEnd="5dp"
-                            android:text="Id Item"
                             android:textColor="@color/colorTextShimmer"
                             android:textSize="14sp" />
-                    </RelativeLayout>
+                    </LinearLayout>
 
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
@@ -192,292 +166,159 @@
                     tools:layout_editor_absoluteX="5dp">
 
                     <TextView
-                        android:id="@+id/LblCard1"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="10dp"
                         android:background="@color/colorShimmer"
                         android:fontFamily="@font/poppins_bold"
                         android:gravity="center"
-                        android:text="Detail Item"
                         android:textColor="@color/colorTextShimmer"
                         android:textSize="16sp" />
 
-                    <RelativeLayout
+                    <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
+                        android:orientation="horizontal"
                         android:layout_marginTop="20dp">
 
                         <TextView
-                            android:id="@+id/tvLblIdItem"
                             android:layout_width="110dp"
                             android:layout_height="wrap_content"
-                            android:layout_alignParentStart="true"
-                            android:layout_alignParentTop="true"
                             android:background="@color/colorShimmer"
                             android:fontFamily="@font/poppins_semibold"
                             android:gravity="start|center_vertical"
-                            android:text="Id Item"
                             android:textAllCaps="true"
                             android:textColor="@color/colorTextShimmer"
                             android:textSize="14sp" />
 
                         <TextView
-                            android:id="@+id/tv_titikd2"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_toEndOf="@id/tvLblIdItem"
+                            android:layout_marginHorizontal="10dp"
                             android:background="@color/colorShimmer"
                             android:fontFamily="@font/poppins_semibold"
                             android:gravity="center"
-                            android:paddingHorizontal="5dp"
-                            android:text=":"
+                            android:paddingHorizontal="10dp"
                             android:textColor="@color/colorTextShimmer" />
 
                         <TextView
-                            android:id="@+id/tvResIdItem"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_toEndOf="@id/tv_titikd2"
                             android:background="@color/colorShimmer"
                             android:fontFamily="@font/poppins"
                             android:gravity="start|center_vertical"
-                            android:paddingEnd="5dp"
-                            android:text="Id Item"
                             android:textColor="@color/colorTextShimmer"
                             android:textSize="14sp" />
-                    </RelativeLayout>
-                    <!--Nama-->
-                    <RelativeLayout
+                    </LinearLayout>
+
+                    <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
+                        android:orientation="horizontal"
                         android:layout_marginTop="20dp">
 
                         <TextView
-                            android:id="@+id/tvLblNmItem"
                             android:layout_width="110dp"
-                            android:layout_height="match_parent"
-                            android:layout_alignParentStart="true"
-                            android:layout_alignParentTop="true"
+                            android:layout_height="wrap_content"
                             android:background="@color/colorShimmer"
                             android:fontFamily="@font/poppins_semibold"
                             android:gravity="start|center_vertical"
-                            android:text="Nama Item"
                             android:textAllCaps="true"
                             android:textColor="@color/colorTextShimmer"
                             android:textSize="14sp" />
 
                         <TextView
-                            android:id="@+id/tv_titikd4"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_toEndOf="@id/tvLblNmItem"
+                            android:layout_marginHorizontal="10dp"
                             android:background="@color/colorShimmer"
                             android:fontFamily="@font/poppins_semibold"
                             android:gravity="center"
-                            android:paddingHorizontal="5dp"
-                            android:text=":"
+                            android:paddingHorizontal="10dp"
                             android:textColor="@color/colorTextShimmer" />
 
                         <TextView
-                            android:id="@+id/tvResNmItem"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_toEndOf="@id/tv_titikd4"
                             android:background="@color/colorShimmer"
                             android:fontFamily="@font/poppins"
                             android:gravity="start|center_vertical"
-                            android:paddingEnd="5dp"
-                            android:text="Nama Item"
                             android:textColor="@color/colorTextShimmer"
                             android:textSize="14sp" />
-                    </RelativeLayout>
-                    <!--Harga-->
-                    <RelativeLayout
+                    </LinearLayout>
+
+                    <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
+                        android:orientation="horizontal"
                         android:layout_marginTop="20dp">
 
                         <TextView
-                            android:id="@+id/tvLblHrg"
                             android:layout_width="110dp"
-                            android:layout_height="match_parent"
-                            android:layout_alignTop="@id/layoutInput"
-                            android:layout_alignBottom="@id/layoutInput"
-                            android:layout_alignParentStart="true"
+                            android:layout_height="wrap_content"
                             android:background="@color/colorShimmer"
                             android:fontFamily="@font/poppins_semibold"
                             android:gravity="start|center_vertical"
-                            android:text="Harga"
                             android:textAllCaps="true"
                             android:textColor="@color/colorTextShimmer"
                             android:textSize="14sp" />
 
                         <TextView
-                            android:id="@+id/tv_titikd17"
                             android:layout_width="wrap_content"
                             android:layout_height="match_parent"
-                            android:layout_alignTop="@id/layoutInput"
-                            android:layout_alignBottom="@id/layoutInput"
-                            android:layout_toEndOf="@id/tvLblHrg"
+                            android:layout_marginHorizontal="10dp"
                             android:background="@color/colorShimmer"
                             android:fontFamily="@font/poppins_semibold"
                             android:gravity="center"
-                            android:paddingHorizontal="5dp"
-                            android:text=":"
-                            android:textColor="@color/colorTextShimmer" />
-
-                        <com.google.android.material.textfield.TextInputLayout
-                            android:id="@+id/layoutInput"
-                            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_toEndOf="@id/tv_titikd">
-
-                            <com.google.android.material.textfield.TextInputEditText
-                                android:id="@+id/tietHarga"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:background="@color/colorShimmer"
-                                android:fontFamily="@font/poppins"
-                                android:gravity="end|center_vertical"
-                                android:inputType="number"
-                                android:padding="5dp"
-                                android:text="Rp. 0"
-                                android:textColor="@color/colorTextShimmer"
-                                android:textSize="14sp"
-                                tools:ignore="TouchTargetSizeCheck" />
-
-                        </com.google.android.material.textfield.TextInputLayout>
-                    </RelativeLayout>
-                    <!--QTY-->
-                    <RelativeLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_marginTop="20dp"
-                        android:gravity="center">
-
-                        <TextView
-                            android:id="@+id/tvLblQty"
-                            android:layout_width="110dp"
-                            android:layout_height="wrap_content"
-                            android:layout_alignTop="@id/linearLayout"
-                            android:layout_alignBottom="@id/linearLayout"
-                            android:layout_alignParentStart="true"
-                            android:layout_marginStart="0dp"
-                            android:background="@color/colorShimmer"
-                            android:fontFamily="@font/poppins_semibold"
-                            android:gravity="center_vertical"
-                            android:text="Qty"
-                            android:textAllCaps="true"
-                            android:textColor="@color/colorTextShimmer"
-                            android:textSize="14sp" />
-
-                        <TextView
-                            android:id="@+id/tv_titikd5"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_alignTop="@id/linearLayout"
-                            android:layout_alignBottom="@id/linearLayout"
-                            android:layout_toEndOf="@id/tvLblQty"
-                            android:background="@color/colorShimmer"
-                            android:fontFamily="@font/poppins_semibold"
-                            android:gravity="center"
-                            android:paddingHorizontal="5dp"
-                            android:text=":"
-                            android:textColor="@color/colorTextShimmer" />
-
-                        <LinearLayout
-                            android:id="@+id/linearLayout"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_toEndOf="@id/tv_titikd5"
-                            android:orientation="horizontal">
-
-                            <com.google.android.material.textfield.TextInputLayout
-                                android:id="@+id/layoutInput1"
-                                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:layout_weight="1"
-                                android:gravity="start|center_vertical">
-
-                                <com.google.android.material.textfield.TextInputEditText
-                                    android:id="@+id/tietQty"
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:background="@color/colorShimmer"
-                                    android:fontFamily="@font/poppins"
-                                    android:gravity="end|center_vertical"
-                                    android:inputType="number"
-                                    android:padding="5dp"
-                                    android:text="000"
-                                    android:textColor="@color/colorTextShimmer"
-                                    android:textSize="14sp"
-                                    tools:ignore="TouchTargetSizeCheck" />
-
-                            </com.google.android.material.textfield.TextInputLayout>
-
-                            <TextView
-                                android:id="@+id/tvResSatuan"
-                                android:layout_width="match_parent"
-                                android:layout_height="match_parent"
-                                android:layout_weight="1"
-                                android:background="@color/colorShimmer"
-                                android:fontFamily="@font/poppins"
-                                android:gravity="start|center_vertical"
-                                android:paddingStart="5dp"
-                                android:paddingEnd="5dp"
-                                android:text="Satuan"
-                                android:textColor="@color/colorTextShimmer"
-                                android:textSize="14sp" />
-                        </LinearLayout>
-                    </RelativeLayout>
-
-                    <RelativeLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_marginTop="20dp">
-
-                        <TextView
-                            android:id="@+id/tvLblTotalHrg"
-                            android:layout_width="110dp"
-                            android:layout_height="wrap_content"
-                            android:layout_alignParentStart="true"
-                            android:layout_alignParentTop="true"
-                            android:background="@color/colorShimmer"
-                            android:fontFamily="@font/poppins_semibold"
-                            android:gravity="start|center_vertical"
-                            android:text="Total Harga"
-                            android:textAllCaps="true"
-                            android:textColor="@color/colorTextShimmer"
-                            android:textSize="14sp" />
-
-                        <TextView
-                            android:id="@+id/tv_titikd6"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_toEndOf="@id/tvLblTotalHrg"
-                            android:background="@color/colorShimmer"
-                            android:fontFamily="@font/poppins_semibold"
-                            android:gravity="center"
-                            android:paddingHorizontal="5dp"
-                            android:text=":"
+                            android:paddingHorizontal="10dp"
                             android:textColor="@color/colorTextShimmer" />
 
                         <TextView
-                            android:id="@+id/tvResTotalHrg"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_toEndOf="@id/tv_titikd6"
                             android:background="@color/colorShimmer"
                             android:fontFamily="@font/poppins"
                             android:gravity="start|center_vertical"
-                            android:paddingEnd="5dp"
-                            android:text="Total Harga"
                             android:textColor="@color/colorTextShimmer"
                             android:textSize="14sp" />
-                    </RelativeLayout>
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="horizontal"
+                        android:layout_marginTop="20dp">
+
+                        <TextView
+                            android:layout_width="110dp"
+                            android:layout_height="wrap_content"
+                            android:background="@color/colorShimmer"
+                            android:fontFamily="@font/poppins_semibold"
+                            android:gravity="start|center_vertical"
+                            android:textAllCaps="true"
+                            android:textColor="@color/colorTextShimmer"
+                            android:textSize="14sp" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginHorizontal="10dp"
+                            android:background="@color/colorShimmer"
+                            android:fontFamily="@font/poppins_semibold"
+                            android:gravity="center"
+                            android:paddingHorizontal="10dp"
+                            android:textColor="@color/colorTextShimmer" />
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:background="@color/colorShimmer"
+                            android:fontFamily="@font/poppins"
+                            android:gravity="start|center_vertical"
+                            android:textColor="@color/colorTextShimmer"
+                            android:textSize="14sp" />
+                    </LinearLayout>
+
 
                     <LinearLayout
                         android:layout_width="match_parent"

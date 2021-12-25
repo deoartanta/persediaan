@@ -11,9 +11,11 @@ import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
+import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.IntDef;
 import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.DefaultItemAnimator;
@@ -21,6 +23,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.etebarian.meowbottomnavigation.MeowBottomNavigation;
+import com.facebook.shimmer.ShimmerFrameLayout;
 import com.google.android.material.textfield.TextInputEditText;
 import com.persediaan.de.adapter.AdapterCartKonversi;
 import com.persediaan.de.adapter.AdapterItemsKonversi;
@@ -65,6 +68,9 @@ public class KonversiFragment extends Fragment implements RecyclerViewClickInter
     Button btnCancelKonversi, btnSimpanKonversi;
     MeowBottomNavigation meowBottomNavigation;
 
+    ShimmerFrameLayout shimmer_tab_konversi;
+    ScrollView scroll_tab_konversi;
+
     public KonversiFragment(MeowBottomNavigation meowBottomNavigation) {
         this.meowBottomNavigation = meowBottomNavigation;
     }
@@ -82,12 +88,17 @@ public class KonversiFragment extends Fragment implements RecyclerViewClickInter
         sessionManagerProfil = new SessionManager(requireContext(),"login");
         detailUser = sessionManagerProfil.getUserDetailInt();
 
+        shimmer_tab_konversi = view.findViewById(R.id.shimmerTabKonversi);
+        scroll_tab_konversi = view.findViewById(R.id.scroolTabKonversi);
         tv_no_konversi = view.findViewById(R.id.tvno_konversi);
         footBtn = view.findViewById(R.id.footBtn);
+
         btnEdtKonversi = view.findViewById(R.id.btnEdtKonversi);
         btnAddKonversi = view.findViewById(R.id.btnAddKonversi);
+
         crdListBarang = view.findViewById(R.id.crdListBarang);
         crdHasilKonversi = view.findViewById(R.id.cardTransferDetail);
+
         autoCompleteNoReceipt = view.findViewById(R.id.autoCompleteNo_receipt);
         tvTglBarang = view.findViewById(R.id.tvTglBarang);
         tvNmItem = view.findViewById(R.id.tvNmItem);
@@ -331,8 +342,18 @@ public class KonversiFragment extends Fragment implements RecyclerViewClickInter
             }
         });
     }
-
+    private void setVisibility(boolean visibility){
+        footBtn.setVisibility(visibility?View.VISIBLE:View.GONE);
+        crdHasilKonversi.setVisibility(visibility?View.VISIBLE:View.GONE);
+        crdListBarang.setVisibility(visibility?View.VISIBLE:View.GONE);
+    }
+    private void setVisibilityShimmer(boolean visibilityShimmer){
+        shimmer_tab_konversi.setVisibility(visibilityShimmer?View.VISIBLE:View.GONE);
+        scroll_tab_konversi.setVisibility(!visibilityShimmer?View.VISIBLE:View.GONE);
+    }
     public void cek_cart(){
+        setVisibility(false);
+        setVisibilityShimmer(true);
         Call<List<ApiKonversi>> cartKonversi = jsonPlaceHolderApi.getShowCartKonversi(detailUser.get(SessionManager.USER_ID));
         cartKonversi.enqueue(new Callback<List<ApiKonversi>>() {
             @Override
@@ -411,6 +432,7 @@ public class KonversiFragment extends Fragment implements RecyclerViewClickInter
                                 recycleKonversi.setHasFixedSize(true);
                                 recycleKonversi.setItemAnimator(new DefaultItemAnimator());
                                 recycleKonversi.setAdapter(cycleItems);
+                                setVisibilityShimmer(false);
                             }
 
                             @Override
@@ -431,12 +453,15 @@ public class KonversiFragment extends Fragment implements RecyclerViewClickInter
                     Toast.makeText(getContext(), "Cart Kosong", Toast.LENGTH_SHORT).show();
                     crdHasilKonversi.setVisibility(View.GONE);
                     footBtn.setVisibility(View.GONE);
+                    setVisibilityShimmer(false);
                 }
             }
 
             @Override
             public void onFailure(Call<List<ApiKonversi>> call, Throwable t) {
 //                Toast.makeText(getContext(), "Server Error", Toast.LENGTH_SHORT).show();
+                setVisibility(false);
+                setVisibilityShimmer(false);
             }
         });
     }

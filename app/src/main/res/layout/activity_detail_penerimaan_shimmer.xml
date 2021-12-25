@@ -56,117 +56,111 @@
                         android:background="@color/colorShimmer"
                         android:text="07 Januari 2021"
                         android:textColor="@color/colorTextShimmer" />
-
-                    <RelativeLayout
+                    <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
+                        android:orientation="horizontal"
                         android:layout_marginTop="20dp">
 
                         <TextView
-                            android:id="@+id/tv_lblnopurchase"
-                            android:layout_width="wrap_content"
+                            android:layout_width="110dp"
                             android:layout_height="wrap_content"
-                            android:layout_alignParentStart="true"
-                            android:layout_alignParentTop="true"
                             android:background="@color/colorShimmer"
-                            android:text="No Pusrchase"
-                            android:textColor="@color/colorTextShimmer" />
+                            android:fontFamily="@font/poppins_semibold"
+                            android:gravity="start|center_vertical"
+                            android:textAllCaps="true"
+                            android:textColor="@color/colorTextShimmer"
+                            android:textSize="14sp" />
 
                         <TextView
-                            android:id="@+id/tv_titikd"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_toEndOf="@id/tv_lblnopurchase"
+                            android:layout_marginHorizontal="10dp"
                             android:background="@color/colorShimmer"
+                            android:fontFamily="@font/poppins_semibold"
                             android:gravity="center"
-                            android:paddingHorizontal="5dp"
-                            android:text=":"
+                            android:paddingHorizontal="10dp"
                             android:textColor="@color/colorTextShimmer" />
 
                         <TextView
-                            android:id="@+id/tvPurchase"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_toEndOf="@id/tv_titikd"
                             android:background="@color/colorShimmer"
-                            android:paddingEnd="5dp"
-                            android:text="TextView"
-                            android:textColor="@color/colorTextShimmer" />
-                    </RelativeLayout>
+                            android:fontFamily="@font/poppins"
+                            android:gravity="start|center_vertical"
+                            android:textColor="@color/colorTextShimmer"
+                            android:textSize="14sp" />
+                    </LinearLayout>
+                    <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal"
+                    android:layout_marginTop="20dp">
 
-                    <RelativeLayout
+                    <TextView
+                        android:layout_width="110dp"
+                        android:layout_height="wrap_content"
+                        android:background="@color/colorShimmer"
+                        android:fontFamily="@font/poppins_semibold"
+                        android:gravity="start|center_vertical"
+                        android:textAllCaps="true"
+                        android:textColor="@color/colorTextShimmer"
+                        android:textSize="14sp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginHorizontal="10dp"
+                        android:background="@color/colorShimmer"
+                        android:fontFamily="@font/poppins_semibold"
+                        android:gravity="center"
+                        android:paddingHorizontal="10dp"
+                        android:textColor="@color/colorTextShimmer" />
+
+                    <TextView
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_marginTop="10dp">
+                        android:layout_height="wrap_content"
+                        android:background="@color/colorShimmer"
+                        android:fontFamily="@font/poppins"
+                        android:gravity="start|center_vertical"
+                        android:textColor="@color/colorTextShimmer"
+                        android:textSize="14sp" />
+                </LinearLayout>
+                    <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal"
+                    android:layout_marginTop="20dp">
 
-                        <TextView
-                            android:id="@+id/tv_lblarea"
-                            android:layout_width="95dp"
-                            android:layout_height="wrap_content"
-                            android:layout_alignParentStart="true"
-                            android:layout_alignParentTop="true"
-                            android:background="@color/colorShimmer"
-                            android:text="Area"
-                            android:textColor="@color/colorTextShimmer" />
+                    <TextView
+                        android:layout_width="110dp"
+                        android:layout_height="wrap_content"
+                        android:background="@color/colorShimmer"
+                        android:fontFamily="@font/poppins_semibold"
+                        android:gravity="start|center_vertical"
+                        android:textAllCaps="true"
+                        android:textColor="@color/colorTextShimmer"
+                        android:textSize="14sp" />
 
-                        <TextView
-                            android:id="@+id/tv_titikd4"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_toEndOf="@id/tv_lblarea"
-                            android:background="@color/colorShimmer"
-                            android:gravity="center"
-                            android:paddingHorizontal="5dp"
-                            android:text=":"
-                            android:textColor="@color/colorTextShimmer" />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginHorizontal="10dp"
+                        android:background="@color/colorShimmer"
+                        android:fontFamily="@font/poppins_semibold"
+                        android:gravity="center"
+                        android:paddingHorizontal="10dp"
+                        android:textColor="@color/colorTextShimmer" />
 
-                        <TextView
-                            android:id="@+id/tvArea"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_toEndOf="@id/tv_titikd4"
-                            android:background="@color/colorShimmer"
-                            android:paddingEnd="5dp"
-                            android:text="TextView"
-                            android:textColor="@color/colorTextShimmer" />
-                    </RelativeLayout>
-
-                    <RelativeLayout
+                    <TextView
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_marginTop="10dp">
-
-                        <TextView
-                            android:id="@+id/tvLblsts"
-                            android:layout_width="95dp"
-                            android:layout_height="wrap_content"
-                            android:layout_alignParentStart="true"
-                            android:layout_alignParentTop="true"
-                            android:background="@color/colorShimmer"
-                            android:text="Status"
-                            android:textColor="@color/colorTextShimmer" />
-
-                        <TextView
-                            android:id="@+id/tv_titikd6"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_toEndOf="@id/tvLblsts"
-                            android:background="@color/colorShimmer"
-                            android:gravity="center"
-                            android:paddingHorizontal="5dp"
-                            android:text=":"
-                            android:textColor="@color/colorTextShimmer" />
-
-                        <TextView
-                            android:id="@+id/tvSts"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_toEndOf="@id/tv_titikd6"
-                            android:background="@color/colorShimmer"
-                            android:paddingEnd="5dp"
-                            android:text="Belum Diterima"
-                            android:textColor="@color/colorTextShimmer" />
-                    </RelativeLayout>
+                        android:layout_height="wrap_content"
+                        android:background="@color/colorShimmer"
+                        android:fontFamily="@font/poppins"
+                        android:gravity="start|center_vertical"
+                        android:textColor="@color/colorTextShimmer"
+                        android:textSize="14sp" />
+                </LinearLayout>
 
                 </LinearLayout>
 

@@ -13,6 +13,7 @@ import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -22,6 +23,7 @@ import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.facebook.shimmer.ShimmerFrameLayout;
 import com.persediaan.de.adapter.AdapterItemClickListener;
 import com.persediaan.de.adapter.AdapterItemGudang;
 import com.persediaan.de.adapter.AdapterTransferDetail;
@@ -89,6 +91,10 @@ public class TransferFragment extends Fragment implements RecyclerViewClickInter
 //Data
     LoadDaftarGudang loadDaftarGudang;
 
+//    Shimmer
+    ShimmerFrameLayout shimmer_tab_transfer;
+    ScrollView scroll_tab_transfer;
+
     public TransferFragment() {
         // Required empty public constructor
     }
@@ -124,6 +130,12 @@ public class TransferFragment extends Fragment implements RecyclerViewClickInter
         card_tranfer_detail = view.findViewById(R.id.cardTransferDetail);
         card_tranfer_detail.setVisibility(View.GONE);
         cardViewTransfer.setVisibility(View.GONE);
+
+//        Shimmer
+        shimmer_tab_transfer = view.findViewById(R.id.shimmerTabTransfer);
+        scroll_tab_transfer = view.findViewById(R.id.scrollTabTransfer);
+        shimmer_tab_transfer.setVisibility(View.VISIBLE);
+        scroll_tab_transfer.setVisibility(View.GONE);
 
         btn_tambah = view.findViewById(R.id.btnTransferTambah);
         retrofit = new Retrofit.Builder()
@@ -164,10 +176,14 @@ public class TransferFragment extends Fragment implements RecyclerViewClickInter
             @Override
             public void onClick(View view) {
                 LayoutInflater viewInflater = getLayoutInflater();
+                ShimmerFrameLayout shimmer_modal_item;
                 View itemGudangView = viewInflater.inflate(R.layout.recycle_item_gudang,
                         null);
+                shimmer_modal_item = itemGudangView.findViewById(R.id.shimmerMdlItemGudang);
+                shimmer_modal_item.setVisibility(View.VISIBLE);
                 RecyclerView recyclerViewItemGudang =
                         itemGudangView.findViewById(R.id.recycleItemGudang);
+                recyclerViewItemGudang.setVisibility(View.GONE);
                 Call<ArrayList<ApiItemGudang>> call =
                         jsonPlaceHolderApi.getItemGudang(detailUserInt.get(SessionManager.USER_ID));
                 call.enqueue(new Callback<ArrayList<ApiItemGudang>>() {
@@ -186,6 +202,8 @@ public class TransferFragment extends Fragment implements RecyclerViewClickInter
 
                             modelItemGudangs.add(modelItemGudang);
                         }
+                        shimmer_modal_item.setVisibility(View.GONE);
+                        recyclerViewItemGudang.setVisibility(View.VISIBLE);
                         adapterItemGudang = new AdapterItemGudang(modelItemGudangs,
                                 TransferFragment.this);
                         recyclerViewItemGudang.setAdapter(adapterItemGudang);
@@ -333,6 +351,7 @@ public class TransferFragment extends Fragment implements RecyclerViewClickInter
                             "Terjadi error yang tidak diketahui["+response.code()+
                                     "]",
                             Toast.LENGTH_SHORT).show();
+                    btn_pilih_item.setEnabled(true);
                     return;
                 }
                 for (ApiTransferDetail apiTransferDetail: response.body()) {
@@ -357,6 +376,9 @@ public class TransferFragment extends Fragment implements RecyclerViewClickInter
                 linear_btn_transfer.setVisibility(View.VISIBLE);
                 daftar_gudang.setText(modelTransferDetails.get(0).getGudang_tujuan());
                 daftar_gudang.setEnabled(false);
+
+                shimmer_tab_transfer.setVisibility(View.GONE);
+                scroll_tab_transfer.setVisibility(View.VISIBLE);
 //                Log.d("19201299",
 //                        "ModelTransferDetail:"+modelTransferDetails.get(0).toString());
                 adapterTransferDetail.setAdapterItemClickListener(new AdapterItemClickListener() {
@@ -426,12 +448,16 @@ public class TransferFragment extends Fragment implements RecyclerViewClickInter
             @Override
             public void onFailure(Call<ArrayList<ApiTransferDetail>> call, Throwable t) {
                 Log.d("19201299", "onFailure: "+t.getMessage());
+                shimmer_tab_transfer.setVisibility(View.GONE);
+                scroll_tab_transfer.setVisibility(View.VISIBLE);
 //                Toast.makeText(requireContext(), "Server Error", Toast.LENGTH_SHORT).show();
             }
         });
     }
 
     public void loadDaftarGudang(int id_user, AutoCompleteTextView autoCompleteTextView){
+        shimmer_tab_transfer.setVisibility(View.VISIBLE);
+        scroll_tab_transfer.setVisibility(View.GONE);
         loadDaftarGudang = new LoadDaftarGudang(id_user,retrofit,jsonPlaceHolderApi);
         loadDaftarGudang.loadData();
         loadDaftarGudang.setApiResponListener(new ApiResponListener<ArrayList<ApiDaftarGudang>>() {
@@ -459,37 +485,12 @@ public class TransferFragment extends Fragment implements RecyclerViewClickInter
 
             }
         });
-//        Call<ArrayList<ApiDaftarGudang>> call=jsonPlaceHolderApi.getDaftarGudang(id_user);
-//        call.enqueue(new Callback<ArrayList<ApiDaftarGudang>>() {
-//            @Override
-//            public void onResponse(Call<ArrayList<ApiDaftarGudang>> call, Response<ArrayList<ApiDaftarGudang>> response) {
-//                ArrayList<String> arrayListGudang = new ArrayList<>();
-//                for (ApiDaftarGudang apiDaftarGudang:response.body()){
-//                    arrayListGudang.add(apiDaftarGudang.getNm_area());
-//                }
-//                listGudangAdapter = new ArrayAdapter<>(getActivity(),R.layout.tv_daftar_item,
-//                        arrayListGudang);
-//                autoCompleteTextView.setAdapter(listGudangAdapter);
-//
-//                autoCompleteTextView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-//                    @Override
-//                    public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-//                        btn_pilih_item.setEnabled(true);
-//                    }
-//                });
-//
-//            }
-//
-//            @Override
-//            public void onFailure(Call<ArrayList<ApiDaftarGudang>> call, Throwable t) {
-//
-//            }
-//        });
     }
 
     public void refreshPage(int id_user,AutoCompleteTextView autoCompleteTextView){
         card_tranfer_detail.setVisibility(View.GONE);
         cardViewTransfer.setVisibility(View.GONE);
+        btn_pilih_item.setEnabled(true);
         linear_btn_transfer.setVisibility(View.GONE);
         autoCompleteTextView.setEnabled(true);
         loadDaftarGudang(id_user,autoCompleteTextView);

@@ -25,38 +25,48 @@
             <TextView
                 android:id="@+id/tvQtyPener"
                 android:layout_width="wrap_content"
-                android:layout_height="0dp"
+                android:layout_height="wrap_content"
                 android:layout_alignTop="@id/tvSatuanPener"
-                android:layout_alignBottom="@id/tvSatuanPener"
-                android:layout_marginTop="0dp"
-                android:layout_marginEnd="5dp"
+                android:layout_marginEnd="10dp"
                 android:layout_toStartOf="@+id/tvSatuanPener"
                 android:background="@color/colorShimmer"
                 android:gravity="center_vertical"
-                android:text="qty"
+                android:paddingHorizontal="10dp"
                 android:textColor="@color/colorShimmer" />
 
             <TextView
                 android:id="@+id/tvNmItemPener"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentLeft="true"
-                android:layout_marginStart="16dp"
+                android:layout_alignParentStart="true"
                 android:layout_marginEnd="16dp"
+                android:layout_toStartOf="@+id/tvHrgPener"
                 android:background="@color/colorShimmer"
-                android:text="Nama Item"
                 android:textColor="@color/colorShimmer" />
 
-            <TextView
+            <LinearLayout
                 android:id="@+id/tvSatuanPener"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/tvHrgPener"
+                android:layout_marginTop="10dp"
                 android:layout_alignEnd="@+id/tvHrgPener"
-                android:background="@color/colorShimmer"
-                android:paddingVertical="10dp"
-                android:text="satuan"
-                android:textColor="@color/colorShimmer" />
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@color/colorShimmer"
+                    android:paddingHorizontal="30dp"
+                    android:textColor="@color/colorShimmer" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:background="@color/colorShimmer"
+                    android:paddingHorizontal="30dp"
+                    android:textColor="@color/colorShimmer" />
+            </LinearLayout>
 
             <TextView
                 android:id="@+id/tvHrgPener"
@@ -65,8 +75,7 @@
                 android:layout_marginEnd="16dp"
                 android:layout_toStartOf="@+id/imgEdit"
                 android:background="@color/colorShimmer"
-                android:gravity="right"
-                android:text="harga"
+                android:paddingHorizontal="100dp"
                 android:textColor="@color/colorShimmer" />
 
             <ImageView

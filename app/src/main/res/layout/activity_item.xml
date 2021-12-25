@@ -43,31 +43,55 @@
             android:textSize="16sp" />
     </androidx.appcompat.widget.Toolbar>
 
-    <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/btnAddItem"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:background="@drawable/btn_action"
-        android:backgroundTint="@color/BgGreen"
-        android:drawableStart="@drawable/ic_baseline_add_circle_24"
-        android:drawablePadding="5dp"
-        android:padding="10dp"
-        android:text="Tambah"
-        android:textColor="@color/white"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/toolbarItem" />
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recycleDaftarBarang"
+    <com.facebook.shimmer.ShimmerFrameLayout
+        android:id="@+id/shimmerItemActivity"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_margin="20dp"
+        android:paddingTop="20dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/btnAddItem"
-        tools:listitem="@layout/card_daftar_item" />
+        app:layout_constraintTop_toBottomOf="@+id/toolbarItem"
+        app:shimmer_auto_start="true">
+
+        <include layout="@layout/activity_item_shimmer" />
+    </com.facebook.shimmer.ShimmerFrameLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/constraintItemContent"
+        android:layout_marginTop="20dp"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/toolbarItem">
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btnAddItem"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/btn_action"
+            android:backgroundTint="@color/BgGreen"
+            android:drawableStart="@drawable/ic_baseline_add_circle_24"
+            android:drawablePadding="5dp"
+            android:padding="10dp"
+            android:text="Tambah"
+            android:textColor="@color/white"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recycleDaftarBarang"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_margin="20dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/btnAddItem"
+            tools:listitem="@layout/card_daftar_item" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
