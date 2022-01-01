@@ -11,6 +11,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -49,8 +51,16 @@ public class PenerimaanFragment extends Fragment implements RecyclerViewClickInt
     SessionManager sessionManagerUser;
     HashMap<String,Integer> detailUserInt;
 
+    SessionManager sessionManualBook;
+    FrameLayout frame_layout_manual_book;
+    LinearLayout main_linearlayout;
     public PenerimaanFragment() {
         // Required empty public constructor
+    }
+
+    public PenerimaanFragment(FrameLayout frame_layout_manual_book, LinearLayout main_linearlayout) {
+        this.frame_layout_manual_book = frame_layout_manual_book;
+        this.main_linearlayout = main_linearlayout;
     }
 
     @Override
@@ -65,6 +75,8 @@ public class PenerimaanFragment extends Fragment implements RecyclerViewClickInt
         recyclerPenerimaan.setVisibility(View.GONE);
 
         sessionManagerUser = new SessionManager(requireContext(),"login");
+        sessionManualBook= new SessionManager(requireContext(),
+                "manualbook");
         detailUserInt = sessionManagerUser.getUserDetailInt();
         loadCards(detailUserInt.get(SessionManager.USER_ID));
         return view;
@@ -79,6 +91,7 @@ public class PenerimaanFragment extends Fragment implements RecyclerViewClickInt
         TextView tv_sts=v.findViewById(R.id.tvResSTS);
         TextView tv_jumlah=v.findViewById(R.id.tvResJMLItem);
         TextView tv_total_hrg=v.findViewById(R.id.tvResTotalHrg);
+
         Intent i = new Intent(requireContext(),DetailPenerimaanActivity.class);
 
         String id_trans = (tv_idtrans!=null)?(String) tv_idtrans.getText():"null";
@@ -96,7 +109,18 @@ public class PenerimaanFragment extends Fragment implements RecyclerViewClickInt
         i.putExtra(DetailPenerimaanActivity.STS,sts);
         i.putExtra(DetailPenerimaanActivity.JML_ITEM,jumlah);
         i.putExtra(DetailPenerimaanActivity.TOTAL_HRG,total_hrg);
-        startActivity(i);
+
+        if (sessionManualBook.getManualBook(SessionManager.DETAILPENER)){
+            getActivity().getSupportFragmentManager()
+                    .beginTransaction()
+                    .replace(R.id.frameManualBook,
+                            new DetailPenerManualBookFragment(frame_layout_manual_book,
+                                    main_linearlayout,i))
+                    .commit();
+            sessionManualBook.setManualBook(SessionManager.DETAILPENER,true);
+        }else {
+            startActivity(i);
+        }
 //        Toast.makeText(getContext(), "Position : "+position+"\n Nama Penyedia : "+nm_penyedia.getText(), Toast.LENGTH_SHORT).show();
     }
 

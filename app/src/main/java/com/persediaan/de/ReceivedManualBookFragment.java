@@ -1,5 +1,6 @@
 package com.persediaan.de;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.appcompat.widget.AppCompatButton;
@@ -14,6 +15,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.airbnb.lottie.LottieAnimationView;
+import com.persediaan.de.data.SessionManager;
 
 public class ReceivedManualBookFragment extends Fragment {
 
@@ -24,6 +26,8 @@ public class ReceivedManualBookFragment extends Fragment {
     AppCompatButton btn_detail_manual_book;
 
     Button btn_next,btn_lewati;
+
+    SessionManager sessionManualBook;
 
     LottieAnimationView tap_manual_book,tap2_manual_book;
     int index = 1;
@@ -49,6 +53,9 @@ public class ReceivedManualBookFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_received_manual_book, container, false);
         frame_layout_manual_book.setVisibility(View.VISIBLE);
 
+        sessionManualBook= new SessionManager(requireContext(),
+                "manualbook");
+
         tap_bg_manual_book = view.findViewById(R.id.tapBackgroundManualBook);
         card_linear_manual_book = view.findViewById(R.id.cardLinearManualBook);
 
@@ -70,9 +77,9 @@ public class ReceivedManualBookFragment extends Fragment {
             public void onClick(View view) {
 
                 if (index ==1){
-                    if(expand==false){
-                        linearExpandDetailContainerManualBook.setVisibility(View.VISIBLE);
-                    }
+//                    if(expand==false){
+//                        linearExpandDetailContainerManualBook.setVisibility(View.VISIBLE);
+//                    }
                     expand = true;
                     tap_manual_book.setVisibility(View.GONE);
                     tap2_manual_book.setVisibility(View.VISIBLE);
@@ -82,6 +89,7 @@ public class ReceivedManualBookFragment extends Fragment {
                 }
 
                 if (index>=2){
+                    sessionManualBook.OpenManualBook(false);
                     frame_layout_manual_book.setVisibility(View.GONE);
                     main_linearlayout.setVisibility(View.VISIBLE);
                 }
@@ -93,6 +101,7 @@ public class ReceivedManualBookFragment extends Fragment {
             public void onClick(View view) {
                 frame_layout_manual_book.setVisibility(View.GONE);
                 main_linearlayout.setVisibility(View.VISIBLE);
+                sessionManualBook.OpenManualBook(false);
             }
         });
         card_linear_manual_book.setOnClickListener(new View.OnClickListener() {
@@ -100,33 +109,39 @@ public class ReceivedManualBookFragment extends Fragment {
             public void onClick(View view) {
                 if(expand==false){
                     linearExpandDetailContainerManualBook.setVisibility(View.VISIBLE);
+                    tap_manual_book.setVisibility(View.GONE);
+                    tap2_manual_book.setVisibility(View.VISIBLE);
+                    index++;
                 }
                 expand = true;
-                if(index<2){
-                    if (expand){
-                        tap_manual_book.setVisibility(View.GONE);
-                        tap2_manual_book.setVisibility(View.VISIBLE);
-                    }
-                }
-                if (index>=2){
-                    tap_manual_book.setVisibility(View.GONE);
-                    tap2_manual_book.setVisibility(View.GONE);
-                    btn_next.setText("Finish");
-                }
-                index++;
+//                if(index<2){
+//                    if (expand){
+//
+//                    }
+//                }
+//                if (index>=2){
+//                    tap_manual_book.setVisibility(View.GONE);
+//                    tap2_manual_book.setVisibility(View.GONE);
+//                    btn_next.setText("Finish");
+//                }
             }
         });
         btn_detail_manual_book.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (index<2){
-                }
                 if (index>=2){
+                    getActivity().getSupportFragmentManager()
+                            .beginTransaction()
+                            .replace(R.id.frameManualBook,
+                                    new DetailPenerManualBookFragment(frame_layout_manual_book,main_linearlayout))
+                            .commit();
+                    sessionManualBook.setManualBook(SessionManager.DETAILPENER,true);
                     tap_manual_book.setVisibility(View.GONE);
                     tap2_manual_book.setVisibility(View.GONE);
-                    btn_next.setText("Finish");
+
+//                    btn_next.setText("Finish");
+                    index++;
                 }
-                index++;
             }
         });
 
@@ -137,6 +152,7 @@ public class ReceivedManualBookFragment extends Fragment {
                 if (index>2){
                     frame_layout_manual_book.setVisibility(View.GONE);
                     main_linearlayout.setVisibility(View.VISIBLE);
+                    sessionManualBook.OpenManualBook(false);
                 }
             }
         });

@@ -19,6 +19,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.etebarian.meowbottomnavigation.MeowBottomNavigation;
+import com.persediaan.de.data.SessionManager;
 
 import java.util.ArrayList;
 
@@ -34,6 +35,7 @@ public class ManualBookFragment extends Fragment {
             tv_lbl_tittle_scan,tv_lbl_tittle_spending,
             tv_lbl_tittle_setting;
     TextView lbl_manual_book;
+    SessionManager session_manual_book;
     int id = 1;
     public ManualBookFragment(ArrayList<MeowBottomNavigation.Model> models,
                               FrameLayout frameLayout, LinearLayout main_linearlayout) {
@@ -46,6 +48,7 @@ public class ManualBookFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_manual_book, container, false);
+        session_manual_book = new SessionManager(requireContext(),"manualbook");
         meowBottomNavigation = view.findViewById(R.id.bottomNavManualBook);
         btn_lewati = view.findViewById(R.id.btnLewati);
         btn_next = view.findViewById(R.id.btnNext);
@@ -111,6 +114,7 @@ public class ManualBookFragment extends Fragment {
             public void onClick(View view) {
                 frameLayout.setVisibility(View.GONE);
                 main_linearlayout.setVisibility(View.VISIBLE);
+                session_manual_book.OpenManualBook(false);
             }
         });
 
@@ -124,6 +128,7 @@ public class ManualBookFragment extends Fragment {
                 if (id>models.size()) {
                     frameLayout.setVisibility(View.GONE);
                     main_linearlayout.setVisibility(View.VISIBLE);
+                    session_manual_book.OpenManualBook(false);
 
                 }else{
                     meowBottomNavigation.show(id, true);

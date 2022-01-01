@@ -6,7 +6,10 @@ import android.app.ActivityOptions;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.os.Handler;
+import android.os.HandlerThread;
+import android.os.health.TimerStat;
 import android.util.Pair;
 import android.view.View;
 import android.view.Window;
@@ -46,6 +49,13 @@ public class SplashscreenActivity extends AppCompatActivity {
     SessionManager sessionManagerLogin;
     HashMap<String,Integer> detailUserInt;
     HashMap<String,String> detailUser;
+
+    String msg = "";
+    boolean connection,
+            timeOutConnect,
+            noInternet,
+            reload=false,sts=true;
+    int s = 5,i=1,ms = 0;
 
 
     @Override
@@ -157,15 +167,35 @@ public class SplashscreenActivity extends AppCompatActivity {
                         @Override
                         public void onFailure(Call<ApiLogin> call, Throwable t) {
                             progressBar.setVisibility(View.GONE);
-                            sessionManagerLogin.clearSession();
-                            tv_notif.setText("Gagal terhubung");
-                            Pair[] pairs = new Pair[2];
-                            pairs[0] = new Pair<View,String>(imgAnim,"imgTrans");
-                            pairs[1] = new Pair<View,String>(title,"titleTrans");
-                            ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(SplashscreenActivity.this,pairs);
-                            startActivity(login,options.toBundle());
-                            finish();
-                            Toast.makeText(getApplicationContext(), "Server Error!!", Toast.LENGTH_LONG).show();
+                            msg = t.getMessage();
+                            connection = msg.contains("Unable");
+                            timeOutConnect = msg.contains("failed");
+                            noInternet = msg.contains("timed out");
+                            reload = true;
+                            s = 5;i=1;ms = 1;
+                            if (connection){
+                                msg = "Gagal terhubung, mohon periksa kembali koneksi anda";
+                            }
+                            if (timeOutConnect){
+                                msg ="Koneksi anda lambat, coba lagi dilain waktu";
+                            }
+                            if (noInternet){
+                                msg = "Tidak ada koneksi internet";
+                            }
+                            tv_notif.setPadding(5,5,5,5);
+                            tv_notif.setText(""+msg);
+                            new Handler().postDelayed(new Runnable() {
+                                @Override
+                                public void run() {
+//                                    sessionManagerLogin.clearSession();
+                                    Pair[] pairs = new Pair[2];
+                                    pairs[0] = new Pair<View,String>(imgAnim,"imgTrans");
+                                    pairs[1] = new Pair<View,String>(title,"titleTrans");
+                                    ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(SplashscreenActivity.this,pairs);
+                                    startActivity(login,options.toBundle());
+                                    finish();
+                                }
+                            }, 2000);
                         }
                     });
                 }else{
@@ -179,5 +209,21 @@ public class SplashscreenActivity extends AppCompatActivity {
                 }
             }
         },2000);
+    }
+
+    private void reload(int i) {
+        new CountDownTimer(3000,1000){
+
+            @Override
+            public void onTick(long l) {
+                tv_notif.setText(""+l);
+            }
+
+            @Override
+            public void onFinish() {
+                sts = true;
+
+            }
+        }.start();
     }
 }

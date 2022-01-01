@@ -71,6 +71,8 @@ public class MainActivity extends AppCompatActivity implements ScanInterface{
             tv_lbl_tittle_scan,tv_lbl_tittle_spending,
             tv_lbl_tittle_setting;
 
+    SessionManager session_manual_book;
+
     String page="";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -129,7 +131,7 @@ public class MainActivity extends AppCompatActivity implements ScanInterface{
         bottomNavigation.setOnShowListener(new MeowBottomNavigation.ShowListener() {
             @Override
             public void onShowItem(MeowBottomNavigation.Model item) {
-                SessionManager session_manual_book = new SessionManager(MainActivity.this,
+                session_manual_book = new SessionManager(MainActivity.this,
                         "manualbook");
                 Fragment fragment = null;
 //                <<Animation>>
@@ -138,11 +140,12 @@ public class MainActivity extends AppCompatActivity implements ScanInterface{
 
                 switch (item.getId()){
                     case 1:
-                        if (!session_manual_book.getManualBook("home")){
+                        if (!session_manual_book.getManualBook(SessionManager.HOME)){
                             loadFragmentManualBook(new ManualBookFragment(bottomNavigation.getModels(),
                                     frame_layout_manual_book,main_linearlayout));
                             main_linearlayout.setVisibility(View.GONE);
-                            session_manual_book.setManualBook("home",true);
+                            session_manual_book.setManualBook(SessionManager.HOME,true);
+                            session_manual_book.OpenManualBook(true);
                         }
                         page = "home";
                         fragment = new HomeFragment(bottomNavigation);
@@ -150,13 +153,14 @@ public class MainActivity extends AppCompatActivity implements ScanInterface{
                         loadFragment(fragment);
                         break;
                     case 2:
-                        if (!session_manual_book.getManualBook("receive")){
+//                        if (!session_manual_book.getManualBook(SessionManager.RECEIVE)){
                             loadFragmentManualBook(new ReceivedManualBookFragment(frame_layout_manual_book,main_linearlayout));
                             main_linearlayout.setVisibility(View.GONE);
-                            session_manual_book.setManualBook("receive",true);
-                        }
+                            session_manual_book.setManualBook(SessionManager.RECEIVE,true);
+                            session_manual_book.OpenManualBook(true);
+//                        }
                         page = "penerimaan";
-                        fragment = new PenerimaanFragment();
+                        fragment = new PenerimaanFragment(frame_layout_manual_book,main_linearlayout);
                         cardViewprofile.setVisibility(View.VISIBLE);
                         loadFragment(fragment);
 
@@ -232,28 +236,27 @@ public class MainActivity extends AppCompatActivity implements ScanInterface{
         Animation goDown = AnimationUtils.loadAnimation(getApplicationContext(),R.anim.go_down);
         Animation goUp = AnimationUtils.loadAnimation(getApplicationContext(),R.anim.go_down_in);
 
-        if (tv_lbl_tittle_home.getVisibility()==View.GONE){
-            tv_lbl_tittle_home.setVisibility(View.VISIBLE);
-            tv_lbl_tittle_home.setAnimation(goUp);
-        }
-        if (tv_lbl_tittle_receive.getVisibility()==View.GONE){
-            tv_lbl_tittle_receive.setVisibility(View.VISIBLE);
-            tv_lbl_tittle_receive.setAnimation(goUp);
-        }
-        if (tv_lbl_tittle_scan.getVisibility()==View.GONE){
-            tv_lbl_tittle_scan.setVisibility(View.VISIBLE);
-            tv_lbl_tittle_scan.setAnimation(goUp);
-        }
-        if (tv_lbl_tittle_spending.getVisibility()==View.GONE){
-            tv_lbl_tittle_spending.setVisibility(View.VISIBLE);
-            tv_lbl_tittle_spending.setAnimation(goUp);
-        }
-        if (tv_lbl_tittle_setting.getVisibility()==View.GONE){
-            tv_lbl_tittle_setting.setVisibility(View.VISIBLE);
-            tv_lbl_tittle_setting.setAnimation(goUp);
-        }
+//        if(!bottomNavigation.isShowing(1)) {
+
+//        }
         switch (id){
             case 1:
+                if (tv_lbl_tittle_receive.getVisibility()==View.GONE){
+                    tv_lbl_tittle_receive.setVisibility(View.VISIBLE);
+                    tv_lbl_tittle_receive.setAnimation(goUp);
+                }
+                if (tv_lbl_tittle_scan.getVisibility()==View.GONE){
+                    tv_lbl_tittle_scan.setVisibility(View.VISIBLE);
+                    tv_lbl_tittle_scan.setAnimation(goUp);
+                }
+                if (tv_lbl_tittle_spending.getVisibility()==View.GONE){
+                    tv_lbl_tittle_spending.setVisibility(View.VISIBLE);
+                    tv_lbl_tittle_spending.setAnimation(goUp);
+                }
+                if (tv_lbl_tittle_setting.getVisibility()==View.GONE){
+                    tv_lbl_tittle_setting.setVisibility(View.VISIBLE);
+                    tv_lbl_tittle_setting.setAnimation(goUp);
+                }
                 if (tv_lbl_tittle_home.getVisibility()!=View.GONE){
                     goDown.setAnimationListener(new Animation.AnimationListener() {
                         @Override
@@ -274,6 +277,23 @@ public class MainActivity extends AppCompatActivity implements ScanInterface{
 
                 break;
             case 2:
+                if (tv_lbl_tittle_home.getVisibility() == View.GONE) {
+                    tv_lbl_tittle_home.setVisibility(View.VISIBLE);
+                    tv_lbl_tittle_home.setAnimation(goUp);
+                }
+                if (tv_lbl_tittle_scan.getVisibility()==View.GONE){
+                    tv_lbl_tittle_scan.setVisibility(View.VISIBLE);
+                    tv_lbl_tittle_scan.setAnimation(goUp);
+                }
+                if (tv_lbl_tittle_spending.getVisibility()==View.GONE){
+                    tv_lbl_tittle_spending.setVisibility(View.VISIBLE);
+                    tv_lbl_tittle_spending.setAnimation(goUp);
+                }
+                if (tv_lbl_tittle_setting.getVisibility()==View.GONE){
+                    tv_lbl_tittle_setting.setVisibility(View.VISIBLE);
+                    tv_lbl_tittle_setting.setAnimation(goUp);
+                }
+
                 if (tv_lbl_tittle_receive.getVisibility()!=View.GONE){
                     goDown.setAnimationListener(new Animation.AnimationListener() {
                         @Override
@@ -293,6 +313,23 @@ public class MainActivity extends AppCompatActivity implements ScanInterface{
                 }
                 break;
             case 3:
+                if (tv_lbl_tittle_home.getVisibility() == View.GONE) {
+                    tv_lbl_tittle_home.setVisibility(View.VISIBLE);
+                    tv_lbl_tittle_home.setAnimation(goUp);
+                }
+                if (tv_lbl_tittle_receive.getVisibility()==View.GONE){
+                    tv_lbl_tittle_receive.setVisibility(View.VISIBLE);
+                    tv_lbl_tittle_receive.setAnimation(goUp);
+                }
+                if (tv_lbl_tittle_spending.getVisibility()==View.GONE){
+                    tv_lbl_tittle_spending.setVisibility(View.VISIBLE);
+                    tv_lbl_tittle_spending.setAnimation(goUp);
+                }
+                if (tv_lbl_tittle_setting.getVisibility()==View.GONE){
+                    tv_lbl_tittle_setting.setVisibility(View.VISIBLE);
+                    tv_lbl_tittle_setting.setAnimation(goUp);
+                }
+
                 if (tv_lbl_tittle_scan.getVisibility()!=View.GONE){
                     goDown.setAnimationListener(new Animation.AnimationListener() {
                         @Override
@@ -312,6 +349,23 @@ public class MainActivity extends AppCompatActivity implements ScanInterface{
                 }
                 break;
             case 4:
+                if (tv_lbl_tittle_home.getVisibility() == View.GONE) {
+                    tv_lbl_tittle_home.setVisibility(View.VISIBLE);
+                    tv_lbl_tittle_home.setAnimation(goUp);
+                }
+                if (tv_lbl_tittle_receive.getVisibility()==View.GONE){
+                    tv_lbl_tittle_receive.setVisibility(View.VISIBLE);
+                    tv_lbl_tittle_receive.setAnimation(goUp);
+                }
+                if (tv_lbl_tittle_scan.getVisibility()==View.GONE){
+                    tv_lbl_tittle_scan.setVisibility(View.VISIBLE);
+                    tv_lbl_tittle_scan.setAnimation(goUp);
+                }
+                if (tv_lbl_tittle_setting.getVisibility()==View.GONE){
+                    tv_lbl_tittle_setting.setVisibility(View.VISIBLE);
+                    tv_lbl_tittle_setting.setAnimation(goUp);
+                }
+
                 if (tv_lbl_tittle_spending.getVisibility()!=View.GONE){
                     goDown.setAnimationListener(new Animation.AnimationListener() {
                         @Override
@@ -331,6 +385,23 @@ public class MainActivity extends AppCompatActivity implements ScanInterface{
                 }
                 break;
             case 5:
+                if (tv_lbl_tittle_home.getVisibility() == View.GONE) {
+                    tv_lbl_tittle_home.setVisibility(View.VISIBLE);
+                    tv_lbl_tittle_home.setAnimation(goUp);
+                }
+                if (tv_lbl_tittle_receive.getVisibility()==View.GONE){
+                    tv_lbl_tittle_receive.setVisibility(View.VISIBLE);
+                    tv_lbl_tittle_receive.setAnimation(goUp);
+                }
+                if (tv_lbl_tittle_scan.getVisibility()==View.GONE){
+                    tv_lbl_tittle_scan.setVisibility(View.VISIBLE);
+                    tv_lbl_tittle_scan.setAnimation(goUp);
+                }
+                if (tv_lbl_tittle_spending.getVisibility()==View.GONE){
+                    tv_lbl_tittle_spending.setVisibility(View.VISIBLE);
+                    tv_lbl_tittle_spending.setAnimation(goUp);
+                }
+
                 if (tv_lbl_tittle_setting.getVisibility()!=View.GONE){
                     goDown.setAnimationListener(new Animation.AnimationListener() {
                         @Override
@@ -358,24 +429,31 @@ public class MainActivity extends AppCompatActivity implements ScanInterface{
     @Override
     public void onBackPressed() {
 //        super.onBackPressed();
-        if (page.equals("home")) {
-            count++;
-        } else {
-            page = "noHome";
-            bottomNavigation.show(1,true);
-            count = 0;
+       if (!session_manual_book.OpenManualBook()){
+           if (page.equals("home")) {
+               count++;
+           } else {
+               page = "noHome";
+               bottomNavigation.show(1,true);
+               count = 0;
 
-        }
-        if(count==1){
-            if(page.equals("home")){
-                Toast.makeText(getApplicationContext(), "Tekan lagi untuk menutup "+page, Toast.LENGTH_SHORT).show();
-            }
-        }else if(count>=2){
-            if(page.equals("home")){
-                finish();
-            }
-        }
-        page = "home";
+           }
+           if(count==1){
+               if(page.equals("home")){
+                   Toast.makeText(getApplicationContext(), "Tekan lagi untuk keluar ",
+                           Toast.LENGTH_SHORT).show();
+               }
+           }else if(count>=2){
+               if(page.equals("home")){
+                   finish();
+               }
+           }
+           page = "home";
+       }else{
+           session_manual_book.OpenManualBook(false);
+           frame_layout_manual_book.setVisibility(View.GONE);
+           main_linearlayout.setVisibility(View.VISIBLE);
+       }
     }
     void runScanner(){
 
@@ -419,7 +497,7 @@ public class MainActivity extends AppCompatActivity implements ScanInterface{
             bottomNavigation.show(2,true);
             sessionTranstition.clearSession();
         }else if(sessionTranstition.getTranstition("scan")){
-            bottomNavigation.show(3,true);
+            bottomNavigation.show(3,false);
             sessionTranstition.clearSession();
         }else if(sessionTranstition.getTranstition("setting")){
             bottomNavigation.show(5,true);

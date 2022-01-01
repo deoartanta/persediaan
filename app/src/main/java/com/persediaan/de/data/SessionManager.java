@@ -44,6 +44,11 @@ public class SessionManager {
     public static final String SCANFULLR = "SCANFULLR";
     public static final String EDITSCANNER = "EDITSCANNER";
 
+//  Manual Book
+    public static final String DETAILPENER = "DETAILPENER";
+    public static final String HOME = "HOME";
+    public static final String RECEIVE = "RECEIVE";
+    public static final String OPEN_MANUAL_BOOK = "OPEN_MANUAL_BOOK";
 
     public SessionManager(Context context,String name) {
         this.context = context;
@@ -192,6 +197,13 @@ public class SessionManager {
     public void setManualBook(String key,boolean status){
         editor.putBoolean(key,status);
         editor.apply();
+    }
+    public void OpenManualBook(boolean b){
+        editor.putBoolean(OPEN_MANUAL_BOOK,b);
+        editor.apply();
+    }
+    public boolean OpenManualBook(){
+        return sharedPreferences.getBoolean(OPEN_MANUAL_BOOK,false);
     }
     public void setTranstition(String key,boolean status){
         editor.putBoolean(key,status);

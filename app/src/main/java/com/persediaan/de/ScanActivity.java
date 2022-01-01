@@ -6,7 +6,11 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.VibrationEffect;
+import android.os.Vibrator;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
@@ -26,6 +30,7 @@ public class ScanActivity extends AppCompatActivity implements ZXingScannerView.
     public static String TYPESCAN ="TYPESCAN";
     public static String SCANNER_TYPE_1 ="SCANNER_TYPE_1";
     public static String SCANNER_TYPE_2 ="SCANNER_TYPE_2";
+    Vibrator vibrator;
 
     ZXingScannerView scanner;
 
@@ -166,6 +171,23 @@ public class ScanActivity extends AppCompatActivity implements ZXingScannerView.
         scanner.startCamera();
         scanner.setResultHandler(ScanActivity.this);
     }
+    public void createVibrate(long millisecond,int repeat){
+        for (int i = 0; i < 5; i++) {
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    vibrator = (Vibrator)getSystemService(Context.VIBRATOR_SERVICE);
+                    if (Build.VERSION.SDK_INT >= 26) {
+                        vibrator.vibrate(VibrationEffect.createOneShot(1000, 2));
+                    } else {
+                        vibrator.vibrate(millisecond);
+                    }
+                }
+            }, 2000);
+        }
+
+    }
+
 
     @Override
     public void handleResult(Result result) {
@@ -179,6 +201,7 @@ public class ScanActivity extends AppCompatActivity implements ZXingScannerView.
         if (sessionScan.isEditScanner()) {
             sessionScan.clearSession();
         }
+        createVibrate(500,5);
         sessionScan.createSessionScan(r, result.getBarcodeFormat().toString(), R);
         newPage(ScanActivity.this);
         finish();
