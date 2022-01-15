@@ -1,6 +1,7 @@
 package com.persediaan.de;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
 
 import android.app.AlertDialog;
 import android.content.Context;
@@ -18,9 +19,13 @@ import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.TextView;
 
+import com.google.zxing.BarcodeFormat;
 import com.google.zxing.Result;
+import com.persediaan.de.data.ManualBookListener;
 import com.persediaan.de.data.SessionManager;
+import com.persediaan.de.databinding.FragmentScannerManualBookBinding;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 import me.dm7.barcodescanner.zxing.ZXingScannerView;
@@ -30,6 +35,9 @@ public class ScanActivity extends AppCompatActivity implements ZXingScannerView.
     public static String TYPESCAN ="TYPESCAN";
     public static String SCANNER_TYPE_1 ="SCANNER_TYPE_1";
     public static String SCANNER_TYPE_2 ="SCANNER_TYPE_2";
+
+    FrameLayout frame_scanner_manual_book;
+
     Vibrator vibrator;
 
     ZXingScannerView scanner;
@@ -45,6 +53,9 @@ public class ScanActivity extends AppCompatActivity implements ZXingScannerView.
 //    <</Transtition
     SessionManager sessionTranstition;
 //        Transtition/>>
+//    Manual Book
+    SessionManager session_manual_book;
+
     boolean sts_flash_cam = false;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,10 +63,14 @@ public class ScanActivity extends AppCompatActivity implements ZXingScannerView.
         scanner = new ZXingScannerView(this);
         setContentView(R.layout.activity_scan);
 
+        session_manual_book = new SessionManager(this,
+                SessionManager.MANUAL_BOOK);
+
         sessionScan = new SessionManager(this,"scan");
         scanResult = sessionScan.getScanResult();
 
         sessionTranstition = new SessionManager(ScanActivity.this,"transtition");
+        frame_scanner_manual_book = findViewById(R.id.frameScanManualBook);
 
         frameScan2 = findViewById(R.id.frameScan2);
         tv_flash_cam = findViewById(R.id.tvFlashCam);
@@ -74,6 +89,11 @@ public class ScanActivity extends AppCompatActivity implements ZXingScannerView.
             if ((sessionScan.getScanResult().get(SessionManager.SCANFULLR))!=null) {
                 btn_batal.setVisibility(View.VISIBLE);
                 btn_cancel.setVisibility(View.GONE);
+
+//                if (!session_manual_book.getManualBook(SessionManager.SCANNER_EDIT_MANUAL_BOOK)){
+                    session_manual_book.setManualBook(SessionManager.SCANNER_EDIT_MANUAL_BOOK,true);
+                    session_manual_book.setManualBook(SessionManager.SCANNER,false);
+//                }
             }else{
                 btn_batal.setVisibility(View.GONE);
                 btn_cancel.setVisibility(View.VISIBLE);
@@ -157,34 +177,70 @@ public class ScanActivity extends AppCompatActivity implements ZXingScannerView.
         scanner.setResultHandler(this);
 
         Bundle extras = getIntent().getExtras();
-        if (extras.getString(TYPESCAN).equals(SCANNER_TYPE_1)){
-            setContentView(scanner);
-        }else{
-            loadScanner(scanner);
-        }
+
+        ScannerManualBookFragment fragmentScanManualBook =
+                new ScannerManualBookFragment(frame_scanner_manual_book);
+//        if (!session_manual_book.getManualBook(SessionManager.SCANNER)){
+        fragmentScanManualBook.setOnManualBookListener(new ManualBookListener() {
+                @Override
+                public void onNext(int index) {
+
+                }
+
+                @Override
+                public void onLewati() {
+
+                }
+
+                @Override
+                public void onFinish(int index) {
+                    if (extras.getString(TYPESCAN).equals(SCANNER_TYPE_1)){
+                        setContentView(scanner);
+                    }else{
+                        loadScanner(scanner);
+                    }
+                }
+            });
+        session_manual_book.setManualBook(SessionManager.SCANNER_EDIT_MANUAL_BOOK,true);
+        loadFragmentManualBook(fragmentScanManualBook);
+        session_manual_book.setManualBook(SessionManager.SCANNER,true);
+            session_manual_book.OpenManualBook(true);
+//        }else{
+//            if (extras.getString(TYPESCAN).equals(SCANNER_TYPE_1)){
+//                setContentView(scanner);
+//            }else{
+//                loadScanner(scanner);
+//            }
+//        }
 
     }
-
+    public void loadFragmentManualBook(Fragment pFragment) {
+        getSupportFragmentManager()
+                .beginTransaction()
+                .replace(R.id.frameScanManualBook,pFragment)
+                .commit();
+    }
     private void loadScanner(ZXingScannerView scanner) {
+
         frameScan2.removeAllViews();
         frameScan2.addView(scanner);
         scanner.startCamera();
         scanner.setResultHandler(ScanActivity.this);
     }
     public void createVibrate(long millisecond,int repeat){
-        for (int i = 0; i < 5; i++) {
-            new Handler().postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    vibrator = (Vibrator)getSystemService(Context.VIBRATOR_SERVICE);
-                    if (Build.VERSION.SDK_INT >= 26) {
-                        vibrator.vibrate(VibrationEffect.createOneShot(1000, 2));
-                    } else {
-                        vibrator.vibrate(millisecond);
-                    }
-                }
-            }, 2000);
-        }
+//        for (int i = 0; i < 5; i++) {
+//            new Handler().postDelayed(new Runnable() {
+//                @Override
+//                public void run() {
+//                    vibrator = (Vibrator)getSystemService(Context.VIBRATOR_SERVICE);
+//                    if (Build.VERSION.SDK_INT >= 26) {
+//                        vibrator.vibrate(VibrationEffect.createOneShot(millisecond, 10));
+//                    } else {
+//                        vibrator.vibrate(millisecond);
+//                    }
+//                }
+//            }, 2000);
+//        }
 
     }
 

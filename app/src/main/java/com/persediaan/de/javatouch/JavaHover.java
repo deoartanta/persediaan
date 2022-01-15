@@ -29,7 +29,7 @@ public class JavaHover {
                 switch (motionEvent.getAction()){
                     case MotionEvent.ACTION_DOWN:
 
-                        viewToBackground.setBackgroundResource(R.color.bgcCickedSplas);
+//                        viewToBackground.setBackgroundResource(hover_in);
                         itemClicked = true;
                         if (javaHoverListener!=null){
                             javaHoverListener.hoverIn(view);
@@ -37,23 +37,24 @@ public class JavaHover {
                         break;
                     case MotionEvent.ACTION_MOVE:
                         if (itemClicked){
-                            viewToBackground.setBackgroundResource(R.color.splashBackground);
+                            viewToBackground.setBackgroundResource(hover_out);
                         }else {
-                            viewToBackground.setBackgroundResource(R.color.bgcCickedSplas);
+                            viewToBackground.setBackgroundResource(hover_in);
                         }
                         if (javaHoverListener!=null){
                             javaHoverListener.hoverMove(view);
                         }
+                        itemClicked = false;
                         break;
                     case MotionEvent.ACTION_UP:
-                        viewToBackground.setBackgroundResource(R.color.splashBackground);
-                        itemClicked = false;
-                        if (!itemClicked){
+                        viewToBackground.setBackgroundResource(hover_out);
+                        if (itemClicked){
                             javaHoverListener.onClick(view);
                         }
                         if (javaHoverListener!=null){
                             javaHoverListener.hoverOut(view);
                         }
+                        itemClicked = false;
                 }
                 return true;
             }

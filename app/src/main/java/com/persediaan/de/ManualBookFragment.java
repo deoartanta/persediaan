@@ -124,6 +124,7 @@ public class ManualBookFragment extends Fragment {
                 id++;
                 if ((id+1)>models.size()){
                     btn_next.setText("Finish");
+                    main_linearlayout.setVisibility(View.VISIBLE);
                 }
                 if (id>models.size()) {
                     frameLayout.setVisibility(View.GONE);
@@ -132,6 +133,7 @@ public class ManualBookFragment extends Fragment {
 
                 }else{
                     meowBottomNavigation.show(id, true);
+                    main_linearlayout.setVisibility(View.VISIBLE);
                 }
             }
         });

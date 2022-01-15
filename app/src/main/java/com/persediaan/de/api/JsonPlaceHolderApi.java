@@ -51,6 +51,12 @@ public interface JsonPlaceHolderApi {
     Call<List<ApiPenerimaan>> getResponPenerimaanCart(
             @Field("id_user") int iduser
     );
+    @POST("api/reception/listTerima")
+    @FormUrlEncoded
+    Call<ArrayList<ApiPenerimaan>> getResponPenerimaanList(
+            @Field("id_user") int iduser
+    );
+
     @POST("api/reception/cart")
     @FormUrlEncoded
     Call<ApiPenerimaan> getResponPenerimaanCartStatus(

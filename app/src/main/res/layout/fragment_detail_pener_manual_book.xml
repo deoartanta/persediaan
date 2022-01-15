@@ -366,25 +366,27 @@
                                                 android:id="@+id/tapEditDetailPenerManualBook"
                                                 android:layout_width="100dp"
                                                 android:layout_height="100dp"
+                                                android:layout_marginBottom="-20dp"
                                                 app:layout_constraintBottom_toBottomOf="@id/imgEdit2"
                                                 app:layout_constraintEnd_toEndOf="@id/imgEdit2"
                                                 app:layout_constraintStart_toStartOf="@id/imgEdit2"
                                                 app:layout_constraintTop_toTopOf="@id/imgEdit2"
                                                 app:lottie_autoPlay="true"
                                                 app:lottie_loop="true"
-                                                app:lottie_rawRes="@raw/tap" />
+                                                app:lottie_rawRes="@raw/tap_jari" />
 
                                             <com.airbnb.lottie.LottieAnimationView
                                                 android:id="@+id/tapHpsDetailPenerManualBook"
                                                 android:layout_width="100dp"
                                                 android:layout_height="100dp"
+                                                android:layout_marginBottom="-20dp"
                                                 app:layout_constraintBottom_toBottomOf="@id/imgHps2"
                                                 app:layout_constraintEnd_toEndOf="@id/imgHps2"
                                                 app:layout_constraintStart_toStartOf="@id/imgHps2"
                                                 app:layout_constraintTop_toTopOf="@id/imgHps2"
                                                 app:lottie_autoPlay="true"
                                                 app:lottie_loop="true"
-                                                app:lottie_rawRes="@raw/tap" />
+                                                app:lottie_rawRes="@raw/tap_jari" />
 
                                         </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -681,6 +683,7 @@
                                     android:id="@+id/tapSimpanDetailPenerManualBook"
                                     android:layout_width="150dp"
                                     android:layout_height="150dp"
+                                    android:layout_marginBottom="-20dp"
                                     android:layout_gravity="center_horizontal"
                                     app:layout_constraintBottom_toBottomOf="@id/layoutBtnSimpan"
                                     app:layout_constraintEnd_toEndOf="@id/layoutBtnSimpan"
@@ -688,7 +691,7 @@
                                     app:layout_constraintTop_toTopOf="@id/layoutBtnSimpan"
                                     app:lottie_autoPlay="true"
                                     app:lottie_loop="true"
-                                    app:lottie_rawRes="@raw/tap" />
+                                    app:lottie_rawRes="@raw/tap_jari" />
 
                             </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -729,6 +732,7 @@
                                     android:id="@+id/tapBatalDetailPenerManualBook"
                                     android:layout_width="150dp"
                                     android:layout_height="150dp"
+                                    android:layout_marginBottom="-20dp"
                                     android:layout_gravity="center_horizontal"
                                     app:layout_constraintBottom_toBottomOf="@id/layoutBtnBatal"
                                     app:layout_constraintEnd_toEndOf="@id/layoutBtnBatal"
@@ -736,7 +740,7 @@
                                     app:layout_constraintTop_toTopOf="@id/layoutBtnBatal"
                                     app:lottie_autoPlay="true"
                                     app:lottie_loop="true"
-                                    app:lottie_rawRes="@raw/tap" />
+                                    app:lottie_rawRes="@raw/tap_jari" />
 
                             </androidx.constraintlayout.widget.ConstraintLayout>
                         </LinearLayout>

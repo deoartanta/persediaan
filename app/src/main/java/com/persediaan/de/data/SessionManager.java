@@ -18,7 +18,8 @@ public class SessionManager {
     int PRIVATE_MODE = 0;
     private static final String LOGIN = "IS_LOGIN";
 //    URL
-    public static final String HOSTNAME = "https://depo.gemes.id/";
+    public static final String HOSTNAME = "Https://depo.gemes.id/";
+//    public static final String HOSTNAME = "Http://202.149.86.21/";
 
 //    User
     public static final String USERNAME = "USERNAME";
@@ -48,6 +49,9 @@ public class SessionManager {
     public static final String DETAILPENER = "DETAILPENER";
     public static final String HOME = "HOME";
     public static final String RECEIVE = "RECEIVE";
+    public static final String SCANNER = "SCANNER";
+    public static final String SCANNER_EDIT_MANUAL_BOOK = "SCANNER_EDIT";
+    public static final String MANUAL_BOOK = "MANUAL_BOOK";
     public static final String OPEN_MANUAL_BOOK = "OPEN_MANUAL_BOOK";
 
     public SessionManager(Context context,String name) {

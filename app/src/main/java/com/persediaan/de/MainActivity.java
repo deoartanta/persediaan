@@ -132,7 +132,7 @@ public class MainActivity extends AppCompatActivity implements ScanInterface{
             @Override
             public void onShowItem(MeowBottomNavigation.Model item) {
                 session_manual_book = new SessionManager(MainActivity.this,
-                        "manualbook");
+                        SessionManager.MANUAL_BOOK);
                 Fragment fragment = null;
 //                <<Animation>>
 //                Animation goUp = AnimationUtils.loadAnimation(getApplicationContext(),R.anim.go_up);
@@ -140,13 +140,13 @@ public class MainActivity extends AppCompatActivity implements ScanInterface{
 
                 switch (item.getId()){
                     case 1:
-                        if (!session_manual_book.getManualBook(SessionManager.HOME)){
+//                        if (!session_manual_book.getManualBook(SessionManager.HOME)){
                             loadFragmentManualBook(new ManualBookFragment(bottomNavigation.getModels(),
                                     frame_layout_manual_book,main_linearlayout));
-                            main_linearlayout.setVisibility(View.GONE);
+//                            main_linearlayout.setVisibility(View.GONE);
                             session_manual_book.setManualBook(SessionManager.HOME,true);
                             session_manual_book.OpenManualBook(true);
-                        }
+//                        }
                         page = "home";
                         fragment = new HomeFragment(bottomNavigation);
                         cardViewprofile.setVisibility(View.VISIBLE);

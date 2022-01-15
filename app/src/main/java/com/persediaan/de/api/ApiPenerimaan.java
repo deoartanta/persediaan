@@ -5,8 +5,11 @@ import com.google.gson.annotations.SerializedName;
 public class ApiPenerimaan {
     private String id_purchase,note,dt_purchase,
             nm_area,nm_singkat,nm_item,nm_satuan,
-            eceran,alasuplier,npwp,
-            name_penyedia,area,alamat,id_trans,msg,sts;
+            eceran,alasuplier,npwp,id_detail,
+            name_penyedia,area,alamat,id_trans,msg,sts,
+            tgl_trans;
+    private int dikonversi,updated;
+
     @SerializedName("nm_suplier")
     String nm_suplier;
 
@@ -16,6 +19,22 @@ public class ApiPenerimaan {
 
     private int admin,id,id_area,id_suplier,id_item,qty,id_satuan,
             harga,diterima,jumlah,harga_total=0,tgl_purchase,created;
+
+    public String getId_detail() {
+        return id_detail;
+    }
+
+    public String getTgl_trans() {
+        return tgl_trans;
+    }
+
+    public int getDikonversi() {
+        return dikonversi;
+    }
+
+    public int getUpdated() {
+        return updated;
+    }
 
     public String getId_purchase() {
         return id_purchase;

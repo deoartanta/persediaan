@@ -217,9 +217,22 @@ public class LoginActivity extends AppCompatActivity {
                     @Override
                     public void onFailure(Call<ApiLogin> call, Throwable t) {
                         progess_login.setVisibility(View.GONE);
+                        String msg = t.getMessage();
+                        Boolean connection = msg.contains("Unable");
+                        Boolean timeOutConnect = msg.contains("failed");
+                        Boolean noInternet = msg.contains("timed out");
+                        if (connection){
+                            msg = "Gagal terhubung, mohon periksa kembali koneksi anda";
+                        }
+                        if (timeOutConnect){
+                            msg ="Koneksi anda lambat, coba lagi dilain waktu";
+                        }
+                        if (noInternet){
+                            msg = "Tidak ada koneksi internet";
+                        }
                         btn_signin.setText("SIGN IN");
                         btn_signin.setEnabled(true);
-                        Toast.makeText(getApplicationContext(), "Login Error", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getApplicationContext(),msg+"||"+call.request().url().toString(),Toast.LENGTH_LONG).show();
                     }
                 });
             }

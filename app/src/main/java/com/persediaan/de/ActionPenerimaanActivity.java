@@ -8,7 +8,11 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import android.content.Context;
 import android.content.Intent;
 import android.hardware.input.InputManager;
+import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.VibrationEffect;
+import android.os.Vibrator;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
@@ -258,6 +262,22 @@ public class ActionPenerimaanActivity extends AppCompatActivity {
         });
 
     }
+    public void createVibrate(long millisecond,int repeat){
+//        for (int i = 0; i < 5; i++) {
+//            new Handler().postDelayed(new Runnable() {
+//                @Override
+//                public void run() {
+//                    Vibrator vibrator = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
+//                    if (Build.VERSION.SDK_INT >= 26) {
+//                        vibrator.vibrate(VibrationEffect.createOneShot(millisecond, 10));
+//                    } else {
+//                        vibrator.vibrate(millisecond);
+//                    }
+//                }
+//            }, 2000);
+//        }
+
+    }
 
     public void loadData(String barcode,TextInputEditText focus){
         Call <List<ApiPenerimaan>> call = jsonPlaceHolderApi.getResponPenerimaan(barcode);
@@ -332,6 +352,7 @@ public class ActionPenerimaanActivity extends AppCompatActivity {
                         Toast.makeText(getApplicationContext(),
                                 "Format barcode tidak sesuai",
                                 Toast.LENGTH_SHORT).show();
+                        createVibrate(1000,0);
                         sessionScanner.clearSession();
                         sessionScanner.EditScanner(true);
                         sessionTranstition.setTranstition("scan",true);
