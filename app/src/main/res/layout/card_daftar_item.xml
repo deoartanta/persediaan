@@ -40,6 +40,7 @@
                     android:gravity="start|center_vertical"
                     android:text="Nama Barang"
                     android:textAllCaps="true"
+                    android:textColor="@color/black"
                     android:textSize="14sp" />
 
                 <TextView
@@ -50,7 +51,8 @@
                     android:fontFamily="@font/poppins_semibold"
                     android:gravity="center"
                     android:paddingHorizontal="5dp"
-                    android:text=":" />
+                    android:text=":"
+                    android:textColor="@color/black" />
 
                 <TextView
                     android:id="@+id/tvResNmItem"
@@ -61,6 +63,7 @@
                     android:gravity="start|center_vertical"
                     android:paddingEnd="5dp"
                     android:text="Mie Sedap"
+                    android:textColor="@color/black"
                     android:textSize="14sp" />
             </RelativeLayout>
             <RelativeLayout
@@ -77,6 +80,7 @@
                     android:gravity="start|center_vertical"
                     android:text="Nama Satuan"
                     android:textAllCaps="true"
+                    android:textColor="@color/black"
                     android:textSize="14sp" />
 
                 <TextView
@@ -87,7 +91,8 @@
                     android:fontFamily="@font/poppins_semibold"
                     android:gravity="center"
                     android:paddingHorizontal="5dp"
-                    android:text=":" />
+                    android:text=":"
+                    android:textColor="@color/black" />
 
                 <TextView
                     android:id="@+id/tvResNmStn"
@@ -98,6 +103,7 @@
                     android:gravity="start|center_vertical"
                     android:paddingEnd="5dp"
                     android:text="Box"
+                    android:textColor="@color/black"
                     android:textSize="14sp" />
             </RelativeLayout>
 

@@ -390,9 +390,6 @@ public class ItemActivity extends AppCompatActivity implements RecyclerViewClick
     @Override
     public void onBackPressed() {
         super.onBackPressed();
-        SessionManager sessionTranstition = new SessionManager(getApplicationContext(),
-                "transtition");
-        sessionTranstition.setTranstition("setting",true);
 
     }
     public void lostFocus(View viewFocus){

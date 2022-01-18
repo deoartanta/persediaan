@@ -13,11 +13,12 @@
         android:layout_margin="15dp"
         android:hint="Username">
 
-    <com.google.android.material.textfield.TextInputEditText
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:paddingHorizontal="15dp"
-        android:id="@+id/editTextInput"/>
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/editTextInput"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingHorizontal="15dp"
+            android:textColor="@color/black" />
 
     </com.google.android.material.textfield.TextInputLayout>
     <com.google.android.material.textfield.TextInputLayout
@@ -30,10 +31,11 @@
         android:visibility="gone">
 
         <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/editTextInput2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:paddingHorizontal="15dp"
-            android:id="@+id/editTextInput2"/>
+            android:textColor="@color/black" />
 
     </com.google.android.material.textfield.TextInputLayout>
 </LinearLayout>

@@ -23,7 +23,6 @@ import com.google.zxing.BarcodeFormat;
 import com.google.zxing.Result;
 import com.persediaan.de.data.ManualBookListener;
 import com.persediaan.de.data.SessionManager;
-import com.persediaan.de.databinding.FragmentScannerManualBookBinding;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -90,10 +89,10 @@ public class ScanActivity extends AppCompatActivity implements ZXingScannerView.
                 btn_batal.setVisibility(View.VISIBLE);
                 btn_cancel.setVisibility(View.GONE);
 
-//                if (!session_manual_book.getManualBook(SessionManager.SCANNER_EDIT_MANUAL_BOOK)){
+                if (!session_manual_book.getManualBook(SessionManager.SCANNER_EDIT_MANUAL_BOOK)){
                     session_manual_book.setManualBook(SessionManager.SCANNER_EDIT_MANUAL_BOOK,true);
                     session_manual_book.setManualBook(SessionManager.SCANNER,false);
-//                }
+                }
             }else{
                 btn_batal.setVisibility(View.GONE);
                 btn_cancel.setVisibility(View.VISIBLE);
@@ -180,7 +179,7 @@ public class ScanActivity extends AppCompatActivity implements ZXingScannerView.
 
         ScannerManualBookFragment fragmentScanManualBook =
                 new ScannerManualBookFragment(frame_scanner_manual_book);
-//        if (!session_manual_book.getManualBook(SessionManager.SCANNER)){
+        if (!session_manual_book.getManualBook(SessionManager.SCANNER)){
         fragmentScanManualBook.setOnManualBookListener(new ManualBookListener() {
                 @Override
                 public void onNext(int index) {
@@ -204,14 +203,14 @@ public class ScanActivity extends AppCompatActivity implements ZXingScannerView.
         session_manual_book.setManualBook(SessionManager.SCANNER_EDIT_MANUAL_BOOK,true);
         loadFragmentManualBook(fragmentScanManualBook);
         session_manual_book.setManualBook(SessionManager.SCANNER,true);
-            session_manual_book.OpenManualBook(true);
-//        }else{
-//            if (extras.getString(TYPESCAN).equals(SCANNER_TYPE_1)){
-//                setContentView(scanner);
-//            }else{
-//                loadScanner(scanner);
-//            }
-//        }
+        session_manual_book.OpenManualBook(true);
+        }else{
+            if (extras.getString(TYPESCAN).equals(SCANNER_TYPE_1)){
+                setContentView(scanner);
+            }else{
+                loadScanner(scanner);
+            }
+        }
 
     }
     public void loadFragmentManualBook(Fragment pFragment) {

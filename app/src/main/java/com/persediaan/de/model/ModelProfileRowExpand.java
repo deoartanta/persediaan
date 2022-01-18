@@ -5,7 +5,7 @@ import java.util.ArrayList;
 public class ModelProfileRowExpand {
     String row_name,result;
     int typeItem,index = 0,MarginBot = 0;
-    int imgResource;
+    int imgResource,imgResourceRight;
     boolean enable = false;
     boolean expandable;
 
@@ -25,6 +25,11 @@ public class ModelProfileRowExpand {
         this.enable = enable;
         this.index = id;
         expandable= false;
+    }
+
+    public ModelProfileRowExpand setImgResourceRight(int imgResourceRight) {
+        this.imgResourceRight = imgResourceRight;
+        return this;
     }
 
     public int getID() {
@@ -79,6 +84,10 @@ public class ModelProfileRowExpand {
 
     public int getimgResource() {
         return imgResource;
+    }
+
+    public int getImgResourceRight() {
+        return imgResourceRight;
     }
 
     public ArrayList<ModelProfileRowItem> getModelProfileRowItems() {

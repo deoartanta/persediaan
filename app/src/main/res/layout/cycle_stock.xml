@@ -3,18 +3,19 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:layout_marginRight="5dp"
+    android:layout_marginEnd="5dp"
     android:orientation="vertical">
 
     <androidx.cardview.widget.CardView
         android:id="@+id/crdStock"
         android:layout_width="200dp"
         android:layout_height="match_parent"
-        android:layout_marginLeft="10dp"
-        android:layout_marginTop="10dp"
+        android:layout_marginStart="5dp"
+        android:layout_marginTop="5dp"
+        app:cardUseCompatPadding="true"
         app:cardBackgroundColor="@color/splashBackground"
         app:cardCornerRadius="15dp"
-        app:cardElevation="10dp"
+        app:cardElevation="5dp"
         app:contentPaddingBottom="2dp"
         app:contentPaddingLeft="5dp"
         app:contentPaddingRight="5dp"

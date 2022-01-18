@@ -491,15 +491,13 @@
         android:id="@+id/btnLewati"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
         android:background="@drawable/bg_button"
         android:backgroundTint="@color/buttonTransBackground"
         android:text="Lewati"
-        app:layout_constraintBottom_toTopOf="@id/cardLinearManualBook"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.933"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.03" />
+        app:layout_constraintBottom_toBottomOf="@+id/btnNext"
+        app:layout_constraintEnd_toStartOf="@+id/btnNext"
+        app:layout_constraintTop_toTopOf="@+id/btnNext" />
 
     <Button
         android:id="@+id/btnNext"

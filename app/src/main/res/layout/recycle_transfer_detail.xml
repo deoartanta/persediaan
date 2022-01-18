@@ -87,7 +87,8 @@
                             android:layout_height="wrap_content"
                             android:layout_marginLeft="10dp"
                             android:fontFamily="@font/poppins"
-                            android:text="Kertas A4" />
+                            android:text="Kertas A4"
+                            android:textColor="@color/black" />
 
                         <TextView
                             android:id="@+id/tvDetailTransferQty"
@@ -96,6 +97,7 @@
                             android:layout_marginLeft="10dp"
                             android:fontFamily="@font/poppins"
                             android:text="1500"
+                            android:textColor="@color/black"
                             android:textStyle="bold" />
 
                         <TextView
@@ -104,7 +106,8 @@
                             android:layout_height="wrap_content"
                             android:layout_marginLeft="10dp"
                             android:fontFamily="@font/poppins"
-                            android:text="Eceran" />
+                            android:text="Eceran"
+                            android:textColor="@color/black" />
 
                     </LinearLayout>
 

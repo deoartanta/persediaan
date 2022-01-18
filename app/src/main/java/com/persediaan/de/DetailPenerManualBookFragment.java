@@ -14,7 +14,6 @@ import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.airbnb.lottie.LottieAnimationView;
@@ -58,7 +57,7 @@ public class DetailPenerManualBookFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_detail_pener_manual_book, container, false);
+        View view = inflater.inflate(R.layout.manual_book_fragment_detail_pener, container, false);
         session_manual_book = new SessionManager(requireContext(),"manualbook");
         frame_layout_manual_book.setVisibility(View.VISIBLE);
         main_linearlayout.setVisibility(View.GONE);

@@ -37,6 +37,7 @@
         android:text="Sign in"
         android:textAlignment="center"
         android:textAllCaps="true"
+        android:textColor="@color/black"
         android:textSize="40sp"
         android:transitionName="titleTrans"
         app:layout_constraintEnd_toEndOf="@+id/imgLogin"
@@ -63,9 +64,10 @@
             android:hint="Username">
 
             <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/tietUsername"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/tietUsername"/>
+                android:textColor="@color/black" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
@@ -78,11 +80,12 @@
             app:passwordToggleEnabled="true">
 
             <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/tietPassw"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="textPassword"
                 android:paddingEnd="40dp"
-                android:id="@+id/tietPassw"/>
+                android:textColor="@color/black" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout

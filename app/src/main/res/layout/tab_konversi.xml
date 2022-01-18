@@ -15,8 +15,10 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
+
             <include
-                layout="@layout/tab_konversi_shimmer"/>
+                layout="@layout/tab_konversi_shimmer"
+                android:visibility="visible" />
         </LinearLayout>
     </com.facebook.shimmer.ShimmerFrameLayout>
 
@@ -56,7 +58,8 @@
                             android:layout_height="wrap_content"
                             android:layout_marginLeft="15dp"
                             android:layout_marginTop="10dp"
-                            android:text="No Konversi" />
+                            android:text="No Konversi"
+                            android:textColor="@color/black" />
 
                         <TextView
                             android:id="@+id/tvno_konversi"
@@ -66,7 +69,8 @@
                             android:layout_marginTop="10dp"
                             android:layout_marginRight="15dp"
                             android:layout_weight="1"
-                            android:textAlignment="textEnd" />
+                            android:textAlignment="textEnd"
+                            android:textColor="@color/black" />
                     </LinearLayout>
 
                     <LinearLayout
@@ -90,6 +94,7 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="48dp"
                                 android:inputType="none"
+                                android:textColor="@color/black"
                                 android:textSize="14sp"
                                 tools:ignore="TouchTargetSizeCheck" />
                         </com.google.android.material.textfield.TextInputLayout>
@@ -135,7 +140,8 @@
                                 android:layout_marginRight="10dp"
                                 android:layout_marginBottom="10dp"
                                 android:layout_weight="1"
-                                android:text="List Barang" />
+                                android:text="List Barang"
+                                android:textColor="@color/black" />
 
                             <TextView
                                 android:id="@+id/tvTglBarang"
@@ -146,7 +152,8 @@
                                 android:layout_marginBottom="10dp"
                                 android:layout_weight="1"
                                 android:text="3 November 2021"
-                                android:textAlignment="textEnd" />
+                                android:textAlignment="textEnd"
+                                android:textColor="@color/black" />
 
                         </LinearLayout>
 
@@ -182,7 +189,8 @@
                             android:layout_marginLeft="15dp"
                             android:layout_marginTop="10dp"
                             android:layout_marginBottom="10dp"
-                            android:text="Hasil Konversi" />
+                            android:text="Hasil Konversi"
+                            android:textColor="@color/black" />
 
                         <androidx.recyclerview.widget.RecyclerView
                             android:id="@+id/recyclerTransferDetail"
@@ -227,7 +235,8 @@
             <TextView
                 android:id="@+id/textView9"
                 android:layout_width="match_parent"
-                android:layout_height="80dp" />
+                android:layout_height="80dp"
+                android:textColor="@color/black" />
 
         </LinearLayout>
     </ScrollView>

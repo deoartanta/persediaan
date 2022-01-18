@@ -19,6 +19,7 @@ public class SessionManager {
     private static final String LOGIN = "IS_LOGIN";
 //    URL
     public static final String HOSTNAME = "Https://depo.gemes.id/";
+//    public static final String HOSTNAME = "Https://persediaan.tawon.id/";
 //    public static final String HOSTNAME = "Http://202.149.86.21/";
 
 //    User

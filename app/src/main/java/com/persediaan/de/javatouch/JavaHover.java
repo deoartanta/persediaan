@@ -13,6 +13,7 @@ public class JavaHover {
     View viewToBackground;
     int hover_in;
     int hover_out;
+    int m = 0;
     JavaHoverListener javaHoverListener;
     boolean itemClicked;
 
@@ -23,34 +24,54 @@ public class JavaHover {
         this.hover_out = hover_out;
     }
     public JavaHover create(){
+//        view.setOnLongClickListener(new View.OnLongClickListener() {
+//            @Override
+//            public boolean onLongClick(View view1) {
+//                javaHoverListener.hoverMove(view,0,0);
+//                return true;
+//            }
+//        });
         view.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View view, MotionEvent motionEvent) {
+                float x = 0,y=0;
+                float x1=0,y1=0;
+                m++;
                 switch (motionEvent.getAction()){
                     case MotionEvent.ACTION_DOWN:
 
 //                        viewToBackground.setBackgroundResource(hover_in);
-                        itemClicked = true;
-                        if (javaHoverListener!=null){
-                            javaHoverListener.hoverIn(view);
-                        }
+//                        x=motionEvent.getX()+(motionEvent.getX()*0.2f);
+//                        y=motionEvent.getX()+(motionEvent.getY()*0.2f);
+//                        x1=motionEvent.getX()-(motionEvent.getX()*0.2f);
+//                        y1=motionEvent.getX()-(motionEvent.getY()*0.2f);
+//                        itemClicked = true;
+//                        if (javaHoverListener!=null){
+//                            javaHoverListener.hoverIn(view,motionEvent.getX());
+//                            javaHoverListener.hoverMove(view,m,motionEvent.getX());
+//                        }
                         break;
                     case MotionEvent.ACTION_MOVE:
-                        if (itemClicked){
-                            viewToBackground.setBackgroundResource(hover_out);
-                        }else {
-                            viewToBackground.setBackgroundResource(hover_in);
-                        }
-                        if (javaHoverListener!=null){
-                            javaHoverListener.hoverMove(view);
-                        }
-                        itemClicked = false;
+//                        if ((motionEvent.getX()>x||motionEvent.getY()>y)||
+//                                (motionEvent.getX()<x1||motionEvent.getY()<y1)){
+//                            if (itemClicked){
+//                                viewToBackground.setBackgroundResource(hover_out);
+//                            }else {
+//                                viewToBackground.setBackgroundResource(hover_in);
+//                            }
+//                            if (javaHoverListener!=null){
+//                                javaHoverListener.hoverMove(view,m,m);
+//                            }
+//                            itemClicked = false;
+//                        }
                         break;
                     case MotionEvent.ACTION_UP:
-                        viewToBackground.setBackgroundResource(hover_out);
-                        if (itemClicked){
-                            javaHoverListener.onClick(view);
-                        }
+//                        viewToBackground.setBackgroundResource(hover_out);
+//                        if (itemClicked){
+                            if (javaHoverListener!=null){
+                                javaHoverListener.onClick(view);
+                            }
+//                        }
                         if (javaHoverListener!=null){
                             javaHoverListener.hoverOut(view);
                         }

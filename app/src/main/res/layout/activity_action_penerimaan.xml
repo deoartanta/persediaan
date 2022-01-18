@@ -23,6 +23,7 @@
         android:layout_marginTop="16dp"
         android:fontFamily="@font/abril_fatface"
         android:text="62"
+        android:textColor="@color/black"
         android:textSize="40sp"
         android:visibility="invisible"
         app:layout_constraintEnd_toEndOf="parent"
@@ -92,6 +93,7 @@
                         android:fontFamily="@font/poppins_bold"
                         android:gravity="center"
                         android:text="Data Supplier"
+                        android:textColor="@color/black"
                         android:textSize="16sp" />
 
                     <RelativeLayout
@@ -109,6 +111,7 @@
                             android:gravity="start|center_vertical"
                             android:text="Nama Supplier"
                             android:textAllCaps="true"
+                            android:textColor="@color/black"
                             android:textSize="14sp" />
 
                         <TextView
@@ -119,7 +122,8 @@
                             android:fontFamily="@font/poppins_semibold"
                             android:gravity="center"
                             android:paddingHorizontal="5dp"
-                            android:text=":" />
+                            android:text=":"
+                            android:textColor="@color/black" />
 
                         <TextView
                             android:id="@+id/tvResNmSupplier"
@@ -130,6 +134,7 @@
                             android:gravity="start|center_vertical"
                             android:paddingEnd="5dp"
                             android:text="Nama Supplier"
+                            android:textColor="@color/black"
                             android:textSize="14sp" />
                     </RelativeLayout>
 
@@ -148,6 +153,7 @@
                             android:gravity="start|center_vertical"
                             android:text="Alamat"
                             android:textAllCaps="true"
+                            android:textColor="@color/black"
                             android:textSize="14sp" />
 
                         <TextView
@@ -158,7 +164,8 @@
                             android:fontFamily="@font/poppins_semibold"
                             android:gravity="center"
                             android:paddingHorizontal="5dp"
-                            android:text=":" />
+                            android:text=":"
+                            android:textColor="@color/black" />
 
                         <TextView
                             android:id="@+id/tvResAlaSupplier"
@@ -169,6 +176,7 @@
                             android:gravity="start|center_vertical"
                             android:paddingEnd="5dp"
                             android:text="Id Item"
+                            android:textColor="@color/black"
                             android:textSize="14sp" />
                     </RelativeLayout>
 
@@ -204,6 +212,7 @@
                         android:fontFamily="@font/poppins_bold"
                         android:gravity="center"
                         android:text="Detail Item"
+                        android:textColor="@color/black"
                         android:textSize="16sp" />
 
                     <RelativeLayout
@@ -221,6 +230,7 @@
                             android:gravity="start|center_vertical"
                             android:text="Id Item"
                             android:textAllCaps="true"
+                            android:textColor="@color/black"
                             android:textSize="14sp" />
 
                         <TextView
@@ -231,7 +241,8 @@
                             android:fontFamily="@font/poppins_semibold"
                             android:gravity="center"
                             android:paddingHorizontal="5dp"
-                            android:text=":" />
+                            android:text=":"
+                            android:textColor="@color/black" />
 
                         <TextView
                             android:id="@+id/tvResIdItem"
@@ -242,6 +253,7 @@
                             android:gravity="start|center_vertical"
                             android:paddingEnd="5dp"
                             android:text="Id Item"
+                            android:textColor="@color/black"
                             android:textSize="14sp" />
                     </RelativeLayout>
                     <!--Nama-->
@@ -260,6 +272,7 @@
                             android:gravity="start|center_vertical"
                             android:text="Nama Item"
                             android:textAllCaps="true"
+                            android:textColor="@color/black"
                             android:textSize="14sp" />
 
                         <TextView
@@ -270,7 +283,8 @@
                             android:fontFamily="@font/poppins_semibold"
                             android:gravity="center"
                             android:paddingHorizontal="5dp"
-                            android:text=":" />
+                            android:text=":"
+                            android:textColor="@color/black" />
 
                         <TextView
                             android:id="@+id/tvResNmItem"
@@ -281,6 +295,7 @@
                             android:gravity="start|center_vertical"
                             android:paddingEnd="5dp"
                             android:text="Nama Item"
+                            android:textColor="@color/black"
                             android:textSize="14sp" />
                     </RelativeLayout>
                     <!--Harga-->
@@ -300,6 +315,7 @@
                             android:gravity="start|center_vertical"
                             android:text="Harga"
                             android:textAllCaps="true"
+                            android:textColor="@color/black"
                             android:textSize="14sp" />
 
                         <TextView
@@ -312,7 +328,8 @@
                             android:fontFamily="@font/poppins_semibold"
                             android:gravity="center"
                             android:paddingHorizontal="5dp"
-                            android:text=":" />
+                            android:text=":"
+                            android:textColor="@color/black" />
 
                         <com.google.android.material.textfield.TextInputLayout
                             android:id="@+id/layoutInput"
@@ -330,6 +347,7 @@
                                 android:inputType="number"
                                 android:padding="5dp"
                                 android:text="Rp. 0"
+                                android:textColor="@color/black"
                                 android:textSize="14sp"
                                 tools:ignore="TouchTargetSizeCheck" />
 
@@ -354,6 +372,7 @@
                             android:gravity="center_vertical"
                             android:text="Qty"
                             android:textAllCaps="true"
+                            android:textColor="@color/black"
                             android:textSize="14sp" />
 
                         <TextView
@@ -366,7 +385,8 @@
                             android:fontFamily="@font/poppins_semibold"
                             android:gravity="center"
                             android:paddingHorizontal="5dp"
-                            android:text=":" />
+                            android:text=":"
+                            android:textColor="@color/black" />
 
                         <LinearLayout
                             android:id="@+id/linearLayout"
@@ -392,6 +412,7 @@
                                     android:inputType="number"
                                     android:padding="5dp"
                                     android:text="000"
+                                    android:textColor="@color/black"
                                     android:textSize="14sp"
                                     tools:ignore="TouchTargetSizeCheck" />
 
@@ -407,6 +428,7 @@
                                 android:paddingStart="5dp"
                                 android:paddingEnd="5dp"
                                 android:text="Satuan"
+                                android:textColor="@color/black"
                                 android:textSize="14sp" />
                         </LinearLayout>
                     </RelativeLayout>
@@ -426,6 +448,7 @@
                             android:gravity="start|center_vertical"
                             android:text="Total Harga"
                             android:textAllCaps="true"
+                            android:textColor="@color/black"
                             android:textSize="14sp" />
 
                         <TextView
@@ -436,7 +459,8 @@
                             android:fontFamily="@font/poppins_semibold"
                             android:gravity="center"
                             android:paddingHorizontal="5dp"
-                            android:text=":" />
+                            android:text=":"
+                            android:textColor="@color/black" />
 
                         <TextView
                             android:id="@+id/tvResTotalHrg"
@@ -447,6 +471,7 @@
                             android:gravity="start|center_vertical"
                             android:paddingEnd="5dp"
                             android:text="Total Harga"
+                            android:textColor="@color/black"
                             android:textSize="14sp" />
                     </RelativeLayout>
 
@@ -474,6 +499,7 @@
         android:id="@+id/ShimmerLayout"
         android:layout_width="match_parent"
         android:layout_height="0dp"
+        android:visibility="visible"
         app:layout_constraintBottom_toBottomOf="@+id/scrollView2"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

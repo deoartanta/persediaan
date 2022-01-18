@@ -37,6 +37,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:text="Data Kosong"
-        android:visibility="gone"/>
+        android:textColor="@color/black"
+        android:visibility="gone" />
 
 </FrameLayout>

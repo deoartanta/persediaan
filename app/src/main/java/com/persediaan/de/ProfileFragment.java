@@ -21,10 +21,13 @@ import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.etebarian.meowbottomnavigation.MeowBottomNavigation;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 import com.persediaan.de.adapter.AdapterAkunSetting;
@@ -49,6 +52,8 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class ProfileFragment extends Fragment implements RecyclerViewClickExpendInterface,RecyclerViewClickInterface {
 
+    public static String AKUN = "AKUN";
+    String state = "";
     //Connection
     private Retrofit retrofit;
     private JsonPlaceHolderApi jsonPlaceHolderApi;
@@ -56,6 +61,7 @@ public class ProfileFragment extends Fragment implements RecyclerViewClickExpend
     private int i_List_Item;
 
     SessionManager sessionManagerProfil;
+    SessionManager session_manual_book;
     HashMap<String,String> detail_profile;
     HashMap<String,Integer> detail_profile_int;
 
@@ -63,16 +69,30 @@ public class ProfileFragment extends Fragment implements RecyclerViewClickExpend
     ImageView imgProfile;
 
     private AdapterAkunSetting adapterProfile;
+    MeowBottomNavigation bottomNavigation;
 //    private AdapterAkunSetting adapter;
 
     ArrayList<ModelProfileRowExpand>arrayList_profileRowExpand;
 
     ArrayList<ModelPenerimaan> modelPenerimaanArrayList;
 
+    FrameLayout frame_layout_manual_book;
+    LinearLayout main_linearlayout;
+
     RecyclerView recyclerView_profileSetting;
 
     public ProfileFragment() {
         // Required empty public constructor
+    }
+    public ProfileFragment(String state) {
+        this.state = state;
+    }
+    public ProfileFragment(String state, MeowBottomNavigation bottomNavigation, FrameLayout frame_layout_manual_book, LinearLayout main_linearlayout) {
+        this.state = state;
+        this.bottomNavigation = bottomNavigation;
+
+        this.frame_layout_manual_book = frame_layout_manual_book;
+        this.main_linearlayout = main_linearlayout;
     }
 
     @Override
@@ -81,6 +101,9 @@ public class ProfileFragment extends Fragment implements RecyclerViewClickExpend
         View view = inflater.inflate(R.layout.fragment_profile,container,false);
         recyclerView_profileSetting = view.findViewById(R.id.reyclerProfileSetting);
         sessionManagerProfil = new SessionManager(requireContext(),"login");
+        session_manual_book = new SessionManager(requireContext(),
+                SessionManager.MANUAL_BOOK);
+
         detail_profile = sessionManagerProfil.getUserDetail();
         detail_profile_int = sessionManagerProfil.getUserDetailInt();
 
@@ -96,7 +119,7 @@ public class ProfileFragment extends Fragment implements RecyclerViewClickExpend
         imgProfile = view.findViewById(R.id.imgProfilUser);
 
         setProfile();
-        loadSettingProfile("");
+        loadSettingProfile(state);
         return view;
     }
     public void setProfile(){
@@ -157,7 +180,7 @@ public class ProfileFragment extends Fragment implements RecyclerViewClickExpend
                 password,
                 8,"password"
         );
-        if (state.toLowerCase()=="akun"){
+        if (state==AKUN){
             stateAkun = "true";
         }else{
             stateAkun = "false";
@@ -185,7 +208,15 @@ public class ProfileFragment extends Fragment implements RecyclerViewClickExpend
                         new String[]{"Portrait","Light"}
                 ), true));
         arrayList_profileRowExpand.add(new ModelProfileRowExpand(
-                4,"Logout",R.drawable.ic_baseline_power_settings_new_24,
+                4,"Help", R.drawable.ic_help,
+                createRowItem(
+                        new String[]{"Home page tutorial","Receive page tutorial","Reception " +
+                                "details page tutorial","How to" +
+                                " use scanner"},
+                        new String[]{"","","",""}
+                ), true).setImgResourceRight(R.drawable.ic_baseline_keyboard_arrow_right_24));
+        arrayList_profileRowExpand.add(new ModelProfileRowExpand(
+                5,"Logout",R.drawable.ic_baseline_power_settings_new_24,
                 null, false).setMarginBot(130));
 
         adapterProfile = new AdapterAkunSetting(
@@ -514,6 +545,9 @@ public class ProfileFragment extends Fragment implements RecyclerViewClickExpend
 
                     break;
                 case 2:
+                    SessionManager sessionTranstition = new SessionManager(requireContext(),
+                            "transtition");
+                    sessionTranstition.setTranstition("setting",true);
                     newPage(ItemActivity.class);
                     break;
                 case 3:
@@ -521,6 +555,52 @@ public class ProfileFragment extends Fragment implements RecyclerViewClickExpend
                             Toast.LENGTH_SHORT).show();
                     break;
                 case 4:
+                    switch (position){
+                        case 0:
+                            session_manual_book.setManualBook(SessionManager.HOME,false);
+                            if (bottomNavigation!=null){
+                                bottomNavigation.show(1,true);
+                            }
+                            break;
+                        case 1:
+                            session_manual_book.setManualBook(SessionManager.RECEIVE,false);
+                            if (bottomNavigation!=null){
+                                bottomNavigation.show(2,true);
+                            }
+                            break;
+                        case 2:
+                            session_manual_book.setManualBook(SessionManager.DETAILPENER,false);
+                            Intent i = new Intent(requireContext(),DetailPenerimaanActivity.class);
+                            String sNull = null;
+
+                            i.putExtra(DetailPenerimaanActivity.ID_TRANS,sNull);
+                            i.putExtra(DetailPenerimaanActivity.TGL_PURCHASE,sNull);
+                            i.putExtra(DetailPenerimaanActivity.PENYEDIA,sNull);
+                            i.putExtra(DetailPenerimaanActivity.AREA,sNull);
+                            i.putExtra(DetailPenerimaanActivity.STS,sNull);
+                            i.putExtra(DetailPenerimaanActivity.JML_ITEM,sNull);
+                            i.putExtra(DetailPenerimaanActivity.TOTAL_HRG,sNull);
+                            if (bottomNavigation!=null){
+                                getActivity().getSupportFragmentManager()
+                                        .beginTransaction()
+                                        .replace(R.id.frameManualBook,
+                                                new DetailPenerManualBookFragment(frame_layout_manual_book,
+                                                        main_linearlayout,i))
+                                        .commit();
+                                session_manual_book.setManualBook(SessionManager.DETAILPENER,true);
+                            }
+                            break;
+                        case 3:
+                            session_manual_book.setManualBook(SessionManager.SCANNER,false);
+                            session_manual_book.setManualBook(SessionManager.SCANNER_EDIT_MANUAL_BOOK,false);
+                            if (bottomNavigation!=null){
+                                bottomNavigation.show(3,true);
+                            }
+                            break;
+
+                    }
+                    break;
+                case 5:
                     sessionManagerProfil.logout();
                     break;
             }

@@ -96,7 +96,8 @@
                             android:layout_gravity="end"
                             android:layout_marginTop="10dp"
                             android:layout_marginEnd="10dp"
-                            android:text="07 Januari 2021" />
+                            android:text="07 Januari 2021"
+                            android:textColor="@color/black" />
 
                         <RelativeLayout
                             android:layout_width="match_parent"
@@ -109,7 +110,8 @@
                                 android:layout_height="wrap_content"
                                 android:layout_alignParentStart="true"
                                 android:layout_alignParentTop="true"
-                                android:text="No Pusrchase" />
+                                android:text="No Pusrchase"
+                                android:textColor="@color/black" />
 
                             <TextView
                                 android:id="@+id/tv_titikd"
@@ -118,7 +120,8 @@
                                 android:layout_toEndOf="@id/tv_lblnopurchase"
                                 android:gravity="center"
                                 android:paddingHorizontal="5dp"
-                                android:text=":" />
+                                android:text=":"
+                                android:textColor="@color/black" />
 
                             <TextView
                                 android:id="@+id/tvPurchase"
@@ -126,7 +129,8 @@
                                 android:layout_height="wrap_content"
                                 android:layout_toEndOf="@id/tv_titikd"
                                 android:paddingEnd="5dp"
-                                android:text="TextView" />
+                                android:text="TextView"
+                                android:textColor="@color/black" />
                         </RelativeLayout>
 
                         <RelativeLayout
@@ -140,7 +144,8 @@
                                 android:layout_height="wrap_content"
                                 android:layout_alignParentStart="true"
                                 android:layout_alignParentTop="true"
-                                android:text="Area" />
+                                android:text="Area"
+                                android:textColor="@color/black" />
 
                             <TextView
                                 android:id="@+id/tv_titikd4"
@@ -149,7 +154,8 @@
                                 android:layout_toEndOf="@id/tv_lblarea"
                                 android:gravity="center"
                                 android:paddingHorizontal="5dp"
-                                android:text=":" />
+                                android:text=":"
+                                android:textColor="@color/black" />
 
                             <TextView
                                 android:id="@+id/tvArea"
@@ -157,7 +163,8 @@
                                 android:layout_height="wrap_content"
                                 android:layout_toEndOf="@id/tv_titikd4"
                                 android:paddingEnd="5dp"
-                                android:text="TextView" />
+                                android:text="TextView"
+                                android:textColor="@color/black" />
                         </RelativeLayout>
 
                         <RelativeLayout
@@ -171,7 +178,8 @@
                                 android:layout_height="wrap_content"
                                 android:layout_alignParentStart="true"
                                 android:layout_alignParentTop="true"
-                                android:text="Status" />
+                                android:text="Status"
+                                android:textColor="@color/black" />
 
                             <TextView
                                 android:id="@+id/tv_titikd6"
@@ -180,7 +188,8 @@
                                 android:layout_toEndOf="@id/tvLblsts"
                                 android:gravity="center"
                                 android:paddingHorizontal="5dp"
-                                android:text=":" />
+                                android:text=":"
+                                android:textColor="@color/black" />
 
                             <TextView
                                 android:id="@+id/tvSts"
@@ -188,7 +197,8 @@
                                 android:layout_height="wrap_content"
                                 android:layout_toEndOf="@id/tv_titikd6"
                                 android:paddingEnd="5dp"
-                                android:text="Belum Diterima" />
+                                android:text="Belum Diterima"
+                                android:textColor="@color/black" />
                         </RelativeLayout>
 
                     </LinearLayout>
@@ -225,11 +235,12 @@
                                     android:layout_height="wrap_content"
                                     android:layout_alignBottom="@+id/btnImageAddItem"
                                     android:layout_alignParentStart="true"
-                                    android:gravity="center_vertical"
                                     android:layout_alignParentTop="true"
+                                    android:gravity="center_vertical"
                                     android:paddingEnd="5dp"
                                     android:text="Detail Item"
-                                    android:textAllCaps="true" />
+                                    android:textAllCaps="true"
+                                    android:textColor="@color/black" />
 
                                 <ImageView
                                     android:id="@+id/btnImageAddItem"

@@ -17,8 +17,6 @@ import com.persediaan.de.data.SessionManager;
 
 import java.util.HashMap;
 
-import me.dm7.barcodescanner.zxing.ZXingScannerView;
-
 public class ScannerManualBookFragment extends Fragment {
 
     FrameLayout frame_scanner_manual_book;
@@ -51,7 +49,7 @@ public class ScannerManualBookFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_scanner_manual_book, container, false);
+        View view = inflater.inflate(R.layout.manual_book_fragment_scanner, container, false);
         frame_scanner_manual_book.setVisibility(View.VISIBLE);
 
 //        SessionManager

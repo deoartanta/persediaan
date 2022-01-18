@@ -24,8 +24,11 @@ import androidx.viewpager2.widget.ViewPager2;
 
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -115,6 +118,7 @@ public class HomeFragment extends Fragment implements RecyclerViewClickInterface
         super.onCreate(savedInstanceState);
 
     }
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -220,162 +224,124 @@ public class HomeFragment extends Fragment implements RecyclerViewClickInterface
 
         img_receive.setColorFilter(ContextCompat.getColor(requireContext(), R.color.splashBackground));
         img_receive2.setColorFilter(ContextCompat.getColor(requireContext(), R.color.BgGreen));
+        img_receive2.setImageResource(R.drawable.ic_dualscale);
         img_receive3.setColorFilter(ContextCompat.getColor(requireContext(), R.color.BgRed));
+        img_receive3.setImageResource(R.drawable.ic_dualscale);
         img_receive4.setColorFilter(ContextCompat.getColor(requireContext(), R.color.teal_700));
+        img_receive4.setImageResource(R.drawable.ic_bi_boxes);
 
-        JavaHoverListener javaHoverListener1 = new JavaHoverListener() {
-            @Override
-            public void hoverIn(View view) {
-                scalleX = view.getScaleX();
-                scalleY = view.getScaleY();
-                card_home_1.setCardBackgroundColor(getResources().getColor(R.color.buttonTransClicked));
-                card_home_1.setCardElevation(1);
-                view.setScaleX(0.9f);
-                view.setScaleY(0.9f);
-            }
-
-            @Override
-            public void hoverOut(View view) {
-                view.setScaleX(scalleX);
-                view.setScaleY(scalleY);
-                card_home_1.setCardElevation(5);
-                card_home_1.setCardBackgroundColor(getResources().getColor(R.color.white));
-            }
-
-            @Override
-            public void hoverMove(View view) {
-                view.setScaleX(scalleX);
-                view.setScaleY(scalleY);
-                card_home_1.setCardElevation(5);
-                card_home_1.setCardBackgroundColor(getResources().getColor(R.color.white));
-
-            }
-
-            @Override
-            public void onClick(View view) {
-                bottomNavigation.show(2,true);
-            }
-        };
-        JavaHoverListener javaHoverListener2 = new JavaHoverListener() {
-            @Override
-            public void hoverIn(View view) {
-                scalleX = view.getScaleX();
-                scalleY = view.getScaleY();
-                card_home_2.setCardBackgroundColor(getResources().getColor(R.color.buttonTransClicked));
-                card_home_2.setCardElevation(1);
-                view.setScaleX(0.9f);
-                view.setScaleY(0.9f);
-            }
-
-            @Override
-            public void hoverOut(View view) {
-                view.setScaleX(scalleX);
-                view.setScaleY(scalleY);
-                card_home_2.setCardElevation(5);
-                card_home_2.setCardBackgroundColor(getResources().getColor(R.color.white));
-            }
-
-            @Override
-            public void hoverMove(View view) {
-                view.setScaleX(scalleX);
-                view.setScaleY(scalleY);
-                card_home_2.setCardElevation(5);
-                card_home_2.setCardBackgroundColor(getResources().getColor(R.color.white));
-
-            }
-
+//        JavaHoverListener javaHoverListener1 = setJavaHover(card_home_1);
+//        JavaHoverListener javaHoverListener2 = setJavaHover(card_home_2);
+//        JavaHoverListener javaHoverListener3 = setJavaHover(card_home_3);
+//
+//        JavaHover jvH1 = new JavaHover(linear_root_card_home1,0,0);
+//        jvH1.create();
+//        jvH1.setJavaHoverListener(javaHoverListener1);
+//
+//        JavaHover jvH2 = new JavaHover(linear_root_card_home2,0,0);
+//        jvH2.create();
+//        jvH2.setJavaHoverListener(javaHoverListener2);
+//
+//        JavaHover jvH3 = new JavaHover(linear_root_card_home3,0,0);
+//        jvH3.create();
+//        jvH3.setJavaHoverListener(javaHoverListener3);
+//
+//        JavaHover jvH4 = new JavaHover(linear_root_card_home4,0,
+//                0);
+//
+//        jvH4.create();
+//        jvH4.setJavaHoverListener(setJavaHover(card_home_4));
+//        jvH4.setJavaHoverListener(new JavaHoverListener() {
+//            @Override
+//            public void hoverIn(View view) {
+//                scalleX = view.getScaleX();
+//                scalleY = view.getScaleY();
+//                card_home_4.setCardBackgroundColor(getResources().getColor(R.color.buttonTransClicked));
+//                card_home_4.setCardElevation(1);
+//                view.setScaleX(0.9f);
+//                view.setScaleY(0.9f);
+//            }
+//
+//            @Override
+//            public void hoverOut(View view) {
+//                view.setScaleX(scalleX);
+//                view.setScaleY(scalleY);
+//                card_home_4.setCardElevation(5);
+//                card_home_4.setCardBackgroundColor(getResources().getColor(R.color.white));
+//            }
+//
+//            @Override
+//            public void hoverMove(View view, float x, float y) {
+////                view.setScaleX(scalleX);
+////                view.setScaleY(scalleY);
+//                card_home_jml_4.setText(""+x);
+////                card_home_4.setCardElevation(5);
+////                card_home_4.setCardBackgroundColor(getResources().getColor(R.color.white));
+//            }
+//
+//            @Override
+//            public void onClick(View view) {
+////                newPage(ItemActivity.class);
+//            }
+//        });
+        card_home_1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 bottomNavigation.show(2,true);
             }
-        };
-        JavaHoverListener javaHoverListener3 = new JavaHoverListener() {
-            @Override
-            public void hoverIn(View view) {
-                scalleX = view.getScaleX();
-                scalleY = view.getScaleY();
-                card_home_3.setCardBackgroundColor(getResources().getColor(R.color.buttonTransClicked));
-                card_home_3.setCardElevation(1);
-                view.setScaleX(0.9f);
-                view.setScaleY(0.9f);
-            }
-
-            @Override
-            public void hoverOut(View view) {
-                view.setScaleX(scalleX);
-                view.setScaleY(scalleY);
-                card_home_3.setCardElevation(5);
-                card_home_3.setCardBackgroundColor(getResources().getColor(R.color.white));
-            }
-
-            @Override
-            public void hoverMove(View view) {
-                view.setScaleX(scalleX);
-                view.setScaleY(scalleY);
-                card_home_3.setCardElevation(5);
-                card_home_3.setCardBackgroundColor(getResources().getColor(R.color.white));
-
-            }
-
+        });
+        card_home_4.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                bottomNavigation.show(2,true);
-            }
-        };
-        JavaHover jvH1 = new JavaHover(linear_root_card_home1,0,
-                0);
-        jvH1.create();
-        jvH1.setJavaHoverListener(javaHoverListener1);
-
-        JavaHover jvH2 = new JavaHover(linear_root_card_home2,0,
-                0);
-        jvH2.create();
-        jvH2.setJavaHoverListener(javaHoverListener2);
-
-        JavaHover jvH3 = new JavaHover(linear_root_card_home3,0,
-                0);
-        jvH3.create();
-        jvH3.setJavaHoverListener(javaHoverListener3);
-
-        JavaHover jvH4 = new JavaHover(linear_root_card_home4,0,
-                0);
-        
-        jvH4.create();
-        jvH4.setJavaHoverListener(new JavaHoverListener() {
-            @Override
-            public void hoverIn(View view) {
-                scalleX = view.getScaleX();
-                scalleY = view.getScaleY();
-                card_home_4.setCardBackgroundColor(getResources().getColor(R.color.buttonTransClicked));
-                card_home_4.setCardElevation(1);
-                view.setScaleX(0.9f);
-                view.setScaleY(0.9f);
-            }
-
-            @Override
-            public void hoverOut(View view) {
-                view.setScaleX(scalleX);
-                view.setScaleY(scalleY);
-                card_home_4.setCardElevation(5);
-                card_home_4.setCardBackgroundColor(getResources().getColor(R.color.white));
-            }
-
-            @Override
-            public void hoverMove(View view) {
-                view.setScaleX(scalleX);
-                view.setScaleY(scalleY);
-                card_home_4.setCardElevation(5);
-                card_home_4.setCardBackgroundColor(getResources().getColor(R.color.white));
-            }
-
-            @Override
-            public void onClick(View view) {
+                SessionManager sessionTranstition = new SessionManager(requireContext(),
+                        "transtition");
+                sessionTranstition.setTranstition("home",true);
                 newPage(ItemActivity.class);
             }
         });
 
         loadCards();
         return view;
+    }
+    public JavaHoverListener setJavaHover(CardView viewHover){
+        JavaHoverListener javaHoverListener = new JavaHoverListener() {
+            @Override
+            public void hoverIn(View view,float x) {
+                scalleX = view.getScaleX();
+                scalleY = view.getScaleY();
+                viewHover.setCardBackgroundColor(getResources().getColor(R.color.buttonTransClicked));
+                viewHover.setCardElevation(1);
+
+                card_home_jml_2.setText(""+x);
+                view.setScaleX(0.2f);
+                view.setScaleY(0.2f);
+            }
+
+            @Override
+            public void hoverOut(View view) {
+                view.setScaleX(1);
+                view.setScaleY(1);
+                viewHover.setCardElevation(5);
+                viewHover.setCardBackgroundColor(getResources().getColor(R.color.white));
+            }
+
+            @Override
+            public void hoverMove(View view, float x, float y) {
+                view.setScaleX(1);
+                view.setScaleY(1);
+                viewHover.setCardElevation(5);
+                viewHover.setCardBackgroundColor(getResources().getColor(R.color.white));
+                card_home_jml_1.setText(""+y);
+            }
+
+            @Override
+            public void onClick(View view) {
+
+//                bottomNavigation.show(2,true);
+            }
+
+        };
+        return javaHoverListener;
     }
     private void newPage(Class cls) {
         Intent i = new Intent(requireContext(),cls);

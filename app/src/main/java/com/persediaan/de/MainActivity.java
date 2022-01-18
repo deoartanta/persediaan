@@ -50,6 +50,7 @@ public class MainActivity extends AppCompatActivity implements ScanInterface{
 
     LinearLayout main_linearlayout;
     CardView cardViewprofile;
+    String state="";
 
 //<</User
     SessionManager sessionManager;
@@ -66,6 +67,7 @@ public class MainActivity extends AppCompatActivity implements ScanInterface{
 
 //  Profile
     CircleImageView img_Profile;
+    CardView card_view;
     TextView tv_name,username,tv_satker,tv_alamat,
             tv_lbl_tittle_home,tv_lbl_tittle_receive,
             tv_lbl_tittle_scan,tv_lbl_tittle_spending,
@@ -128,6 +130,14 @@ public class MainActivity extends AppCompatActivity implements ScanInterface{
         bottomNavigation.add(new MeowBottomNavigation.Model(4,R.drawable.ic_fluent_mail_inbox_arrow_up_20_filled));
         bottomNavigation.add(new MeowBottomNavigation.Model(5,
                 R.drawable.ic_ant_design_setting_filled));
+        cardViewprofile.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                state = ProfileFragment.AKUN;
+                bottomNavigation.show(5,true);
+                state = "";
+            }
+        });
         bottomNavigation.setOnShowListener(new MeowBottomNavigation.ShowListener() {
             @Override
             public void onShowItem(MeowBottomNavigation.Model item) {
@@ -140,25 +150,25 @@ public class MainActivity extends AppCompatActivity implements ScanInterface{
 
                 switch (item.getId()){
                     case 1:
-//                        if (!session_manual_book.getManualBook(SessionManager.HOME)){
+                        if (!session_manual_book.getManualBook(SessionManager.HOME)){
                             loadFragmentManualBook(new ManualBookFragment(bottomNavigation.getModels(),
                                     frame_layout_manual_book,main_linearlayout));
 //                            main_linearlayout.setVisibility(View.GONE);
                             session_manual_book.setManualBook(SessionManager.HOME,true);
                             session_manual_book.OpenManualBook(true);
-//                        }
+                        }
                         page = "home";
                         fragment = new HomeFragment(bottomNavigation);
                         cardViewprofile.setVisibility(View.VISIBLE);
                         loadFragment(fragment);
                         break;
                     case 2:
-//                        if (!session_manual_book.getManualBook(SessionManager.RECEIVE)){
+                        if (!session_manual_book.getManualBook(SessionManager.RECEIVE)){
                             loadFragmentManualBook(new ReceivedManualBookFragment(frame_layout_manual_book,main_linearlayout));
                             main_linearlayout.setVisibility(View.GONE);
                             session_manual_book.setManualBook(SessionManager.RECEIVE,true);
                             session_manual_book.OpenManualBook(true);
-//                        }
+                        }
                         page = "penerimaan";
                         fragment = new PenerimaanFragment(frame_layout_manual_book,main_linearlayout);
                         cardViewprofile.setVisibility(View.VISIBLE);
@@ -192,7 +202,7 @@ public class MainActivity extends AppCompatActivity implements ScanInterface{
 
                     case 5:
                         page = "profil";
-                        fragment = new ProfileFragment();
+                        fragment = new ProfileFragment(state,bottomNavigation,frame_layout_manual_book,main_linearlayout);
                         cardViewprofile.postDelayed(new Runnable() {
                             @Override
                             public void run() {
@@ -492,8 +502,10 @@ public class MainActivity extends AppCompatActivity implements ScanInterface{
     protected void onResume() {
         super.onResume();
         SessionManager sessionScan = new SessionManager(getApplicationContext(),"scan");
-
-        if(sessionTranstition.getTranstition("receive")){
+        if(sessionTranstition.getTranstition("home")){
+            bottomNavigation.show(1,true);
+            sessionTranstition.clearSession();
+        }else if(sessionTranstition.getTranstition("receive")){
             bottomNavigation.show(2,true);
             sessionTranstition.clearSession();
         }else if(sessionTranstition.getTranstition("scan")){

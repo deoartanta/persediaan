@@ -1,8 +1,10 @@
 package com.persediaan.de;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.ActivityOptions;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
@@ -53,7 +55,7 @@ public class SplashscreenActivity extends AppCompatActivity {
     String msg = "";
     boolean connection,
             timeOutConnect,
-            noInternet,
+            noInternet,noKuota,
             reload=false,sts=true;
     int s = 5,i=1,ms = 0;
 
@@ -119,7 +121,34 @@ public class SplashscreenActivity extends AppCompatActivity {
                             if (!response.isSuccessful()){
                                 Toast.makeText(getApplicationContext(), "login gagal",
                                         Toast.LENGTH_SHORT).show();
-                                tv_notif.setText("Gagal terhubung");
+                                tv_notif.setText("Gagal terhubung["+response.code()+"]");
+                                new AlertDialog.Builder(SplashscreenActivity.this)
+                                        .setIcon(R.drawable.ic_baseline_warning_24)
+                                        .setTitle("Server error["+response.code()+"]")
+                                        .setMessage("Kemungkinan server sedang sibuk, cobalah " +
+                                                "beberapa saat lagi...")
+                                        .setCancelable(true)
+                                        .setPositiveButton("Login",
+                                                new DialogInterface.OnClickListener() {
+                                            @Override
+                                            public void onClick(DialogInterface dialogInterface, int i) {
+                                                sessionManagerLogin.clearSession();
+                                                Pair[] pairs = new Pair[2];
+                                                pairs[0] = new Pair<View,String>(imgAnim,"imgTrans");
+                                                pairs[1] = new Pair<View,String>(title,"titleTrans");
+                                                ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(SplashscreenActivity.this,pairs);
+                                                startActivity(login,options.toBundle());
+                                                finish();
+                                            }
+                                        })
+                                        .setNegativeButton("Keluar",
+                                                new DialogInterface.OnClickListener() {
+                                            @Override
+                                            public void onClick(DialogInterface dialogInterface, int i) {
+                                                dialogInterface.dismiss();
+                                                finish();
+                                            }
+                                        }).create().show();
                                 return;
                             }
                             System.out.println(responLogin.toString());
@@ -171,10 +200,11 @@ public class SplashscreenActivity extends AppCompatActivity {
                             connection = msg.contains("Unable");
                             timeOutConnect = msg.contains("failed");
                             noInternet = msg.contains("timed out");
+                            noKuota = msg.contains("Failed");
                             reload = true;
                             s = 5;i=1;ms = 1;
                             if (connection){
-                                msg = "Gagal terhubung, mohon periksa kembali koneksi anda";
+                                msg = "Mohon periksa kembali koneksi anda";
                             }
                             if (timeOutConnect){
                                 msg ="Koneksi anda lambat, coba lagi dilain waktu";
@@ -182,18 +212,50 @@ public class SplashscreenActivity extends AppCompatActivity {
                             if (noInternet){
                                 msg = "Tidak ada koneksi internet";
                             }
+                            if (noKuota){
+                                msg = "Tidak ada koneksi internet, pastikan anda mempunyai kuota " +
+                                        "internet agar dapat menggunakan aplikasi ini ";
+                            }
+
                             tv_notif.setPadding(5,5,5,5);
-                            tv_notif.setText(""+msg);
+                            tv_notif.setText("Gagal terhubung");
                             new Handler().postDelayed(new Runnable() {
                                 @Override
                                 public void run() {
 //                                    sessionManagerLogin.clearSession();
-                                    Pair[] pairs = new Pair[2];
-                                    pairs[0] = new Pair<View,String>(imgAnim,"imgTrans");
-                                    pairs[1] = new Pair<View,String>(title,"titleTrans");
-                                    ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(SplashscreenActivity.this,pairs);
-                                    startActivity(login,options.toBundle());
-                                    finish();
+                                    new AlertDialog.Builder(SplashscreenActivity.this)
+                                            .setIcon(R.drawable.ic_baseline_warning_24)
+                                            .setTitle("Gagal Terhubung")
+                                            .setMessage(msg)
+                                            .setCancelable(true)
+                                            .setPositiveButton("Login",
+                                                    new DialogInterface.OnClickListener() {
+                                                        @Override
+                                                        public void onClick(DialogInterface dialogInterface, int i) {
+                                                            sessionManagerLogin.clearSession();
+                                                            Pair[] pairs = new Pair[2];
+                                                            pairs[0] = new Pair<View,String>(imgAnim,"imgTrans");
+                                                            pairs[1] = new Pair<View,String>(title,"titleTrans");
+                                                            ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(SplashscreenActivity.this,pairs);
+                                                            startActivity(login,options.toBundle());
+                                                            finish();
+                                                        }
+                                                    })
+                                            .setNegativeButton("Keluar",
+                                                    new DialogInterface.OnClickListener() {
+                                                        @Override
+                                                        public void onClick(DialogInterface dialogInterface, int i) {
+                                                            dialogInterface.dismiss();
+                                                            finish();
+                                                        }
+                                                    }).create().show();
+
+//                                    Pair[] pairs = new Pair[2];
+//                                    pairs[0] = new Pair<View,String>(imgAnim,"imgTrans");
+//                                    pairs[1] = new Pair<View,String>(title,"titleTrans");
+//                                    ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(SplashscreenActivity.this,pairs);
+//                                    startActivity(login,options.toBundle());
+//                                    finish();
                                 }
                             }, 2000);
                         }

@@ -1,6 +1,5 @@
 package com.persediaan.de;
 
-import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.appcompat.widget.AppCompatButton;
@@ -50,7 +49,7 @@ public class ReceivedManualBookFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        View view = inflater.inflate(R.layout.fragment_received_manual_book, container, false);
+        View view = inflater.inflate(R.layout.manual_book_fragment_received, container, false);
         frame_layout_manual_book.setVisibility(View.VISIBLE);
 
         sessionManualBook= new SessionManager(requireContext(),

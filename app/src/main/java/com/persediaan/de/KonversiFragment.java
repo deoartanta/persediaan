@@ -1,5 +1,6 @@
 package com.persediaan.de;
 
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.LayoutInflater;
@@ -16,6 +17,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.IntDef;
+import androidx.appcompat.app.AlertDialog;
 import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.DefaultItemAnimator;
@@ -29,6 +31,7 @@ import com.persediaan.de.adapter.AdapterCartKonversi;
 import com.persediaan.de.adapter.AdapterItemsKonversi;
 import com.persediaan.de.adapter.RecyclerViewClickInterface;
 import com.persediaan.de.adapter.RecyclerViewKonversiInterface;
+import com.persediaan.de.api.ApiDaftarBarang;
 import com.persediaan.de.api.ApiKonversi;
 import com.persediaan.de.api.JsonPlaceHolderApi;
 import com.persediaan.de.data.SessionManager;
@@ -219,54 +222,88 @@ public class KonversiFragment extends Fragment implements RecyclerViewClickInter
         btnCancelKonversi.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Call<String> cancelKonv = jsonPlaceHolderApi.getCancelKonversi(String.valueOf(detailUser.get(SessionManager.USER_ID)));
-                cancelKonv.enqueue(new Callback<String>() {
-                    @Override
-                    public void onResponse(Call<String> call, Response<String> response) {
-                        String dt_konv = response.body();
-                        if(dt_konv != null){
-                            Toast.makeText(getContext(), "Cart Konversi dihapus", Toast.LENGTH_SHORT).show();
-                            meowBottomNavigation.show(4,false);
-                        }
-                        if(!response.isSuccessful()){
-                            Toast.makeText(getContext(), "Gagal hapus cart Konversi", Toast.LENGTH_SHORT).show();
-                        }
-                    }
+                new AlertDialog.Builder(requireContext())
+                        .setIcon(R.drawable.ic_baseline_warning_24)
+                        .setTitle("Cancel Konversi")
+                        .setMessage("Semua konversi yang telah anda lakukan akan dibatalkan, " +
+                                "apakah " +
+                                "anda yakin?")
+                        .setCancelable(true)
+                        .setPositiveButton("Lanjut", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                Call<String> cancelKonv = jsonPlaceHolderApi.getCancelKonversi(String.valueOf(detailUser.get(SessionManager.USER_ID)));
+                                cancelKonv.enqueue(new Callback<String>() {
+                                    @Override
+                                    public void onResponse(Call<String> call, Response<String> response) {
+                                        String dt_konv = response.body();
+                                        if(dt_konv != null){
+                                            Toast.makeText(getContext(), "Cart Konversi dihapus", Toast.LENGTH_SHORT).show();
+                                            meowBottomNavigation.show(4,false);
+                                        }
+                                        if(!response.isSuccessful()){
+                                            Toast.makeText(getContext(), "Gagal hapus cart Konversi", Toast.LENGTH_SHORT).show();
+                                        }
+                                    }
 
-                    @Override
-                    public void onFailure(Call<String> call, Throwable t) {
-                        Toast.makeText(getContext(), "Server Error", Toast.LENGTH_SHORT).show();
-                    }
-                });
+                                    @Override
+                                    public void onFailure(Call<String> call, Throwable t) {
+                                        Toast.makeText(getContext(), "Server Error", Toast.LENGTH_SHORT).show();
+                                    }
+                                });
+                            }
+                        })
+                        .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                dialogInterface.dismiss();
+                            }
+                        }).create().show();
             }
         });
 
         btnSimpanKonversi.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Call<ApiKonversi> saveKonv = jsonPlaceHolderApi.getSimpanKonversi(String.valueOf(detailUser.get(SessionManager.USER_ID)));
-                saveKonv.enqueue(new Callback<ApiKonversi>() {
-                    @Override
-                    public void onResponse(Call<ApiKonversi> call, Response<ApiKonversi> response) {
-                        ApiKonversi tersimpan = response.body();
-                        if(tersimpan != null){
-                            Toast.makeText(getContext(), "Berhasil simpan data", Toast.LENGTH_SHORT).show();
-                            new Handler().postDelayed(new Runnable() {
-                                @Override
-                                public void run() {
-                                    meowBottomNavigation.show(4,false);
-                                }
-                            }, 500);
-                        }else {
-                            Toast.makeText(getContext(), "Gagal simpan data", Toast.LENGTH_SHORT).show();
-                        }
-                    }
+                new AlertDialog.Builder(requireContext())
+                        .setIcon(R.drawable.ic_baseline_warning_24)
+                        .setTitle("Simpan Konversi")
+                        .setMessage("Apakah anda yakin ingin menyimpan semua data konversi?")
+                        .setCancelable(true)
+                        .setPositiveButton("Lanjut", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                Call<ApiKonversi> saveKonv = jsonPlaceHolderApi.getSimpanKonversi(String.valueOf(detailUser.get(SessionManager.USER_ID)));
+                                saveKonv.enqueue(new Callback<ApiKonversi>() {
+                                    @Override
+                                    public void onResponse(Call<ApiKonversi> call, Response<ApiKonversi> response) {
+                                        ApiKonversi tersimpan = response.body();
+                                        if(tersimpan != null){
+                                            Toast.makeText(getContext(), "Berhasil simpan data", Toast.LENGTH_SHORT).show();
+                                            new Handler().postDelayed(new Runnable() {
+                                                @Override
+                                                public void run() {
+                                                    meowBottomNavigation.show(4,false);
+                                                }
+                                            }, 500);
+                                        }else {
+                                            Toast.makeText(getContext(), "Gagal simpan data", Toast.LENGTH_SHORT).show();
+                                        }
+                                    }
 
-                    @Override
-                    public void onFailure(Call<ApiKonversi> call, Throwable t) {
-                        Toast.makeText(getContext(), "Server Error", Toast.LENGTH_SHORT).show();
-                    }
-                });
+                                    @Override
+                                    public void onFailure(Call<ApiKonversi> call, Throwable t) {
+                                        Toast.makeText(getContext(), "Server Error", Toast.LENGTH_SHORT).show();
+                                    }
+                                });
+                            }
+                        })
+                        .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                dialogInterface.dismiss();
+                            }
+                        }).create().show();
             }
         });
 
@@ -318,29 +355,71 @@ public class KonversiFragment extends Fragment implements RecyclerViewClickInter
 
     @Override
     public void DelCartKonversi(View view, int Position, int Id) {
-        Call<Integer> delCart = jsonPlaceHolderApi.getDeleteCartKonversi(Id);
-        delCart.enqueue(new Callback<Integer>() {
-            @Override
-            public void onResponse(Call<Integer> call, Response<Integer> response) {
-                int delItm = response.body();
-                if(delItm != 0){
-                    Toast.makeText(getContext(), "Item berhasil dihapus", Toast.LENGTH_SHORT).show();
-                    new Handler().postDelayed(new Runnable() {
-                        @Override
-                        public void run() {
-                            meowBottomNavigation.show(4,false);
-                        }
-                    }, 500);
-                } else {
-                    Toast.makeText(getContext(), "Gagal hapus item", Toast.LENGTH_SHORT).show();
-                }
-            }
 
-            @Override
-            public void onFailure(Call<Integer> call, Throwable t) {
-                Toast.makeText(getContext(), "Server Error", Toast.LENGTH_SHORT).show();
-            }
-        });
+//        Call<Integer> delCart = jsonPlaceHolderApi.getDeleteCartKonversi(Id);
+//        delCart.enqueue(new Callback<Integer>() {
+//            @Override
+//            public void onResponse(Call<Integer> call, Response<Integer> response) {
+//                int delItm = response.body();
+//                if(delItm != 0){
+//                    Toast.makeText(getContext(), "Item berhasil dihapus", Toast.LENGTH_SHORT).show();
+//                    new Handler().postDelayed(new Runnable() {
+//                        @Override
+//                        public void run() {
+//                            meowBottomNavigation.show(4,false);
+//                        }
+//                    }, 500);
+//                } else {
+//                    Toast.makeText(getContext(), "Gagal hapus item", Toast.LENGTH_SHORT).show();
+//                }
+//            }
+//
+//            @Override
+//            public void onFailure(Call<Integer> call, Throwable t) {
+//                Toast.makeText(getContext(), "Server Error", Toast.LENGTH_SHORT).show();
+//            }
+//        });
+        TextView tvNmItemHKonv = view.findViewById(R.id.tvDetailTransferNmItem);
+
+        new AlertDialog.Builder(requireContext())
+                .setIcon(R.drawable.ic_baseline_warning_24)
+                .setTitle("Hapus Item")
+                .setMessage("Apakah anda yakin ingin menghapus "+tvNmItemHKonv.getText())
+                .setCancelable(true)
+                .setPositiveButton("Lanjut", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        Call<Integer> delCart = jsonPlaceHolderApi.getDeleteCartKonversi(Id);
+                        delCart.enqueue(new Callback<Integer>() {
+                            @Override
+                            public void onResponse(Call<Integer> call, Response<Integer> response) {
+                                int delItm = response.body();
+                                if(delItm != 0){
+                                    Toast.makeText(getContext(), "Item berhasil dihapus", Toast.LENGTH_SHORT).show();
+                                    new Handler().postDelayed(new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            meowBottomNavigation.show(4,false);
+                                        }
+                                    }, 500);
+                                } else {
+                                    Toast.makeText(getContext(), "Gagal hapus item", Toast.LENGTH_SHORT).show();
+                                }
+                            }
+
+                            @Override
+                            public void onFailure(Call<Integer> call, Throwable t) {
+                                Toast.makeText(getContext(), "Server Error", Toast.LENGTH_SHORT).show();
+                            }
+                        });
+                    }
+                })
+                .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        dialogInterface.dismiss();
+                    }
+                }).create().show();
     }
     private void setVisibility(boolean visibility){
         footBtn.setVisibility(visibility?View.VISIBLE:View.GONE);

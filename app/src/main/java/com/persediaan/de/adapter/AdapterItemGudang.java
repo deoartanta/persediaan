@@ -73,7 +73,7 @@ public class AdapterItemGudang extends RecyclerView.Adapter<AdapterItemGudang.Ad
                     R.color.splashBackground).create()
                     .setJavaHoverListener(new JavaHoverListener() {
                 @Override
-                public void hoverIn(View view) {
+                public void hoverIn(View view,float x) {
 
                 }
 
@@ -83,7 +83,7 @@ public class AdapterItemGudang extends RecyclerView.Adapter<AdapterItemGudang.Ad
                 }
 
                 @Override
-                public void hoverMove(View view) {
+                public void hoverMove(View view, float x, float y) {
 
                 }
 

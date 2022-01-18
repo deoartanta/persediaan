@@ -72,7 +72,7 @@ public class AdapterAkunSetting extends RecyclerView.Adapter<AdapterAkunSetting.
                                     (data_Hsl_row_item.getResult())[i]:""
                             ).setTypeText(
                             (data_Hsl_row_item.getTypeText())!=null?
-                                    (data_Hsl_row_item.getTypeText())[i]:0));
+                                    (data_Hsl_row_item.getTypeText())[i]:0).setImgResourceRight(datalist_expend.get(position).getImgResourceRight()));
                 }else{
                     if (data_Hsl_row_item.getRow_name_item()=="state"&&data_Hsl_row_item.getResult()[i]==
                             "true"){
@@ -128,7 +128,11 @@ public class AdapterAkunSetting extends RecyclerView.Adapter<AdapterAkunSetting.
             if (img_left==0){
                 holder.img_left.setVisibility(View.GONE);
                 holder.img_right.setVisibility(View.VISIBLE);
-                holder.img_right.setImageResource(R.drawable.ic_baseline_create_24);
+                if ((datalist_expend.get(position).getImgResourceRight())!=0) {
+                    holder.img_right.setImageResource(datalist_expend.get(position).getImgResourceRight());
+                }else{
+                    holder.img_right.setImageResource(R.drawable.ic_baseline_create_24);
+                }
                 holder.linearLayoutProfile.setBackgroundResource(0);
                 holder.linearLayoutProfile.setPadding(0,0,0,0);
 

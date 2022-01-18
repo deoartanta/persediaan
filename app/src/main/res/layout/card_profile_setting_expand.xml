@@ -52,6 +52,7 @@
                     android:layout_centerVertical="true"
                     android:layout_toEndOf="@id/imgLeft"
                     android:text="TextView"
+                    android:textColor="@color/black"
                     android:textSize="16dp" />
 
                 <TextView

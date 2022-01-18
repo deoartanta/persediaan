@@ -52,6 +52,7 @@
                         android:gravity="right"
                         android:paddingEnd="14dp"
                         android:text="Perikanan"
+                        android:textColor="@color/black"
                         android:textSize="16sp"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
@@ -79,6 +80,7 @@
                             android:fontFamily="@font/abril_fatface"
                             android:gravity="center"
                             android:text="Nama Lengkap"
+                            android:textColor="@color/black"
                             android:textSize="16sp" />
 
                         <TextView
@@ -87,7 +89,8 @@
                             android:layout_height="wrap_content"
                             android:fontFamily="@font/antic"
                             android:gravity="center"
-                            android:text="Username" />
+                            android:text="Username"
+                            android:textColor="@color/black" />
                     </LinearLayout>
 
 

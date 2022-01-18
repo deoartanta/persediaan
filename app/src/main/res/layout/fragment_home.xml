@@ -40,15 +40,20 @@
                         app:cardCornerRadius="10dp"
                         app:cardElevation="5dp"
                         app:cardUseCompatPadding="true">
+
                         <LinearLayout
                             android:id="@+id/linearRootCardHome1"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
+                            android:background="@drawable/btn_action_white"
                             android:gravity="center"
+                            android:orientation="vertical"
                             android:padding="5dp"
-                            android:orientation="vertical">
+                            android:scaleX="1"
+                            android:scaleY="1">
+
                             <LinearLayout
-                                android:layout_width="wrap_content"
+                                android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:orientation="horizontal">
 
@@ -57,33 +62,35 @@
                                     android:layout_width="0dp"
                                     android:layout_height="match_parent"
                                     android:layout_weight="1"
-                                    android:fontFamily="@font/poppins"
+                                    android:fontFamily="@font/poppins_bold"
                                     android:gravity="center"
-                                    android:scaleX="0.8"
                                     android:scaleY="0.8"
                                     android:text="500\nReceive"
-                                    android:textAllCaps="true" />
+                                    android:textAllCaps="true"
+                                    android:textColor="@color/black"
+                                    android:textSize="12sp" />
 
                                 <androidx.appcompat.widget.AppCompatImageView
                                     android:id="@+id/imgHomeReceive"
                                     android:layout_width="0dp"
-                                    android:layout_weight="1"
                                     android:layout_height="100dp"
+                                    android:layout_weight="1"
                                     android:paddingVertical="20dp"
-                                    app:srcCompat="@drawable/ic_truck"/>
+                                    app:srcCompat="@drawable/ic_truck" />
                             </LinearLayout>
 
                             <TextView
                                 android:id="@+id/cardHomeTittle1"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
+                                android:layout_marginTop="0dp"
                                 android:fontFamily="@font/poppins_bold"
                                 android:gravity="center"
-                                android:scaleX="0.8"
-                                android:scaleY="0.8"
+                                android:paddingTop="0dp"
                                 android:text="Receive"
                                 android:textAllCaps="true"
-                                android:textSize="20sp" />
+                                android:textColor="@color/black"
+                                android:textSize="16sp" />
                         </LinearLayout>
                     </androidx.cardview.widget.CardView>
 
@@ -99,15 +106,20 @@
                         app:cardCornerRadius="10dp"
                         app:cardElevation="5dp"
                         app:cardUseCompatPadding="true">
+
                         <LinearLayout
                             android:id="@+id/linearRootCardHome2"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:padding="5dp"
+                            android:background="@drawable/btn_action_white"
                             android:gravity="center"
-                            android:orientation="vertical">
+                            android:orientation="vertical"
+                            android:padding="5dp"
+                            android:scaleX="1"
+                            android:scaleY="1">
+
                             <LinearLayout
-                                android:layout_width="wrap_content"
+                                android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:orientation="horizontal">
 
@@ -116,33 +128,35 @@
                                     android:layout_width="0dp"
                                     android:layout_height="match_parent"
                                     android:layout_weight="1"
-                                    android:fontFamily="@font/poppins"
+                                    android:fontFamily="@font/poppins_bold"
                                     android:gravity="center"
-                                    android:scaleX="0.8"
                                     android:scaleY="0.8"
                                     android:text="500\nItem"
-                                    android:textAllCaps="true" />
+                                    android:textAllCaps="true"
+                                    android:textColor="@color/black"
+                                    android:textSize="12sp" />
 
                                 <androidx.appcompat.widget.AppCompatImageView
                                     android:id="@+id/imgHomeReceive2"
                                     android:layout_width="0dp"
-                                    android:layout_weight="1"
                                     android:layout_height="100dp"
+                                    android:layout_weight="1"
                                     android:paddingVertical="20dp"
-                                    app:srcCompat="@drawable/ic_truck"/>
+                                    app:srcCompat="@drawable/ic_dualscale" />
                             </LinearLayout>
 
                             <TextView
                                 android:id="@+id/cardHomeTittle2"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
+                                android:layout_marginTop="0dp"
                                 android:fontFamily="@font/poppins_bold"
                                 android:gravity="center"
-                                android:scaleX="0.8"
-                                android:scaleY="0.8"
+                                android:paddingTop="0dp"
                                 android:text="All Item"
                                 android:textAllCaps="true"
-                                android:textSize="20sp" />
+                                android:textColor="@color/black"
+                                android:textSize="16sp" />
                         </LinearLayout>
                     </androidx.cardview.widget.CardView>
                 </LinearLayout>
@@ -163,15 +177,20 @@
                         app:cardCornerRadius="10dp"
                         app:cardElevation="5dp"
                         app:cardUseCompatPadding="true">
+
                         <LinearLayout
                             android:id="@+id/linearRootCardHome3"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
+                            android:background="@drawable/btn_action_white"
                             android:gravity="center"
+                            android:orientation="vertical"
                             android:padding="5dp"
-                            android:orientation="vertical">
+                            android:scaleX="1"
+                            android:scaleY="1">
+
                             <LinearLayout
-                                android:layout_width="wrap_content"
+                                android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:orientation="horizontal">
 
@@ -180,33 +199,35 @@
                                     android:layout_width="0dp"
                                     android:layout_height="match_parent"
                                     android:layout_weight="1"
-                                    android:fontFamily="@font/poppins"
+                                    android:fontFamily="@font/poppins_bold"
                                     android:gravity="center"
-                                    android:scaleX="0.8"
                                     android:scaleY="0.8"
                                     android:text="500\nReceive"
-                                    android:textAllCaps="true" />
+                                    android:textAllCaps="true"
+                                    android:textColor="@color/black"
+                                    android:textSize="12sp" />
 
                                 <androidx.appcompat.widget.AppCompatImageView
                                     android:id="@+id/imgHomeReceive3"
                                     android:layout_width="0dp"
-                                    android:layout_weight="1"
                                     android:layout_height="100dp"
+                                    android:layout_weight="1"
                                     android:paddingVertical="20dp"
-                                    app:srcCompat="@drawable/ic_truck"/>
+                                    app:srcCompat="@drawable/ic_dualscale" />
                             </LinearLayout>
 
                             <TextView
                                 android:id="@+id/cardHomeTittle3"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
+                                android:layout_marginTop="0dp"
                                 android:fontFamily="@font/poppins_bold"
                                 android:gravity="center"
-                                android:scaleX="0.8"
-                                android:scaleY="0.8"
+                                android:paddingTop="0dp"
                                 android:text="Receive"
                                 android:textAllCaps="true"
-                                android:textSize="20sp" />
+                                android:textColor="@color/black"
+                                android:textSize="16sp" />
                         </LinearLayout>
                     </androidx.cardview.widget.CardView>
 
@@ -222,15 +243,20 @@
                         app:cardCornerRadius="10dp"
                         app:cardElevation="5dp"
                         app:cardUseCompatPadding="true">
+
                         <LinearLayout
                             android:id="@+id/linearRootCardHome4"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:padding="5dp"
+                            android:background="@drawable/btn_action_white"
                             android:gravity="center"
-                            android:orientation="vertical">
+                            android:orientation="vertical"
+                            android:padding="5dp"
+                            android:scaleX="1"
+                            android:scaleY="1">
+
                             <LinearLayout
-                                android:layout_width="wrap_content"
+                                android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:orientation="horizontal">
 
@@ -239,33 +265,35 @@
                                     android:layout_width="0dp"
                                     android:layout_height="match_parent"
                                     android:layout_weight="1"
-                                    android:fontFamily="@font/poppins"
+                                    android:fontFamily="@font/poppins_bold"
                                     android:gravity="center"
-                                    android:scaleX="0.8"
                                     android:scaleY="0.8"
                                     android:text="500\nItem"
-                                    android:textAllCaps="true" />
+                                    android:textAllCaps="true"
+                                    android:textColor="@color/black"
+                                    android:textSize="12sp" />
 
                                 <androidx.appcompat.widget.AppCompatImageView
                                     android:id="@+id/imgHomeReceive4"
                                     android:layout_width="0dp"
-                                    android:layout_weight="1"
                                     android:layout_height="100dp"
+                                    android:layout_weight="1"
                                     android:paddingVertical="20dp"
-                                    app:srcCompat="@drawable/ic_truck"/>
+                                    app:srcCompat="@drawable/ic_bi_boxes" />
                             </LinearLayout>
 
                             <TextView
                                 android:id="@+id/cardHomeTittle4"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
+                                android:layout_marginTop="0dp"
                                 android:fontFamily="@font/poppins_bold"
                                 android:gravity="center"
-                                android:scaleX="0.8"
-                                android:scaleY="0.8"
+                                android:paddingTop="0dp"
                                 android:text="All Item"
                                 android:textAllCaps="true"
-                                android:textSize="20sp" />
+                                android:textColor="@color/black"
+                                android:textSize="16sp" />
                         </LinearLayout>
                     </androidx.cardview.widget.CardView>
                 </LinearLayout>

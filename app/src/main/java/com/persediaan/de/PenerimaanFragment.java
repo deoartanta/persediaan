@@ -110,7 +110,7 @@ public class PenerimaanFragment extends Fragment implements RecyclerViewClickInt
         i.putExtra(DetailPenerimaanActivity.JML_ITEM,jumlah);
         i.putExtra(DetailPenerimaanActivity.TOTAL_HRG,total_hrg);
 
-        if (sessionManualBook.getManualBook(SessionManager.DETAILPENER)){
+        if (!sessionManualBook.getManualBook(SessionManager.DETAILPENER)){
             getActivity().getSupportFragmentManager()
                     .beginTransaction()
                     .replace(R.id.frameManualBook,

@@ -1,12 +1,8 @@
 package com.persediaan.de;
 
-import android.Manifest;
-import android.content.pm.PackageManager;
 import android.os.Bundle;
 
-import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -47,7 +43,7 @@ public class ManualBookFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_manual_book, container, false);
+        View view = inflater.inflate(R.layout.manual_book_fragment, container, false);
         session_manual_book = new SessionManager(requireContext(),"manualbook");
         meowBottomNavigation = view.findViewById(R.id.bottomNavManualBook);
         btn_lewati = view.findViewById(R.id.btnLewati);
