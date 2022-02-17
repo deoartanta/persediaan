@@ -41,11 +41,13 @@ import com.persediaan.de.adapter.AdapterPenerimaan;
 import com.persediaan.de.adapter.AdapterStock;
 import com.persediaan.de.adapter.RecyclerViewClickInterface;
 import com.persediaan.de.adapter.myAdapter;
+import com.persediaan.de.api.ApiDaftarBarang;
 import com.persediaan.de.api.ApiPenerimaan;
 import com.persediaan.de.api.ApiStock;
 import com.persediaan.de.api.JsonPlaceHolderApi;
 import com.persediaan.de.api.data.ApiResponListener;
 import com.persediaan.de.api.data.LoadDaftarPenerimaan;
+import com.persediaan.de.api.data.LoadItem;
 import com.persediaan.de.data.SessionManager;
 import com.persediaan.de.javatouch.JavaHover;
 import com.persediaan.de.javatouch.JavaHoverListener;
@@ -164,7 +166,7 @@ public class HomeFragment extends Fragment implements RecyclerViewClickInterface
             card_home_tittle_4 = view.findViewById(R.id.cardHomeTittle4);
         }
 
-        //        Load daftar penerimaan
+//        Load daftar penerimaan
         {
             loadDaftarPenerimaan = new LoadDaftarPenerimaan(detailUserInt.get(SessionManager.USER_ID)
                     , retrofit,
@@ -172,45 +174,49 @@ public class HomeFragment extends Fragment implements RecyclerViewClickInterface
             loadDaftarPenerimaan.LoadData();
             loadDaftarPenerimaan.setApiResponListener(new ApiResponListener<ArrayList<ApiPenerimaan>>() {
                 @Override
+                public void onResponse(boolean status, Response<ArrayList<ApiPenerimaan>> body) {
+
+                }
+
+                @Override
                 public void onResponse(boolean status, ArrayList<ApiPenerimaan> body) {
-                    HashMap<String,String> konversi = new HashMap<>();
-                    HashMap<String,String> disKonversi = new HashMap<>();
+                    HashMap<String, String> konversi = new HashMap<>();
+                    HashMap<String, String> disKonversi = new HashMap<>();
                     String logKonversi = "";
                     String logDisKonversi = "";
                     for (ApiPenerimaan apiPenerimaan :
                             body) {
-                        if (apiPenerimaan.getDikonversi()==1) {
+                        if (apiPenerimaan.getDikonversi() == 1) {
                             loadDaftarPenerimaan.setDataKonversi(apiPenerimaan);
                             if (konversi.get(apiPenerimaan.getId_purchase()) == null) {
                                 konversi.put(apiPenerimaan.getId_purchase(),
                                         apiPenerimaan.getId_purchase());
-                                logKonversi +=apiPenerimaan.getDikonversi()+","+"=>"+apiPenerimaan.getId_purchase()+"\n";
+                                logKonversi += apiPenerimaan.getDikonversi() + "," + "=>" + apiPenerimaan.getId_purchase() + "\n";
                             }
-                        }else{
+                        } else {
                             loadDaftarPenerimaan.setDataDiskonversi(apiPenerimaan);
                             if (disKonversi.get(apiPenerimaan.getId_purchase()) == null) {
                                 disKonversi.put(apiPenerimaan.getId_purchase(),
                                         apiPenerimaan.getId_purchase());
-                                logDisKonversi +=apiPenerimaan.getDikonversi()+","+"=>"+apiPenerimaan.getId_purchase()+"\n";
+                                logDisKonversi += apiPenerimaan.getDikonversi() + "," + "=>" + apiPenerimaan.getId_purchase() + "\n";
                             }
                         }
                     }
-                    Log.d("19201299", "Konversi: "+logKonversi);
-                    Log.d("19201299", "DisKonversi: "+logDisKonversi);
-                    loadDaftarPenerimaan.setSize(LoadDaftarPenerimaan.RECEIVE,(konversi.size()+disKonversi.size()));
+//                    Log.d("19201299", "<<198>>Konversi: "+logKonversi);
+//                    Log.d("19201299", "<<199>>DisKonversi: "+logDisKonversi);
+                    loadDaftarPenerimaan.setSize(LoadDaftarPenerimaan.RECEIVE, (konversi.size() + disKonversi.size()));
                     loadDaftarPenerimaan.setSize(LoadDaftarPenerimaan.KONVERSI, konversi.size());
                     loadDaftarPenerimaan.setSize(LoadDaftarPenerimaan.DISKONVERSI, disKonversi.size());
 
-                    card_home_jml_1.setText(loadDaftarPenerimaan.getSize(LoadDaftarPenerimaan.RECEIVE)+
+                    card_home_jml_1.setText(loadDaftarPenerimaan.getSize(LoadDaftarPenerimaan.RECEIVE) +
                             "\nPurchase");
                     card_home_tittle_1.setText("Receive");
-                    card_home_jml_2.setText(loadDaftarPenerimaan.getSize(LoadDaftarPenerimaan.KONVERSI)+
+                    card_home_jml_2.setText(loadDaftarPenerimaan.getSize(LoadDaftarPenerimaan.KONVERSI) +
                             "\nPurchase");
                     card_home_tittle_2.setText("Konversi");
-                    card_home_jml_3.setText(loadDaftarPenerimaan.getSize(LoadDaftarPenerimaan.DISKONVERSI)+
+                    card_home_jml_3.setText(loadDaftarPenerimaan.getSize(LoadDaftarPenerimaan.DISKONVERSI) +
                             "\nPurchase");
                     card_home_tittle_3.setText("Belum Konversi");
-
 
 
                 }
@@ -220,86 +226,79 @@ public class HomeFragment extends Fragment implements RecyclerViewClickInterface
 
                 }
             });
+
+            img_receive.setColorFilter(ContextCompat.getColor(requireContext(), R.color.splashBackground));
+            img_receive2.setColorFilter(ContextCompat.getColor(requireContext(), R.color.BgGreen));
+            img_receive2.setImageResource(R.drawable.ic_dualscale);
+            img_receive2.setColorFilter(ContextCompat.getColor(requireContext(), R.color.BgGreen));
+            img_receive2.setImageResource(R.drawable.ic_dualscale);
+            img_receive3.setColorFilter(ContextCompat.getColor(requireContext(), R.color.BgRed));
+            img_receive3.setImageResource(R.drawable.ic_dualscale);
+            img_receive3.setColorFilter(ContextCompat.getColor(requireContext(), R.color.BgRed));
+            img_receive3.setImageResource(R.drawable.ic_dualscale);
+
+            card_home_1.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    bottomNavigation.show(2, true);
+                }
+            });
+            card_home_2.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    bottomNavigation.show(2,true);
+                }
+            });
+            card_home_3.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    bottomNavigation.show(4,true);
+                }
+            });
         }
 
-        img_receive.setColorFilter(ContextCompat.getColor(requireContext(), R.color.splashBackground));
-        img_receive2.setColorFilter(ContextCompat.getColor(requireContext(), R.color.BgGreen));
-        img_receive2.setImageResource(R.drawable.ic_dualscale);
-        img_receive3.setColorFilter(ContextCompat.getColor(requireContext(), R.color.BgRed));
-        img_receive3.setImageResource(R.drawable.ic_dualscale);
-        img_receive4.setColorFilter(ContextCompat.getColor(requireContext(), R.color.teal_700));
-        img_receive4.setImageResource(R.drawable.ic_bi_boxes);
+//        Load Daftar Barang
+        {
 
-//        JavaHoverListener javaHoverListener1 = setJavaHover(card_home_1);
-//        JavaHoverListener javaHoverListener2 = setJavaHover(card_home_2);
-//        JavaHoverListener javaHoverListener3 = setJavaHover(card_home_3);
-//
-//        JavaHover jvH1 = new JavaHover(linear_root_card_home1,0,0);
-//        jvH1.create();
-//        jvH1.setJavaHoverListener(javaHoverListener1);
-//
-//        JavaHover jvH2 = new JavaHover(linear_root_card_home2,0,0);
-//        jvH2.create();
-//        jvH2.setJavaHoverListener(javaHoverListener2);
-//
-//        JavaHover jvH3 = new JavaHover(linear_root_card_home3,0,0);
-//        jvH3.create();
-//        jvH3.setJavaHoverListener(javaHoverListener3);
-//
-//        JavaHover jvH4 = new JavaHover(linear_root_card_home4,0,
-//                0);
-//
-//        jvH4.create();
-//        jvH4.setJavaHoverListener(setJavaHover(card_home_4));
-//        jvH4.setJavaHoverListener(new JavaHoverListener() {
-//            @Override
-//            public void hoverIn(View view) {
-//                scalleX = view.getScaleX();
-//                scalleY = view.getScaleY();
-//                card_home_4.setCardBackgroundColor(getResources().getColor(R.color.buttonTransClicked));
-//                card_home_4.setCardElevation(1);
-//                view.setScaleX(0.9f);
-//                view.setScaleY(0.9f);
-//            }
-//
-//            @Override
-//            public void hoverOut(View view) {
-//                view.setScaleX(scalleX);
-//                view.setScaleY(scalleY);
-//                card_home_4.setCardElevation(5);
-//                card_home_4.setCardBackgroundColor(getResources().getColor(R.color.white));
-//            }
-//
-//            @Override
-//            public void hoverMove(View view, float x, float y) {
-////                view.setScaleX(scalleX);
-////                view.setScaleY(scalleY);
-//                card_home_jml_4.setText(""+x);
-////                card_home_4.setCardElevation(5);
-////                card_home_4.setCardBackgroundColor(getResources().getColor(R.color.white));
-//            }
-//
-//            @Override
-//            public void onClick(View view) {
-////                newPage(ItemActivity.class);
-//            }
-//        });
-        card_home_1.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                bottomNavigation.show(2,true);
-            }
-        });
-        card_home_4.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                SessionManager sessionTranstition = new SessionManager(requireContext(),
-                        "transtition");
-                sessionTranstition.setTranstition("home",true);
-                newPage(ItemActivity.class);
-            }
-        });
+            img_receive4.setColorFilter(ContextCompat.getColor(requireContext(), R.color.teal_700));
+            img_receive4.setImageResource(R.drawable.ic_bi_boxes);
+            card_home_4.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    SessionManager sessionTranstition = new SessionManager(requireContext(),
+                            "transtition");
+                    sessionTranstition.setTranstition("home", true);
+                    if(detailUserInt.get(SessionManager.LEVEL)==1) {
+                        newPage(ItemActivity.class);
+                    }
+                }
+            });
+            LoadItem loadItem = new LoadItem(retrofit,jsonPlaceHolderApi);
+            loadItem.loadData();
+            loadItem.setApiResponListener(new ApiResponListener<ArrayList<ApiDaftarBarang>>() {
+                @Override
+                public void onResponse(boolean status, Response<ArrayList<ApiDaftarBarang>> body) {
+                    if (status==false){
+                        Toast.makeText(requireContext(), JsonPlaceHolderApi.getMessageApi(body.message()),
+                                Toast.LENGTH_SHORT).show();
+                    }
+                }
 
+                @Override
+                public void onResponse(boolean status, ArrayList<ApiDaftarBarang> body) {
+                    if (status){
+                        card_home_jml_4.setText(loadItem.getSize()+" Item");
+                    }else{
+                        card_home_jml_4.setText("0 Item");
+                    }
+                }
+
+                @Override
+                public void onFailure(Throwable t) {
+                    card_home_jml_4.setText("0 Item");
+                }
+            });
+        }
         loadCards();
         return view;
     }
@@ -343,6 +342,7 @@ public class HomeFragment extends Fragment implements RecyclerViewClickInterface
         };
         return javaHoverListener;
     }
+
     private void newPage(Class cls) {
         Intent i = new Intent(requireContext(),cls);
         startActivity(i);
@@ -397,6 +397,7 @@ public class HomeFragment extends Fragment implements RecyclerViewClickInterface
             }
         });
     }
+
 
     @Override
     public void onItemClick(int position, View view) {

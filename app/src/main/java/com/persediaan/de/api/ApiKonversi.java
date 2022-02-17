@@ -1,8 +1,9 @@
 package com.persediaan.de.api;
 
 public class ApiKonversi {
-    private String no_konversi, no_receipt, id_trans, id_purchase, nm_item, nm_area, nm_singkat, nm_satuan, eceran, id_detail, dt_conv, id_conv, id_receipt, note, sts, msg;
-    private Integer id, id_area, id_item, qty, sisa, id_satuan, harga, dikonversi, created, updated, jumlah, id_user, qty_asal, qty_conv, admin, tgl_trans, tgl_conv;
+    private String no_konversi,id_item, no_receipt, id_trans, id_purchase, nm_item, nm_area,
+            nm_singkat, nm_satuan, eceran, id_detail, dt_conv, id_conv, id_receipt, note, sts, msg;
+    private Integer id, id_area, qty, sisa, id_satuan, harga, dikonversi, created, updated, jumlah, id_user, qty_asal, qty_conv, admin, tgl_trans, tgl_conv;
 
     public String getId_conv() {
         return id_conv;
@@ -92,7 +93,7 @@ public class ApiKonversi {
         return id_area;
     }
 
-    public Integer getId_item() {
+    public String getId_item() {
         return id_item;
     }
 

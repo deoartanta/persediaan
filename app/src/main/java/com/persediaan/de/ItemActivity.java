@@ -1,5 +1,6 @@
 package com.persediaan.de;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatButton;
@@ -10,11 +11,13 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.ImageButton;
@@ -23,6 +26,7 @@ import android.widget.Toast;
 
 import com.facebook.shimmer.ShimmerFrameLayout;
 import com.google.android.material.textfield.TextInputEditText;
+import com.google.android.material.textfield.TextInputLayout;
 import com.persediaan.de.adapter.AdapterDaftartBarang;
 import com.persediaan.de.adapter.RecyclerViewClickInterface;
 import com.persediaan.de.api.ApiDaftarBarang;
@@ -48,6 +52,12 @@ public class ItemActivity extends AppCompatActivity implements RecyclerViewClick
     ArrayList<ModelDaftarItem> modelDaftarItems;
     RecyclerView recycle_daftar_barang;
 
+    LayoutInflater layoutInflater;
+    View viewinflater;
+    TextInputEditText tiet_nm_item;
+    String id_item ="",nm_item ="",satuanItemcard="";
+    AutoCompleteTextView autoCompleteSatuan;
+
     ArrayAdapter<String> adapter_item;
 //    Connection
     Retrofit retrofit;
@@ -59,6 +69,10 @@ public class ItemActivity extends AppCompatActivity implements RecyclerViewClick
     ImageButton tb_img_btn;
 
     JavaKeyBoard javaKeyBoard;
+
+    int positionItemCard = 0;
+    View viewItemCard = null;
+    boolean addItem = false;
 
     ShimmerFrameLayout shimmer_item_avtivity;
     ConstraintLayout constraint_item_content;
@@ -91,72 +105,27 @@ public class ItemActivity extends AppCompatActivity implements RecyclerViewClick
         btn_add.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
-                LayoutInflater layoutInflater= getLayoutInflater();
-                View viewinflater =layoutInflater.inflate(R.layout.input_alert_dialog_item,null);
-
-                TextInputEditText tiet_nm_item = viewinflater.findViewById(R.id.editTextNamaItem);
-                AutoCompleteTextView autoCompleteSatuan= viewinflater.findViewById(R.id.autoCompleteSatuan);
-
-                loadSatuan(autoCompleteSatuan);
-                AlertDialog dialogAdd= new AlertDialog.Builder(ItemActivity.this)
-                        .setIcon(R.drawable.ic_baseline_add_circle_24_success)
-                        .setTitle("Add Item")
-                        .setView(viewinflater)
-                        .setCancelable(true)
-                        .setPositiveButton("Lanjut", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialogInterface, int i) {
-                                Log.d("19201299",
-                                        "onClick: "+tiet_nm_item.getText().toString()+", "+
-                                                tiet_nm_item.getText().toString().toUpperCase(Locale.ROOT)+", "+
-                                                modelSatuan.get(autoCompleteSatuan.getText().toString()));
-
-                                addData(tiet_nm_item.getText().toString(),
-                                        modelSatuan.get(autoCompleteSatuan.getText().toString())
-                                );
-                            }
-                        })
-                        .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialogInterface, int i) {
-                                dialogInterface.dismiss();
-                            }
-                        }).create();
-                javaKeyBoard = new JavaKeyBoard(dialogAdd.getWindow());
-                javaKeyBoard.showInput();
-                dialogAdd.show();
-                tiet_nm_item.requestFocus();
-                autoCompleteSatuan.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        InputMethodManager imm =
-                                (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-                        javaKeyBoard = new JavaKeyBoard(dialogAdd.getWindow());
-                        javaKeyBoard.setInputMethodManager(imm);
-                        javaKeyBoard.hideInput();
-
-                    }
-                });
+                createDialogAddItem(false);
+                addItem = true;
             }
         });
 
     }
 
-    private void addData(String nm_item, Integer id_satuan) {
+    private void addData(String pid_item,String nm_item, Integer id_satuan) {
         Call<ApiDaftarBarang> call = jsonPlaceHolderApi.getAdditem(
-                nm_item,id_satuan
+                pid_item,nm_item,id_satuan
         );
         call.enqueue(new Callback<ApiDaftarBarang>() {
             @Override
             public void onResponse(Call<ApiDaftarBarang> call, Response<ApiDaftarBarang> response) {
                 if (!response.isSuccessful()){
-                    Toast.makeText(getApplicationContext(),
+                    Toast.makeText(ItemActivity.this,
                             "Terjadi error yang tidak diketahui["+response.code()+"]",
                             Toast.LENGTH_SHORT).show();
                     return;
                 }
-                Toast.makeText(getApplicationContext(), response.body().getNm_item()+" berhasil " +
+                Toast.makeText(ItemActivity.this, response.body().getNm_item()+" berhasil " +
                                 "ditambah",
                         Toast.LENGTH_LONG).show();
 //                Snackbar.make(getApplicationContext(),findViewById(R.id.rootLayout),"",
@@ -166,7 +135,9 @@ public class ItemActivity extends AppCompatActivity implements RecyclerViewClick
 
             @Override
             public void onFailure(Call<ApiDaftarBarang> call, Throwable t) {
-
+                Toast.makeText(ItemActivity.this, JsonPlaceHolderApi.getMessageApi(t.getMessage()
+                                !="false"?JsonPlaceHolderApi.getMessageApi(t.getMessage()):"Server error"),
+                        Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -203,7 +174,7 @@ public class ItemActivity extends AppCompatActivity implements RecyclerViewClick
 
                 adapterDaftartBarang = new AdapterDaftartBarang(modelDaftarItems,ItemActivity.this);
                 recycle_daftar_barang.setAdapter(adapterDaftartBarang);
-                recycle_daftar_barang.setLayoutManager(new LinearLayoutManager(getApplicationContext(),
+                recycle_daftar_barang.setLayoutManager(new LinearLayoutManager(ItemActivity.this,
                         LinearLayoutManager.VERTICAL, false));
                 recycle_daftar_barang.setHasFixedSize(true);
                 recycle_daftar_barang.setItemAnimator(new DefaultItemAnimator());
@@ -216,7 +187,10 @@ public class ItemActivity extends AppCompatActivity implements RecyclerViewClick
             public void onFailure(Call<ArrayList<ApiDaftarBarang>> call, Throwable t) {
                 shimmer_item_avtivity.setVisibility(View.GONE);
                 constraint_item_content.setVisibility(View.VISIBLE);
-                Toast.makeText(ItemActivity.this, "Server error", Toast.LENGTH_SHORT).show();
+                Toast.makeText(ItemActivity.this,
+                        "Server error["+JsonPlaceHolderApi.getMessageApi(t.getMessage())!="false"?t.getMessage()
+                                :JsonPlaceHolderApi.getMessageApi(t.getMessage())+"]",
+                        Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -230,14 +204,18 @@ public class ItemActivity extends AppCompatActivity implements RecyclerViewClick
                 ArrayList<String> listSatuan = new ArrayList<>();
                 modelSatuan  = new HashMap<>();
                 if (!response.isSuccessful()){
-                    Toast.makeText(getApplicationContext(), "Terjadi error yang tidak diketahui", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(ItemActivity.this, "Terjadi error yang tidak diketahui",
+                            Toast.LENGTH_SHORT).show();
                     return;
                 }
+                modelSatuan.put("",-1);
+                listSatuan.add("");
                 for (ApiSatuan apiSatuan:arraySatuan){
                     listSatuan.add(apiSatuan.getNm_satuan());
                     modelSatuan.put(apiSatuan.getNm_satuan().toString(),apiSatuan.getId_satuan());
                 }
-                adapter_item = new ArrayAdapter<>(getApplicationContext(),R.layout.tv_daftar_item,
+                adapter_item = new ArrayAdapter<>(ItemActivity.this,
+                        R.layout.tv_daftar_item,
                         listSatuan);
                 autoCompleteSatuan.setAdapter(adapter_item);
 
@@ -247,17 +225,20 @@ public class ItemActivity extends AppCompatActivity implements RecyclerViewClick
 
                     }
                 });
+
             }
 
             @Override
             public void onFailure(Call<ArrayList<ApiSatuan>> call, Throwable t) {
-                Toast.makeText(getApplicationContext(), "Server Error", Toast.LENGTH_SHORT).show();
+                Toast.makeText(ItemActivity.this, JsonPlaceHolderApi.getMessageApi(t.getMessage()
+                        !="false"?JsonPlaceHolderApi.getMessageApi(t.getMessage()):"Server error"),
+                        Toast.LENGTH_SHORT).show();
             }
         });
     }
-    private void editItem(int id_item,String nm_item,int id_satuan){
+    private void editItem(String pid_item,String pid_baru,String nm_item,int id_satuan){
         Call<ArrayList<ApiDaftarBarang>> call = jsonPlaceHolderApi.getEdititem(
-                id_item,nm_item,id_satuan
+                pid_item,pid_baru,nm_item,id_satuan
         );
         call.enqueue(new Callback<ArrayList<ApiDaftarBarang>>() {
             @Override
@@ -265,11 +246,12 @@ public class ItemActivity extends AppCompatActivity implements RecyclerViewClick
                 for (ApiDaftarBarang apiDaftarBarang:response.body()) {
                     if (apiDaftarBarang.getMsg()==null) {
                         loadData();
-                      Toast.makeText(getApplicationContext(), "Edit data berhasil", Toast.LENGTH_SHORT).show();
+                      Toast.makeText(ItemActivity.this, "Edit data berhasil",
+                              Toast.LENGTH_SHORT).show();
 //                        Snackbar.make(ItemActivity.this,findViewById(android.R.id.content),
 //                                "Berhasil edit data",Snackbar.LENGTH_LONG).show();
                     }else {
-                        Toast.makeText(getApplicationContext(),
+                        Toast.makeText(ItemActivity.this,
                                 ""+apiDaftarBarang.getMsg(),
                                 Toast.LENGTH_SHORT).show();
                     }
@@ -278,48 +260,152 @@ public class ItemActivity extends AppCompatActivity implements RecyclerViewClick
 
             @Override
             public void onFailure(Call<ArrayList<ApiDaftarBarang>> call, Throwable t) {
-                Toast.makeText(getApplicationContext(), "Server Error",
+                Toast.makeText(ItemActivity.this, JsonPlaceHolderApi.getMessageApi(t.getMessage()
+                                !="false"?JsonPlaceHolderApi.getMessageApi(t.getMessage()):"Server error"),
                         Toast.LENGTH_SHORT).show();
             }
         });
     }
     @Override
     public void onItemClick(int position, View view) {
-        TextView nm_item = view.findViewById(R.id.tvResNmItem);
-        TextView nm_stn = view.findViewById(R.id.tvResNmStn);
-
-
+        viewItemCard = view;
+        positionItemCard = position;
+        TextView nm_item = viewItemCard.findViewById(R.id.tvResNmItem);
+        TextView nm_stn = viewItemCard.findViewById(R.id.tvResNmStn);
+        ItemActivity.this.nm_item = (String) nm_item.getText();
+        satuanItemcard = (String) nm_stn.getText();
+        id_item = modelDaftarItems.get(position).getId_item();
+        createDialogItem(false);
+        id_item = "";
+        addItem = false;
+    }
+    private void createDialogAddItem(boolean scanCode){
         LayoutInflater layoutInflater= getLayoutInflater();
         View viewinflater =layoutInflater.inflate(R.layout.input_alert_dialog_item,null);
 
         TextInputEditText tiet_nm_item = viewinflater.findViewById(R.id.editTextNamaItem);
         AutoCompleteTextView autoCompleteSatuan= viewinflater.findViewById(R.id.autoCompleteSatuan);
-        tiet_nm_item.setText(nm_item.getText().toString().toUpperCase(Locale.ROOT));
+
+        TextInputEditText tiet_id_item = viewinflater.findViewById(R.id.editTextIdItem);
+        TextInputLayout l_id_item = viewinflater.findViewById(R.id.layoutInputIdItem);
+        if(id_item.isEmpty()){
+            l_id_item.setVisibility(View.GONE);
+        }else{
+            l_id_item.setVisibility(View.VISIBLE);
+            tiet_id_item.setText(id_item);
+        }
         loadSatuan(autoCompleteSatuan);
-        autoCompleteSatuan.setText(nm_stn.getText());
+        AlertDialog dialogAdd= new AlertDialog.Builder(ItemActivity.this)
+                .setIcon(R.drawable.ic_baseline_add_circle_24_success)
+                .setTitle("Add Item")
+                .setView(viewinflater)
+                .setCancelable(true)
+                .setPositiveButton("Next", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+//                        Log.d("19201299",
+//                                "onClick: "+tiet_nm_item.getText().toString()+", "+
+//                                        tiet_nm_item.getText().toString().toUpperCase(Locale.ROOT)+", "+
+//                                        modelSatuan.get(autoCompleteSatuan.getText().toString()));
+
+                        addData(tiet_id_item.getText().toString(),tiet_nm_item.getText().toString(),
+                                modelSatuan.get(autoCompleteSatuan.getText().toString())
+                        );
+                    }
+                })
+                .setNeutralButton("Scan Code", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        Intent in = new Intent(ItemActivity.this,
+                                ScanActivity.class);
+                        in.putExtra(ScanActivity.RESULT_FULL,"");
+                        in.putExtra(ScanActivity.SCANNER_FOR_RESULT,true);
+                        in.putExtra(ScanActivity.TYPESCAN,
+                                ScanActivity.SCANNER_TYPE_2);
+                        startActivityForResult(in,1);
+                    }
+                })
+                .setNegativeButton("Back", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        dialogInterface.dismiss();
+                    }
+                }).create();
+        javaKeyBoard = new JavaKeyBoard(dialogAdd.getWindow());
+        javaKeyBoard.showInput();
+        dialogAdd.show();
+        tiet_nm_item.requestFocus();
+        autoCompleteSatuan.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                InputMethodManager imm =
+                        (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                javaKeyBoard = new JavaKeyBoard(dialogAdd.getWindow());
+                javaKeyBoard.setInputMethodManager(imm);
+                javaKeyBoard.hideInput();
+
+            }
+        });
+    }
+    private void createDialogItem(boolean scanCode){
+        String id_item = ItemActivity.this.id_item;
+        layoutInflater= getLayoutInflater();
+        viewinflater =layoutInflater.inflate(R.layout.input_alert_dialog_item,null);
+        tiet_nm_item = viewinflater.findViewById(R.id.editTextNamaItem);
+        autoCompleteSatuan= viewinflater.findViewById(R.id.autoCompleteSatuan);
+
+        tiet_nm_item.setText(nm_item.toUpperCase(Locale.ROOT));
+        loadSatuan(autoCompleteSatuan);
+
+        TextInputEditText tiet_id_item = viewinflater.findViewById(R.id.editTextIdItem);
+        TextInputLayout l_id_item = viewinflater.findViewById(R.id.layoutInputIdItem);
+        l_id_item.setVisibility(View.VISIBLE);
+        if(id_item.isEmpty()){
+            l_id_item.setVisibility(View.GONE);
+        }else{
+            l_id_item.setVisibility(View.VISIBLE);
+            tiet_id_item.setText(id_item);
+        }
+
+        autoCompleteSatuan.setText(satuanItemcard);
+
         AlertDialog dialogEdit = new AlertDialog.Builder(ItemActivity.this)
                 .setIcon(R.drawable.ic_baseline_create_24_primary)
                 .setTitle("Edit Item")
                 .setView(viewinflater)
                 .setCancelable(true)
-                .setPositiveButton("Lanjut", new DialogInterface.OnClickListener() {
+                .setPositiveButton("Next", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
-                        Log.d("19201299",
-                                "onClick: "+modelDaftarItems.get(position).getId_item()+", "+
-                                tiet_nm_item.getText().toString().toUpperCase(Locale.ROOT)+", "+
-                                modelSatuan.get(autoCompleteSatuan.getText().toString()));
+//                        Log.d("19201299",
+//                                "onClick: "+modelDaftarItems.get(positionItemCard).getId_item()+", "+
+//                                        tiet_nm_item.getText().toString().toUpperCase(Locale.ROOT)+", "+
+//                                        modelSatuan.get(autoCompleteSatuan.getText().toString()));
 
-                        editItem(modelDaftarItems.get(position).getId_item(),
+                        editItem(modelDaftarItems.get(positionItemCard).getId_item(),
+                                tiet_id_item.getText().toString(),
                                 tiet_nm_item.getText().toString().toUpperCase(Locale.ROOT),
                                 modelSatuan.get(autoCompleteSatuan.getText().toString())
-                                );
+                        );
                     }
                 })
-                .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                .setNeutralButton("Scan Code", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
-                        dialogInterface.dismiss();
+                        Intent in = new Intent(ItemActivity.this,
+                                ScanActivity.class);
+                        in.putExtra(ScanActivity.RESULT_FULL,"");
+                        in.putExtra(ScanActivity.SCANNER_FOR_RESULT,true);
+                        in.putExtra(ScanActivity.TYPESCAN,
+                                ScanActivity.SCANNER_TYPE_2);
+                        startActivityForResult(in,1);
+
+                    }
+                })
+                .setNegativeButton("Back", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        dialogInterface.cancel();
                     }
                 }).create();
         javaKeyBoard = new JavaKeyBoard(dialogEdit.getWindow());
@@ -337,11 +423,21 @@ public class ItemActivity extends AppCompatActivity implements RecyclerViewClick
             }
         });
     }
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        id_item = data.getExtras().getString(ScanActivity.RESULT_FULL);
+        if (addItem){
+            createDialogAddItem(true);
+        }else{
+            createDialogItem(true);
+        }
+        id_item = "";
+    }
 
     @Override
     public void onItemClick1(int position, View view) {
         TextView nm_item = view.findViewById(R.id.tvResNmItem);
-        TextView nm_stn = view.findViewById(R.id.tvResNmStn);
 
         Call<ApiDaftarBarang> call =
                 jsonPlaceHolderApi.getHpsItem(modelDaftarItems.get(position).getId_item());
@@ -397,7 +493,7 @@ public class ItemActivity extends AppCompatActivity implements RecyclerViewClick
             InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
             imm.hideSoftInputFromWindow(viewFocus.getWindowToken(),0);
         }else{
-            Toast.makeText(getApplicationContext(), "ViewFocus null", Toast.LENGTH_SHORT).show();
+            Toast.makeText(ItemActivity.this, "ViewFocus null", Toast.LENGTH_SHORT).show();
         }
     }
 }

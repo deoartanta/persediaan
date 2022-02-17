@@ -6,6 +6,7 @@ import android.os.Bundle;
 import androidx.fragment.app.Fragment;
 
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -18,6 +19,7 @@ public class TestingTranstitionFragment extends Fragment {
 
     Button btn_scanner1,btn_scanner2,btn_scanner3;
     FrameLayout frame_testing;
+    float i =0f;
 
     LinearLayout linear_button_testing;
     MeowBottomNavigation meowBottomNavigation;
@@ -50,19 +52,43 @@ public class TestingTranstitionFragment extends Fragment {
         btn_scanner1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                openPage(ScanActivity.class,ScanActivity.SCANNER_TYPE_1);
+//                openPage(ScanActivity.class,ScanActivity.SCANNER_TYPE_1);
+            }
+        });
+        btn_scanner1.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View view, MotionEvent motionEvent) {
+
+                switch (motionEvent.getAction()){
+                    case MotionEvent.ACTION_DOWN:
+                        i = 0.0f;
+                        break;
+                    case MotionEvent.ACTION_MOVE:
+                        i +=0.1;
+                        btn_scanner3.setText(""+i);
+                        break;
+                    case MotionEvent.ACTION_UP:
+                        if (i>3f) {
+                            btn_scanner2.setText("Cancel");
+                        }else{
+                            btn_scanner2.setText("Next");
+                        }
+                        break;
+                }
+
+                return true;
             }
         });
         btn_scanner2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                openPage(ScanActivity.class,ScanActivity.SCANNER_TYPE_2);
+//                openPage(ScanActivity.class,ScanActivity.SCANNER_TYPE_2);
             }
         });
         btn_scanner3.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                openPage(new ScanPenerimaanFragment(meowBottomNavigation));
+//                openPage(new ScanPenerimaanFragment(meowBottomNavigation));
             }
         });
 

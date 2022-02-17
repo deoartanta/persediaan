@@ -6,7 +6,9 @@ import android.os.Bundle;
 import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
 
+import android.os.Handler;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
@@ -33,6 +35,7 @@ public class DetailPenerManualBookFragment extends Fragment {
     TextView lbl_manual_book;
 
     Button btn_lewati,btn_next;
+    int prsHeight=0,height = 0,log = 50,log2 = 80;
 
     SessionManager session_manual_book;
 
@@ -124,6 +127,7 @@ public class DetailPenerManualBookFragment extends Fragment {
 
                 }
             });
+
             btn_swipe.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -207,19 +211,22 @@ public class DetailPenerManualBookFragment extends Fragment {
                 card_content.setVisibility(View.INVISIBLE);
                 card_content.setAnimation(goAlphaOut);
                 bottom_sheet.setAnimation(goAlphaIn);
+                log2 = 80;
                 index = 2;
                 break;
             case 2:
                 lbl_manual_book.setText("Geser lagi untuk melihat detail transaksi anda");
                 linear_layout_ttl_hrg.setVisibility(View.VISIBLE);
-                linear_layout_ttl_hrg.setAnimation(goUp);
+//                linear_layout_ttl_hrg.setAnimation(goUp);
+                log2 = 105;
+                log = 80;
                 index=3;
                 break;
             case 3:
                 lbl_manual_book.setText("Tombol simpan digunakan  untuk menyimpan transaksi yang " +
                         "telah anda buat");
                 linear_bottom_sheet.setVisibility(View.VISIBLE);
-                linear_bottom_sheet.setAnimation(goUp);
+//                linear_bottom_sheet.setAnimation(goUp);
                 btn_simpan.setVisibility(View.VISIBLE);
                 btn_swipe.setVisibility(View.INVISIBLE);
 

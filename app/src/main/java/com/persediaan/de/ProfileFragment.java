@@ -197,16 +197,18 @@ public class ProfileFragment extends Fragment implements RecyclerViewClickExpend
                                 ModelProfileRowExpand.TYPE_TEXT_AREA,
                                 ModelProfileRowExpand.TYPE_TEXT_BOOLEAN}
                         ), true));
-
-        arrayList_profileRowExpand.add(new ModelProfileRowExpand(
-                2,"Daftar Barang",R.drawable.ic_baseline_view_list_24,
-                null, false));
+        if(detail_profile_int.get(SessionManager.LEVEL)==1) {
+            arrayList_profileRowExpand.add(new ModelProfileRowExpand(
+                    2, "Daftar Barang", R.drawable.ic_baseline_view_list_24,
+                    null, false));
+        }
         arrayList_profileRowExpand.add(new ModelProfileRowExpand(
                 3,"Setting", R.drawable.ic_baseline_settings_24,
                 createRowItem(
                         new String[]{"Screen Orientation","Themes"},
                         new String[]{"Portrait","Light"}
                 ), true));
+
         arrayList_profileRowExpand.add(new ModelProfileRowExpand(
                 4,"Help", R.drawable.ic_help,
                 createRowItem(
@@ -215,6 +217,7 @@ public class ProfileFragment extends Fragment implements RecyclerViewClickExpend
                                 " use scanner"},
                         new String[]{"","","",""}
                 ), true).setImgResourceRight(R.drawable.ic_baseline_keyboard_arrow_right_24));
+
         arrayList_profileRowExpand.add(new ModelProfileRowExpand(
                 5,"Logout",R.drawable.ic_baseline_power_settings_new_24,
                 null, false).setMarginBot(130));

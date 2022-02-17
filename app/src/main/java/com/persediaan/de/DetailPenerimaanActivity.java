@@ -12,11 +12,13 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.os.Handler;
 import android.text.Editable;
 import android.text.InputType;
 import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
@@ -91,7 +93,8 @@ public class DetailPenerimaanActivity extends AppCompatActivity implements Recyc
     TextInputEditText tiet_note;
     CardView card_bottom_sheet;
 
-    int heightLong=0,heightShort=0,heightShort2=0,height = 0;
+    int heightLong=0,heightShort=0,prsHeight=0,height = 0;
+    float iTouchY = 0f;
 //    Bottom Sheet />>
 
     ArrayList<ModelItemBrg> modelItemBrgs;
@@ -192,139 +195,78 @@ public class DetailPenerimaanActivity extends AppCompatActivity implements Recyc
 
 
         tb_title.setText("Detail Penerimaan");
-//        view_collapse.setOnTouchListener(new View.OnTouchListener() {
-//            @Override
-//            public boolean onTouch(View view, MotionEvent motionEvent) {
-//                float xDown=0,yDown=0,movedX=0,movedY=0;
-//                switch (motionEvent.getAction()){
-////                    case MotionEvent.ACTION_DOWN:
-////                        xDown = motionEvent.getX();
-//                        yDown = motionEvent.getY();
+        height = card_bottom_sheet.getHeight();
+        if (height==0){
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    height = card_bottom_sheet.getHeight();
+                }
+            }, 500);
+        }
+        view_collapse.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View view, MotionEvent motionEvent) {
+                float xDown=0,yDown=0,movedX=0,movedY=0;
+                int heightMove = 0;
+                switch (motionEvent.getAction()){
+                    case MotionEvent.ACTION_DOWN:
+                        xDown = motionEvent.getX();
+                        yDown = motionEvent.getY();
 //                        height = card_bottom_sheet.getHeight();
-//                        break;
-//                    case MotionEvent.ACTION_MOVE:
-//                        movedX = motionEvent.getX();
-//                        movedY = motionEvent.getY();
-//
-//                        float distanceX = movedX-xDown;
-//                        float distancey = movedY-yDown;
-//
-////                        if (((card_bottom_sheet.getHeight())-distancey)>400&&
-////                                (((card_bottom_sheet.getHeight())-distancey)<800)) {
-////                            tv_total_hrg2.setText(""+((card_bottom_sheet.getHeight())-distancey));
-////                            card_bottom_sheet.getLayoutParams().height = (int) ((card_bottom_sheet.getHeight()) - distancey);
-////                            card_bottom_sheet.requestLayout();
-////                            height = (int) ((card_bottom_sheet.getHeight())-distancey);
-////                        }
-//                        if (((card_bottom_sheet.getHeight())-distancey)>((heightShort2)-20)&&
-//                                (((card_bottom_sheet.getHeight())-distancey)<heightLong+20)) {
-//                            linear_bottom_sheet.setVisibility(View.VISIBLE);
-////                            tv_total_hrg2.setText(""+((card_bottom_sheet.getHeight())-distancey));
-//                        }
-//                        card_bottom_sheet.getLayoutParams().height = (int) (card_bottom_sheet.getHeight() - distancey);
-//                        card_bottom_sheet.requestLayout();
-//                        height = (int) ((card_bottom_sheet.getHeight())-distancey);
-//
-//                        tv_total_hrg2.setText(""+height+", "+heightLong+", "+heightShort+", "+heightShort2);
-//
-//                        xDown= movedX;
-//                        yDown = movedY;
-//                        break;
-//                    case MotionEvent.ACTION_UP:
-//                        int heightLongPlus = (heightLong-
-//                                (heightShort+
-//                                heightShort2+
-//                                btn_layout_bottom_sheet.getHeight()));
-//                        int heightShortPlus = (heightShort-btn_layout_bottom_sheet.getHeight());
-//
-//                        if (height<(heightShort2+(heightShort2/2))){
-//                            card_bottom_sheet.getLayoutParams().height = heightLong;
-//                            card_bottom_sheet.requestLayout();
-//                            tv_total_hrg2.setText(""+heightShort2+", "+heightShort);
-////                            linear_bottom_sheet.setVisibility(View.GONE);
-////                            linear_layout_tll_hrg.setVisibility(View.GONE);
-//
-//                        }
-////                        if (height>(heightShort+(heightLongPlus/2))){
-////                            card_bottom_sheet.getLayoutParams().height = heightLong;
-////                            card_bottom_sheet.requestLayout();
-//////                            card_bottom_sheet.setMinimumHeight(600);
-////                            linear_bottom_sheet.setVisibility(View.VISIBLE);
-////                            linear_layout_tll_hrg.setVisibility(View.VISIBLE);
-////
-////                        }else if(height<heightShort&&
-////                                height>(heightShort2+(heightShortPlus/2))
-////                        ){
-////                            card_bottom_sheet.getLayoutParams().height = heightShort;
-////                            card_bottom_sheet.requestLayout();
-////                            linear_bottom_sheet.setVisibility(View.GONE);
-////                            linear_layout_tll_hrg.setVisibility(View.VISIBLE);
-////                        }else{
-////
-////                            card_bottom_sheet.getLayoutParams().height =heightShort2;
-////                            card_bottom_sheet.requestLayout();
-////                            linear_bottom_sheet.setVisibility(View.GONE);
-////                            linear_layout_tll_hrg.setVisibility(View.GONE);
-////                        }
-//                        break;
-//                }
-//                return false;
-//            }
-//        });
-//                        if (((card_bottom_sheet.getHeight())-distancey)>((heightShort)-50)&&
-//                                (((card_bottom_sheet.getHeight())-distancey)<heightLong+70)) {
-//                            linear_bottom_sheet.setVisibility(View.VISIBLE);
-//                            tv_total_hrg2.setText(""+((card_bottom_sheet.getHeight())-distancey));
-//                        }
-//                        card_bottom_sheet.getLayoutParams().height = (int) ((card_bottom_sheet.getHeight()) - distancey);
-//                        card_bottom_sheet.requestLayout();
-//                        height = (int) ((card_bottom_sheet.getHeight())-distancey);
-//
-//                        tv_total_hrg2.setText(""+height);
-//                        tv_total_hrg2.setText(""+height+", "+heightLong+", "+heightShort);
-//                        xDown= movedX;
-//                        yDown = movedY;
-//                        break;
-//                    case MotionEvent.ACTION_UP:
-//                        if ((height<((heightShort+btn_layout_bottom_sheet.getHeight())+50))&&
-//                            height>((heightShort))){
-//                            card_bottom_sheet.getLayoutParams().height =
-//                                    (heightShort+btn_layout_bottom_sheet.getHeight()-100);
-//                            card_bottom_sheet.requestLayout();
-//                            linear_bottom_sheet.setVisibility(View.GONE);
-//                            linear_layout_tll_hrg.setVisibility(View.VISIBLE);
-//                        }else if((height<((heightShort)+100))){
-//                            card_bottom_sheet.getLayoutParams().height =
-//                                    ((heightShort)-50);
-//                            card_bottom_sheet.requestLayout();
-//                            linear_bottom_sheet.setVisibility(View.GONE);
-//                            linear_layout_tll_hrg.setVisibility(View.GONE);
-//                        }else{
-//                            card_bottom_sheet.getLayoutParams().height = heightLong+70;
-//                            card_bottom_sheet.requestLayout();
-////                            card_bottom_sheet.setMinimumHeight(600);
-//                            linear_bottom_sheet.setVisibility(View.VISIBLE);
-//                            linear_layout_tll_hrg.setVisibility(View.VISIBLE);
-////                            stscolapse = false;
-//                        }
-//                        break;
-//                }
-//                return false;
-//            }
-//        });
+                        iTouchY = 0.0f;
+                        break;
+                    case MotionEvent.ACTION_MOVE:
+                        movedX = motionEvent.getX();
+                        movedY = motionEvent.getY();
 
+                        float distanceX = movedX-xDown;
+                        float distancey = movedY-yDown;
+                        iTouchY -=distancey;
+                        heightMove = (int)(card_bottom_sheet.getHeight() - distancey);
+                        prsHeight = (heightMove*100)/height;
+                        if (prsHeight>=50&&prsHeight<=105){
+                            card_bottom_sheet.getLayoutParams().height =heightMove;
+                        }
+                        card_bottom_sheet.requestLayout();
+//                        tv_total_hrg.setText("Height 60%("+(60f/100f)*height+")"+prsHeight+
+//                                "%=>Height 35%"+(35f/100f)*height);
+//                        tv_total_hrg.setText("Height("+height+")"+prsHeight+"%=>"+heightMove);
+//                        btn_simpan.setText(""+prsHeight+"%");
+//                        if (iTouchY<=)
+
+                        break;
+                    case MotionEvent.ACTION_UP:
+                        if (prsHeight>=80){
+                            card_bottom_sheet.getLayoutParams().height = (int) ((105f/100f)*height);
+                            linear_bottom_sheet.setVisibility(View.VISIBLE);
+                            linear_layout_tll_hrg.setVisibility(View.VISIBLE);
+                        }else if(prsHeight<80&&prsHeight>=60){
+                            card_bottom_sheet.getLayoutParams().height = (int) ((65f/100f)*height);
+                            linear_bottom_sheet.setVisibility(View.GONE);
+                            linear_layout_tll_hrg.setVisibility(View.VISIBLE);
+                        }else if(prsHeight<60){
+                            card_bottom_sheet.getLayoutParams().height = (int) ((50f/100f)*height);
+                            linear_bottom_sheet.setVisibility(View.GONE);
+                            linear_layout_tll_hrg.setVisibility(View.GONE);
+                        }
+                        break;
+                }
+                return true;
+            }
+        });
         view_collapse.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 //                heightLong = btn_layout_bottom_sheet.getHeight()+
 //                        linear_bottom_sheet.getHeight()+
 //                        ttl_hrg2_layout.getHeight();
-                if (stscolapse) {
-                    linear_bottom_sheet.setVisibility(View.VISIBLE);
-                    linear_layout_tll_hrg.setVisibility(View.VISIBLE);
-                }else {
-                    linear_bottom_sheet.setVisibility(View.GONE);
-                }
+//                if (stscolapse) {
+//                    linear_bottom_sheet.setVisibility(View.VISIBLE);
+//                    linear_layout_tll_hrg.setVisibility(View.VISIBLE);
+//                }else {
+//                    linear_bottom_sheet.setVisibility(View.GONE);
+//                }
                 stscolapse = !stscolapse;
             }
         });

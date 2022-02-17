@@ -2,6 +2,7 @@ package com.persediaan.de;
 
 import android.os.Bundle;
 
+import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
 
 import android.view.LayoutInflater;
@@ -26,6 +27,7 @@ public class ManualBookFragment extends Fragment {
     LinearLayout main_linearlayout;
     Button btn_lewati,btn_next;
     FrameLayout frameLayout;
+    TextView btn_nav_manualbook;
 
     TextView tv_lbl_tittle_home,tv_lbl_tittle_receive,
             tv_lbl_tittle_scan,tv_lbl_tittle_spending,
@@ -46,6 +48,7 @@ public class ManualBookFragment extends Fragment {
         View view = inflater.inflate(R.layout.manual_book_fragment, container, false);
         session_manual_book = new SessionManager(requireContext(),"manualbook");
         meowBottomNavigation = view.findViewById(R.id.bottomNavManualBook);
+        frameLayout.setVisibility(View.VISIBLE);
         btn_lewati = view.findViewById(R.id.btnLewati);
         btn_next = view.findViewById(R.id.btnNext);
 
@@ -56,6 +59,7 @@ public class ManualBookFragment extends Fragment {
         tv_lbl_tittle_setting = view.findViewById(R.id.lblBotNavTittleSettingManualBook);
 
         lbl_manual_book = view.findViewById(R.id.lblManualBook);
+        btn_nav_manualbook = view.findViewById(R.id.btnNavManualbook);
 
 //        meowBottomNavigation.setModels(model);
         for (MeowBottomNavigation.Model model:models){
@@ -65,27 +69,52 @@ public class ManualBookFragment extends Fragment {
         meowBottomNavigation.setOnShowListener(new MeowBottomNavigation.ShowListener() {
             @Override
             public void onShowItem(MeowBottomNavigation.Model item) {
+
                 switch (item.getId()){
                     case 1:
-                        lbl_manual_book.setText("Tap disini untuk membuka halaman HOME");
+                        lbl_manual_book.setText("Tombol navigasi ini digunakan untuk membuka " +
+                                "halaman beranda, tap untuk melanjutkan");
                         break;
                     case 2:
-                        lbl_manual_book.setText("Tap disini untuk membuka halaman RECEIVE");
+                        lbl_manual_book.setText("Tombol navigasi ini digunakan untuk melihat " +
+                                "segala penerimaan barang setelah melakukan pembelian, tap untuk " +
+                                "melanjutkan");
                         break;
                     case 3:
-                        lbl_manual_book.setText("Tap disini untuk memindai item BARCODE");
+                        lbl_manual_book.setText("Tombol ini digunakan untuk memindai item " +
+                                "ber type BARCODE, tap untuk melanjutkan");
                         break;
                     case 4:
-                        lbl_manual_book.setText("Tap disini untuk membuka halaman SPENDING");
+                        lbl_manual_book.setText("Tombol navigasi ini digunakan untuk menuju ke " +
+                                "halaman yang berkaitan dengan barang keluar, tap untuk " +
+                                "melanjutkan");
                         break;
                     case 5:
-                        lbl_manual_book.setText("Tap disini untuk membuka halaman SETTING");
+                        lbl_manual_book.setText("Segala pengaturan ada di tombol navigasi ini, " +
+                                "tap untuk melanjutkan");
                         break;
                 }
                 setTittleLabel(item.getId());
             }
         });
         meowBottomNavigation.show(id,true);
+        meowBottomNavigation.setEnabled(false);
+        btn_nav_manualbook.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                int id2 = (id+1)>models.size()?0:id+1;
+                id++;
+                if (id2==0){
+                    btn_nav_manualbook.setVisibility(View.GONE);
+                }else{
+                    meowBottomNavigation.show(id2,true);
+                }
+                if ((id+1)>models.size()){
+                    btn_next.setText("Finish");
+                    btn_nav_manualbook.setVisibility(View.GONE);
+                }
+            }
+        });
 
         meowBottomNavigation.setOnClickMenuListener(new MeowBottomNavigation.ClickListener() {
             @Override
@@ -95,6 +124,7 @@ public class ManualBookFragment extends Fragment {
                 }
                 if ((id+1)>models.size()){
                     btn_next.setText("Finish");
+                    btn_nav_manualbook.setVisibility(View.GONE);
                 }
             }
         });
@@ -120,6 +150,7 @@ public class ManualBookFragment extends Fragment {
                 id++;
                 if ((id+1)>models.size()){
                     btn_next.setText("Finish");
+                    btn_nav_manualbook.setVisibility(View.GONE);
                     main_linearlayout.setVisibility(View.VISIBLE);
                 }
                 if (id>models.size()) {

@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,10 +18,13 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.facebook.shimmer.ShimmerFrameLayout;
+import com.persediaan.de.adapter.AdapterPenerimaan;
 import com.persediaan.de.adapter.AdapterPenerimaan2;
 import com.persediaan.de.adapter.RecyclerViewClickInterface;
 import com.persediaan.de.api.ApiPenerimaan;
 import com.persediaan.de.api.JsonPlaceHolderApi;
+import com.persediaan.de.api.data.ApiResponListener;
+import com.persediaan.de.api.data.LoadDaftarPenerimaan;
 import com.persediaan.de.data.SessionManager;
 import com.persediaan.de.model.ModelItemBrg;
 import com.persediaan.de.model.ModelPenerimaan;
@@ -37,7 +41,9 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class PenerimaanFragment extends Fragment implements RecyclerViewClickInterface {
 
+    private AdapterPenerimaan adapter2;
     private AdapterPenerimaan2 adapter;
+    boolean isDataPenerimaan = false;
     ArrayList<ModelPenerimaan> modelPenerimaanArrayList;
 
     //Connection
@@ -45,6 +51,9 @@ public class PenerimaanFragment extends Fragment implements RecyclerViewClickInt
     private JsonPlaceHolderApi jsonPlaceHolderApi;
 
     RecyclerView recyclerPenerimaan;
+//    Load Daftar Penerimaan
+    LoadDaftarPenerimaan loadDaftarPenerimaan;
+
     ShimmerFrameLayout shimmerFrameLayout;
 
     TextView tv_lblDtKosong;
@@ -68,17 +77,19 @@ public class PenerimaanFragment extends Fragment implements RecyclerViewClickInt
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_penerimaan,container,false);
         recyclerPenerimaan = view.findViewById(R.id.recyclerPenerimaan);
+
         tv_lblDtKosong = view.findViewById(R.id.tv_lbl_dtkosong);
 //        Toast.makeText(getContext(), "Halaman Penerimaan", Toast.LENGTH_SHORT).show();
         shimmerFrameLayout = view.findViewById(R.id.shimerLayout);
         shimmerFrameLayout.startShimmer();
+        recyclerPenerimaan.setVisibility(View.GONE);
         recyclerPenerimaan.setVisibility(View.GONE);
 
         sessionManagerUser = new SessionManager(requireContext(),"login");
         sessionManualBook= new SessionManager(requireContext(),
                 "manualbook");
         detailUserInt = sessionManagerUser.getUserDetailInt();
-        loadCards(detailUserInt.get(SessionManager.USER_ID));
+//        loadCards(detailUserInt.get(SessionManager.USER_ID));
         return view;
     }
 
@@ -136,131 +147,286 @@ public class PenerimaanFragment extends Fragment implements RecyclerViewClickInt
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
         jsonPlaceHolderApi = retrofit.create(JsonPlaceHolderApi.class);
-
         recyclerPenerimaan.setAdapter(null);
         shimmerFrameLayout.startShimmer();
         shimmerFrameLayout.setVisibility(View.VISIBLE);
         recyclerPenerimaan.setVisibility(View.GONE);
+//        Load Penerimaan
+        {
+            Call<List<ApiPenerimaan>> call = jsonPlaceHolderApi.getResponPenerimaanCart(id_user);
+            call.enqueue(new Callback<List<ApiPenerimaan>>() {
+                @Override
+                public void onResponse(Call<List<ApiPenerimaan>> call, Response<List<ApiPenerimaan>> response) {
 
-        Call<List<ApiPenerimaan>> call = jsonPlaceHolderApi.getResponPenerimaanCart(id_user);
-        call.enqueue(new Callback<List<ApiPenerimaan>>() {
-            @Override
-            public void onResponse(Call<List<ApiPenerimaan>> call, Response<List<ApiPenerimaan>> response) {
-
-                List<ApiPenerimaan> apiPenerimaans = response.body();
-                modelPenerimaanArrayList = new ArrayList<ModelPenerimaan>();
-                if (!response.isSuccessful()){
-                    Toast.makeText(requireContext(), "Error yang tidak diketahui", Toast.LENGTH_SHORT).show();
-                    tv_lblDtKosong.setVisibility(View.GONE);
-                    return;
-                }
-                ArrayList<ModelItemBrg> modelItemBrgs;
-                String id_purchase = null,
-                        note = null,dt_purchase = null,nm_area = null,nm_suplier = null,
-                        alasupplier = null, npwp = null,name_penyedia = null, status = null,
-                        area = null, alamat = null, date,id_trans = null,nm_singkat = null;
-                int admin = 0,id = 0,id_area = 0,id_supplier = 0,diterima = 0,harga_total=0,i=0,
-                        jml_item=0,tgl_purchase = 0;
-
-                modelItemBrgs = new ArrayList<ModelItemBrg>();
-                for (ApiPenerimaan apiPenerimaan:apiPenerimaans){
-                    tv_lblDtKosong.setVisibility(View.GONE);
-                    modelItemBrgs.add(new ModelItemBrg(
-                            apiPenerimaan.getId(), apiPenerimaan.getId_item(),
-                            apiPenerimaan.getQty(),
-                            apiPenerimaan.getId_satuan(),
-                            apiPenerimaan.getHarga(),
-                            apiPenerimaan.getJumlah(),
-                            apiPenerimaan.getNm_item(),
-                            apiPenerimaan.getEceran(),
-                            apiPenerimaan.getNm_satuan()));
-                    if (i==(apiPenerimaans.size()-1)){
-                        nm_suplier = apiPenerimaan.getNm_suplier();
-                        alasupplier = apiPenerimaan.getAlasuplier();
+                    List<ApiPenerimaan> apiPenerimaans = response.body();
+                    modelPenerimaanArrayList = new ArrayList<ModelPenerimaan>();
+                    if (!response.isSuccessful()) {
+                        Toast.makeText(requireContext(), "Error yang tidak diketahui", Toast.LENGTH_SHORT).show();
+                        tv_lblDtKosong.setVisibility(View.GONE);
+                        penerimaanKonversi(modelPenerimaanArrayList,false);
+                        return;
                     }
-                    if (i==0){
-                        id_purchase = apiPenerimaan.getId_purchase();
-                        tgl_purchase = apiPenerimaan.getCreated();
-                        note = apiPenerimaan.getNote();
-                        dt_purchase =apiPenerimaan.getDt_purchase();
-                        nm_area =apiPenerimaan.getNm_area();
-                        nm_singkat =apiPenerimaan.getNm_singkat();
+                    {
+                        ArrayList<ModelItemBrg> modelItemBrgs;
+                        String id_purchase = null,
+                                note = null, dt_purchase = null, nm_area = null, nm_suplier = null,
+                                alasupplier = null, npwp = null, name_penyedia = null, status = null,
+                                area = null, alamat = null, date, id_trans = null, nm_singkat = null;
+                        int admin = 0, id = 0, id_area = 0, id_supplier = 0, diterima = 0, harga_total = 0, i = 0,
+                                jml_item = 0, tgl_purchase = 0;
 
-                        npwp = apiPenerimaan.getNpwp();
-                        name_penyedia = apiPenerimaan.getName_penyedia();
-                        area = apiPenerimaan.getArea();
-                        alamat = apiPenerimaan.getAlamat();
-                        id_trans = apiPenerimaan.getId_trans();
+                        modelItemBrgs = new ArrayList<ModelItemBrg>();
+                        for (ApiPenerimaan apiPenerimaan : apiPenerimaans) {
+                            tv_lblDtKosong.setVisibility(View.GONE);
+                            modelItemBrgs.add(new ModelItemBrg(
+                                    apiPenerimaan.getId(), apiPenerimaan.getId_item(),
+                                    apiPenerimaan.getQty(),
+                                    apiPenerimaan.getId_satuan(),
+                                    apiPenerimaan.getHarga(),
+                                    apiPenerimaan.getJumlah(),
+                                    apiPenerimaan.getNm_item(),
+                                    apiPenerimaan.getEceran(),
+                                    apiPenerimaan.getNm_satuan()));
+                            if (i == (apiPenerimaans.size() - 1)) {
+                                nm_suplier = apiPenerimaan.getNm_suplier();
+                                alasupplier = apiPenerimaan.getAlasuplier();
+                            }
+                            if (i == 0) {
+                                id_purchase = apiPenerimaan.getId_purchase();
+                                tgl_purchase = apiPenerimaan.getCreated();
+                                note = apiPenerimaan.getNote();
+                                dt_purchase = apiPenerimaan.getDt_purchase();
+                                nm_area = apiPenerimaan.getNm_area();
+                                nm_singkat = apiPenerimaan.getNm_singkat();
 
-                        admin = apiPenerimaan.getAdmin();
-                        id = apiPenerimaan.getId();
-                        id_area = apiPenerimaan.getId_area();
-                        id_supplier = apiPenerimaan.getId_suplier();
-                        diterima = apiPenerimaan.getDiterima();
-                    }
-                    harga_total +=(apiPenerimaan.getHarga()*apiPenerimaan.getQty());
+                                npwp = apiPenerimaan.getNpwp();
+                                name_penyedia = apiPenerimaan.getName_penyedia();
+                                area = apiPenerimaan.getArea();
+                                alamat = apiPenerimaan.getAlamat();
+                                id_trans = apiPenerimaan.getId_trans();
+
+                                admin = apiPenerimaan.getAdmin();
+                                id = apiPenerimaan.getId();
+                                id_area = apiPenerimaan.getId_area();
+                                id_supplier = apiPenerimaan.getId_suplier();
+                                diterima = apiPenerimaan.getDiterima();
+                            }
+                            harga_total += (apiPenerimaan.getHarga() * apiPenerimaan.getQty());
 //                    (new SimpleDateFormat("dd MMM yyyy")
 //                            .format(
 //                                    new Date((Long.parseLong(penerimaanbrgApi.getCreated())*1000))
 //                            )).toString()
-                    i++;
-                }
+                            i++;
+                        }
 //                Log.d("19201299", "onResponse:Model Item BRGS: "+modelItemBrgs.toString());
-                jml_item = i-1;
-                if (diterima==0){
-                    status = "Belum Diterima";
-                }else if (diterima ==1){
-                    status = "Belum Dikonversi";
+                        jml_item = i - 1;
+                        if (diterima == 0) {
+                            status = "Belum Diterima";
+                        } else if (diterima == 1) {
+                            status = "Belum Dikonversi";
+                        }
+                        modelPenerimaanArrayList.add(new ModelPenerimaan(
+                                id_purchase, tgl_purchase, note, dt_purchase, nm_area, nm_singkat,
+                                nm_suplier, alasupplier, npwp, name_penyedia, status, area,
+                                alamat, id_trans, jml_item, admin, id, id_area, id_supplier, diterima,
+                                harga_total, modelItemBrgs
+                        ));
+
+                    }
+                    if (modelPenerimaanArrayList != null) {
+                        isDataPenerimaan = true;
+                    }
+                    penerimaanKonversi(modelPenerimaanArrayList,isDataPenerimaan);
                 }
-                    modelPenerimaanArrayList.add(new ModelPenerimaan(
-                            id_purchase,tgl_purchase,note,dt_purchase,nm_area,nm_singkat,
-                            nm_suplier,alasupplier,npwp,name_penyedia,status,area,
-                            alamat,id_trans,jml_item,admin,id,id_area,id_supplier,diterima,
-                            harga_total,modelItemBrgs
-                    ));
-                adapter = new AdapterPenerimaan2(modelPenerimaanArrayList,PenerimaanFragment.this);
-                recyclerPenerimaan.setLayoutManager(new LinearLayoutManager(getContext(),
-                        LinearLayoutManager.VERTICAL, false));
-                recyclerPenerimaan.setHasFixedSize(true);
-                recyclerPenerimaan.setItemAnimator(new DefaultItemAnimator());
 
-                recyclerPenerimaan.setAdapter(adapter);
-                shimmerFrameLayout.stopShimmer();
-                shimmerFrameLayout.setVisibility(View.GONE);
-                recyclerPenerimaan.setVisibility(View.VISIBLE);
-            }
+                @Override
+                public void onFailure(Call<List<ApiPenerimaan>> call, Throwable t) {
+                    Call<ApiPenerimaan> call1 =
+                            jsonPlaceHolderApi.getResponPenerimaanCartStatus(id_user);
+                    penerimaanKonversi(null,false);
+                    call1.enqueue(new Callback<ApiPenerimaan>() {
+                        @Override
+                        public void onResponse(Call<ApiPenerimaan> call, Response<ApiPenerimaan> response) {
+                            shimmerFrameLayout.setVisibility(View.GONE);
+                            if (!response.isSuccessful()) {
+                                Toast.makeText(requireContext(), "Gagal terhubung ke server",
+                                        Toast.LENGTH_SHORT).show();
+                                return;
+                            }
 
-            @Override
-            public void onFailure(Call<List<ApiPenerimaan>> call, Throwable t) {
-                Call <ApiPenerimaan> call1 =
-                        jsonPlaceHolderApi.getResponPenerimaanCartStatus(id_user);
-                call1.enqueue(new Callback<ApiPenerimaan>() {
-                    @Override
-                    public void onResponse(Call<ApiPenerimaan> call, Response<ApiPenerimaan> response) {
-                        shimmerFrameLayout.setVisibility(View.GONE);
-                        tv_lblDtKosong.setVisibility(View.VISIBLE);
-                        if (!response.isSuccessful()){
-                            Toast.makeText(requireContext(), "Gagal terhubung ke server",
-                                    Toast.LENGTH_SHORT).show();
-                            return;
+                            tv_lblDtKosong.setText("" + (response.body().getMsg()).toUpperCase());
                         }
 
-                        tv_lblDtKosong.setText(""+(response.body().getMsg()).toUpperCase());
-                    }
+                        @Override
+                        public void onFailure(Call<ApiPenerimaan> call, Throwable t) {
+                            shimmerFrameLayout.setVisibility(View.GONE);
+                            tv_lblDtKosong.setText("" + (t.getMessage()).toUpperCase());
+                            Toast.makeText(requireContext(), "Gagal terhubung ke server",
+                                    Toast.LENGTH_SHORT).show();
+                        }
+                    });
+                }
+            });
+        }
 
-                    @Override
-                    public void onFailure(Call<ApiPenerimaan> call, Throwable t) {
-                        shimmerFrameLayout.setVisibility(View.GONE);
-                        tv_lblDtKosong.setVisibility(View.VISIBLE);
-                        Toast.makeText(requireContext(), "Gagal terhubung ke server",
-                                Toast.LENGTH_SHORT).show();
-                    }
-                });
-            }
-        });
+
         
     }
+    public void penerimaanKonversi(ArrayList<ModelPenerimaan> modelPenerimaans, boolean b){
+        modelPenerimaanArrayList = modelPenerimaans;
+        boolean dataListPener = false;
 
+        if (modelPenerimaanArrayList!=null){
+            dataListPener = b;
+        }
+        isDataPenerimaan = dataListPener;
+        {
+            loadDaftarPenerimaan = new LoadDaftarPenerimaan(detailUserInt.get(SessionManager.USER_ID)
+                    , retrofit,
+                    jsonPlaceHolderApi);
+            loadDaftarPenerimaan.LoadData();
+            loadDaftarPenerimaan.setApiResponListener(new ApiResponListener<ArrayList<ApiPenerimaan>>() {
+                @Override
+                public void onResponse(boolean status, Response<ArrayList<ApiPenerimaan>> body) {
+
+                }
+
+                @Override
+                public void onResponse(boolean status, ArrayList<ApiPenerimaan> body) {
+                    HashMap<String,String> konversi = new HashMap<>();
+                    HashMap<String,String> disKonversi = new HashMap<>();
+                    ArrayList<ModelPenerimaan> modelKonversi = new ArrayList<>();
+                    ArrayList<ModelPenerimaan> modelDisKonversi = new ArrayList<>();
+                    if (modelPenerimaanArrayList==null){
+                        modelPenerimaanArrayList = new ArrayList<>();
+                    }
+                    String logKonversi = "";
+                    String logDisKonversi = "";
+                    int indexK=0,indexD = 0;
+                    int ttlHargaKonversi = 0,ttlHargaDisKonversi = 0,jmlItemK = 0,jmlItemD = 0;
+                    for (ApiPenerimaan apiPenerimaan :
+                            body) {
+//                        Log.d("19201299",
+//                                "\n"+apiPenerimaan.getDikonversi()+":id Purchase"+
+//                                        apiPenerimaan.getId_purchase()+"("+apiPenerimaan.getId_item()+
+//                                        ")"+"=>"+apiPenerimaan.getQty()+"("+apiPenerimaan.getHarga()+")");
+                        if (apiPenerimaan.getDikonversi()==1) {
+                            loadDaftarPenerimaan.setDataKonversi(apiPenerimaan);
+                            if (konversi.get(apiPenerimaan.getId_purchase()) == null) {
+                                ttlHargaKonversi = 0;
+                                jmlItemK = 0;
+                                indexK = (indexK-1)+1;
+                                konversi.put(apiPenerimaan.getId_purchase(),
+                                        apiPenerimaan.getId_purchase());
+                                ttlHargaKonversi =
+                                        ttlHargaKonversi + (apiPenerimaan.getQty()*apiPenerimaan.getHarga());
+                                jmlItemK ++;
+                                modelKonversi.add(new ModelPenerimaan(apiPenerimaan.getId_trans(),
+                                        apiPenerimaan.getId_detail(), apiPenerimaan.getAdmin(),
+                                        apiPenerimaan.getNm_suplier(),apiPenerimaan.getAlasuplier(),
+                                        apiPenerimaan.getNote(), apiPenerimaan.getUpdated(),
+                                        apiPenerimaan.getId(), apiPenerimaan.getId_purchase(),
+                                        apiPenerimaan.getId_area(), apiPenerimaan.getId_item(),
+                                        jmlItemK, apiPenerimaan.getId_satuan(),
+                                        ttlHargaKonversi, apiPenerimaan.getDikonversi(),
+                                        apiPenerimaan.getCreated(), apiPenerimaan.getUpdated()));
+//                                Log.d("19201299",
+//                                        "<<321>>Qty Variable: ("+apiPenerimaan.getId_purchase()+
+//                                                ")"+jmlItemK);
+//                                Log.d("19201299",
+//                                        "<<323>>Qty Api Penerimaan: ("+apiPenerimaan.getId_purchase()+")"+apiPenerimaan.getQty());
+//                                Log.d("19201299",
+//                                        "<<325>>QTY Model: ("+modelKonversi.get(indexK).getId_purchase()+")"+modelKonversi.get(indexK).getQty());
+                                logKonversi += apiPenerimaan.getId_purchase() + "=> id item " + apiPenerimaan.getId_item() + "\n";
+                            }else{
+                                ttlHargaKonversi =
+                                        ttlHargaKonversi + (apiPenerimaan.getQty()*apiPenerimaan.getHarga());
+                                jmlItemK++;
+                                modelKonversi.set(indexD,modelKonversi.get(indexD)
+                                        .setHarga_total(ttlHargaKonversi)
+                                        .setTtlQty(jmlItemK)
+                                );
+
+                            }
+                        }else{
+                            loadDaftarPenerimaan.setDataDiskonversi(apiPenerimaan);
+                            if (disKonversi.get(apiPenerimaan.getId_purchase()) == null) {
+                                ttlHargaDisKonversi = 0;
+                                jmlItemD = 0;
+                                indexD = (indexD-1)+1;
+                                disKonversi.put(apiPenerimaan.getId_purchase(),
+                                        apiPenerimaan.getId_purchase());
+                                ttlHargaDisKonversi =
+                                        ttlHargaDisKonversi + (apiPenerimaan.getQty()*apiPenerimaan.getHarga());
+                                jmlItemD++;
+                                modelDisKonversi.add(new ModelPenerimaan(apiPenerimaan.getId_trans(),
+                                        apiPenerimaan.getId_detail(), apiPenerimaan.getAdmin(),
+                                        apiPenerimaan.getNm_suplier(),apiPenerimaan.getAlasuplier(),
+                                        apiPenerimaan.getNote(), apiPenerimaan.getTgl_purchase(),
+                                        apiPenerimaan.getId(), apiPenerimaan.getId_purchase(),
+                                        apiPenerimaan.getId_area(), apiPenerimaan.getId_item(),
+                                        jmlItemD, apiPenerimaan.getId_satuan(),
+                                        ttlHargaDisKonversi, apiPenerimaan.getDikonversi(),
+                                        apiPenerimaan.getCreated(), apiPenerimaan.getUpdated()));
+//                                Log.d("19201299",
+//                                        "onResponse: ("+apiPenerimaan.getId_purchase()+")"+apiPenerimaan.getQty());
+//                                Log.d("19201299",
+//                                        "<<361>>onResponse: ("+modelDisKonversi.get(indexD).getId_purchase()+")"+modelDisKonversi.get(indexD).getQty());
+                                logDisKonversi += apiPenerimaan.getId_purchase() + "=> id item " + apiPenerimaan.getId_item() + "\n";
+                            }else{
+                                ttlHargaDisKonversi =
+                                        ttlHargaDisKonversi + (apiPenerimaan.getQty()*apiPenerimaan.getHarga());
+                                jmlItemD++;
+                                modelDisKonversi.set(indexD,modelDisKonversi.get(indexD)
+                                        .setHarga_total(ttlHargaDisKonversi)
+                                        .setTtlQty(jmlItemD)
+                                );
+
+                            }
+                        }
+                    }
+//                    Log.d("19201299", "\nKonversi("+modelKonversi.size()+"): "+logKonversi);
+//                    Log.d("19201299","\nDisKonversi("+modelDisKonversi.size()+"): "+logDisKonversi);
+
+                    loadDaftarPenerimaan.setSize(LoadDaftarPenerimaan.RECEIVE,(konversi.size()+disKonversi.size()));
+                    loadDaftarPenerimaan.setSize(LoadDaftarPenerimaan.KONVERSI, konversi.size());
+                    loadDaftarPenerimaan.setSize(LoadDaftarPenerimaan.DISKONVERSI, disKonversi.size());
+                    for (ModelPenerimaan modelPenerimaan:modelKonversi){
+                        modelDisKonversi.add(modelPenerimaan);
+                    }
+                    modelDisKonversi.add(null);
+                    Log.d("19201299",
+                            "<<348>>Jumlah Purchase yang sudah diterima("+modelDisKonversi.size()+
+                                    ")");
+//                    Log.d("19201299", "onResponse: "+modelDisKonversi.get(0).getTtlQty());
+//                    Log.d("19201299", "onResponse: "+modelDisKonversi.get(0).getId_purchase());
+                    for (ModelPenerimaan modelPenerimaan:modelDisKonversi){
+                        modelPenerimaanArrayList.add(modelPenerimaan);
+                    }
+                    {
+                        adapter = new AdapterPenerimaan2(modelPenerimaanArrayList, isDataPenerimaan,
+                                PenerimaanFragment.this);
+                        recyclerPenerimaan.setLayoutManager(new LinearLayoutManager(getContext(),
+                                LinearLayoutManager.VERTICAL, false));
+                        recyclerPenerimaan.setHasFixedSize(true);
+                        recyclerPenerimaan.setItemAnimator(new DefaultItemAnimator());
+
+                        recyclerPenerimaan.setAdapter(adapter);
+                        shimmerFrameLayout.stopShimmer();
+                        shimmerFrameLayout.setVisibility(View.GONE);
+                        recyclerPenerimaan.setVisibility(View.VISIBLE);
+                    }
+                }
+
+                @Override
+                public void onFailure(Throwable t) {
+//                    tv_lblDtKosong.setVisibility(View.VISIBLE);
+                    Toast.makeText(requireContext(), "Gagal terhubung ke server",
+                            Toast.LENGTH_LONG).show();
+                }
+            });
+        }
+    }
     @Override
     public void onResume() {
         super.onResume();

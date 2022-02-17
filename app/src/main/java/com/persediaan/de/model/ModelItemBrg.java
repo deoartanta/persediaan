@@ -1,10 +1,10 @@
 package com.persediaan.de.model;
 
 public class ModelItemBrg {
-int id_item,qty,id_satuan,harga,jumlah,id;
-String nm_eceran,nm_satuan,nm_item;
+int qty,id_satuan,harga,jumlah,id;
+String nm_eceran,nm_satuan,nm_item,id_item;
 
-    public ModelItemBrg(int id, int id_item, int qty, int id_satuan, int harga, int jumlah,
+    public ModelItemBrg(int id, String id_item, int qty, int id_satuan, int harga, int jumlah,
                         String nm_item, String nm_eceran, String nm_satuan) {
         this.id_item = id_item;
         this.qty = qty;
@@ -37,7 +37,7 @@ String nm_eceran,nm_satuan,nm_item;
         return nm_item;
     }
 
-    public int getId_item() {
+    public String getId_item() {
         return id_item;
     }
 

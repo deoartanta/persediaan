@@ -30,6 +30,8 @@ import android.widget.Toast;
 
 import com.etebarian.meowbottomnavigation.MeowBottomNavigation;
 import com.google.android.material.tabs.TabLayout;
+import com.persediaan.de.api.ApiPenerimaan;
+import com.persediaan.de.api.JsonPlaceHolderApi;
 import com.persediaan.de.data.SessionManager;
 
 import com.karumi.dexter.Dexter;
@@ -40,10 +42,16 @@ import com.karumi.dexter.listener.PermissionRequest;
 import com.karumi.dexter.listener.single.PermissionListener;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Locale;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 import me.dm7.barcodescanner.zxing.ZXingScannerView;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
 
 public class MainActivity extends AppCompatActivity implements ScanInterface{
     MeowBottomNavigation bottomNavigation;
@@ -51,6 +59,10 @@ public class MainActivity extends AppCompatActivity implements ScanInterface{
     LinearLayout main_linearlayout;
     CardView cardViewprofile;
     String state="";
+
+    //Connection
+    private Retrofit retrofit;
+    private JsonPlaceHolderApi jsonPlaceHolderApi;
 
 //<</User
     SessionManager sessionManager;
@@ -82,6 +94,12 @@ public class MainActivity extends AppCompatActivity implements ScanInterface{
         setContentView(R.layout.activity_main);
 
         bottomNavigation= findViewById(R.id.bottom_nav);
+
+        retrofit = new Retrofit.Builder()
+                .baseUrl(SessionManager.HOSTNAME)
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+        jsonPlaceHolderApi = retrofit.create(JsonPlaceHolderApi.class);
 
         sessionManager = new SessionManager(this,"login");
         sessionManager.checkLogin();
@@ -147,7 +165,8 @@ public class MainActivity extends AppCompatActivity implements ScanInterface{
 //                <<Animation>>
 //                Animation goUp = AnimationUtils.loadAnimation(getApplicationContext(),R.anim.go_up);
 //                Animation goDown = AnimationUtils.loadAnimation(getApplicationContext(),R.anim.go_down);
-
+//                Log.d("19201299",
+//                        "<<169>>Main Activity BotNav case "+item.getId()+" "+page);
                 switch (item.getId()){
                     case 1:
                         if (!session_manual_book.getManualBook(SessionManager.HOME)){
@@ -177,6 +196,7 @@ public class MainActivity extends AppCompatActivity implements ScanInterface{
                         break;
                     case 3:
                         page = "scan";
+                        Log.d("19201299", "onShowItem: "+"tessss");
                         if (ContextCompat.checkSelfPermission(MainActivity.this,Manifest.permission.CAMERA)==
                                 PackageManager.PERMISSION_GRANTED){
 //                            Toast.makeText(getApplicationContext(),
@@ -184,6 +204,7 @@ public class MainActivity extends AppCompatActivity implements ScanInterface{
 //                            loadFragment(new ScanPenerimaanFragment(bottomNavigation));
 //                            loadFragment(new TestingTranstitionFragment(bottomNavigation));
                             openPage(ScanActivity.class,ScanActivity.SCANNER_TYPE_2);
+//                            Log.d("19201299", "<<206>>Main Activity BotNav case 3 scan");
 //                            cardViewprofile.setVisibility(View.GONE);
                         }else
                         {
@@ -195,7 +216,10 @@ public class MainActivity extends AppCompatActivity implements ScanInterface{
                         break;
                     case 4:
                         page = "barang keluar";
+//                        Log.d("19201299",
+//                                "<<218>>Main Activity BotNav case "+item.getId()+" "+page);
                         fragment = new BrgKeluarFragment(getSupportFragmentManager(), bottomNavigation);
+//                        fragment = new TestingTranstitionFragment(bottomNavigation);
                         cardViewprofile.setVisibility(View.VISIBLE);
                         loadFragment(fragment);
                         break;
@@ -224,14 +248,15 @@ public class MainActivity extends AppCompatActivity implements ScanInterface{
             }
         });
 
-//        bottomNavigation.setCount(1,"new");
         bottomNavigation.show(1,true);
 
 
         bottomNavigation.setOnClickMenuListener(new MeowBottomNavigation.ClickListener() {
             @Override
             public void onClickItem(MeowBottomNavigation.Model item) {
-
+                if ((item.getId() != 3)) {
+                    cekCount();
+                }
             }
         });
         bottomNavigation.setOnReselectListener(new MeowBottomNavigation.ReselectListener() {
@@ -434,6 +459,33 @@ public class MainActivity extends AppCompatActivity implements ScanInterface{
         }
     }
 
+    private void cekCount(){
+//        Log.d("19201299",
+//                "<<462>>Main Activity BotNav case "+page);
+        Call<List<ApiPenerimaan>> call =
+                jsonPlaceHolderApi.getResponPenerimaanCart(user_Int.get(SessionManager.USER_ID));
+        call.enqueue(new Callback<List<ApiPenerimaan>>() {
+            @Override
+            public void onResponse(Call<List<ApiPenerimaan>> call, Response<List<ApiPenerimaan>> response) {
+                if (!response.isSuccessful()){
+                    bottomNavigation.clearCount(2);
+                    Toast.makeText(MainActivity.this,
+                            JsonPlaceHolderApi.getMessageApi(response.message()),
+                            Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                bottomNavigation.setCount(2,"");
+            }
+
+            @Override
+            public void onFailure(Call<List<ApiPenerimaan>> call, Throwable t) {
+//                Toast.makeText(MainActivity.this,
+//                        JsonPlaceHolderApi.getMessageApi(t.getMessage()), Toast.LENGTH_SHORT).show();;
+                bottomNavigation.clearCount(2);
+            }
+        });
+    }
+
     int count = 0;
 
     @Override
@@ -494,6 +546,7 @@ public class MainActivity extends AppCompatActivity implements ScanInterface{
         if (scannerType!=null){
             i.putExtra(ScanActivity.TYPESCAN,scannerType);
         }
+        i.putExtra(ScanActivity.SCANNER_FOR_RESULT,false);
 
         startActivity(i);
     }
@@ -501,14 +554,17 @@ public class MainActivity extends AppCompatActivity implements ScanInterface{
     @Override
     protected void onResume() {
         super.onResume();
-        SessionManager sessionScan = new SessionManager(getApplicationContext(),"scan");
+        cekCount();
         if(sessionTranstition.getTranstition("home")){
             bottomNavigation.show(1,true);
             sessionTranstition.clearSession();
         }else if(sessionTranstition.getTranstition("receive")){
+            Log.d("19201299", "onResume: Transtition Receive"+sessionTranstition.getTranstition(
+                    "scan"));
             bottomNavigation.show(2,true);
             sessionTranstition.clearSession();
         }else if(sessionTranstition.getTranstition("scan")){
+            Log.d("19201299", "onResume: Transtition Scan"+sessionTranstition.getTranstition("scan"));
             bottomNavigation.show(3,false);
             sessionTranstition.clearSession();
         }else if(sessionTranstition.getTranstition("setting")){
@@ -553,6 +609,7 @@ public class MainActivity extends AppCompatActivity implements ScanInterface{
                 cardViewprofile.setVisibility(View.GONE);
 //                loadFragment(new ScanPenerimaanFragment(bottomNavigation));
                 openPage(ScanActivity.class,ScanActivity.SCANNER_TYPE_2);
+                Log.d("19201299", "<<600>>Main Activity BotNav case 3 scan");
             }else{
                 new Handler().postDelayed(new Runnable() {
                     @Override
@@ -563,6 +620,12 @@ public class MainActivity extends AppCompatActivity implements ScanInterface{
                 Toast.makeText(getApplicationContext(), "Permission Denied", Toast.LENGTH_SHORT).show();
             }
         }
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        sessionTranstition.clearSession();
     }
 
     @Override

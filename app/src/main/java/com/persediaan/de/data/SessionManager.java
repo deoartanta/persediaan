@@ -18,10 +18,8 @@ public class SessionManager {
     int PRIVATE_MODE = 0;
     private static final String LOGIN = "IS_LOGIN";
 //    URL
-    public static final String HOSTNAME = "Https://depo.gemes.id/";
-//    public static final String HOSTNAME = "Https://persediaan.tawon.id/";
-//    public static final String HOSTNAME = "Http://202.149.86.21/";
-
+    public static final String HOSTNAME = "Https://persediaan.djptkkpsystem.id/";
+//    public static final String HOSTNAME = "Https://depo.gemes.id/";
 //    User
     public static final String USERNAME = "USERNAME";
     public static final String PASSW = "PASWORD";
@@ -139,6 +137,7 @@ public class SessionManager {
     public HashMap<String,Integer> getUserDetailInt(){
         HashMap<String,Integer> userInt = new HashMap<>();
         userInt.put(USER_ID,sharedPreferences.getInt(USER_ID,0));
+        userInt.put(LEVEL,sharedPreferences.getInt(LEVEL,0));
         userInt.put(GAMBAR,sharedPreferences.getInt(GAMBAR,0));
         return userInt;
     }

@@ -1,26 +1,22 @@
 package com.persediaan.de;
 
+import androidx.annotation.DrawableRes;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-import androidx.constraintlayout.widget.ConstraintLayout;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
-import android.hardware.input.InputManager;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.Handler;
 import android.os.VibrationEffect;
 import android.os.Vibrator;
 import android.text.Editable;
-import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.util.Log;
-import android.view.KeyEvent;
-import android.view.MotionEvent;
 import android.view.View;
-import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.ImageButton;
@@ -37,8 +33,6 @@ import com.persediaan.de.data.SessionManager;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
-import java.util.Locale;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -66,14 +60,17 @@ public class ActionPenerimaanActivity extends AppCompatActivity {
 
     boolean editScanner = false;
 
+    Vibrator vibrator;
+
     int id;
+    Bundle extra;
+    String sCodeBRG;
 
     boolean isInputText=false;
 
     double hrg=0,qty = 0;
-    String result = "";
+    String idTrans = "";
 
-    View viewFocus;
 
 
 //    Connection
@@ -87,6 +84,8 @@ public class ActionPenerimaanActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_action_penerimaan);
+
+        extra = getIntent().getExtras();
 
         formatNumber = new Currency("Rp. ",",");
 
@@ -128,7 +127,7 @@ public class ActionPenerimaanActivity extends AppCompatActivity {
         sessionScanner = new SessionManager(this,"scan");
         result_scanner = sessionScanner.getScanResult();
 
-        String sCodeBRG = result_scanner.get(SessionManager.SCANFULLR);
+        sCodeBRG = extra.getString(ScanActivity.RESULT_FULL);
 
         code_brg.setText(sCodeBRG);
 
@@ -142,7 +141,7 @@ public class ActionPenerimaanActivity extends AppCompatActivity {
             }
         });
 
-        loadData(sCodeBRG,tiet_harga);
+        loadData(sCodeBRG,tiet_harga, false);
 //        tiet_harga.requestFocus();
         tiet_harga.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
@@ -224,10 +223,11 @@ public class ActionPenerimaanActivity extends AppCompatActivity {
         btn_scan_again.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                editScanner = true;
-                sessionScanner.EditScanner(editScanner);
-                sessionTranstition.setTranstition("scan",true);
-                finish();
+                Intent i = new Intent(ActionPenerimaanActivity.this, ScanActivity.class);
+                i.putExtra(ScanActivity.RESULT_FULL,sCodeBRG);
+                i.putExtra(ScanActivity.SCANNER_FOR_RESULT,true);
+                i.putExtra(ScanActivity.TYPESCAN,ScanActivity.SCANNER_TYPE_2);
+                startActivityForResult(i,1);
             }
         });
 
@@ -235,130 +235,256 @@ public class ActionPenerimaanActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 lostFocus(getWindow().getCurrentFocus());
-                Call <ApiPenerimaan> call = jsonPlaceHolderApi.getResponAddItem(
-                        detailUserInt.get(SessionManager.USER_ID),
-                        id,(int) qty,(int) hrg
-                );
-                call.enqueue(new Callback<ApiPenerimaan>() {
-                    @Override
-                    public void onResponse(Call<ApiPenerimaan> call, Response<ApiPenerimaan> response) {
-                        if (!response.isSuccessful()){
-                            Toast.makeText(getApplicationContext(),
-                                    "Terjadi Error yang tidak diketahui", Toast.LENGTH_SHORT).show();
-                            return;
-                        }
-                        sessionScanner.clearSession();
-                        onBackPressed();
-                        finish();
-                    }
+                new AlertDialog.Builder(ActionPenerimaanActivity.this)
+                        .setTitle("Konfirmasi")
+                        .setIcon(R.drawable.ic_baseline_warning_24)
+                        .setMessage("Anda yakin ingin melanjutkan?")
+                        .setCancelable(true)
+                        .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                dialogInterface.dismiss();
+                            }
+                        })
+                        .setPositiveButton("Lanjut", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                sessionTranstition.setTranstition("receive",true);
+                                {
+                                    Call<ApiPenerimaan> call = jsonPlaceHolderApi.getResponAddItem(
+                                            detailUserInt.get(SessionManager.USER_ID),
+                                            id, (int) qty, (int) hrg
+                                    );
+                                    call.enqueue(new Callback<ApiPenerimaan>() {
+                                        @Override
+                                        public void onResponse(Call<ApiPenerimaan> call, Response<ApiPenerimaan> response) {
+                                            if (!response.isSuccessful()) {
+                                                createAlertDialog("Server Error","Terjadi Error " +
+                                                        "yang tidak diketahui",R.drawable.ic_baseline_warning_24);
+                                                return;
+                                            }
+                                            new AlertDialog.Builder(ActionPenerimaanActivity.this)
+                                                    .setTitle("Informasi")
+                                                    .setIcon(R.drawable.ic_baseline_warning_24)
+                                                    .setMessage("Tambah item berhasil, ingin " +
+                                                            "menambah data lagi?")
+                                                    .setCancelable(false)
+                                                    .setNegativeButton("Tidak",
+                                                            new DialogInterface.OnClickListener() {
+                                                        @Override
+                                                        public void onClick(DialogInterface dialogInterface, int i) {
+                                                            Intent PageDetailPenerimaan =
+                                                                    new Intent(ActionPenerimaanActivity.this,
+                                                                            DetailPenerimaanActivity.class);
+                                                            PageDetailPenerimaan.putExtra(DetailPenerimaanActivity.ID_TRANS,
+                                                                    sCodeBRG);
+                                                            startActivity(PageDetailPenerimaan);
+                                                            finish();
+                                                        }
+                                                    })
+                                                    .setPositiveButton("Ya",
+                                                            new DialogInterface.OnClickListener() {
+                                                        @Override
+                                                        public void onClick(DialogInterface dialogInterface, int i) {
+//                                                            sessionTranstition.setTranstition("scan",true);
+                                                            finish();
+                                                        }
+                                                    })
+                                                    .create().show();
+                                        }
 
-                    @Override
-                    public void onFailure(Call<ApiPenerimaan> call, Throwable t) {
-                        Toast.makeText(getApplicationContext(),
-                                "Server Error", Toast.LENGTH_SHORT).show();
-                    }
-                });
+                                        @Override
+                                        public void onFailure(Call<ApiPenerimaan> call, Throwable t) {
+                                            Toast.makeText(getApplicationContext(),
+                                                    "Server Error", Toast.LENGTH_SHORT).show();
+                                        }
+                                    });
+                                    finish();
+                                }
+                            }
+                        })
+                        .create().show();
             }
         });
 
     }
-    public void createVibrate(long millisecond,int repeat){
-//        for (int i = 0; i < 5; i++) {
-//            new Handler().postDelayed(new Runnable() {
-//                @Override
-//                public void run() {
-//                    Vibrator vibrator = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
-//                    if (Build.VERSION.SDK_INT >= 26) {
-//                        vibrator.vibrate(VibrationEffect.createOneShot(millisecond, 10));
-//                    } else {
-//                        vibrator.vibrate(millisecond);
-//                    }
-//                }
-//            }, 2000);
-//        }
-
+    private void createAlertDialog(String title,String msg,@DrawableRes int id){
+        new AlertDialog.Builder(ActionPenerimaanActivity.this)
+                .setTitle(title)
+                .setIcon(id)
+                .setMessage(msg)
+                .setCancelable(true)
+                .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        sessionScanner.EditScanner(false);
+                        sessionTranstition.clearSession();
+                        sessionTranstition.setTranstition("receive",true);
+                        finish();
+                    }
+                })
+                .setPositiveButton("Page scan Open", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+//                        sessionTranstition.setTranstition("scan",true);
+                        finish();
+                    }
+                })
+                .create().show();
     }
 
-    public void loadData(String barcode,TextInputEditText focus){
-        Call <List<ApiPenerimaan>> call = jsonPlaceHolderApi.getResponPenerimaan(barcode);
-        call.enqueue(new Callback<List<ApiPenerimaan>>() {
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode ==1){
+            if (resultCode == RESULT_OK){
+                loadData(data.getExtras().getString(ScanActivity.RESULT_FULL),tiet_harga,true);
+                code_brg.setText(data.getExtras().getString(ScanActivity.RESULT_FULL));
+            }
+        }
+    }
+
+    public void createVibrate(){
+        vibrator = (Vibrator)getSystemService(Context.VIBRATOR_SERVICE);
+        if (Build.VERSION.SDK_INT >= 26) {
+            vibrator.vibrate(VibrationEffect.createOneShot(100, 10));
+        } else {
+            vibrator.vibrate(100);
+        }
+    }
+
+    public void loadData(String barcode, TextInputEditText focus, boolean b){
+        Call <ArrayList<ApiPenerimaan>> call = jsonPlaceHolderApi.getResponPenerimaan(barcode,
+                detailUserInt.get(SessionManager.USER_ID));
+        call.enqueue(new Callback<ArrayList<ApiPenerimaan>>() {
             @Override
-            public void onResponse(Call<List<ApiPenerimaan>> call, Response<List<ApiPenerimaan>> response) {
-                List<ApiPenerimaan> apiPenerimaans = response.body();
+            public void onResponse(Call<ArrayList<ApiPenerimaan>> call, Response<ArrayList<ApiPenerimaan>> response) {
+                ArrayList<ApiPenerimaan> apiPenerimaans = response.body();
                 if(!response.isSuccessful()){
-                    Toast.makeText(getApplicationContext(), "Terjadi error yang tidak diketahui",
+                    createVibrate();
+                    Toast.makeText(ActionPenerimaanActivity.this,
+                            JsonPlaceHolderApi.getMessageApi(response.message()),
                             Toast.LENGTH_SHORT).show();
                     sessionScanner.clearSession();
-                    sessionScanner.EditScanner(true);
+                    sessionScanner.EditScanner(false);
                     finish();
                     return;
                 }
 
-                hrg = (double)
-                        apiPenerimaans.get(0).getHarga();
-                qty = (double)apiPenerimaans.get(0).getQty();
+               if(apiPenerimaans.get(0).getMsg()!=null){
+                   createVibrate();
+                   new AlertDialog.Builder(ActionPenerimaanActivity.this)
+                           .setTitle("Gagal Mendapatkan Data")
+                           .setIcon(R.drawable.ic_danger)
+                           .setMessage(apiPenerimaans.get(0).getMsg())
+                           .setCancelable(false)
+                           .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                               @Override
+                               public void onClick(DialogInterface dialogInterface, int i) {
+                                   if(!b){
+                                       sessionScanner.EditScanner(false);
+                                       sessionTranstition.clearSession();
+                                       sessionTranstition.setTranstition("receive",true);
+                                       finish();
+                                   }else{
+                                       dialogInterface.dismiss();
+                                   }
+                               }
+                           })
+                           .setPositiveButton("Page scan Open", new DialogInterface.OnClickListener() {
+                               @Override
+                               public void onClick(DialogInterface dialogInterface, int i) {
+                                   if(!b){
+//                                       Log.d("19201299", "ActionPenerimaanActivity: b=> "+b);
+                                       finish();
+                                   }else{
+//                                       Log.d("19201299", "ActionPenerimaanActivity: b2=> "+b);
+                                       Intent in = new Intent(ActionPenerimaanActivity.this,
+                                               ScanActivity.class);
+                                       in.putExtra(ScanActivity.RESULT_FULL,sCodeBRG);
+                                       in.putExtra(ScanActivity.SCANNER_FOR_RESULT,true);
+                                       in.putExtra(ScanActivity.TYPESCAN,
+                                               ScanActivity.SCANNER_TYPE_2);
+                                       startActivityForResult(in,1);
+                                   }
+                               }
+                           })
+                           .create().show();
+               }else{
+                   {
+                       hrg = (double)
+                               apiPenerimaans.get(0).getHarga();
+                       qty = (double) apiPenerimaans.get(0).getQty();
 
-                id = apiPenerimaans.get(0).getId();
+                       id = apiPenerimaans.get(0).getId();
 
-                nm_supplier.setText(apiPenerimaans.get(0).getNm_suplier());
-                ala_supplier.setText(apiPenerimaans.get(0).getAlasuplier());
-                id_item.setText(""+apiPenerimaans.get(0).getId_item());
-                nm_item.setText(apiPenerimaans.get(0).getNm_item());
-                tiet_harga.setText("Rp. "+formatNumber.
-                        setFormatNumber((double)
-                                        apiPenerimaans.get(0).getHarga())
-                );
-                tiet_qty.setText(formatNumber.setFormatNumber((double)apiPenerimaans.get(0).getQty()));
-                ttl_harga.setText("Rp. "+formatNumber.
-                        setFormatNumber((double)
-                                (apiPenerimaans.get(0).getHarga()*
-                                apiPenerimaans.get(0).getQty())
-                        ));
-                tiet_harga.setSelection(tiet_harga.getText().length(),0);
-                code_brg.setVisibility(View.VISIBLE);
-                btn_scan_again.setVisibility(View.VISIBLE);
-                linearLayout_scroll.setVisibility(View.VISIBLE);
-                shimmerFrameLayout.setVisibility(View.GONE);
-                tiet_harga.requestFocus();
-                showSoftInput(tiet_harga);
+                       nm_supplier.setText(apiPenerimaans.get(0).getNm_suplier());
+                       ala_supplier.setText(apiPenerimaans.get(0).getAlasuplier());
+                       id_item.setText("" + apiPenerimaans.get(0).getId_item());
+                       nm_item.setText(apiPenerimaans.get(0).getNm_item());
+                       tiet_harga.setText("Rp. " + formatNumber.
+                               setFormatNumber((double)
+                                       apiPenerimaans.get(0).getHarga())
+                       );
+                       tiet_qty.setText(formatNumber.setFormatNumber((double) apiPenerimaans.get(0).getQty()));
+                       ttl_harga.setText("Rp. " + formatNumber.
+                               setFormatNumber((double)
+                                       (apiPenerimaans.get(0).getHarga() *
+                                               apiPenerimaans.get(0).getQty())
+                               ));
+                       tiet_harga.setSelection(tiet_harga.getText().length(), 0);
+                       code_brg.setVisibility(View.VISIBLE);
+                       btn_scan_again.setVisibility(View.VISIBLE);
+                       linearLayout_scroll.setVisibility(View.VISIBLE);
+                       shimmerFrameLayout.setVisibility(View.GONE);
+                       tiet_harga.requestFocus();
+                       showSoftInput(tiet_harga);
+                   }
+               }
+
             }
 
             @Override
-            public void onFailure(Call<List<ApiPenerimaan>> call, Throwable t) {
-                Call<ApiPenerimaan> callStatus=
-                        jsonPlaceHolderApi.getResponPenerimaanStatus(barcode,
-                                detailUserInt.get(SessionManager.USER_ID));
-                callStatus.enqueue(new Callback<ApiPenerimaan>() {
-                    @Override
-                    public void onResponse(Call<ApiPenerimaan> call, Response<ApiPenerimaan> response) {
-                        if(!response.isSuccessful()){
-                            Toast.makeText(getApplicationContext(), "Terjadi Error Yang tidak diketahui", Toast.LENGTH_SHORT).show();
-                            sessionScanner.clearSession();
-                            sessionScanner.EditScanner(true);
-                            finish();
-                            return;
+            public void onFailure(Call<ArrayList<ApiPenerimaan>> call, Throwable t) {
+                createVibrate();
+                new AlertDialog.Builder(ActionPenerimaanActivity.this)
+                    .setTitle("Server Sibuk")
+                    .setIcon(R.drawable.ic_baseline_warning_24)
+                    .setMessage(JsonPlaceHolderApi.getMessageApi(t.getMessage())!="false"?
+                            JsonPlaceHolderApi.getMessageApi(t.getMessage()):"kode " +
+                            "item anda["+barcode+"] tidak bisa kami identifikasi")
+                    .setCancelable(true)
+                    .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            if(!b){
+                                sessionScanner.EditScanner(false);
+                                sessionTranstition.clearSession();
+                                sessionTranstition.setTranstition("receive",true);
+                                finish();
+                            }else{
+                                dialogInterface.dismiss();
+                            }
                         }
-                        if(!(response.body().getMsg()).isEmpty()){
-                            Toast.makeText(getApplicationContext(), ""+response.body().getMsg().toUpperCase(Locale.ROOT),
-                                    Toast.LENGTH_LONG).show();
-                            sessionScanner.clearSession();
-                            sessionScanner.EditScanner(true);
-                            finish();
+                    })
+                    .setPositiveButton("Page scan Open", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            if(!b){
+//                                sessionTranstition.setTranstition("scan",true);
+                                finish();
+                            }else{
+                                Intent in = new Intent(ActionPenerimaanActivity.this,
+                                        ScanActivity.class);
+                                in.putExtra(ScanActivity.RESULT_FULL,sCodeBRG);
+                                in.putExtra(ScanActivity.SCANNER_FOR_RESULT,true);
+                                in.putExtra(ScanActivity.TYPESCAN,
+                                        ScanActivity.SCANNER_TYPE_2);
+                                startActivityForResult(in,1);
+                            }
                         }
-                    }
-
-                    @Override
-                    public void onFailure(Call<ApiPenerimaan> call, Throwable t) {
-                        Toast.makeText(getApplicationContext(),
-                                "Format barcode tidak sesuai",
-                                Toast.LENGTH_SHORT).show();
-                        createVibrate(1000,0);
-                        sessionScanner.clearSession();
-                        sessionScanner.EditScanner(true);
-                        sessionTranstition.setTranstition("scan",true);
-                        finish();
-                    }
-                });
+                    })
+                    .create().show();
             }
         });
     }
@@ -380,24 +506,13 @@ public class ActionPenerimaanActivity extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         super.onBackPressed();
-        if(!sessionScanner.isEditScanner()){
-            Intent PageDetailPenerimaan = new Intent(getApplicationContext(),DetailPenerimaanActivity.class);
-            String idtrans = result_scanner.get(SessionManager.SCANFULLR);
-            PageDetailPenerimaan.putExtra(DetailPenerimaanActivity.ID_TRANS,
-                    idtrans);
-            startActivity(PageDetailPenerimaan);
-        }else {
-            sessionScanner.EditScanner(false);
-            sessionTranstition.setTranstition("receive",true);
-        }
+        sessionTranstition.setTranstition("receive", true);
         finish();
     }
 
     @Override
     protected void onStop() {
         super.onStop();
-            if (!sessionScanner.isEditScanner()){
-                sessionScanner.clearSession();
-            }
+        sessionScanner.clearSession();
     }
 }

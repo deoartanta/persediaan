@@ -1,15 +1,15 @@
 package com.persediaan.de.model;
 
 public class ModelItemsKonv {
-    String no_receipt, id_purchase, nm_item, nm_area, nm_singkat, nm_satuan, eceran;
-    Integer id,id_area,id_item,qty,id_satuan,harga,dikonversi,created,updated,jumlah;
+    String no_receipt,id_item, id_purchase, nm_item, nm_area, nm_singkat, nm_satuan, eceran;
+    Integer id,id_area,qty,id_satuan,harga,dikonversi,created,updated,jumlah;
     boolean expand = false,
             paddingLastItem = false;
 
     public ModelItemsKonv(
             String no_receipt, String id_purchase, String nm_item,
             String nm_area, String nm_singkat, String nm_satuan,
-            String eceran, Integer id, Integer id_area, Integer id_item,
+            String eceran, Integer id, Integer id_area, String id_item,
             Integer qty, Integer id_satuan, Integer harga, Integer dikonversi,
             Integer created, Integer updated, Integer jumlah
     ) {
@@ -108,7 +108,7 @@ public class ModelItemsKonv {
         return id_area;
     }
 
-    public Integer getId_item() {
+    public String getId_item() {
         return id_item;
     }
 

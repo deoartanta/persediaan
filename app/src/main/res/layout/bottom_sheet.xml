@@ -1,10 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/layoutBottomSheet"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:id="@+id/layoutBottomSheet"
     android:orientation="vertical">
 
     <androidx.cardview.widget.CardView
@@ -20,9 +19,10 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="10dp"
-            android:layout_marginTop="50dp"
+            android:layout_gravity="bottom"
             android:layout_marginHorizontal="30dp"
+            android:layout_marginTop="50dp"
+            android:layout_marginBottom="10dp"
             android:background="@color/white"
             android:orientation="vertical">
 
@@ -31,15 +31,16 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
+                android:visibility="visible"
                 app:layout_constraintBottom_toTopOf="@id/linearLayoutTllHrg"
-                android:visibility="visible">
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent">
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical">
+
                     <RelativeLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -155,14 +156,15 @@
                 </LinearLayout>
 
             </LinearLayout>
+
             <LinearLayout
                 android:id="@+id/linearLayoutTllHrg"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintBottom_toTopOf="@id/btnLayoutBottomSheet"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintBottom_toTopOf="@id/btnLayoutBottomSheet">
+                app:layout_constraintStart_toStartOf="parent">
                 <!--Total Harga 1-->
                 <RelativeLayout
                     android:id="@+id/ttlHrgLayout"
@@ -242,9 +244,9 @@
                 android:id="@+id/btnLayoutBottomSheet"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintBottom_toBottomOf="parent">
+                app:layout_constraintStart_toStartOf="parent">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -290,23 +292,26 @@
                 </LinearLayout>
             </RelativeLayout>
         </androidx.constraintlayout.widget.ConstraintLayout>
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center_horizontal"
             android:orientation="vertical">
+
             <LinearLayout
                 android:id="@+id/viewCollapse"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
                 android:paddingTop="15dp"
-                android:paddingBottom="40dp"
-                android:gravity="center_horizontal">
+                android:paddingBottom="40dp">
+
                 <View
                     android:layout_width="30dp"
                     android:layout_height="5dp"
                     android:background="@drawable/btn_action"
-                    android:backgroundTint="#9E000000"/>
+                    android:backgroundTint="#9E000000" />
             </LinearLayout>
         </LinearLayout>
 

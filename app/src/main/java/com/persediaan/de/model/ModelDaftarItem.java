@@ -2,17 +2,17 @@ package com.persediaan.de.model;
 
 public class ModelDaftarItem {
     String nm_item,nm_satuan;
-    int id_item;
+    String id_item;
     boolean visibility;
 
-    public ModelDaftarItem(String nm_item, String nm_satuan,int id_item) {
+    public ModelDaftarItem(String nm_item, String nm_satuan,String id_item) {
         this.nm_item = nm_item;
         this.nm_satuan = nm_satuan;
         this.id_item = id_item;
         this.visibility = false;
     }
 
-    public int getId_item() {
+    public String getId_item() {
         return id_item;
     }
 

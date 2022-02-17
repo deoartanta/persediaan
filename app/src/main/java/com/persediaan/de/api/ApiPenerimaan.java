@@ -6,18 +6,23 @@ public class ApiPenerimaan {
     private String id_purchase,note,dt_purchase,
             nm_area,nm_singkat,nm_item,nm_satuan,
             eceran,alasuplier,npwp,id_detail,
-            name_penyedia,area,alamat,id_trans,msg,sts,
-            tgl_trans;
+            name_penyedia,area,alamat,id_trans,msg,
+            tgl_trans,id_item;
+    boolean sts;
     private int dikonversi,updated;
 
     @SerializedName("nm_suplier")
     String nm_suplier;
 
+    public boolean getSts() {
+        return sts;
+    }
+
     public String getMsg() {
         return msg;
     }
 
-    private int admin,id,id_area,id_suplier,id_item,qty,id_satuan,
+    private int admin,id,id_area,id_suplier,qty,id_satuan,
             harga,diterima,jumlah,harga_total=0,tgl_purchase,created;
 
     public String getId_detail() {
@@ -120,7 +125,7 @@ public class ApiPenerimaan {
         return id_suplier;
     }
 
-    public int getId_item() {
+    public String getId_item() {
         return id_item;
     }
 

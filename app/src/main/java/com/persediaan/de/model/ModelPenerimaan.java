@@ -7,13 +7,44 @@ public class ModelPenerimaan {
     String id_purchase,note,dt_purchase,
             nm_area,nm_singkat,nm_item,nm_satuan,
             eceran,nm_suplier,alasuplier,npwp,
-            name_penyedia,status,area,alamat,tgl,id_trans;
+            name_penyedia,status,area,alamat,tgl,id_trans,id_item;
 
-    int admin,id,id_area,id_suplier,diterima,jumlah,harga_total=0,jml_item,tgl_purchase;
+    int admin,id,id_area,id_suplier,diterima,jumlah,harga_total=0,jml_item,tgl_purchase,
+        qty,ttlQty,id_satuan,harga,dikonversi,updated,created;
+
+    private String id_detail,msg,sts,
+    tgl_trans;
 
     ArrayList<ModelItemBrg> modelItemBrgs;
 
     boolean expand = false;
+
+    public ModelPenerimaan(String id_trans, String id_detail, int admin,String nm_suplier,
+                           String alasuplier,String note,int tgl_purchase, int id,
+                           String id_purchase,
+                           int id_area,String id_item, int ttlQty, int id_satuan, int ttlHarga,
+                           int dikonversi, int created, int updated){
+        this.id_trans = id_trans;
+        this.id_detail = id_detail;
+        this.admin = admin;
+        this.nm_suplier = nm_suplier;
+        this.alasuplier = alasuplier;
+        this.note = note;
+        this.tgl_purchase = tgl_purchase;
+        this.id = id;
+        this.id_purchase = id_purchase;
+        this.id_area = id_area;
+        this.id_item = id_item;
+        this.ttlQty = ttlQty;
+        this.id_satuan = id_satuan;
+        this.harga_total = ttlHarga;
+        this.dikonversi = dikonversi;
+        this.created = created;
+        this.updated = updated;
+
+
+    }
+
 
     public ModelPenerimaan(
             String id_purchase, int tgl_purchase, String note,
@@ -32,6 +63,68 @@ public class ModelPenerimaan {
         this.admin = admin;this.id = id;this.id_area = id_area;this.id_suplier = id_suplier;
         this.diterima = diterima;this.harga_total = harga_total;this.jml_item = jml_item;
         this.modelItemBrgs = item_brg;
+    }
+
+    public ModelPenerimaan setTtlQty(int ttlQty) {
+        this.ttlQty = ttlQty;
+        return this;
+    }
+
+    public int getTtlQty() {
+        return ttlQty;
+    }
+
+    public ModelPenerimaan setHarga_total(int harga_total) {
+        this.harga_total = harga_total;
+        return this;
+    }
+
+    public int getJumlah() {
+        return jumlah;
+    }
+
+    public String getId_item() {
+        return id_item;
+    }
+
+    public int getQty() {
+        return qty;
+    }
+
+    public int getId_satuan() {
+        return id_satuan;
+    }
+
+    public int getHarga() {
+        return harga;
+    }
+
+    public int getDikonversi() {
+        return dikonversi;
+    }
+
+    public int getUpdated() {
+        return updated;
+    }
+
+    public int getCreated() {
+        return created;
+    }
+
+    public String getId_detail() {
+        return id_detail;
+    }
+
+    public String getMsg() {
+        return msg;
+    }
+
+    public String getSts() {
+        return sts;
+    }
+
+    public String getTgl_trans() {
+        return tgl_trans;
     }
 
     public ArrayList<ModelItemBrg> getItemBrgs() {

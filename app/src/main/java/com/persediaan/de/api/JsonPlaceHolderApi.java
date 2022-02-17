@@ -66,8 +66,9 @@ public interface JsonPlaceHolderApi {
 //  Show Item By Barcode
     @POST("api/reception/item")
     @FormUrlEncoded
-    Call <List<ApiPenerimaan>> getResponPenerimaan(
-            @Field("barcode") String barcode
+    Call <ArrayList<ApiPenerimaan>> getResponPenerimaan(
+            @Field("barcode") String barcode,
+            @Field("id_user") int id_user
     );
 
     @POST("api/reception/item")
@@ -171,18 +172,20 @@ public interface JsonPlaceHolderApi {
     @POST("api/item/delete")
     @FormUrlEncoded
     Call<ApiDaftarBarang> getHpsItem(
-            @Field("id_item") int id_item
+            @Field("id_item") String id_item
     );
     @POST("api/item/add")
     @FormUrlEncoded
     Call<ApiDaftarBarang> getAdditem(
+            @Field("id_item") String id_item,
             @Field("nm_item") String nm_item,
             @Field("id_satuan") int id_satuan
     );
     @POST("api/item/edit")
     @FormUrlEncoded
     Call<ArrayList<ApiDaftarBarang>> getEdititem(
-            @Field("id_item") int id_item,
+            @Field("id_item") String id_item,
+            @Field("id_baru") String id_baru,
             @Field("nm_item") String nm_item,
             @Field("id_satuan") int id_satuan
     );
@@ -249,4 +252,30 @@ public interface JsonPlaceHolderApi {
             @Field("id_user") int id_user,
             @Field("note") String note
     );
+
+    static String getMessageApi(String message){
+        String msg = message;
+        boolean connection = msg.contains("Unable");
+        boolean timeOutConnect = msg.contains("failed");
+        boolean noInternet = msg.contains("timed out");
+        boolean noKuota = msg.contains("Failed");
+
+        if (connection){
+            msg = "Mohon periksa kembali koneksi anda";
+        }
+        if (timeOutConnect){
+            msg ="Koneksi anda lambat, coba lagi dilain waktu";
+        }
+        if (noInternet){
+            msg = "Tidak ada koneksi internet";
+        }
+        if (noKuota){
+            msg = "Tidak ada koneksi internet, pastikan anda mempunyai kuota " +
+                    "internet agar dapat menggunakan aplikasi ini ";
+        }
+        if(!(connection||timeOutConnect||noInternet||noKuota)){
+            msg = "false";
+        }
+        return msg;
+    }
 }

@@ -1,8 +1,9 @@
 package com.persediaan.de.model;
 
 public class ModelCartKonv {
-    String dt_conv, id_receipt, nm_item, nm_area, nm_singkat, nm_satuan, eceran, id_trans, note;
-    Integer id, id_area, id_item, qty_asal, qty_conv, id_satuan, harga, updated, jumlah, admin, tgl_trans;
+    String dt_conv,id_item, id_receipt, nm_item, nm_area, nm_singkat, nm_satuan, eceran, id_trans
+            , note;
+    Integer id, id_area, qty_asal, qty_conv, id_satuan, harga, updated, jumlah, admin, tgl_trans;
     boolean expand = false,
             paddingLastItem = false;
 
@@ -11,7 +12,7 @@ public class ModelCartKonv {
             String dt_conv,
             Integer id_area,
             String id_receipt,
-            Integer id_item,
+            String id_item,
             Integer qty_asal,
             Integer qty_conv,
             Integer id_satuan,
@@ -136,7 +137,7 @@ public class ModelCartKonv {
         return id_area;
     }
 
-    public Integer getId_item() {
+    public String getId_item() {
         return id_item;
     }
 

@@ -462,6 +462,11 @@ public class TransferFragment extends Fragment implements RecyclerViewClickInter
         loadDaftarGudang.loadData();
         loadDaftarGudang.setApiResponListener(new ApiResponListener<ArrayList<ApiDaftarGudang>>() {
             @Override
+            public void onResponse(boolean status, Response<ArrayList<ApiDaftarGudang>> body) {
+
+            }
+
+            @Override
             public void onResponse(boolean status, ArrayList<ApiDaftarGudang> body) {
                 ArrayList<String> arrayListGudang = new ArrayList<>();
                 for (ApiDaftarGudang apiDaftarGudang:body){
