@@ -1,5 +1,6 @@
 package com.persediaan.de.adapter;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -101,10 +102,12 @@ public class AdapterPenerimaan extends RecyclerView.Adapter<AdapterPenerimaan.pe
             tv_idtrans1 = itemView.findViewById(R.id.tvIdTrans);
             cardLinear1 = itemView.findViewById(R.id.cardLinear);
 
-            itemView.setOnClickListener(new View.OnClickListener() {
+//            itemView.setOnClickListener(new View.OnClickListener() {
+            cardLinear1.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
 //                    notifyItemChanged(getAdapterPosition());
+                    Log.d("19201299", "onClick AdapterPenerimaan[109]: "+datalist.toString());
                     recyclerViewClickInterface.onItemClick(getAdapterPosition(),view);
                 }
             });

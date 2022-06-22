@@ -3,6 +3,7 @@ package com.persediaan.de.model;
 public class ModelItemBrg {
 int qty,id_satuan,harga,jumlah,id;
 String nm_eceran,nm_satuan,nm_item,id_item;
+boolean action = true;
 
     public ModelItemBrg(int id, String id_item, int qty, int id_satuan, int harga, int jumlah,
                         String nm_item, String nm_eceran, String nm_satuan) {
@@ -15,6 +16,14 @@ String nm_eceran,nm_satuan,nm_item,id_item;
         this.nm_satuan= nm_satuan;
         this.nm_item= nm_item;
         this.id = id;
+    }
+    public ModelItemBrg setAction(boolean boolAction){
+        this.action = boolAction;
+        return this;
+    }
+
+    public boolean isAction() {
+        return action;
     }
 
     public int getId() {

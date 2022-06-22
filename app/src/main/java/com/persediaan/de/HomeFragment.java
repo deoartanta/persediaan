@@ -170,7 +170,7 @@ public class HomeFragment extends Fragment implements RecyclerViewClickInterface
         {
             loadDaftarPenerimaan = new LoadDaftarPenerimaan(detailUserInt.get(SessionManager.USER_ID)
                     , retrofit,
-                    jsonPlaceHolderApi);
+                    jsonPlaceHolderApi,requireContext());
             loadDaftarPenerimaan.LoadData();
             loadDaftarPenerimaan.setApiResponListener(new ApiResponListener<ArrayList<ApiPenerimaan>>() {
                 @Override
@@ -210,7 +210,7 @@ public class HomeFragment extends Fragment implements RecyclerViewClickInterface
 
                     card_home_jml_1.setText(loadDaftarPenerimaan.getSize(LoadDaftarPenerimaan.RECEIVE) +
                             "\nPurchase");
-                    card_home_tittle_1.setText("Receive");
+                    card_home_tittle_1.setText("All Purchase");
                     card_home_jml_2.setText(loadDaftarPenerimaan.getSize(LoadDaftarPenerimaan.KONVERSI) +
                             "\nPurchase");
                     card_home_tittle_2.setText("Konversi");
@@ -393,7 +393,7 @@ public class HomeFragment extends Fragment implements RecyclerViewClickInterface
 
             @Override
             public void onFailure(Call<List<ApiStock>> call, Throwable t) {
-
+                Log.d("19201299","onFailure HomeFragment[396]:"+t.getMessage());
             }
         });
     }

@@ -25,6 +25,7 @@ import com.persediaan.de.api.ApiPenerimaan;
 import com.persediaan.de.api.JsonPlaceHolderApi;
 import com.persediaan.de.api.data.ApiResponListener;
 import com.persediaan.de.api.data.LoadDaftarPenerimaan;
+import com.persediaan.de.data.ListItem;
 import com.persediaan.de.data.SessionManager;
 import com.persediaan.de.model.ModelItemBrg;
 import com.persediaan.de.model.ModelPenerimaan;
@@ -43,6 +44,7 @@ public class PenerimaanFragment extends Fragment implements RecyclerViewClickInt
 
     private AdapterPenerimaan adapter2;
     private AdapterPenerimaan2 adapter;
+    private String TAG = "19201299";
     boolean isDataPenerimaan = false;
     ArrayList<ModelPenerimaan> modelPenerimaanArrayList;
 
@@ -53,6 +55,15 @@ public class PenerimaanFragment extends Fragment implements RecyclerViewClickInt
     RecyclerView recyclerPenerimaan;
 //    Load Daftar Penerimaan
     LoadDaftarPenerimaan loadDaftarPenerimaan;
+    ArrayList<ModelPenerimaan> modelPenerimaanDetail;
+    ArrayList<ModelPenerimaan> modelPenerimaanDetailK;
+    ArrayList<ModelItemBrg> arrItemBrg;
+    ArrayList<String> arrItemID;
+    ArrayList<String> arrItemName;
+    ArrayList<String> arrItemQty;
+    ArrayList<String> arrItemStn;
+    ArrayList<String> arrItemEcer;
+    ArrayList<String> arrItemHarga;
 
     ShimmerFrameLayout shimmerFrameLayout;
 
@@ -89,37 +100,65 @@ public class PenerimaanFragment extends Fragment implements RecyclerViewClickInt
         sessionManualBook= new SessionManager(requireContext(),
                 "manualbook");
         detailUserInt = sessionManagerUser.getUserDetailInt();
-//        loadCards(detailUserInt.get(SessionManager.USER_ID));
+        Log.d(TAG, "onCreateView: Start");
+        loadCards(detailUserInt.get(SessionManager.USER_ID));
         return view;
     }
 
     @Override
     public void onItemClick(int position,View v) {
         TextView tv_idtrans=v.findViewById(R.id.tvResIdTrans);
-        TextView tv_tgl_purchase=v.findViewById(R.id.tvResTGL);
-        TextView tv_penyedia=v.findViewById(R.id.tvResSupplier);
-        TextView tv_area=v.findViewById(R.id.tvResArea);
+        TextView tv_tgl_purchase=v.findViewById(R.id.tvTgl);
+        TextView tv_penyedia=v.findViewById(R.id.tvNamePenyedia);
+        TextView tv_ala_penyedia=v.findViewById(R.id.tvAlamat);
+        TextView tv_area=v.findViewById(R.id.tvArea);
         TextView tv_sts=v.findViewById(R.id.tvResSTS);
-        TextView tv_jumlah=v.findViewById(R.id.tvResJMLItem);
-        TextView tv_total_hrg=v.findViewById(R.id.tvResTotalHrg);
+        TextView tv_jumlah=v.findViewById(R.id.tvQTY);
+        TextView tv_total_hrg=v.findViewById(R.id.tvHrgTotal);
 
         Intent i = new Intent(requireContext(),DetailPenerimaanActivity.class);
 
-        String id_trans = (tv_idtrans!=null)?(String) tv_idtrans.getText():"null";
+        String id_trans = (modelPenerimaanArrayList.get(position)!=null)?
+                modelPenerimaanArrayList.get(position).getId_purchase():
+                "null";
         String tgl_purchase = (tv_tgl_purchase!=null)?(String) tv_tgl_purchase.getText():"null";
         String penyedia = (tv_penyedia!=null)?(String) tv_penyedia.getText():"null";
+        String ala_penyedia = (tv_ala_penyedia!=null)?(String) tv_ala_penyedia.getText():"null";
         String area = (tv_area!=null)?(String) tv_area.getText():"null";
         String sts = (tv_sts!=null)?(String) tv_sts.getText():"null";
         String jumlah = (tv_jumlah!=null)?(String) tv_jumlah.getText():"null";
         String total_hrg = (tv_total_hrg!=null)?(String) tv_total_hrg.getText():"null";
+        int index = 0;
+        arrItemID = new ArrayList<>();arrItemName = new ArrayList<>();arrItemStn = new ArrayList<>();
+        arrItemEcer = new ArrayList<>();arrItemQty = new ArrayList<>();arrItemHarga = new ArrayList<>();
+        for (ModelItemBrg modelItemBrg:modelPenerimaanDetail.get(position).getItemBrgs()){
+            arrItemID.add(modelItemBrg.getId_item());
+            arrItemName.add(modelItemBrg.getNm_item());
+            arrItemStn.add(modelItemBrg.getNm_satuan());
+            arrItemEcer.add(modelItemBrg.getNm_eceran());
+            arrItemQty.add(String.valueOf(modelItemBrg.getQty()));
+            arrItemHarga.add(String.valueOf(modelItemBrg.getHarga()));
+        }
+
 
         i.putExtra(DetailPenerimaanActivity.ID_TRANS,id_trans);
         i.putExtra(DetailPenerimaanActivity.TGL_PURCHASE,tgl_purchase);
         i.putExtra(DetailPenerimaanActivity.PENYEDIA,penyedia);
+        i.putExtra(DetailPenerimaanActivity.ALA_PENYEDIA,ala_penyedia);
         i.putExtra(DetailPenerimaanActivity.AREA,area);
+
         i.putExtra(DetailPenerimaanActivity.STS,sts);
         i.putExtra(DetailPenerimaanActivity.JML_ITEM,jumlah);
         i.putExtra(DetailPenerimaanActivity.TOTAL_HRG,total_hrg);
+        i.putExtra("position",position);
+
+        i.putStringArrayListExtra(ListItem.ID_ITEM,arrItemID);
+        i.putStringArrayListExtra(ListItem.NM_ITEM,arrItemName);
+        i.putStringArrayListExtra(ListItem.NM_SATUAN,arrItemStn);
+        i.putStringArrayListExtra(ListItem.NM_ECER,arrItemEcer);
+        i.putStringArrayListExtra(ListItem.QTY,arrItemQty);
+        i.putStringArrayListExtra(ListItem.HARGA,arrItemHarga);
+
 
         if (!sessionManualBook.getManualBook(SessionManager.DETAILPENER)){
             getActivity().getSupportFragmentManager()
@@ -141,7 +180,7 @@ public class PenerimaanFragment extends Fragment implements RecyclerViewClickInt
     }
 
     private void loadCards(int id_user) {
-
+        Log.d(TAG, "onCreateView: Start ke 2");
         retrofit = new Retrofit.Builder()
                 .baseUrl(SessionManager.HOSTNAME)
                 .addConverterFactory(GsonConverterFactory.create())
@@ -153,6 +192,7 @@ public class PenerimaanFragment extends Fragment implements RecyclerViewClickInt
         recyclerPenerimaan.setVisibility(View.GONE);
 //        Load Penerimaan
         {
+            Log.d(TAG, "onCreateView: Start ke 3");
             Call<List<ApiPenerimaan>> call = jsonPlaceHolderApi.getResponPenerimaanCart(id_user);
             call.enqueue(new Callback<List<ApiPenerimaan>>() {
                 @Override
@@ -160,6 +200,7 @@ public class PenerimaanFragment extends Fragment implements RecyclerViewClickInt
 
                     List<ApiPenerimaan> apiPenerimaans = response.body();
                     modelPenerimaanArrayList = new ArrayList<ModelPenerimaan>();
+                    Log.d(TAG, "onCreateView: Start ke 4");
                     if (!response.isSuccessful()) {
                         Toast.makeText(requireContext(), "Error yang tidak diketahui", Toast.LENGTH_SHORT).show();
                         tv_lblDtKosong.setVisibility(View.GONE);
@@ -176,7 +217,17 @@ public class PenerimaanFragment extends Fragment implements RecyclerViewClickInt
                                 jml_item = 0, tgl_purchase = 0;
 
                         modelItemBrgs = new ArrayList<ModelItemBrg>();
+                        Log.d(TAG, "onResponse: Belum Diisi");
                         for (ApiPenerimaan apiPenerimaan : apiPenerimaans) {
+                            Log.d(TAG, "onResponse: "+new ModelItemBrg(
+                                    apiPenerimaan.getId(), apiPenerimaan.getId_item(),
+                                    apiPenerimaan.getQty(),
+                                    apiPenerimaan.getId_satuan(),
+                                    apiPenerimaan.getHarga(),
+                                    apiPenerimaan.getJumlah(),
+                                    apiPenerimaan.getNm_item(),
+                                    apiPenerimaan.getEceran(),
+                                    apiPenerimaan.getNm_satuan()).toString());
                             tv_lblDtKosong.setVisibility(View.GONE);
                             modelItemBrgs.add(new ModelItemBrg(
                                     apiPenerimaan.getId(), apiPenerimaan.getId_item(),
@@ -231,6 +282,7 @@ public class PenerimaanFragment extends Fragment implements RecyclerViewClickInt
                                 alamat, id_trans, jml_item, admin, id, id_area, id_supplier, diterima,
                                 harga_total, modelItemBrgs
                         ));
+                        Log.d(TAG, "onResponse: Udah Diisi");
 
                     }
                     if (modelPenerimaanArrayList != null) {
@@ -241,6 +293,7 @@ public class PenerimaanFragment extends Fragment implements RecyclerViewClickInt
 
                 @Override
                 public void onFailure(Call<List<ApiPenerimaan>> call, Throwable t) {
+                    Log.d(TAG, "onCreateView: Failure ke 1 "+t.getMessage());
                     Call<ApiPenerimaan> call1 =
                             jsonPlaceHolderApi.getResponPenerimaanCartStatus(id_user);
                     penerimaanKonversi(null,false);
@@ -253,12 +306,13 @@ public class PenerimaanFragment extends Fragment implements RecyclerViewClickInt
                                         Toast.LENGTH_SHORT).show();
                                 return;
                             }
-
+                            Log.d(TAG, "onCreateView: Failure kosong");
                             tv_lblDtKosong.setText("" + (response.body().getMsg()).toUpperCase());
                         }
 
                         @Override
                         public void onFailure(Call<ApiPenerimaan> call, Throwable t) {
+                            Log.d(TAG, "onCreateView: Failure ke 2");
                             shimmerFrameLayout.setVisibility(View.GONE);
                             tv_lblDtKosong.setText("" + (t.getMessage()).toUpperCase());
                             Toast.makeText(requireContext(), "Gagal terhubung ke server",
@@ -283,7 +337,7 @@ public class PenerimaanFragment extends Fragment implements RecyclerViewClickInt
         {
             loadDaftarPenerimaan = new LoadDaftarPenerimaan(detailUserInt.get(SessionManager.USER_ID)
                     , retrofit,
-                    jsonPlaceHolderApi);
+                    jsonPlaceHolderApi,getContext());
             loadDaftarPenerimaan.LoadData();
             loadDaftarPenerimaan.setApiResponListener(new ApiResponListener<ArrayList<ApiPenerimaan>>() {
                 @Override
@@ -297,6 +351,8 @@ public class PenerimaanFragment extends Fragment implements RecyclerViewClickInt
                     HashMap<String,String> disKonversi = new HashMap<>();
                     ArrayList<ModelPenerimaan> modelKonversi = new ArrayList<>();
                     ArrayList<ModelPenerimaan> modelDisKonversi = new ArrayList<>();
+                    modelPenerimaanDetail = new ArrayList<>();
+                    modelPenerimaanDetailK = new ArrayList<>();
                     if (modelPenerimaanArrayList==null){
                         modelPenerimaanArrayList = new ArrayList<>();
                     }
@@ -321,15 +377,23 @@ public class PenerimaanFragment extends Fragment implements RecyclerViewClickInt
                                 ttlHargaKonversi =
                                         ttlHargaKonversi + (apiPenerimaan.getQty()*apiPenerimaan.getHarga());
                                 jmlItemK ++;
-                                modelKonversi.add(new ModelPenerimaan(apiPenerimaan.getId_trans(),
+                                ModelPenerimaan modelPenerimaanK =
+                                        new ModelPenerimaan(apiPenerimaan.getId_trans(),
                                         apiPenerimaan.getId_detail(), apiPenerimaan.getAdmin(),
                                         apiPenerimaan.getNm_suplier(),apiPenerimaan.getAlasuplier(),
-                                        apiPenerimaan.getNote(), apiPenerimaan.getUpdated(),
+                                        apiPenerimaan.getNote(), apiPenerimaan.getTgl_purchase(),
                                         apiPenerimaan.getId(), apiPenerimaan.getId_purchase(),
                                         apiPenerimaan.getId_area(), apiPenerimaan.getId_item(),
-                                        jmlItemK, apiPenerimaan.getId_satuan(),
-                                        ttlHargaKonversi, apiPenerimaan.getDikonversi(),
-                                        apiPenerimaan.getCreated(), apiPenerimaan.getUpdated()));
+                                        jmlItemD, apiPenerimaan.getId_satuan(),
+                                        ttlHargaDisKonversi, apiPenerimaan.getDikonversi(),
+                                        apiPenerimaan.getCreated(), apiPenerimaan.getUpdated())
+                                        .setQty(apiPenerimaan.getQty()).setHarga(apiPenerimaan.getHarga());
+                                modelKonversi.add(modelPenerimaanK);
+                                arrItemBrg = new ArrayList<>();
+                                arrItemBrg.add(new ModelItemBrg(0, apiPenerimaan.getId_item(), apiPenerimaan.getQty(),
+                                        apiPenerimaan.getId_satuan(), apiPenerimaan.getHarga(), apiPenerimaan.getJumlah(),
+                                        apiPenerimaan.getNm_item(), apiPenerimaan.getEceran(),apiPenerimaan.getNm_satuan()));
+                                modelPenerimaanDetailK.add(modelPenerimaanK.setModelItemBrgs(arrItemBrg));
 //                                Log.d("19201299",
 //                                        "<<321>>Qty Variable: ("+apiPenerimaan.getId_purchase()+
 //                                                ")"+jmlItemK);
@@ -339,10 +403,18 @@ public class PenerimaanFragment extends Fragment implements RecyclerViewClickInt
 //                                        "<<325>>QTY Model: ("+modelKonversi.get(indexK).getId_purchase()+")"+modelKonversi.get(indexK).getQty());
                                 logKonversi += apiPenerimaan.getId_purchase() + "=> id item " + apiPenerimaan.getId_item() + "\n";
                             }else{
+                                arrItemBrg = new ArrayList<>();
+                                arrItemBrg = modelPenerimaanDetailK.get(indexK).getModelItemBrgs();
+                                arrItemBrg.add(new ModelItemBrg(0, apiPenerimaan.getId_item(), apiPenerimaan.getQty(),
+                                        apiPenerimaan.getId_satuan(), apiPenerimaan.getHarga(), apiPenerimaan.getJumlah(),
+                                        apiPenerimaan.getNm_item(), apiPenerimaan.getEceran(),apiPenerimaan.getNm_satuan()));
+                                modelPenerimaanDetailK.set(indexK,
+                                        modelPenerimaanDetailK.get(indexK).setModelItemBrgs(arrItemBrg));
+
                                 ttlHargaKonversi =
                                         ttlHargaKonversi + (apiPenerimaan.getQty()*apiPenerimaan.getHarga());
                                 jmlItemK++;
-                                modelKonversi.set(indexD,modelKonversi.get(indexD)
+                                modelKonversi.set(indexK,modelKonversi.get(indexK)
                                         .setHarga_total(ttlHargaKonversi)
                                         .setTtlQty(jmlItemK)
                                 );
@@ -359,7 +431,7 @@ public class PenerimaanFragment extends Fragment implements RecyclerViewClickInt
                                 ttlHargaDisKonversi =
                                         ttlHargaDisKonversi + (apiPenerimaan.getQty()*apiPenerimaan.getHarga());
                                 jmlItemD++;
-                                modelDisKonversi.add(new ModelPenerimaan(apiPenerimaan.getId_trans(),
+                                ModelPenerimaan modelPenerimaanD = new ModelPenerimaan(apiPenerimaan.getId_trans(),
                                         apiPenerimaan.getId_detail(), apiPenerimaan.getAdmin(),
                                         apiPenerimaan.getNm_suplier(),apiPenerimaan.getAlasuplier(),
                                         apiPenerimaan.getNote(), apiPenerimaan.getTgl_purchase(),
@@ -367,13 +439,28 @@ public class PenerimaanFragment extends Fragment implements RecyclerViewClickInt
                                         apiPenerimaan.getId_area(), apiPenerimaan.getId_item(),
                                         jmlItemD, apiPenerimaan.getId_satuan(),
                                         ttlHargaDisKonversi, apiPenerimaan.getDikonversi(),
-                                        apiPenerimaan.getCreated(), apiPenerimaan.getUpdated()));
+                                        apiPenerimaan.getCreated(), apiPenerimaan.getUpdated())
+                                        .setQty(apiPenerimaan.getQty()).setHarga(apiPenerimaan.getHarga());
+                                modelDisKonversi.add(modelPenerimaanD);
+                                arrItemBrg = new ArrayList<ModelItemBrg>();
+                                arrItemBrg.add(new ModelItemBrg(0, apiPenerimaan.getId_item(), apiPenerimaan.getQty(),
+                                        apiPenerimaan.getId_satuan(), apiPenerimaan.getHarga(), apiPenerimaan.getJumlah(),
+                                        apiPenerimaan.getNm_item(), apiPenerimaan.getEceran(),apiPenerimaan.getNm_satuan()));
+                                modelPenerimaanDetail.add(modelPenerimaanD.setModelItemBrgs(arrItemBrg));
 //                                Log.d("19201299",
 //                                        "onResponse: ("+apiPenerimaan.getId_purchase()+")"+apiPenerimaan.getQty());
 //                                Log.d("19201299",
 //                                        "<<361>>onResponse: ("+modelDisKonversi.get(indexD).getId_purchase()+")"+modelDisKonversi.get(indexD).getQty());
                                 logDisKonversi += apiPenerimaan.getId_purchase() + "=> id item " + apiPenerimaan.getId_item() + "\n";
                             }else{
+                                arrItemBrg = new ArrayList<>();
+                                arrItemBrg = modelPenerimaanDetail.get(indexD).getModelItemBrgs();
+                                arrItemBrg.add(new ModelItemBrg(0, apiPenerimaan.getId_item(), apiPenerimaan.getQty(),
+                                        apiPenerimaan.getId_satuan(), apiPenerimaan.getHarga(), apiPenerimaan.getJumlah(),
+                                        apiPenerimaan.getNm_item(), apiPenerimaan.getEceran(),apiPenerimaan.getNm_satuan()));
+                                modelPenerimaanDetail.set(indexD,
+                                        modelPenerimaanDetail.get(indexD).setModelItemBrgs(arrItemBrg));
+
                                 ttlHargaDisKonversi =
                                         ttlHargaDisKonversi + (apiPenerimaan.getQty()*apiPenerimaan.getHarga());
                                 jmlItemD++;
@@ -394,12 +481,17 @@ public class PenerimaanFragment extends Fragment implements RecyclerViewClickInt
                     for (ModelPenerimaan modelPenerimaan:modelKonversi){
                         modelDisKonversi.add(modelPenerimaan);
                     }
+                    for (ModelPenerimaan modelPenerimaank:modelPenerimaanDetailK){
+                        modelPenerimaanDetail.add(modelPenerimaank);
+                    }
+
                     modelDisKonversi.add(null);
                     Log.d("19201299",
-                            "<<348>>Jumlah Purchase yang sudah diterima("+modelDisKonversi.size()+
+                            "<<444>>Jumlah Purchase yang sudah diterima("+modelDisKonversi.size()+
                                     ")");
 //                    Log.d("19201299", "onResponse: "+modelDisKonversi.get(0).getTtlQty());
 //                    Log.d("19201299", "onResponse: "+modelDisKonversi.get(0).getId_purchase());
+//                    modelPenerimaanDetail.add(null);
                     for (ModelPenerimaan modelPenerimaan:modelDisKonversi){
                         modelPenerimaanArrayList.add(modelPenerimaan);
                     }
@@ -421,7 +513,7 @@ public class PenerimaanFragment extends Fragment implements RecyclerViewClickInt
                 @Override
                 public void onFailure(Throwable t) {
 //                    tv_lblDtKosong.setVisibility(View.VISIBLE);
-                    Toast.makeText(requireContext(), "Gagal terhubung ke server",
+                    Toast.makeText(loadDaftarPenerimaan.getCtx(), "Gagal terhubung ke server",
                             Toast.LENGTH_LONG).show();
                 }
             });
@@ -430,6 +522,6 @@ public class PenerimaanFragment extends Fragment implements RecyclerViewClickInt
     @Override
     public void onResume() {
         super.onResume();
-        loadCards(detailUserInt.get(SessionManager.USER_ID));
+//        loadCards(detailUserInt.get(SessionManager.USER_ID));
     }
 }

@@ -2,7 +2,7 @@ package com.persediaan.de.api;
 
 public class ApiStock {
     String dt_gudang;
-    String nm_item;
+    String id_item,nm_item;
     String nm_satuan;
     String eceran;
     String nm_area;
@@ -10,7 +10,7 @@ public class ApiStock {
     int id;
     int admin;
     int id_area;
-    int id_item;
+//    int id_item;
     int qty;
     int harga;
     int tipe;
@@ -55,7 +55,7 @@ public class ApiStock {
         return id_area;
     }
 
-    public int getId_item() {
+    public String getId_item() {
         return id_item;
     }
 

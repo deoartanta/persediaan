@@ -218,6 +218,7 @@ public class LoginActivity extends AppCompatActivity {
                     public void onFailure(Call<ApiLogin> call, Throwable t) {
                         progess_login.setVisibility(View.GONE);
                         String msg = t.getMessage();
+                        Log.d("19201299", "onFailure LoginActivity[221]: "+msg);
                         Boolean connection = msg.contains("Unable");
                         Boolean timeOutConnect = msg.contains("failed");
                         Boolean noInternet = msg.contains("timed out");
@@ -225,14 +226,15 @@ public class LoginActivity extends AppCompatActivity {
                             msg = "Gagal terhubung, mohon periksa kembali koneksi anda";
                         }
                         if (timeOutConnect){
-                            msg ="Koneksi anda lambat, coba lagi dilain waktu";
+                            msg ="Koneksi anda lambat, coba lagi nanti";
                         }
                         if (noInternet){
                             msg = "Tidak ada koneksi internet";
                         }
                         btn_signin.setText("SIGN IN");
                         btn_signin.setEnabled(true);
-                        Toast.makeText(getApplicationContext(),msg+"||"+call.request().url().toString(),Toast.LENGTH_LONG).show();
+                        Toast.makeText(getApplicationContext(),msg,Toast.LENGTH_LONG).show();
+//                        Toast.makeText(getApplicationContext(),msg+"||"+call.request().url().toString(),Toast.LENGTH_LONG).show();
                     }
                 });
             }

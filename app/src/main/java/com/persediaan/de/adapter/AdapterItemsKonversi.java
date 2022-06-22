@@ -78,10 +78,12 @@ public class AdapterItemsKonversi extends RecyclerView.Adapter<AdapterItemsKonve
         TextInputEditText edtQtySatu, edtQtyEcer;
         ImageButton btnEdtKonversi, btnAddKonversi;
 
-        LinearLayout container_layout, lyt_qty, lyt_sisa;
+        LinearLayout container_layout, lyt_qty, lyt_sisa,ly_cy_konversi;
 
         public itemsKonversiViewHolder(@NonNull View itemView) {
             super(itemView);
+
+            ly_cy_konversi = itemView.findViewById(R.id.lyCyKonversi);
 
             tvNmItem = itemView.findViewById(R.id.tvNmItem);
             tvQty = itemView.findViewById(R.id.tvQty);
@@ -105,14 +107,19 @@ public class AdapterItemsKonversi extends RecyclerView.Adapter<AdapterItemsKonve
                 @Override
                 public void onClick(View view) {
                     listItems.get(getAdapterPosition()).setExpand(!(listItems.get(getAdapterPosition()).isExpand()));
+
                     if (listItems.get(getAdapterPosition()).isExpand()){
                         lyt_qty.setVisibility(View.VISIBLE);
                         lyt_sisa.setVisibility(View.VISIBLE);
-                        btnEdtKonversi.setVisibility(View.GONE);
                         btnAddKonversi.setVisibility(View.VISIBLE);
+                        ly_cy_konversi.setOrientation(LinearLayout.VERTICAL);
+                        btnEdtKonversi.setImageResource(R.drawable.ic_baseline_reply_24);
                     }else {
                         lyt_qty.setVisibility(View.GONE);
                         lyt_sisa.setVisibility(View.GONE);
+                        ly_cy_konversi.setOrientation(LinearLayout.HORIZONTAL);
+                        btnEdtKonversi.setImageResource(R.drawable.ic_dualscale);
+                        btnAddKonversi.setVisibility(View.GONE);
                     }
                 }
             });

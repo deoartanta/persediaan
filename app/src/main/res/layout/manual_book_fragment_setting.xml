@@ -1,0 +1,820 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/bg_transparant_manual_book"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".ManualBookFragmentSetting">
+
+    <FrameLayout
+        android:id="@+id/frameProfile"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:visibility="invisible"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginHorizontal="20dp"
+            android:layout_marginTop="40dp"
+            app:cardCornerRadius="10dp"
+            app:cardElevation="5dp">
+
+        </androidx.cardview.widget.CardView>
+        <androidx.cardview.widget.CardView
+            android:id="@+id/pageProfileHeader"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="20dp"
+            android:layout_marginTop="60dp"
+            android:layout_marginBottom="5dp"
+            app:cardElevation="5dp"
+            app:cardUseCompatPadding="false">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/mainLinearLayout"
+                android:layout_width="match_parent"
+                android:layout_height="130dp">
+
+                <TextView
+                    android:id="@+id/profileTvSatker"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:gravity="right"
+                    android:paddingEnd="14dp"
+                    android:text="Perikanan"
+                    android:textColor="@color/black"
+                    android:textSize="16sp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:orientation="vertical"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/profileTvSatker">
+
+                    <de.hdodenhof.circleimageview.CircleImageView
+                        android:id="@+id/imgProfilUser"
+                        android:layout_width="match_parent"
+                        android:layout_height="50dp"
+                        android:src="@drawable/avatar" />
+
+                    <TextView
+                        android:id="@+id/profileTvName"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/abril_fatface"
+                        android:gravity="center"
+                        android:text="Nama Lengkap"
+                        android:textColor="@color/black"
+                        android:textSize="16sp" />
+
+                    <TextView
+                        android:id="@+id/profileTvAlamat"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/antic"
+                        android:gravity="center"
+                        android:text="Username"
+                        android:textColor="@color/black" />
+                </LinearLayout>
+
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </androidx.cardview.widget.CardView>
+    </FrameLayout>
+
+    <LinearLayout
+        android:id="@+id/pageProfileContent"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="5dp"
+        android:layout_marginHorizontal="20dp"
+        android:orientation="vertical"
+        app:layout_constraintTop_toBottomOf="@id/frameProfile"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <!--Akun id:linear_card_profile_expand-->
+            <LinearLayout
+                android:id="@+id/linear_card_profile_expand"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/stroke_bordered"
+                android:gravity="center"
+                android:layout_marginVertical="5dp"
+                android:paddingEnd="10dp"
+                android:paddingVertical="5dp"
+                android:orientation="vertical"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <RelativeLayout
+                        android:id="@+id/lyAkunMnBook"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_vertical"
+                        android:visibility="visible"
+                        android:padding="10dp">
+
+                        <ImageView
+                            android:id="@+id/imgLeft"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentStart="true"
+                            android:layout_centerVertical="true"
+                            android:layout_marginHorizontal="10dp"
+                            android:visibility="visible"
+                            app:srcCompat="@drawable/ic_person_edit" />
+
+                        <TextView
+                            android:id="@+id/tvRowName"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerVertical="true"
+                            android:layout_toEndOf="@id/imgLeft"
+                            android:text="Akun"
+                            android:textColor="@color/black"
+                            android:textSize="16dp" />
+
+                        <TextView
+                            android:id="@+id/tvSettingResult"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginEnd="10dp"
+                            android:layout_toStartOf="@id/imgRight"
+                            android:text="Result"
+                            android:visibility="gone" />
+
+                        <TextView
+                            android:id="@+id/tvSettingResultArea"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginEnd="10dp"
+                            android:layout_toStartOf="@+id/tvSettingResult"
+                            android:layout_toEndOf="@+id/tvRowName"
+                            android:gravity="right"
+                            android:text="Result"
+                            android:visibility="gone" />
+
+                        <ImageView
+                            android:id="@+id/imgRight"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentEnd="true"
+                            android:layout_centerVertical="true"
+                            android:layout_marginEnd="5dp"
+                            app:srcCompat="@drawable/ic_baseline_keyboard_arrow_right_24" />
+
+                    </RelativeLayout>
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:id="@+id/lyExpendAkun"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="10dp"
+                        android:visibility="visible">
+                        <!--Nama id:lyNmMnbook-->
+                        <RelativeLayout
+                            android:id="@+id/lyNmMnbook"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:background="@color/white"
+                            android:gravity="center_vertical"
+                            android:padding="10dp"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent">
+
+                            <ImageView
+                                android:id="@+id/imgLeft01"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_alignParentStart="true"
+                                android:layout_centerVertical="true"
+                                android:layout_marginHorizontal="10dp"
+                                android:visibility="gone"
+                                app:srcCompat="@android:drawable/ic_lock_power_off" />
+
+                            <TextView
+                                android:id="@+id/tvRowName01"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_centerVertical="true"
+                                android:layout_toEndOf="@id/imgLeft01"
+                                android:text="Nama"
+                                android:textColor="@color/black"
+                                android:textSize="16dp" />
+
+                            <TextView
+                                android:id="@+id/tvSettingResult01"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginEnd="10dp"
+                                android:layout_toStartOf="@id/imgRight01"
+                                android:text="Result"
+                                android:visibility="visible" />
+
+                            <TextView
+                                android:id="@+id/tvSettingResultArea01"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginEnd="10dp"
+                                android:layout_toStartOf="@+id/tvSettingResult01"
+                                android:layout_toEndOf="@+id/tvRowName01"
+                                android:gravity="right"
+                                android:text="Result"
+                                android:visibility="gone" />
+
+                            <ImageView
+                                android:id="@+id/imgRight01"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_alignParentEnd="true"
+                                android:layout_centerVertical="true"
+                                android:layout_marginEnd="5dp"
+                                app:srcCompat="@drawable/ic_baseline_create_24" />
+
+                        </RelativeLayout>
+                        <!--Username id:lyUsernmMnbook-->
+                        <RelativeLayout
+                            android:id="@+id/lyUsernmMnbook"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:background="@color/white"
+                            android:gravity="center_vertical"
+                            android:padding="10dp"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@id/lyNmMnbook">
+
+                            <ImageView
+                                android:id="@+id/imgLeft02"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_alignParentStart="true"
+                                android:layout_centerVertical="true"
+                                android:layout_marginHorizontal="10dp"
+                                android:visibility="gone"
+                                app:srcCompat="@android:drawable/ic_lock_power_off" />
+
+                            <TextView
+                                android:id="@+id/tvRowName02"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_centerVertical="true"
+                                android:layout_toEndOf="@id/imgLeft02"
+                                android:text="Username"
+                                android:textColor="@color/black"
+                                android:textSize="16dp" />
+
+                            <TextView
+                                android:id="@+id/tvSettingResult02"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginEnd="10dp"
+                                android:layout_toStartOf="@id/imgRight02"
+                                android:text="Result"
+                                android:visibility="visible" />
+
+                            <TextView
+                                android:id="@+id/tvSettingResultArea02"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginEnd="10dp"
+                                android:layout_toStartOf="@+id/tvSettingResult02"
+                                android:layout_toEndOf="@+id/tvRowName02"
+                                android:gravity="right"
+                                android:text="Result"
+                                android:visibility="gone" />
+
+                            <ImageView
+                                android:id="@+id/imgRight02"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_alignParentEnd="true"
+                                android:layout_centerVertical="true"
+                                android:layout_marginEnd="5dp"
+                                app:srcCompat="@drawable/ic_baseline_create_24" />
+
+                        </RelativeLayout>
+                        <!--Password id:lyPasswMnbook-->
+                        <RelativeLayout
+                            android:id="@+id/lyPasswMnbook"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:background="@color/white"
+                            android:gravity="center_vertical"
+                            android:padding="10dp"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@id/lyUsernmMnbook">
+
+                            <ImageView
+                                android:id="@+id/imgLeft03"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_alignParentStart="true"
+                                android:layout_centerVertical="true"
+                                android:layout_marginHorizontal="10dp"
+                                android:visibility="gone"
+                                app:srcCompat="@android:drawable/ic_lock_power_off" />
+
+                            <TextView
+                                android:id="@+id/tvRowName03"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_centerVertical="true"
+                                android:layout_toEndOf="@id/imgLeft03"
+                                android:text="Password"
+                                android:textColor="@color/black"
+                                android:textSize="16dp" />
+
+                            <TextView
+                                android:id="@+id/tvSettingResult03"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginEnd="10dp"
+                                android:layout_toStartOf="@id/imgRight03"
+                                android:text="Result"
+                                android:visibility="visible" />
+
+                            <TextView
+                                android:id="@+id/tvSettingResultArea03"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginEnd="10dp"
+                                android:layout_toStartOf="@+id/tvSettingResult03"
+                                android:layout_toEndOf="@+id/tvRowName03"
+                                android:gravity="right"
+                                android:text="Result"
+                                android:visibility="gone" />
+
+                            <ImageView
+                                android:id="@+id/imgRight03"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_alignParentEnd="true"
+                                android:layout_centerVertical="true"
+                                android:layout_marginEnd="5dp"
+                                app:srcCompat="@drawable/ic_baseline_create_24" />
+
+                        </RelativeLayout>
+                        <!--Alamat id:lyAlamatMnbook-->
+                        <RelativeLayout
+                            android:id="@+id/lyAlamatMnbook"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:background="@color/white"
+                            android:gravity="center_vertical"
+                            android:paddingTop="10dp"
+                            android:paddingEnd="10dp"
+                            android:paddingStart="10dp"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@id/lyPasswMnbook">
+
+                            <ImageView
+                                android:id="@+id/imgLeft04"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_alignParentStart="true"
+                                android:layout_centerVertical="true"
+                                android:layout_marginHorizontal="10dp"
+                                android:visibility="gone"
+                                app:srcCompat="@android:drawable/ic_lock_power_off" />
+
+                            <TextView
+                                android:id="@+id/tvRowName04"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_centerVertical="true"
+                                android:layout_toEndOf="@id/imgLeft04"
+                                android:text="Alamat"
+                                android:textColor="@color/black"
+                                android:textSize="16dp" />
+
+                            <TextView
+                                android:id="@+id/tvSettingResult04"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginEnd="10dp"
+                                android:layout_toStartOf="@id/imgRight04"
+                                android:text="Result"
+                                android:visibility="visible" />
+
+                            <TextView
+                                android:id="@+id/tvSettingResultArea04"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginEnd="10dp"
+                                android:layout_toStartOf="@+id/tvSettingResult04"
+                                android:layout_toEndOf="@+id/tvRowName04"
+                                android:gravity="right"
+                                android:text="Result"
+                                android:visibility="gone" />
+
+                            <ImageView
+                                android:id="@+id/imgRight04"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_alignParentEnd="true"
+                                android:layout_centerVertical="true"
+                                android:layout_marginEnd="5dp"
+                                app:srcCompat="@drawable/ic_baseline_create_24" />
+
+                        </RelativeLayout>
+
+                        <!--Nama id:arrawNmMnBook-->
+                        <com.airbnb.lottie.LottieAnimationView
+                            android:id="@+id/arrawNmMnBook"
+                            android:layout_width="100dp"
+                            android:layout_height="100dp"
+                            app:layout_constraintEnd_toEndOf="@id/lyNmMnbook"
+                            app:layout_constraintStart_toStartOf="@id/lyNmMnbook"
+                            app:layout_constraintBottom_toBottomOf="@id/lyNmMnbook"
+                            app:layout_constraintTop_toTopOf="@id/lyNmMnbook"
+                            app:lottie_autoPlay="true"
+                            app:lottie_loop="true"
+                            app:lottie_rawRes="@raw/tap" />
+                        <!--Username id:arrawUsernmMnBook-->
+                        <com.airbnb.lottie.LottieAnimationView
+                            android:id="@+id/arrawUsernmMnBook"
+                            android:layout_width="100dp"
+                            android:layout_height="100dp"
+                            app:layout_constraintEnd_toEndOf="@id/lyUsernmMnbook"
+                            app:layout_constraintStart_toStartOf="@id/lyUsernmMnbook"
+                            app:layout_constraintBottom_toBottomOf="@id/lyUsernmMnbook"
+                            app:layout_constraintTop_toTopOf="@id/lyUsernmMnbook"
+                            app:lottie_autoPlay="true"
+                            app:lottie_loop="true"
+                            app:lottie_rawRes="@raw/tap" />
+                        <!--Password id:arrawPasswMnBook-->
+                        <com.airbnb.lottie.LottieAnimationView
+                            android:id="@+id/arrawPasswMnBook"
+                            android:layout_width="100dp"
+                            android:layout_height="100dp"
+                            app:layout_constraintEnd_toEndOf="@id/lyPasswMnbook"
+                            app:layout_constraintStart_toStartOf="@id/lyPasswMnbook"
+                            app:layout_constraintBottom_toBottomOf="@id/lyPasswMnbook"
+                            app:layout_constraintTop_toTopOf="@id/lyPasswMnbook"
+                            app:lottie_autoPlay="true"
+                            app:lottie_loop="true"
+                            app:lottie_rawRes="@raw/tap" />
+                        <!--Alamat id:arrawAlamatMnBook-->
+                        <com.airbnb.lottie.LottieAnimationView
+                            android:id="@+id/arrawAlamatMnBook"
+                            android:layout_width="100dp"
+                            android:layout_height="100dp"
+                            app:layout_constraintEnd_toEndOf="@id/lyAlamatMnbook"
+                            app:layout_constraintStart_toStartOf="@id/lyAlamatMnbook"
+                            app:layout_constraintBottom_toBottomOf="@id/lyAlamatMnbook"
+                            app:layout_constraintTop_toTopOf="@id/lyAlamatMnbook"
+                            app:lottie_autoPlay="true"
+                            app:lottie_loop="true"
+                            app:lottie_rawRes="@raw/tap" />
+
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+                </LinearLayout>
+            </LinearLayout>
+            <!--Daftar Barang id:linear_card_item-->
+            <LinearLayout
+                android:id="@+id/linear_card_item"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/stroke_bordered"
+                android:gravity="center"
+                android:layout_marginVertical="5dp"
+                android:paddingVertical="5dp"
+                android:orientation="vertical"
+                app:layout_constraintTop_toBottomOf="@id/linear_card_profile_expand"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_vertical"
+                        android:padding="10dp">
+
+                        <ImageView
+                            android:id="@+id/imgLeft1"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentStart="true"
+                            android:layout_centerVertical="true"
+                            android:layout_marginHorizontal="10dp"
+                            android:visibility="visible"
+                            app:srcCompat="@drawable/ic_baseline_view_list_24" />
+
+                        <TextView
+                            android:id="@+id/tvRowName1"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerVertical="true"
+                            android:layout_toEndOf="@id/imgLeft1"
+                            android:text="Daftar Barang"
+                            android:textColor="@color/black"
+                            android:textSize="16dp" />
+                    </RelativeLayout>
+                </LinearLayout>
+            </LinearLayout>
+            <!--Setting id:linear_card_setting_expand-->
+            <LinearLayout
+                android:id="@+id/linear_card_setting_expand"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/stroke_bordered"
+                android:gravity="center"
+                android:layout_marginVertical="5dp"
+                android:paddingVertical="5dp"
+                android:orientation="vertical"
+                app:layout_constraintTop_toBottomOf="@id/linear_card_item"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_vertical"
+                        android:padding="10dp">
+
+                        <ImageView
+                            android:id="@+id/imgLeft2"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentStart="true"
+                            android:layout_centerVertical="true"
+                            android:layout_marginHorizontal="10dp"
+                            android:visibility="visible"
+                            app:srcCompat="@drawable/ic_baseline_settings_24" />
+
+                        <TextView
+                            android:id="@+id/tvRowName2"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerVertical="true"
+                            android:layout_toEndOf="@id/imgLeft2"
+                            android:text="Setting"
+                            android:textColor="@color/black"
+                            android:textSize="16dp" />
+
+                        <ImageView
+                            android:id="@+id/imgRight2"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentEnd="true"
+                            android:layout_centerVertical="true"
+                            android:layout_marginEnd="5dp"
+                            app:srcCompat="@drawable/ic_baseline_keyboard_arrow_right_24" />
+
+                    </RelativeLayout>
+
+                </LinearLayout>
+            </LinearLayout>
+            <!--Help id:linear_card_help_expand-->
+            <LinearLayout
+                android:id="@+id/linear_card_help_expand"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/stroke_bordered"
+                android:gravity="center"
+                android:layout_marginVertical="5dp"
+                android:paddingVertical="5dp"
+                android:orientation="vertical"
+                app:layout_constraintTop_toBottomOf="@id/linear_card_setting_expand"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_vertical"
+                        android:padding="10dp">
+
+                        <ImageView
+                            android:id="@+id/imgLeft3"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentStart="true"
+                            android:layout_centerVertical="true"
+                            android:layout_marginHorizontal="10dp"
+                            android:visibility="visible"
+                            app:srcCompat="@drawable/ic_help" />
+
+                        <TextView
+                            android:id="@+id/tvRowName3"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerVertical="true"
+                            android:layout_toEndOf="@id/imgLeft3"
+                            android:text="Help"
+                            android:textColor="@color/black"
+                            android:textSize="16dp" />
+
+                        <ImageView
+                            android:id="@+id/imgRight3"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentEnd="true"
+                            android:layout_centerVertical="true"
+                            android:layout_marginEnd="5dp"
+                            app:srcCompat="@drawable/ic_baseline_keyboard_arrow_right_24" />
+
+                    </RelativeLayout>
+
+                </LinearLayout>
+            </LinearLayout>
+            <!--Logout id:linear_card_logout-->
+            <LinearLayout
+                android:id="@+id/linear_card_logout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/stroke_bordered"
+                android:gravity="center"
+                android:layout_marginVertical="5dp"
+                android:paddingVertical="5dp"
+                android:orientation="vertical"
+                app:layout_constraintTop_toBottomOf="@id/linear_card_help_expand"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_vertical"
+                        android:padding="10dp">
+
+                        <ImageView
+                            android:id="@+id/imgLeft4"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentStart="true"
+                            android:layout_centerVertical="true"
+                            android:layout_marginHorizontal="10dp"
+                            android:visibility="visible"
+                            app:srcCompat="@drawable/ic_baseline_power_settings_new_24" />
+
+                        <TextView
+                            android:id="@+id/tvRowName4"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerVertical="true"
+                            android:layout_toEndOf="@id/imgLeft4"
+                            android:text="Logout"
+                            android:textColor="@color/black"
+                            android:textSize="16dp" />
+                    </RelativeLayout>
+                </LinearLayout>
+            </LinearLayout>
+
+            <!--Akun id:arrawAkunMnBook-->
+            <com.airbnb.lottie.LottieAnimationView
+                android:id="@+id/arrawAkunMnBook"
+                android:layout_width="150dp"
+                android:layout_height="150dp"
+                app:layout_constraintEnd_toEndOf="@id/linear_card_profile_expand"
+                app:layout_constraintStart_toStartOf="@id/linear_card_profile_expand"
+                app:layout_constraintTop_toBottomOf="@id/linear_card_profile_expand"
+                app:lottie_autoPlay="false"
+                app:lottie_loop="false"
+                app:lottie_rawRes="@raw/arrow_up" />
+            <!--Daftart Item id:arrawItemMnBook-->
+            <com.airbnb.lottie.LottieAnimationView
+                android:id="@+id/arrawItemMnBook"
+                android:layout_width="150dp"
+                android:layout_height="150dp"
+                app:layout_constraintEnd_toEndOf="@id/linear_card_item"
+                app:layout_constraintStart_toStartOf="@id/linear_card_profile_expand"
+                app:layout_constraintTop_toBottomOf="@id/linear_card_item"
+                app:lottie_autoPlay="false"
+                app:lottie_loop="false"
+                app:lottie_rawRes="@raw/arrow_up" />
+            <!--Setting id:arrawSettingMnBook-->
+            <com.airbnb.lottie.LottieAnimationView
+                android:id="@+id/arrawSettingMnBook"
+                android:layout_width="150dp"
+                android:layout_height="150dp"
+                app:layout_constraintEnd_toEndOf="@id/linear_card_setting_expand"
+                app:layout_constraintStart_toStartOf="@id/linear_card_setting_expand"
+                app:layout_constraintTop_toBottomOf="@id/linear_card_setting_expand"
+                app:lottie_autoPlay="false"
+                app:lottie_loop="false"
+                app:lottie_rawRes="@raw/arrow_up" />
+            <!--Help id:arrawHelpMnBook-->
+            <com.airbnb.lottie.LottieAnimationView
+                android:id="@+id/arrawHelpMnBook"
+                android:layout_width="150dp"
+                android:layout_height="150dp"
+                app:layout_constraintBottom_toTopOf="@id/linear_card_help_expand"
+                app:layout_constraintEnd_toEndOf="@id/linear_card_help_expand"
+                app:layout_constraintStart_toStartOf="@id/linear_card_help_expand"
+                app:lottie_autoPlay="false"
+                app:lottie_loop="false"
+                app:lottie_rawRes="@raw/arrow_down" />
+            <!--Logout id:arrawLogoutMnBook-->
+            <com.airbnb.lottie.LottieAnimationView
+                android:id="@+id/arrawLogoutMnBook"
+                android:layout_width="150dp"
+                android:layout_height="150dp"
+                app:layout_constraintBottom_toTopOf="@id/linear_card_logout"
+                app:layout_constraintEnd_toEndOf="@id/linear_card_logout"
+                app:layout_constraintStart_toStartOf="@id/linear_card_logout"
+                app:lottie_autoPlay="false"
+                app:lottie_loop="false"
+                app:lottie_rawRes="@raw/arrow_down" />
+
+            <TextView
+                android:id="@+id/titleMnBook"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:padding="10dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
+                android:text="@string/hello_blank_fragment"
+                android:fontFamily="@font/poppins_bold"
+                android:textColor="#FFFDFD"
+                android:textSize="16sp"
+                android:visibility="visible"
+                app:layout_constraintTop_toBottomOf="@id/linear_card_logout"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintBottom_toTopOf="@id/btnNext"/>
+
+            <Button
+                android:id="@+id/btnLewati"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="16dp"
+                android:background="@drawable/bg_button"
+                android:backgroundTint="@color/buttonTransBackground"
+                android:text="Lewati"
+                android:fontFamily="@font/poppins_bold"
+                android:textColor="#FFFDFD"
+                android:textSize="16sp"
+                android:visibility="visible"
+                app:layout_constraintBottom_toBottomOf="@+id/btnNext"
+                app:layout_constraintEnd_toStartOf="@+id/btnNext"
+                app:layout_constraintTop_toTopOf="@+id/btnNext" />
+
+            <Button
+                android:id="@+id/btnNext"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/bg_button"
+                android:fontFamily="@font/poppins_bold"
+                android:backgroundTint="@color/buttonTransBackground"
+                android:text="Next"
+                android:textSize="16sp"
+                android:visibility="visible"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.931"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintBaseline_toBottomOf="parent" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -19,6 +19,8 @@ public class SessionManager {
     private static final String LOGIN = "IS_LOGIN";
 //    URL
     public static final String HOSTNAME = "Https://persediaan.djptkkpsystem.id/";
+//    public static final String GETDOWNLOADPENER = "https://ejournal.unib.ac.id/index.php/pseudocode/article/download/1039/871";
+    public static final String GETDOWNLOADPENER = HOSTNAME+"api/download/terimaLap?id_trans=";
 //    public static final String HOSTNAME = "Https://depo.gemes.id/";
 //    User
     public static final String USERNAME = "USERNAME";
@@ -37,8 +39,9 @@ public class SessionManager {
     public static final String JENIS_KEW = "JENIS_KEW";
     public static final String ALAMAT_KANTOR = "ALAMAT_KANTOR";
     public static final String KPPN = "KPPN";
-
-//    Scan
+//  Setting
+    public static final String DEFAULT_VIBRATE = "on";
+    //    Scan
     public static final String SCANR = "SCANR";
     public static final String SCANF = "SCANF";
     public static final String SCANFULLR = "SCANFULLR";
@@ -50,6 +53,10 @@ public class SessionManager {
     public static final String RECEIVE = "RECEIVE";
     public static final String SCANNER = "SCANNER";
     public static final String SCANNER_EDIT_MANUAL_BOOK = "SCANNER_EDIT";
+    public static final String KONVERSI = "KONVERSI";
+    public static final String TRANSFER = "TRANSFER";
+    public static final String SETTING = "SETTING";
+    public static final String SETAKUN = "SETAKUN";
     public static final String MANUAL_BOOK = "MANUAL_BOOK";
     public static final String OPEN_MANUAL_BOOK = "OPEN_MANUAL_BOOK";
 
@@ -220,5 +227,13 @@ public class SessionManager {
 
     public boolean getManualBook(String key){
         return sharedPreferences.getBoolean(key,false);
+    }
+
+    public void setSetting(String setNm, String r) {
+        editor.putString(setNm,r);
+        editor.apply();
+    }
+    public String getSetting(String setNm){
+        return sharedPreferences.getString(setNm,null);
     }
 }

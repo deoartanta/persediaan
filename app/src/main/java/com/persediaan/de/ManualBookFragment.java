@@ -15,6 +15,7 @@ import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.airbnb.lottie.LottieAnimationView;
 import com.etebarian.meowbottomnavigation.MeowBottomNavigation;
 import com.persediaan.de.data.SessionManager;
 
@@ -28,18 +29,31 @@ public class ManualBookFragment extends Fragment {
     Button btn_lewati,btn_next;
     FrameLayout frameLayout;
     TextView btn_nav_manualbook;
+    LottieAnimationView animHand;
+    LinearLayout cardProfile;
+    CardView card_view_manual_book;
 
     TextView tv_lbl_tittle_home,tv_lbl_tittle_receive,
             tv_lbl_tittle_scan,tv_lbl_tittle_spending,
             tv_lbl_tittle_setting;
     TextView lbl_manual_book;
     SessionManager session_manual_book;
+    View.OnClickListener cardOnclickProfile;
     int id = 1;
     public ManualBookFragment(ArrayList<MeowBottomNavigation.Model> models,
                               FrameLayout frameLayout, LinearLayout main_linearlayout) {
         this.models = models;
         this.frameLayout = frameLayout;
         this.main_linearlayout = main_linearlayout;
+    }
+
+    public ManualBookFragment(ArrayList<MeowBottomNavigation.Model> models,
+                              FrameLayout frameLayout, LinearLayout main_linearlayout,
+                              View.OnClickListener cardOnclickProfile) {
+        this.models = models;
+        this.frameLayout = frameLayout;
+        this.main_linearlayout = main_linearlayout;
+        this.cardOnclickProfile = cardOnclickProfile;
     }
 
     @Override
@@ -59,6 +73,11 @@ public class ManualBookFragment extends Fragment {
         tv_lbl_tittle_setting = view.findViewById(R.id.lblBotNavTittleSettingManualBook);
 
         lbl_manual_book = view.findViewById(R.id.lblManualBook);
+        cardProfile = view.findViewById(R.id.cardView);
+        card_view_manual_book = view.findViewById(R.id.cardViewManualBook);
+        animHand = view.findViewById(R.id.tapCardView);
+        cardProfile.setVisibility(View.GONE);
+        animHand.setVisibility(View.GONE);
         btn_nav_manualbook = view.findViewById(R.id.btnNavManualbook);
 
 //        meowBottomNavigation.setModels(model);
@@ -66,6 +85,7 @@ public class ManualBookFragment extends Fragment {
             meowBottomNavigation.add(new MeowBottomNavigation.Model(model.getId(),model.getIcon()));
         }
 //        meowBottomNavigation.setModels(models);
+        cardProfile.setOnClickListener(cardOnclickProfile);
         meowBottomNavigation.setOnShowListener(new MeowBottomNavigation.ShowListener() {
             @Override
             public void onShowItem(MeowBottomNavigation.Model item) {
@@ -99,6 +119,15 @@ public class ManualBookFragment extends Fragment {
         });
         meowBottomNavigation.show(id,true);
         meowBottomNavigation.setEnabled(false);
+//        cardProfile.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                frameLayout.setVisibility(View.GONE);
+//                main_linearlayout.setVisibility(View.VISIBLE);
+//                session_manual_book.OpenManualBook(false);
+//
+//            }
+//        });
         btn_nav_manualbook.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -110,7 +139,6 @@ public class ManualBookFragment extends Fragment {
                     meowBottomNavigation.show(id2,true);
                 }
                 if ((id+1)>models.size()){
-                    btn_next.setText("Finish");
                     btn_nav_manualbook.setVisibility(View.GONE);
                 }
             }
@@ -122,6 +150,12 @@ public class ManualBookFragment extends Fragment {
                 if (id< item.getId()){
                     id = item.getId();
                 }
+
+                card_view_manual_book.setVisibility(View.GONE);
+                cardProfile.setVisibility(View.VISIBLE);
+                animHand.setVisibility(View.VISIBLE);
+                lbl_manual_book.setText("Tap disini untuk pergi ke halaman pengaturan akun");
+
                 if ((id+1)>models.size()){
                     btn_next.setText("Finish");
                     btn_nav_manualbook.setVisibility(View.GONE);
@@ -131,7 +165,10 @@ public class ManualBookFragment extends Fragment {
         meowBottomNavigation.setOnReselectListener(new MeowBottomNavigation.ReselectListener() {
             @Override
             public void onReselectItem(MeowBottomNavigation.Model item) {
-
+                card_view_manual_book.setVisibility(View.GONE);
+                cardProfile.setVisibility(View.VISIBLE);
+                animHand.setVisibility(View.VISIBLE);
+                lbl_manual_book.setText("Tap disini untuk pergi ke halaman pengaturan akun");
             }
         });
 
@@ -148,16 +185,21 @@ public class ManualBookFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 id++;
-                if ((id+1)>models.size()){
+                if ((id+1)>(models.size()+1)){
                     btn_next.setText("Finish");
                     btn_nav_manualbook.setVisibility(View.GONE);
                     main_linearlayout.setVisibility(View.VISIBLE);
                 }
-                if (id>models.size()) {
+                if (id>(models.size()+1)) {
                     frameLayout.setVisibility(View.GONE);
                     main_linearlayout.setVisibility(View.VISIBLE);
                     session_manual_book.OpenManualBook(false);
 
+                }else if (id>models.size()){
+                    card_view_manual_book.setVisibility(View.GONE);
+                    cardProfile.setVisibility(View.VISIBLE);
+                    animHand.setVisibility(View.VISIBLE);
+                    lbl_manual_book.setText("Tap disini untuk pergi ke halaman pengaturan akun");
                 }else{
                     meowBottomNavigation.show(id, true);
                     main_linearlayout.setVisibility(View.VISIBLE);

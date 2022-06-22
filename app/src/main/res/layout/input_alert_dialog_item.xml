@@ -58,6 +58,8 @@
                     android:id="@+id/autoCompleteSatuan"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:dropDownHeight="250dp"
+                    android:ems="10"
                     android:inputType="none"
                     android:textColor="@color/black"
                     android:textSize="14sp" />

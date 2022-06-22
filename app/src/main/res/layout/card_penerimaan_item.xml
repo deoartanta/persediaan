@@ -39,9 +39,11 @@
                 android:id="@+id/tvNmItemPener"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
                 android:layout_alignParentLeft="true"
-                android:layout_marginStart="16dp"
-                android:layout_marginEnd="16dp"
+                android:layout_marginStart="13dp"
+                android:layout_marginLeft="13dp"
+                android:layout_toStartOf="@+id/line2"
                 android:text="Nama Item"
                 android:textColor="@color/black" />
 

@@ -1,28 +1,46 @@
 package com.persediaan.de;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.cardview.widget.CardView;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.Manifest;
+import android.app.DownloadManager;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.pm.PackageManager;
+import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
+import android.os.Environment;
 import android.os.Handler;
+import android.os.VibrationEffect;
+import android.os.Vibrator;
 import android.text.Editable;
 import android.text.InputType;
 import android.text.TextUtils;
 import android.text.TextWatcher;
+import android.util.DisplayMetrics;
 import android.util.Log;
+import android.view.Display;
+import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
+import android.webkit.CookieManager;
+import android.webkit.URLUtil;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -33,14 +51,20 @@ import android.widget.Toast;
 import com.facebook.shimmer.ShimmerFrameLayout;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
+import com.persediaan.de.adapter.AdapterDaftartBarang;
 import com.persediaan.de.adapter.AdapterItemPenerimaan;
 import com.persediaan.de.adapter.RecyclerViewClickInterface;
+import com.persediaan.de.api.ApiDaftarBarang;
+import com.persediaan.de.api.ApiDownload;
 import com.persediaan.de.api.ApiPenerimaan;
 import com.persediaan.de.api.ApiSimpan;
 import com.persediaan.de.api.JsonPlaceHolderApi;
 import com.persediaan.de.data.Currency;
 import com.persediaan.de.data.DialogCustom;
+import com.persediaan.de.data.ListItem;
 import com.persediaan.de.data.SessionManager;
+import com.persediaan.de.javaKey.JavaKeyBoard;
+import com.persediaan.de.model.ModelDaftarItem;
 import com.persediaan.de.model.ModelItemBrg;
 
 import java.text.SimpleDateFormat;
@@ -50,11 +74,13 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 
+import okhttp3.internal.http2.Http2;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
+import retrofit2.http.HTTP;
 
 public class DetailPenerimaanActivity extends AppCompatActivity implements RecyclerViewClickInterface {
 
@@ -65,11 +91,13 @@ public class DetailPenerimaanActivity extends AppCompatActivity implements Recyc
                         TGL_PURCHASE = "TGL_PURCHASE",
                         JML_ITEM ="JML_ITEM",
                         PENYEDIA = "PENYEDIA",
+                        ALA_PENYEDIA = "ALA_PENYEDIA",
                         JML_ITEM_BOTTOM = "JML_ITEM_BOTTOM",
                         TOTAL_HRG = "TOTAL_HRG",
                         NOTE = "NOTE";
     double hrg=0,qty = 0;
     boolean isInputText=true;
+    Vibrator vibrator;
     Currency formatNumber;
 
     Toolbar toolbar;
@@ -81,7 +109,8 @@ public class DetailPenerimaanActivity extends AppCompatActivity implements Recyc
     RecyclerView recyclerViewItem;
 
     TextView tb_title,tv_idtrans,tv_area,tv_sts,tv_tglpurchase,tv_jml_item_bottom,tv_total_hrg,
-            tv_total_hrg2,tv_not_found,tv_not_found_parent,tv_ala_supplier;
+            tv_total_hrg2,tv_not_found,tv_not_found_parent,tv_ala_supplier,tv_lbl_detailItem,tv_lblarea;
+    TextView tv_supplier;
 //  <</  Button Sheet
     RelativeLayout ttl_hrg_layout;
     RelativeLayout ttl_hrg2_layout;
@@ -104,11 +133,14 @@ public class DetailPenerimaanActivity extends AppCompatActivity implements Recyc
 //    Session
     Bundle extras;
     HashMap<String,Integer> detailUserInt;
-    HashMap<String,String> detailScanner;
+    HashMap<String,String> listitemname;
+    HashMap<String,String> detailUser;
     SessionManager sessionManagerUser;
     SessionManager sessionManagerScan;
 
-    Button btn_simpan,btn_batal;
+    Button btn_simpan,btn_batal,btnDonloadPdf;
+    boolean vibrateOnOf80 = true;
+    boolean vibrateOnOf60 = true;
 
     ShimmerFrameLayout shimmerFrameLayoutItem,shimmerFrameLayout_parent;
 
@@ -144,6 +176,7 @@ public class DetailPenerimaanActivity extends AppCompatActivity implements Recyc
         tb_title = toolbar.findViewById(R.id.tb_title);
 
         tv_not_found = findViewById(R.id.tvItemNotFound);
+        tv_lbl_detailItem = findViewById(R.id.tvlblDetailItem);
         tv_not_found_parent = findViewById(R.id.tvItemNotFoundParent);
 
         recyclerViewItem = findViewById(R.id.recyclerItem);
@@ -162,6 +195,7 @@ public class DetailPenerimaanActivity extends AppCompatActivity implements Recyc
         btn_layout_bottom_sheet = findViewById(R.id.btnLayoutBottomSheet);
 
         tv_total_hrg2 = findViewById(R.id.tvTotalhrg2);
+        tv_supplier = findViewById(R.id.tvSupplierBottom);
         tv_ala_supplier = findViewById(R.id.tvAlamatBottom);
 
         bottom_sheet = findViewById(R.id.BottomSheet);
@@ -170,6 +204,7 @@ public class DetailPenerimaanActivity extends AppCompatActivity implements Recyc
 
         tv_idtrans = findViewById(R.id.tvPurchase);
         tv_area = findViewById(R.id.tvArea);
+        tv_lblarea = findViewById(R.id.tv_lblarea);
         tv_sts = findViewById(R.id.tvSts);
         tv_tglpurchase = findViewById(R.id.tvTglpurchase);
         tv_jml_item_bottom = findViewById(R.id.tvJmlItemBottom);
@@ -178,6 +213,8 @@ public class DetailPenerimaanActivity extends AppCompatActivity implements Recyc
 
         btn_simpan = findViewById(R.id.btnSimpan);
         btn_batal = findViewById(R.id.btnBatal);
+        btnDonloadPdf = findViewById(R.id.btnDonloadPdf);
+        btnDonloadPdf.setVisibility(View.GONE);
 
         shimmerFrameLayoutItem = findViewById(R.id.shimerLayoutItem);
         shimmerFrameLayoutItem.startShimmer();
@@ -191,6 +228,7 @@ public class DetailPenerimaanActivity extends AppCompatActivity implements Recyc
         sessionManagerUser = new SessionManager(getApplicationContext(),"login");
         sessionManagerScan = new SessionManager(getApplicationContext(),"scan");
         detailUserInt = sessionManagerUser.getUserDetailInt();
+        detailUser = sessionManagerUser.getUserDetail();
 
 
 
@@ -234,11 +272,27 @@ public class DetailPenerimaanActivity extends AppCompatActivity implements Recyc
 //                        tv_total_hrg.setText("Height("+height+")"+prsHeight+"%=>"+heightMove);
 //                        btn_simpan.setText(""+prsHeight+"%");
 //                        if (iTouchY<=)
-
+                        SessionManager session_setting = new SessionManager(DetailPenerimaanActivity.this,
+                                SessionManager.SETTING);
+                        if (session_setting.getSetting("vibrate")=="on") {
+                            if (prsHeight >= 80) {
+                                if (vibrateOnOf80) {
+                                    vibrateOnOf80 = false;
+                                    createVibrate();
+                                }
+                            } else if (prsHeight >= 60) {
+                                if (vibrateOnOf60) {
+                                    vibrateOnOf60 = false;
+                                    createVibrate();
+                                }
+                            }
+                        }
                         break;
                     case MotionEvent.ACTION_UP:
+                        vibrateOnOf80 = true;
+                        vibrateOnOf60 = true;
                         if (prsHeight>=80){
-                            card_bottom_sheet.getLayoutParams().height = (int) ((105f/100f)*height);
+                            card_bottom_sheet.getLayoutParams().height = (int) ((100f/100f)*height);
                             linear_bottom_sheet.setVisibility(View.VISIBLE);
                             linear_layout_tll_hrg.setVisibility(View.VISIBLE);
                         }else if(prsHeight<80&&prsHeight>=60){
@@ -284,7 +338,11 @@ public class DetailPenerimaanActivity extends AppCompatActivity implements Recyc
 
         tiet_note.setText(extras.getString(NOTE));
         if (extras.getString(ID_TRANS)!=null) {
-            loadItem(detailUserInt.get(SessionManager.USER_ID), extras.getString(ID_TRANS));
+            if(extras.getString(STS).equals("kv1")||extras.getString(STS).equals("kv0")){
+                detailPener(extras.getString(STS),extras);
+            }else{
+                loadItem(detailUserInt.get(SessionManager.USER_ID), extras.getString(ID_TRANS));
+            }
         }else{
             finish();
         }
@@ -413,6 +471,305 @@ public class DetailPenerimaanActivity extends AppCompatActivity implements Recyc
             }
         });
     }
+    public void createVibrate(){
+        vibrator = (Vibrator)getSystemService(Context.VIBRATOR_SERVICE);
+        if (Build.VERSION.SDK_INT >= 26) {
+            vibrator.vibrate(VibrationEffect.createOneShot(50, 10));
+        } else {
+            vibrator.vibrate(50);
+        }
+    }
+    private void detailPener(String sts, Bundle extras) {
+        btnDonloadPdf.setVisibility(View.VISIBLE);
+        shimmerFrameLayoutItem.setVisibility(View.GONE);
+        shimmerFrameLayoutItem.stopShimmer();
+
+        shimmerFrameLayout_parent.stopShimmer();
+        shimmerFrameLayout_parent.setVisibility(View.GONE);
+        scrollView.setVisibility(View.VISIBLE);
+
+        relative_content.setVisibility(View.VISIBLE);
+//        bottom_sheet.setVisibility(View.VISIBLE);
+        recyclerViewItem.setVisibility(View.VISIBLE);
+        tv_not_found.setVisibility(View.GONE);
+
+        tv_idtrans.setText(extras.getString(ID_TRANS));
+        tv_area.setText(extras.getString(ALA_PENYEDIA));
+        tv_lblarea.setText("Alamat");
+        tv_sts.setText(extras.getString(STS).equals("kv1")?"konversi":"Belum dikonversi");
+
+        tv_ala_supplier.setText(extras.getString(ALA_PENYEDIA));
+//        tv_supplier.setText(extras.getString(PENYEDIA));
+
+        tv_tglpurchase.setText(extras.getString(TGL_PURCHASE));
+
+        tv_lbl_detailItem.setText(extras.getString(PENYEDIA)+"("+extras.getString(JML_ITEM)+")");
+
+//      get item
+        Call<ArrayList<ApiDaftarBarang>> call = jsonPlaceHolderApi.getiItem();
+        call.enqueue(new Callback<ArrayList<ApiDaftarBarang>>() {
+            @Override
+            public void onResponse(Call<ArrayList<ApiDaftarBarang>> call, Response<ArrayList<ApiDaftarBarang>> response) {
+                if (!response.isSuccessful()){
+                    Toast.makeText(DetailPenerimaanActivity.this, "Terjadi error yang tidak diketahui",
+                            Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                ArrayList<ApiDaftarBarang> apiDaftarBarangs = response.body();
+
+                listitemname = new HashMap<>();
+                for (ApiDaftarBarang apiDaftarBarang:apiDaftarBarangs){
+                    listitemname.put(apiDaftarBarang.getId_item(),apiDaftarBarang.getNm_item());
+                }
+
+                {
+                    //      Load Detail Item
+                    ArrayList<ModelItemBrg> modelItemBrgsDetail = new ArrayList<>();
+                    for (int i = 0; i < extras.getStringArrayList(ListItem.NM_ITEM).size(); i++) {
+//                    for (int i = 0; i < (extras.getStringArrayList(ListItem.NM_ITEM).size() > 10? 100 : extras.getStringArrayList(ListItem.NM_ITEM).size()); i++) {
+                        modelItemBrgsDetail.add(new ModelItemBrg(i,
+                                        extras.getStringArrayList(ListItem.ID_ITEM).get(i),
+                                        Integer.parseInt(extras.getStringArrayList(ListItem.QTY).get(i)), 0,
+                                        Integer.parseInt(extras.getStringArrayList(ListItem.HARGA).get(i)), 0,
+                                        listitemname.get(extras.getStringArrayList(ListItem.ID_ITEM).get(i)),
+                                        extras.getStringArrayList(ListItem.NM_ECER).get(i),
+                                        extras.getStringArrayList(ListItem.NM_SATUAN).get(i)
+
+                                ).setAction(false)
+                        );
+                    }
+//                    get size screen
+//                    {
+                        WindowManager wm =
+                                (WindowManager) getApplicationContext().getSystemService(Context.WINDOW_SERVICE);
+                        Display display = wm.getDefaultDisplay();
+                        DisplayMetrics metrics = new DisplayMetrics();
+                        display.getMetrics(metrics);
+                        int sHeight = metrics.heightPixels;
+//                    }
+                    AdapterItemPenerimaan adapter = new AdapterItemPenerimaan(modelItemBrgsDetail,
+                            DetailPenerimaanActivity.this);
+                    recyclerViewItem.setLayoutManager(new LinearLayoutManager(getApplicationContext(),
+                            LinearLayoutManager.VERTICAL, false));
+                    recyclerViewItem.setHasFixedSize(true);
+                    recyclerViewItem.setItemAnimator(new DefaultItemAnimator());
+                    if(extras.getStringArrayList(ListItem.NM_ITEM).size()>5){
+                        recyclerViewItem.getLayoutParams().height =
+                                (int)((50f/100)*sHeight);
+//                        recyclerViewItem.requestLayout();
+                        Log.d("19201299",
+                                "onResponse: "+(int)((50f/100)*sHeight)+
+                                        "("+sHeight+")");
+                    }
+                    recyclerViewItem.setAdapter(adapter);
+                }
+
+            }
+
+            @Override
+            public void onFailure(Call<ArrayList<ApiDaftarBarang>> call, Throwable t) {
+                Toast.makeText(DetailPenerimaanActivity.this,
+                        "Server error["+JsonPlaceHolderApi.getMessageApi(t.getMessage())!="false"?t.getMessage()
+                                :JsonPlaceHolderApi.getMessageApi(t.getMessage())+"]",
+                        Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        btnDonloadPdf.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                btnDonloadPdf.setEnabled(false);
+                if (ContextCompat.checkSelfPermission(DetailPenerimaanActivity.this,
+                        Manifest.permission.WRITE_EXTERNAL_STORAGE)==
+                        PackageManager.PERMISSION_GRANTED){
+                    cekDownloadPdf(SessionManager.GETDOWNLOADPENER,tv_idtrans.getText().toString());
+                }else {
+                    requestPermission();
+                }
+            }
+        });
+    }
+
+    private void loadDetailItem(){
+        String[][] arrDaftarBarang=null;
+        Call<ArrayList<ApiDaftarBarang>> call = jsonPlaceHolderApi.getiItem();
+        call.enqueue(new Callback<ArrayList<ApiDaftarBarang>>() {
+            @Override
+            public void onResponse(Call<ArrayList<ApiDaftarBarang>> call, Response<ArrayList<ApiDaftarBarang>> response) {
+                if (!response.isSuccessful()){
+                    Toast.makeText(DetailPenerimaanActivity.this, "Terjadi error yang tidak diketahui",
+                            Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                ArrayList<ApiDaftarBarang> apiDaftarBarangs = response.body();
+
+                int index = 0;
+                for (ApiDaftarBarang apiDaftarBarang:apiDaftarBarangs){
+                    arrDaftarBarang[index][0]=apiDaftarBarang.getId_item();
+                    arrDaftarBarang[index][1]=apiDaftarBarang.getNm_item();
+                    arrDaftarBarang[index][2]=apiDaftarBarang.getNm_satuan();
+                    index++;
+                }
+
+            }
+
+            @Override
+            public void onFailure(Call<ArrayList<ApiDaftarBarang>> call, Throwable t) {
+                Toast.makeText(DetailPenerimaanActivity.this,
+                        "Server error["+JsonPlaceHolderApi.getMessageApi(t.getMessage())!="false"?t.getMessage()
+                                :JsonPlaceHolderApi.getMessageApi(t.getMessage())+"]",
+                        Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    private void cekDownloadPdf(String getdownloadpener,String id_trans){
+        Toast.makeText(DetailPenerimaanActivity.this, "Menghubungkan...", Toast.LENGTH_SHORT).show();
+        Call<ApiDownload> call = jsonPlaceHolderApi.cekFilePdf(id_trans);
+        call.enqueue(new Callback<ApiDownload>() {
+            @Override
+            public void onResponse(Call<ApiDownload> call, Response<ApiDownload> response) {
+                if (!response.isSuccessful()){
+                    Toast.makeText(DetailPenerimaanActivity.this, "Terjadi error yang tidak diketahui",
+                            Toast.LENGTH_LONG).show();
+                    btnDonloadPdf.setEnabled(true);
+                    return;
+                }
+                if (!response.body().isSts()){
+                    new AlertDialog.Builder(DetailPenerimaanActivity.this)
+                            .setTitle("Server Error")
+                            .setCancelable(false)
+                            .setIcon(R.drawable.ic_danger)
+                            .setMessage(response.body().getMsg())
+                            .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialogInterface, int i) {
+                                    btnDonloadPdf.setEnabled(true);
+                                }
+                            }).create().show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ApiDownload> call, Throwable t) {
+                if (JsonPlaceHolderApi.getMessageApi(t.getMessage())!="false") {
+                    String msg = JsonPlaceHolderApi.getMessageApi(t.getMessage());
+                    new AlertDialog.Builder(DetailPenerimaanActivity.this)
+                            .setTitle("Server Error")
+                            .setCancelable(false)
+                            .setIcon(R.drawable.ic_danger)
+                            .setMessage(msg)
+                            .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialogInterface, int i) {
+                                    btnDonloadPdf.setEnabled(true);
+                                }
+                            }).create().show();
+                }else{
+                    downloadFile(getdownloadpener+id_trans);
+                }
+            }
+        });
+    }
+
+    private void downloadFile(String getdownloadpener) {
+        String getUrl = getdownloadpener;
+
+        AlertDialog.Builder dialog2 = new AlertDialog.Builder(DetailPenerimaanActivity.this);
+        LayoutInflater inflater2= getLayoutInflater();
+        View dialogView = inflater2.inflate(R.layout.type_item_code,null);
+        dialog2.setView(dialogView);
+        dialog2.setCancelable(true);
+        dialog2.setIcon(R.mipmap.ic_launcher_packages_splashscreen);
+        dialog2.setTitle("File Name");
+        EditText edtCode = dialogView.findViewById(R.id.tietEditCode);
+        TextInputLayout layoutInput = dialogView.findViewById(R.id.tfEditCode);
+        layoutInput.setHint("Masukan Nama File");
+        edtCode.setInputType(1);
+        String title = "Terima Laporan "+tv_idtrans.getText();
+        if(title!=null){
+            edtCode.setText(title);
+        }else{
+            edtCode.setText("");
+        }
+        edtCode.requestFocus();
+        dialog2.setPositiveButton("Next", (dialog, which) -> {
+            String tb = edtCode.getText().toString();
+            Log.d("19201299",
+                    "downloadFile DetailPenerimaan[490]: title=>"+URLUtil.isFileUrl(URLUtil.guessUrl(getUrl)));
+            Toast.makeText(DetailPenerimaanActivity.this, "Mendownload "+tb+".pdf",
+                    Toast.LENGTH_LONG).show();
+            try {
+                DownloadManager.Request request= new DownloadManager.Request(Uri.parse(URLUtil.guessUrl(getUrl)));
+                String title1 = URLUtil.guessFileName(getUrl,null,"application/pdf");
+                request.setTitle(tb);
+                request.setDescription(SessionManager.HOSTNAME);
+                String cookie = CookieManager.getInstance().getCookie(getUrl);
+                request.addRequestHeader("cookie",cookie);
+                request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED);
+                request.setDestinationInExternalPublicDir(Environment.DIRECTORY_DOWNLOADS,
+                        tb+".pdf");
+                DownloadManager downloadManager = (DownloadManager) getSystemService(DOWNLOAD_SERVICE);
+                downloadManager.enqueue(request);
+
+            } catch (Exception e) {
+                Toast.makeText(DetailPenerimaanActivity.this, "Download Error", Toast.LENGTH_LONG).show();
+                Log.d("19201299", "downloadFile[527]: Error!!"+e.getMessage());
+            }
+
+            dialog.dismiss();
+        });
+        dialog2.setNegativeButton("Cancel", (dialogInterface, i) -> {
+            dialogInterface.dismiss();
+        });
+        dialog2.setOnDismissListener(new DialogInterface.OnDismissListener() {
+            @Override
+            public void onDismiss(DialogInterface dialogInterface) {
+                btnDonloadPdf.setEnabled(true);
+            }
+        });
+        JavaKeyBoard javaKeyBoard = new JavaKeyBoard(dialog2.show().getWindow());
+        javaKeyBoard.showInput();
+    }
+    private void requestPermission() {
+        if (ActivityCompat.shouldShowRequestPermissionRationale(DetailPenerimaanActivity.this,
+                Manifest.permission.WRITE_EXTERNAL_STORAGE)){
+            new AlertDialog.Builder(DetailPenerimaanActivity.this)
+                    .setTitle("Permession Needed")
+                    .setCancelable(false)
+                    .setMessage("This permission is needed bacause of this and that")
+                    .setPositiveButton("ok", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            ActivityCompat.requestPermissions(DetailPenerimaanActivity.this,
+                                    new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},1);
+                        }
+                    })
+                    .setNegativeButton("cancel", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            dialogInterface.dismiss();
+                        }
+                    }).create().show();
+        }else {
+            ActivityCompat.requestPermissions(DetailPenerimaanActivity.this,
+                    new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},1);
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if (requestCode == 1){
+            if(grantResults.length>0&&grantResults[0]==PackageManager.PERMISSION_GRANTED){
+                Toast.makeText(getApplicationContext(), "Permission Granted", Toast.LENGTH_SHORT).show();
+                cekDownloadPdf(SessionManager.GETDOWNLOADPENER,tv_idtrans.getText().toString());
+            }else{
+                Toast.makeText(getApplicationContext(), "Permission Denied",
+                        Toast.LENGTH_SHORT).show();
+            }
+        }
+    }
 
     private void loadItem(int id_user,String id_trans) {
 
@@ -496,43 +853,12 @@ public class DetailPenerimaanActivity extends AppCompatActivity implements Recyc
 //                            )).toString()
                     i++;
                 }
-//                Log.d("19201299",
-//                        "onResponse:("+modelItemBrgs.size()+")Model Item BRGS: "+modelItemBrgs.get(0).toString());
-//                Log.d("19201299", "onResponse: "+
-//                                "{id_purchase = "+id_purchase+","+
-//                                "tgl_purchase = "+tgl_purchase+","+
-//                                "note = "+note+","+
-//                                "dt_purchase = "+dt_purchase+","+
-//                                "nm_area = "+nm_area+","+
-//                                "nm_singkat = "+nm_singkat+","+
-//                                "nm_suplier = "+nm_suplier+","+
-//                                "alasuplier = "+alasuplier+","+
-//                                "npwp = "+npwp+","+
-//                                "name_penyedia = "+name_penyedia+","+
-//                                "status = "+status+","+
-//                                "area = "+area+","+
-//                                "alamat = "+alamat+","+
-//                                "id_trans = "+id_trans+","+
-//                                "jml_item = "+jml_item+","+
-//                                "admin = "+admin+", Id = "+
-//                                id+", Id_area = "+
-//                                id_area+", Id_supplier = "+
-//                                id_supplier+", Diterima = "+
-//                                diterima+",Harga_total = "+
-//                        harga_total
-//                        );
                 jml_item = i-1;
                 if (diterima==0){
                     status = "Belum Diterima";
                 }else if (diterima ==1){
                     status = "Belum Dikonversi";
                 }
-//                modelPenerimaanArrayList.add(new ModelPenerimaan(
-//                        id_purchase,tgl_purchase,note,dt_purchase,nm_area,nm_singkat,
-//                        nm_suplier,alasuplier,npwp,name_penyedia,status,area,
-//                        alamat,id_trans,jml_item,admin,id,id_area,id_supplier,diterima,
-//                        harga_total,modelItemBrgs
-//                ));
                 AdapterItemPenerimaan adapter = new AdapterItemPenerimaan(modelItemBrgs,
                         DetailPenerimaanActivity.this);
                 recyclerViewItem.setLayoutManager(new LinearLayoutManager(getApplicationContext(),
@@ -548,6 +874,7 @@ public class DetailPenerimaanActivity extends AppCompatActivity implements Recyc
                         .format(
                                 new Date((Long.parseLong(String.valueOf(tgl_purchase))*1000))
                         )).toString());
+                tiet_note.setText(note);
                 tv_jml_item_bottom.setText(String.valueOf(jml_item));
                 if (harga_total < (double) 100000000) {
                     tv_total_hrg.setText("Rp. "+formatNumber.setFormatNumber((double) harga_total));
@@ -564,21 +891,6 @@ public class DetailPenerimaanActivity extends AppCompatActivity implements Recyc
                 relative_content.setVisibility(View.VISIBLE);
                 bottom_sheet.setVisibility(View.VISIBLE);
                 tv_not_found.setVisibility(View.GONE);
-
-
-//                heightLong = card_bottom_sheet.getHeight();
-//
-//
-//                heightShort = heightLong-linear_bottom_sheet.getHeight();
-//
-//                heightShort2 = heightShort-linear_layout_tll_hrg.getHeight();
-
-
-//                linear_bottom_sheet.setMinimumHeight(linear_bottom_sheet.getHeight());
-//                tv_total_hrg2.setText(heightLong+", " +
-//                        heightShort+", "+heightShort2);
-//                card_bottom_sheet.getLayoutParams().height = heightLong;
-//                card_bottom_sheet.requestLayout();
             }
 
             @Override

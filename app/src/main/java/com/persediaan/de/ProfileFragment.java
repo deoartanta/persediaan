@@ -1,17 +1,23 @@
 package com.persediaan.de;
 
+import android.Manifest;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.widget.SwitchCompat;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.os.Handler;
 import android.text.Editable;
 import android.text.InputType;
 import android.text.TextUtils;
@@ -24,6 +30,7 @@ import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -53,6 +60,8 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class ProfileFragment extends Fragment implements RecyclerViewClickExpendInterface,RecyclerViewClickInterface {
 
     public static String AKUN = "AKUN";
+    public static String SETTING = "SETTING";
+    public static String HELP = "HELP";
     String state = "";
     //Connection
     private Retrofit retrofit;
@@ -61,7 +70,9 @@ public class ProfileFragment extends Fragment implements RecyclerViewClickExpend
     private int i_List_Item;
 
     SessionManager sessionManagerProfil;
+    SessionManager session_trantition;
     SessionManager session_manual_book;
+    SessionManager session_setting;
     HashMap<String,String> detail_profile;
     HashMap<String,Integer> detail_profile_int;
 
@@ -80,7 +91,6 @@ public class ProfileFragment extends Fragment implements RecyclerViewClickExpend
     LinearLayout main_linearlayout;
 
     RecyclerView recyclerView_profileSetting;
-
     public ProfileFragment() {
         // Required empty public constructor
     }
@@ -103,6 +113,11 @@ public class ProfileFragment extends Fragment implements RecyclerViewClickExpend
         sessionManagerProfil = new SessionManager(requireContext(),"login");
         session_manual_book = new SessionManager(requireContext(),
                 SessionManager.MANUAL_BOOK);
+        session_setting = new SessionManager(requireContext(),
+                SessionManager.SETTING);
+        session_trantition = new SessionManager(requireContext(),"transtition");
+
+        session_trantition.clearSession();
 
         detail_profile = sessionManagerProfil.getUserDetail();
         detail_profile_int = sessionManagerProfil.getUserDetailInt();
@@ -117,11 +132,30 @@ public class ProfileFragment extends Fragment implements RecyclerViewClickExpend
         satker = view.findViewById(R.id.profileTvSatker);
         alamat_profile = view.findViewById(R.id.profileTvAlamat);
         imgProfile = view.findViewById(R.id.imgProfilUser);
+        if(!session_manual_book.getManualBook(SessionManager.SETTING)){
+            openMnBook();
+        }
 
         setProfile();
         loadSettingProfile(state);
         return view;
     }
+
+    private void openMnBook() {
+        getParentFragmentManager()
+                .beginTransaction()
+                .replace(R.id.frameManualBook,
+                        new ManualBookFragmentSetting(frame_layout_manual_book,""))
+                .commit();
+    }
+    private void openMnBookAkun() {
+        getParentFragmentManager()
+                .beginTransaction()
+                .replace(R.id.frameManualBook,
+                        new ManualBookFragmentSetting(frame_layout_manual_book,"akun"))
+                .commit();
+    }
+
     public void setProfile(){
         detail_profile = sessionManagerProfil.getUserDetail();
         detail_profile_int = sessionManagerProfil.getUserDetailInt();
@@ -170,6 +204,8 @@ public class ProfileFragment extends Fragment implements RecyclerViewClickExpend
                 password = detail_profile.get(SessionManager.PASSW),
                 alamat = detail_profile.get(SessionManager.ALAMAT),
                 stateAkun ="",
+                stateSetting ="",
+                stateHelp ="",
                 passwordHide= "";
 
         usernameShord = textWrap(
@@ -185,12 +221,24 @@ public class ProfileFragment extends Fragment implements RecyclerViewClickExpend
         }else{
             stateAkun = "false";
         }
+        if (state == SETTING) {
+            stateSetting = "true";
+        }else{
+            stateSetting = "false";
+        }
+        if (state == HELP) {
+            stateHelp = "true";
+        }else{
+            stateHelp = "false";
+        }
 
         arrayList_profileRowExpand.add(new ModelProfileRowExpand(
                 0,"Akun",R.drawable.ic_person_edit,
                 createRowItem(
                         new String[]{"Nama","Username","Password","Alamat","state"},
-                        new String[]{usernameShord,username,passwordHide,alamat,stateAkun},
+                        new String[]{usernameShord,textWrap(username,8,"text"),passwordHide,
+                                textWrap(alamat,8,"text"),
+                                stateAkun},
                         new int[]{ModelProfileRowExpand.TYPE_TEXT,
                                 ModelProfileRowExpand.TYPE_TEXT,
                                 ModelProfileRowExpand.TYPE_TEXT_PASSWORD,
@@ -205,24 +253,27 @@ public class ProfileFragment extends Fragment implements RecyclerViewClickExpend
         arrayList_profileRowExpand.add(new ModelProfileRowExpand(
                 3,"Setting", R.drawable.ic_baseline_settings_24,
                 createRowItem(
-                        new String[]{"Screen Orientation","Themes"},
-                        new String[]{"Portrait","Light"}
+                        new String[]{"Vibrate","state"},
+                        new String[]{session_setting.getSetting("vibrate"),stateSetting},
+                        new int[]{ModelProfileRowExpand.TYPE_TEXT_BOOLEAN,
+                                ModelProfileRowExpand.TYPE_TEXT_BOOLEAN}
                 ), true));
 
         arrayList_profileRowExpand.add(new ModelProfileRowExpand(
                 4,"Help", R.drawable.ic_help,
                 createRowItem(
                         new String[]{"Home page tutorial","Receive page tutorial","Reception " +
-                                "details page tutorial","How to" +
-                                " use scanner"},
-                        new String[]{"","","",""}
+                                "details page\ntutorial","How to use scanner?","How to convert " +
+                                "items?","Steps to transfer items\nto another warehouse","Setting" +
+                                " page tutorial","How to change account\ninformation","state"},
+                        new String[]{"","","","","","","","",stateHelp}
                 ), true).setImgResourceRight(R.drawable.ic_baseline_keyboard_arrow_right_24));
 
         arrayList_profileRowExpand.add(new ModelProfileRowExpand(
                 5,"Logout",R.drawable.ic_baseline_power_settings_new_24,
                 null, false).setMarginBot(130));
 
-        adapterProfile = new AdapterAkunSetting(
+        adapterProfile = new AdapterAkunSetting(requireContext(),
                 arrayList_profileRowExpand,ProfileFragment.this);
 
         recyclerView_profileSetting.setLayoutManager(new LinearLayoutManager(getContext(),
@@ -264,8 +315,33 @@ public class ProfileFragment extends Fragment implements RecyclerViewClickExpend
     }
 
     @Override
-    public void onItemClick(int position, View view) {
+    public void onItemClickExpandable(int position, View view,boolean expandable) {
 //        Toast.makeText(requireContext(), "Position "+position, Toast.LENGTH_SHORT).show();
+        switch (position){
+            case 0:
+                if (expandable) {
+                    if (!session_manual_book.getManualBook(SessionManager.SETAKUN)) {
+                        openMnBookAkun();
+                    }
+//                    loadSettingProfile(AKUN);
+                }
+                break;
+            case 2:
+//                if (expandable){
+//                    loadSettingProfile(SETTING);
+//                }
+                break;
+            case 3:
+//                if (expandable){
+//                    loadSettingProfile(HELP);
+//                }
+                break;
+        }
+    }
+
+    @Override
+    public void onItemClick(int position, View view) {
+
     }
 
     @Override
@@ -279,7 +355,6 @@ public class ProfileFragment extends Fragment implements RecyclerViewClickExpend
                 R.layout.input_alert_dialog,R.drawable.ic_person_edit);
         dialogCustom.setCustomDialog();
 
-        TextView tv_edit_old = view.findViewById(R.id.tvSettingResult);
             AlertDialog.Builder dialog1;
             View viewInflated;
             viewInflated = dialogCustom.getViewInflated();
@@ -554,7 +629,16 @@ public class ProfileFragment extends Fragment implements RecyclerViewClickExpend
                     newPage(ItemActivity.class);
                     break;
                 case 3:
-                    Toast.makeText(requireContext(), ""+tv_edit_old.getText(),
+                    SwitchCompat aSwitch = view.findViewById(R.id.switch1);
+                    if (isEnable){
+                        session_setting.setSetting("vibrate","on");
+                    }else {
+                        session_setting.setSetting("vibrate", "off");
+                    }
+//                    loadSettingProfile(SETTING);
+                    Toast.makeText(requireContext(),
+                            ""+isEnable+" vibrate :"+session_setting.getSetting(
+                                    "vibrate"),
                             Toast.LENGTH_SHORT).show();
                     break;
                 case 4:
@@ -596,8 +680,40 @@ public class ProfileFragment extends Fragment implements RecyclerViewClickExpend
                         case 3:
                             session_manual_book.setManualBook(SessionManager.SCANNER,false);
                             session_manual_book.setManualBook(SessionManager.SCANNER_EDIT_MANUAL_BOOK,false);
+                            if (ContextCompat.checkSelfPermission(requireContext(),
+                                    Manifest.permission.CAMERA)==
+                                    PackageManager.PERMISSION_GRANTED){
+                                openPage();
+                            }else
+                            {
+                                requestCameraPermission();
+                            }
+                            break;
+                        case 4:
+                            session_manual_book.setManualBook(SessionManager.KONVERSI,false);
                             if (bottomNavigation!=null){
-                                bottomNavigation.show(3,true);
+                                bottomNavigation.show(4,true);
+                            }
+                            break;
+                        case 5:
+                            session_manual_book.setManualBook(SessionManager.TRANSFER,false);
+                            session_trantition.setTranstition("transfer",true);
+                            if (bottomNavigation!=null){
+                                bottomNavigation.show(4,true);
+                            }
+                            break;
+                        case 6:
+                            session_manual_book.setManualBook(SessionManager.SETTING,false);
+                            session_trantition.setTranstition("setting",true);
+                            if (bottomNavigation!=null){
+                                bottomNavigation.show(5,true);
+                            }
+                            break;
+                        case 7:
+                            session_manual_book.setManualBook(SessionManager.SETAKUN,false);
+                            loadSettingProfile(AKUN);
+                            if(!session_manual_book.getManualBook(SessionManager.SETAKUN)){
+                                openMnBookAkun();
                             }
                             break;
 
@@ -613,7 +729,38 @@ public class ProfileFragment extends Fragment implements RecyclerViewClickExpend
         Intent i = new Intent(requireContext(),cls);
         startActivity(i);
     }
+    private void openPage(){
+        if (bottomNavigation!=null){
+            bottomNavigation.show(3,true);
+        }
+    }
 
+    private void requestCameraPermission() {
+        session_trantition.setTranstition("setting",true);
+        if (ActivityCompat.shouldShowRequestPermissionRationale(requireActivity(),
+                Manifest.permission.CAMERA)){
+            new AlertDialog.Builder(requireContext())
+                    .setTitle("Permession Needed")
+                    .setCancelable(false)
+                    .setMessage("This permission is needed bacause of this and that")
+                    .setPositiveButton("ok", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            ActivityCompat.requestPermissions(requireActivity(),
+                                    new String[]{Manifest.permission.CAMERA},1);
+                        }
+                    })
+                    .setNegativeButton("cancel", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            dialogInterface.dismiss();
+                        }
+                    }).create().show();
+        }else {
+            ActivityCompat.requestPermissions(requireActivity(),
+                    new String[]{Manifest.permission.CAMERA},1);
+        }
+    }
     private String editProfile(String tv_edit_old, int p_iduser, String m_input, String type) {
         String input_nama="";
         String input_username = "";
@@ -662,7 +809,7 @@ public class ProfileFragment extends Fragment implements RecyclerViewClickExpend
                     sessionManagerProfil.setEditUserPassword(password);
                     sessionManagerProfil.setEditUserAlamat(alamat);
                     setProfile();
-                    loadSettingProfile("akun");
+                    loadSettingProfile(AKUN);
                 }else{
                     if (!editLogin.getSts()){
                         Toast.makeText(requireContext(), ""+editLogin.getMsg(), Toast.LENGTH_SHORT).show();

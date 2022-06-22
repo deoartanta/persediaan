@@ -64,7 +64,7 @@
                                     android:layout_weight="1"
                                     android:fontFamily="@font/poppins_semibold"
                                     android:gravity="center"
-                                    android:text="500\nReceive"
+                                    android:text="0\nReceive"
                                     android:textAllCaps="true"
                                     android:textColor="@color/black"
                                     android:textSize="12sp" />
@@ -129,7 +129,7 @@
                                     android:layout_weight="1"
                                     android:fontFamily="@font/poppins_semibold"
                                     android:gravity="center"
-                                    android:text="500\nItem"
+                                    android:text="0\nItem"
                                     android:textAllCaps="true"
                                     android:textColor="@color/black"
                                     android:textSize="12sp" />
@@ -199,7 +199,7 @@
                                     android:layout_weight="1"
                                     android:fontFamily="@font/poppins_semibold"
                                     android:gravity="center"
-                                    android:text="500\nReceive"
+                                    android:text="0\nReceive"
                                     android:textAllCaps="true"
                                     android:textColor="@color/black"
                                     android:textSize="12sp" />
@@ -264,7 +264,7 @@
                                     android:layout_weight="1"
                                     android:fontFamily="@font/poppins_semibold"
                                     android:gravity="center"
-                                    android:text="500\nItem"
+                                    android:text="0\nItem"
                                     android:textAllCaps="true"
                                     android:textColor="@color/black"
                                     android:textSize="12sp" />

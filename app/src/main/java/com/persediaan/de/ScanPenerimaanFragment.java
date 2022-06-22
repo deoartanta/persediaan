@@ -141,7 +141,7 @@ public class ScanPenerimaanFragment extends Fragment implements ZXingScannerView
             cam = false;
             dialog2.setView(dialogView);
             dialog2.setCancelable(false);
-            dialog2.setIcon(R.mipmap.ic_launcher);
+            dialog2.setIcon(R.mipmap.ic_launcher_packages_splashscreen);
             dialog2.setTitle("Add Code");
             EditText edtCode = dialogView.findViewById(R.id.tietEditCode);
             edtCode.setText("");

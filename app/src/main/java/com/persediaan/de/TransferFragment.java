@@ -12,6 +12,7 @@ import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
@@ -52,7 +53,7 @@ public class TransferFragment extends Fragment implements RecyclerViewClickInter
 
     Retrofit retrofit;
     JsonPlaceHolderApi jsonPlaceHolderApi;
-    SessionManager sessionUser;
+    SessionManager sessionUser,session_manualBook;
     HashMap<String,Integer> detailUserInt;
 //  Adapter
     AdapterItemGudang adapterItemGudang;
@@ -94,9 +95,14 @@ public class TransferFragment extends Fragment implements RecyclerViewClickInter
 //    Shimmer
     ShimmerFrameLayout shimmer_tab_transfer;
     ScrollView scroll_tab_transfer;
+    FrameLayout frame_layout_manual_book;
 
     public TransferFragment() {
         // Required empty public constructor
+    }
+
+    public TransferFragment(FrameLayout frame_layout_manual_book) {
+        this.frame_layout_manual_book = frame_layout_manual_book;
     }
 
     @Override
@@ -145,12 +151,14 @@ public class TransferFragment extends Fragment implements RecyclerViewClickInter
         jsonPlaceHolderApi = retrofit.create(JsonPlaceHolderApi.class);
 
         sessionUser = new SessionManager(requireContext(),"login");
+        session_manualBook = new SessionManager(requireContext(),SessionManager.MANUAL_BOOK);
 
         detailUserInt = sessionUser.getUserDetailInt();
 
         loadDaftarGudang = new LoadDaftarGudang(detailUserInt.get(SessionManager.USER_ID),
                 retrofit,jsonPlaceHolderApi);
         loadDaftarGudang.loadData();
+
 
 //      Function&Method
         loadDaftarGudang(detailUserInt.get(SessionManager.USER_ID),daftar_gudang);
@@ -190,6 +198,10 @@ public class TransferFragment extends Fragment implements RecyclerViewClickInter
                     @Override
                     public void onResponse(Call<ArrayList<ApiItemGudang>> call, Response<ArrayList<ApiItemGudang>> response) {
                         modelItemGudangs = new ArrayList<>();
+                        if (response.body().size()<1){
+                            System.out.println("Item gudang kosong");
+                            Toast.makeText(getContext(), "Item gudang kosong", Toast.LENGTH_SHORT).show();
+                        }
                         for (ApiItemGudang ApiItemGudang:response.body()){
                             ModelItemGudang modelItemGudang =
                                     new ModelItemGudang(ApiItemGudang.getNm_item(),
@@ -215,7 +227,10 @@ public class TransferFragment extends Fragment implements RecyclerViewClickInter
 
                     @Override
                     public void onFailure(Call<ArrayList<ApiItemGudang>> call, Throwable t) {
-
+                        shimmer_modal_item.setVisibility(View.GONE);
+                        System.out.println("Pilih barang="+t.getMessage());
+                        Toast.makeText(getContext(), "Server error(Pilih brg)"+detailUserInt.get(SessionManager.USER_ID),
+                                Toast.LENGTH_SHORT).show();
                     }
                 });
 
@@ -338,7 +353,17 @@ public class TransferFragment extends Fragment implements RecyclerViewClickInter
         });
         return view;
     }
+
+    private void openManualBook() {
+        frame_layout_manual_book.setVisibility(View.VISIBLE);
+        getParentFragmentManager()
+                .beginTransaction()
+                .replace(R.id.frameManualBook,new ManualBookFragmentTransfer(frame_layout_manual_book))
+                .commit();
+    }
+
     public void loadTransferDetail(int id_user){
+        System.out.println("load transfer detail start");
         recycler_transfer_detail.setAdapter(null);
 
         modelTransferDetails = new ArrayList<>();
@@ -351,8 +376,12 @@ public class TransferFragment extends Fragment implements RecyclerViewClickInter
                             "Terjadi error yang tidak diketahui["+response.code()+
                                     "]",
                             Toast.LENGTH_SHORT).show();
+                    shimmer_tab_transfer.setVisibility(View.GONE);
                     btn_pilih_item.setEnabled(true);
                     return;
+                }
+                if(!session_manualBook.getManualBook(SessionManager.TRANSFER)){
+                    openManualBook();
                 }
                 for (ApiTransferDetail apiTransferDetail: response.body()) {
                     modelTransferDetails.add(new ModelTransferDetail(
@@ -447,15 +476,18 @@ public class TransferFragment extends Fragment implements RecyclerViewClickInter
 
             @Override
             public void onFailure(Call<ArrayList<ApiTransferDetail>> call, Throwable t) {
-                Log.d("19201299", "onFailure: "+t.getMessage());
+                Log.d("19201299",
+                        "onFailure(id User :"+id_user+"): TransferFragment[479]"+t.getMessage());
                 shimmer_tab_transfer.setVisibility(View.GONE);
                 scroll_tab_transfer.setVisibility(View.VISIBLE);
 //                Toast.makeText(requireContext(), "Server Error", Toast.LENGTH_SHORT).show();
             }
         });
+        System.out.println("load tranfer detail finish");
     }
 
     public void loadDaftarGudang(int id_user, AutoCompleteTextView autoCompleteTextView){
+        System.out.println("load daftar gudang start");
         shimmer_tab_transfer.setVisibility(View.VISIBLE);
         scroll_tab_transfer.setVisibility(View.GONE);
         loadDaftarGudang = new LoadDaftarGudang(id_user,retrofit,jsonPlaceHolderApi);
@@ -476,6 +508,7 @@ public class TransferFragment extends Fragment implements RecyclerViewClickInter
                         arrayListGudang);
                 loadTransferDetail(id_user);
                 autoCompleteTextView.setAdapter(listGudangAdapter);
+                shimmer_tab_transfer.setVisibility(View.GONE);
 
                 autoCompleteTextView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                     @Override
@@ -487,9 +520,11 @@ public class TransferFragment extends Fragment implements RecyclerViewClickInter
 
             @Override
             public void onFailure(Throwable t) {
-
+                shimmer_tab_transfer.setVisibility(View.GONE);
+                Toast.makeText(getContext(), "Server error", Toast.LENGTH_LONG).show();
             }
         });
+        System.out.println("load daftar gudang finish");
     }
 
     public void refreshPage(int id_user,AutoCompleteTextView autoCompleteTextView){
@@ -559,7 +594,7 @@ public class TransferFragment extends Fragment implements RecyclerViewClickInter
 
                     @Override
                     public void onFailure(Call<ApiTransferDetail> call, Throwable t) {
-                        Log.d("19201299", "onFailure: "+t.getMessage());
+                        Log.d("19201299", "onFailure: TrasnferFragment[596]"+t.getMessage());
 //                        Toast.makeText(requireContext(), "Server error", Toast.LENGTH_SHORT).show();
                     }
                 });

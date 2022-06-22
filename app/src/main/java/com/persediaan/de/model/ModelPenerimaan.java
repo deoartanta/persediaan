@@ -239,6 +239,25 @@ public class ModelPenerimaan {
         return status;
     }
 
+    public ModelPenerimaan setModelItemBrgs(ArrayList<ModelItemBrg> modelItemBrgs) {
+        this.modelItemBrgs = modelItemBrgs;
+        return this;
+    }
+
+    public ArrayList<ModelItemBrg> getModelItemBrgs() {
+        return modelItemBrgs;
+    }
+
+    public ModelPenerimaan setQty(int qty) {
+        this.qty = qty;
+        return this;
+    }
+
+    public ModelPenerimaan setHarga(int harga) {
+        this.harga = harga;
+        return this;
+    }
+
     @Override
     public String  toString() {
         return "ModelPenerimaan{" +

@@ -69,7 +69,7 @@ public class ScanActivity extends AppCompatActivity implements ZXingScannerView.
         super.onCreate(savedInstanceState);
         test++;
         scanner = new ZXingScannerView(this);
-        Log.d("19201299", "onCreate: Test Error=>"+test);
+//        Log.d("19201299", "onCreate: Test Error=>"+test);
         setContentView(R.layout.activity_scan);
         extras = getIntent().getExtras();
 
@@ -81,6 +81,12 @@ public class ScanActivity extends AppCompatActivity implements ZXingScannerView.
 
         sessionTranstition = new SessionManager(ScanActivity.this,"transtition");
         frame_scanner_manual_book = findViewById(R.id.frameScanManualBook);
+        frame_scanner_manual_book.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+            }
+        });
 
         frameScan2 = findViewById(R.id.frameScan2);
         tv_flash_cam = findViewById(R.id.tvFlashCam);
@@ -107,6 +113,8 @@ public class ScanActivity extends AppCompatActivity implements ZXingScannerView.
                 if (!session_manual_book.getManualBook(SessionManager.SCANNER_EDIT_MANUAL_BOOK)){
                     session_manual_book.setManualBook(SessionManager.SCANNER_EDIT_MANUAL_BOOK,true);
                     session_manual_book.setManualBook(SessionManager.SCANNER,false);
+                }else{
+                    frame_scanner_manual_book.setVisibility(View.GONE);
                 }
 //            }else{
 //                btn_batal.setVisibility(View.GONE);
@@ -150,7 +158,7 @@ public class ScanActivity extends AppCompatActivity implements ZXingScannerView.
 //                cam = false;
                 dialog2.setView(dialogView);
                 dialog2.setCancelable(false);
-                dialog2.setIcon(R.mipmap.ic_launcher);
+                dialog2.setIcon(R.mipmap.ic_launcher_packages_splashscreen);
                 dialog2.setTitle("Add Code");
                 EditText edtCode = dialogView.findViewById(R.id.tietEditCode);
                 if(dataResult!=null){
@@ -237,6 +245,7 @@ public class ScanActivity extends AppCompatActivity implements ZXingScannerView.
         session_manual_book.setManualBook(SessionManager.SCANNER,true);
         session_manual_book.OpenManualBook(true);
         }else{
+            frame_scanner_manual_book.setVisibility(View.GONE);
             if (extras.getString(TYPESCAN).equals(SCANNER_TYPE_1)){
                 setContentView(scanner);
             }else{
@@ -259,19 +268,24 @@ public class ScanActivity extends AppCompatActivity implements ZXingScannerView.
         scanner.setResultHandler(ScanActivity.this);
     }
     public void createVibrate(){
-                    vibrator = (Vibrator)getSystemService(Context.VIBRATOR_SERVICE);
-                    if (Build.VERSION.SDK_INT >= 26) {
-                        vibrator.vibrate(VibrationEffect.createOneShot(50, 10));
-                    } else {
-                        vibrator.vibrate(50);
-                    }
+        vibrator = (Vibrator)getSystemService(Context.VIBRATOR_SERVICE);
+        if (Build.VERSION.SDK_INT >= 26) {
+            vibrator.vibrate(VibrationEffect.createOneShot(50, 10));
+        } else {
+            vibrator.vibrate(50);
+        }
     }
 
 
     @Override
     public void handleResult(Result result) {
         scanner.stopCamera();
-        createVibrate();
+        SessionManager session_setting = new SessionManager(ScanActivity.this,
+                SessionManager.SETTING);
+        if (session_setting.getSetting("vibrate")=="on"){
+            createVibrate();
+        }
+
         String R = result.getText();
         new AlertDialog.Builder(ScanActivity.this)
                 .setTitle("Result")

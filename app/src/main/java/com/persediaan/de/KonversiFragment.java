@@ -10,6 +10,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
+import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
@@ -57,6 +58,8 @@ public class KonversiFragment extends Fragment implements RecyclerViewClickInter
     private JsonPlaceHolderApi jsonPlaceHolderApi;
 
     SessionManager sessionManagerProfil;
+    SessionManager sessionManualBook;
+
     HashMap<String, Integer> detailUser;
     TextView tv_no_konversi, tvTglBarang, tvNmItem, tvNmSatuan, tvQty, tvNmSatuanEdt, tvNmEceranEdt;
     TextInputEditText edtQtySatu, edtQtyEcer;
@@ -73,9 +76,14 @@ public class KonversiFragment extends Fragment implements RecyclerViewClickInter
 
     ShimmerFrameLayout shimmer_tab_konversi;
     ScrollView scroll_tab_konversi;
+    FrameLayout frame_layout_manual_book;
 
-    public KonversiFragment(MeowBottomNavigation meowBottomNavigation) {
+    public KonversiFragment() {
+    }
+
+    public KonversiFragment(MeowBottomNavigation meowBottomNavigation, FrameLayout frame_layout_manual_book) {
         this.meowBottomNavigation = meowBottomNavigation;
+        this.frame_layout_manual_book = frame_layout_manual_book;
     }
 
     @Override
@@ -90,6 +98,8 @@ public class KonversiFragment extends Fragment implements RecyclerViewClickInter
 
         sessionManagerProfil = new SessionManager(requireContext(),"login");
         detailUser = sessionManagerProfil.getUserDetailInt();
+
+        sessionManualBook = new SessionManager(requireContext(),SessionManager.MANUAL_BOOK);
 
         shimmer_tab_konversi = view.findViewById(R.id.shimmerTabKonversi);
         scroll_tab_konversi = view.findViewById(R.id.scroolTabKonversi);
@@ -111,7 +121,9 @@ public class KonversiFragment extends Fragment implements RecyclerViewClickInter
         recycleHasilKonversi = view.findViewById(R.id.recyclerTransferDetail);
         btnCancelKonversi = view.findViewById(R.id.btnCancelKonversi);
         btnSimpanKonversi = view.findViewById(R.id.btnSimpanKonversi);
-
+        if(!sessionManualBook.getManualBook(SessionManager.KONVERSI)){
+            openManualBook();
+        }
         cek_cart();
 
         Call<String> callNoKonversi = jsonPlaceHolderApi.getResponNoKonversi(String.valueOf(detailUser.get(SessionManager.USER_ID)));
@@ -308,6 +320,14 @@ public class KonversiFragment extends Fragment implements RecyclerViewClickInter
         });
 
         return view;
+    }
+
+    private void openManualBook() {
+        frame_layout_manual_book.setVisibility(View.VISIBLE);
+        getParentFragmentManager()
+                .beginTransaction()
+                .replace(R.id.frameManualBook,new ManualBookFragmentKonversi(frame_layout_manual_book))
+                .commit();
     }
 
     @Override

@@ -156,7 +156,7 @@ public class ScannerManualBookFragment extends Fragment {
             lbl_manual_book = view.findViewById(R.id.lblManualBook);
 
             //            Set Text
-            lbl_manual_book.setText("Tap disini jika ingin menyalakan lampu");
+            lbl_manual_book.setText("Icon ini digunakan untuk menghidupkan lampu kamera");
         }
         //            More
         if (sessionScanner.isEditScanner()){

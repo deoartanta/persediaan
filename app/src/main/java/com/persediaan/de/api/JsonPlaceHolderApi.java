@@ -9,10 +9,18 @@ import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
 import retrofit2.http.Path;
+import retrofit2.http.Query;
 
 public interface JsonPlaceHolderApi {
     public static String API_KEY_NAME ="API-KEY";
     public static String API_KEY_VALUE = "keycoba";
+
+//    @GET("users/{name}/commits")
+//    Call<List<Commit>> getCommitsByName(@Path("name") String name);
+//    @GET("users")
+//    Call<User> getUserById(@Query("id") Integer id);
+//    @POST("users")
+//    Call<User> postUser(@Body User user)
 
                         //-------------User-------------\\
 //  Login
@@ -117,6 +125,9 @@ public interface JsonPlaceHolderApi {
     Call<String> getResponBatal(
             @Field("id_user") int id_user
     );
+//  Download Laporan Penerimaan
+    @GET("api/download/terimaLap")
+    Call<ApiDownload> cekFilePdf(@Query("id_trans") String id_trans);
 
                                 //----------Konversi----------\\
     @POST("api/konversi/noKonversi")
@@ -230,7 +241,7 @@ public interface JsonPlaceHolderApi {
             @Field("id_user") int id_user,
             @Field("g_tujuan") int g_tujuan,
             @Field("dt_gudang") String dt_gudang,
-            @Field("id_item") int id_item,
+            @Field("id_item") String id_item,
             @Field("qty_satu") String qty_satu,
             @Field("qty_ecer") String qty_ecer
     );

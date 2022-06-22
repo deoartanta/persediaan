@@ -10,7 +10,7 @@ public class ModelStock {
     int id;
     int admin;
     int id_area;
-    int id_item;
+    String id_item;
     int qty;
     int harga;
     int tipe;
@@ -19,7 +19,8 @@ public class ModelStock {
     int id_satuan;
     int jumlah;
 
-    public ModelStock(int id, String dt_gudang, int admin, int id_area, int id_item, int qty, int harga, int tipe, int tgl_gudang, int sisa, String nm_item, int id_satuan, String nm_satuan, int jumlah, String eceran, String nm_area, String nm_singkat){
+    public ModelStock(int id, String dt_gudang, int admin, int id_area, String id_item, int qty,
+                      int harga, int tipe, int tgl_gudang, int sisa, String nm_item, int id_satuan, String nm_satuan, int jumlah, String eceran, String nm_area, String nm_singkat){
         this.id = id;
         this.dt_gudang = dt_gudang;
         this.admin = admin;
@@ -74,7 +75,7 @@ public class ModelStock {
         return id_area;
     }
 
-    public int getId_item() {
+    public String getId_item() {
         return id_item;
     }
 

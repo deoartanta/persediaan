@@ -1,5 +1,6 @@
 package com.persediaan.de.api.data;
 
+import android.content.Context;
 import android.widget.Toast;
 
 import com.persediaan.de.api.ApiPenerimaan;
@@ -25,13 +26,14 @@ public class LoadDaftarPenerimaan {
     ArrayList<ApiPenerimaan> dataKonversi;
     ArrayList<ApiPenerimaan> dataDiskonversi;
 
+    Context ctx;
     boolean sts;
 
     HashMap<String,Integer> sizeHashMap;
 
     public LoadDaftarPenerimaan(int id_user,
                                 Retrofit retrofit,
-                                JsonPlaceHolderApi jsonPlaceHolderApi) {
+                                JsonPlaceHolderApi jsonPlaceHolderApi,Context ctx) {
         this.id_user = id_user;
         this.retrofit = retrofit;
         this.jsonPlaceHolderApi = jsonPlaceHolderApi;
@@ -40,13 +42,18 @@ public class LoadDaftarPenerimaan {
         sizeHashMap = new HashMap<>();
         dataKonversi = new ArrayList<>();
         dataDiskonversi = new ArrayList<>();
+        this.ctx = ctx;
     }
 
     public void setApiResponListener(ApiResponListener<ArrayList<ApiPenerimaan>> apiResponListener) {
         this.apiResponListener = apiResponListener;
     }
 
-    public void setSize(String key,int value) {
+    public Context getCtx() {
+        return ctx;
+    }
+
+    public void setSize(String key, int value) {
         sizeHashMap.put(key,value);
     }
 

@@ -96,7 +96,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginLeft="10dp"
                             android:fontFamily="@font/poppins"
-                            android:text="1500"
+                            android:text="400"
                             android:textColor="@color/black"
                             android:textStyle="bold" />
 
@@ -106,7 +106,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginLeft="10dp"
                             android:fontFamily="@font/poppins"
-                            android:text="Eceran"
+                            android:text="Lembar"
                             android:textColor="@color/black" />
 
                     </LinearLayout>

@@ -76,7 +76,9 @@ public class MainActivity extends AppCompatActivity implements ScanInterface{
     String permissionMsg;
     FrameLayout frame_layout;
     FrameLayout frame_layout_manual_book;
-
+//  <</Setting
+    SessionManager session_setting;
+//  Setting/>>
 //  Profile
     CircleImageView img_Profile;
     CardView card_view;
@@ -84,6 +86,7 @@ public class MainActivity extends AppCompatActivity implements ScanInterface{
             tv_lbl_tittle_home,tv_lbl_tittle_receive,
             tv_lbl_tittle_scan,tv_lbl_tittle_spending,
             tv_lbl_tittle_setting;
+    LinearLayout ly_spending_lbl;
 
     SessionManager session_manual_book;
 
@@ -102,6 +105,11 @@ public class MainActivity extends AppCompatActivity implements ScanInterface{
         jsonPlaceHolderApi = retrofit.create(JsonPlaceHolderApi.class);
 
         sessionManager = new SessionManager(this,"login");
+        session_setting = new SessionManager(this,SessionManager.SETTING);
+
+        if (session_setting.getSetting("vibrate")==null){
+            session_setting.setSetting("vibrate",SessionManager.DEFAULT_VIBRATE);
+        }
         sessionManager.checkLogin();
 
         sessionTranstition = new SessionManager(this,"transtition");
@@ -121,13 +129,25 @@ public class MainActivity extends AppCompatActivity implements ScanInterface{
         frame_layout = findViewById(R.id.frame_layout);
         frame_layout_manual_book = findViewById(R.id.frameManualBook);
 
+        frame_layout_manual_book.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+            }
+        });
+
 //        Bottom Navigation
         tv_lbl_tittle_home = findViewById(R.id.lblBotNavTittleHome);
         tv_lbl_tittle_receive = findViewById(R.id.lblBotNavtittlePener);
         tv_lbl_tittle_scan = findViewById(R.id.lblBotNavTittleScan);
         tv_lbl_tittle_spending = findViewById(R.id.lblBotNavTittleItemOut);
         tv_lbl_tittle_setting = findViewById(R.id.lblBotNavTittleSetting);
+        ly_spending_lbl = findViewById(R.id.lySpendingLbl);
+        if (user_Int.get(SessionManager.LEVEL)==1) {
+            ly_spending_lbl.setVisibility(View.GONE);
+        }
 
+        tv_lbl_tittle_spending.setVisibility(View.GONE);
         tv_name.setText(user.get(SessionManager.NAMA));
         tv_satker.setText(user.get(SessionManager.SATKER_NM));
         tv_alamat.setText(user.get(SessionManager.AREA_NM)!=null?
@@ -145,17 +165,22 @@ public class MainActivity extends AppCompatActivity implements ScanInterface{
         bottomNavigation.add(new MeowBottomNavigation.Model(1,R.drawable.ic_dashicons_admin_home));
         bottomNavigation.add(new MeowBottomNavigation.Model(2,R.drawable.ic_fluent_mail_inbox_arrow_down_16_filled));
         bottomNavigation.add(new MeowBottomNavigation.Model(3,R.drawable.ic_bx_bx_barcode_reader));
-        bottomNavigation.add(new MeowBottomNavigation.Model(4,R.drawable.ic_fluent_mail_inbox_arrow_up_20_filled));
+        if (user_Int.get(SessionManager.LEVEL)!=1) {
+            ly_spending_lbl.setVisibility(View.VISIBLE);
+            tv_lbl_tittle_spending.setVisibility(View.VISIBLE);
+            bottomNavigation.add(new MeowBottomNavigation.Model(4, R.drawable.ic_fluent_mail_inbox_arrow_up_20_filled));
+        }
         bottomNavigation.add(new MeowBottomNavigation.Model(5,
                 R.drawable.ic_ant_design_setting_filled));
-        cardViewprofile.setOnClickListener(new View.OnClickListener() {
+        View.OnClickListener cardOnclickProfile= new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 state = ProfileFragment.AKUN;
                 bottomNavigation.show(5,true);
                 state = "";
             }
-        });
+        };
+        cardViewprofile.setOnClickListener(cardOnclickProfile);
         bottomNavigation.setOnShowListener(new MeowBottomNavigation.ShowListener() {
             @Override
             public void onShowItem(MeowBottomNavigation.Model item) {
@@ -167,11 +192,12 @@ public class MainActivity extends AppCompatActivity implements ScanInterface{
 //                Animation goDown = AnimationUtils.loadAnimation(getApplicationContext(),R.anim.go_down);
 //                Log.d("19201299",
 //                        "<<169>>Main Activity BotNav case "+item.getId()+" "+page);
+
                 switch (item.getId()){
                     case 1:
                         if (!session_manual_book.getManualBook(SessionManager.HOME)){
                             loadFragmentManualBook(new ManualBookFragment(bottomNavigation.getModels(),
-                                    frame_layout_manual_book,main_linearlayout));
+                                    frame_layout_manual_book,main_linearlayout,cardOnclickProfile));
 //                            main_linearlayout.setVisibility(View.GONE);
                             session_manual_book.setManualBook(SessionManager.HOME,true);
                             session_manual_book.OpenManualBook(true);
@@ -196,29 +222,22 @@ public class MainActivity extends AppCompatActivity implements ScanInterface{
                         break;
                     case 3:
                         page = "scan";
-                        Log.d("19201299", "onShowItem: "+"tessss");
+//                        Log.d("19201299", "onShowItem: "+"tessss");
                         if (ContextCompat.checkSelfPermission(MainActivity.this,Manifest.permission.CAMERA)==
                                 PackageManager.PERMISSION_GRANTED){
-//                            Toast.makeText(getApplicationContext(),
-//                                    "You have already granted this permission!", Toast.LENGTH_SHORT).show();
-//                            loadFragment(new ScanPenerimaanFragment(bottomNavigation));
-//                            loadFragment(new TestingTranstitionFragment(bottomNavigation));
                             openPage(ScanActivity.class,ScanActivity.SCANNER_TYPE_2);
-//                            Log.d("19201299", "<<206>>Main Activity BotNav case 3 scan");
-//                            cardViewprofile.setVisibility(View.GONE);
                         }else
                         {
                             requestCameraPermission();
                         }
-//                        runScanner();
-
-//                        finish();
                         break;
                     case 4:
                         page = "barang keluar";
 //                        Log.d("19201299",
 //                                "<<218>>Main Activity BotNav case "+item.getId()+" "+page);
-                        fragment = new BrgKeluarFragment(getSupportFragmentManager(), bottomNavigation);
+                        fragment = new BrgKeluarFragment(getSupportFragmentManager(),
+                                bottomNavigation,
+                                frame_layout_manual_book,main_linearlayout);
 //                        fragment = new TestingTranstitionFragment(bottomNavigation);
                         cardViewprofile.setVisibility(View.VISIBLE);
                         loadFragment(fragment);
@@ -226,6 +245,11 @@ public class MainActivity extends AppCompatActivity implements ScanInterface{
 
                     case 5:
                         page = "profil";
+                        if(session_manual_book.getManualBook(SessionManager.HOME)){
+                            frame_layout_manual_book.setVisibility(View.GONE);
+                            main_linearlayout.setVisibility(View.VISIBLE);
+                            session_manual_book.OpenManualBook(false);
+                        }
                         fragment = new ProfileFragment(state,bottomNavigation,frame_layout_manual_book,main_linearlayout);
                         cardViewprofile.postDelayed(new Runnable() {
                             @Override
@@ -234,6 +258,7 @@ public class MainActivity extends AppCompatActivity implements ScanInterface{
                             }
                         },200);
                         loadFragment(fragment);
+                        sessionTranstition.setTranstition("setting",true);
                         break;
                 }
 //                if(bottomNavigation.isShowing(item.getId())){
@@ -284,9 +309,11 @@ public class MainActivity extends AppCompatActivity implements ScanInterface{
                     tv_lbl_tittle_scan.setVisibility(View.VISIBLE);
                     tv_lbl_tittle_scan.setAnimation(goUp);
                 }
-                if (tv_lbl_tittle_spending.getVisibility()==View.GONE){
-                    tv_lbl_tittle_spending.setVisibility(View.VISIBLE);
-                    tv_lbl_tittle_spending.setAnimation(goUp);
+                if (user_Int.get(SessionManager.LEVEL)!=1) {
+                    if (tv_lbl_tittle_spending.getVisibility()==View.GONE){
+                        tv_lbl_tittle_spending.setVisibility(View.VISIBLE);
+                        tv_lbl_tittle_spending.setAnimation(goUp);
+                    }
                 }
                 if (tv_lbl_tittle_setting.getVisibility()==View.GONE){
                     tv_lbl_tittle_setting.setVisibility(View.VISIBLE);
@@ -320,9 +347,11 @@ public class MainActivity extends AppCompatActivity implements ScanInterface{
                     tv_lbl_tittle_scan.setVisibility(View.VISIBLE);
                     tv_lbl_tittle_scan.setAnimation(goUp);
                 }
-                if (tv_lbl_tittle_spending.getVisibility()==View.GONE){
-                    tv_lbl_tittle_spending.setVisibility(View.VISIBLE);
-                    tv_lbl_tittle_spending.setAnimation(goUp);
+                if (user_Int.get(SessionManager.LEVEL)!=1) {
+                    if (tv_lbl_tittle_spending.getVisibility()==View.GONE){
+                        tv_lbl_tittle_spending.setVisibility(View.VISIBLE);
+                        tv_lbl_tittle_spending.setAnimation(goUp);
+                    }
                 }
                 if (tv_lbl_tittle_setting.getVisibility()==View.GONE){
                     tv_lbl_tittle_setting.setVisibility(View.VISIBLE);
@@ -356,9 +385,11 @@ public class MainActivity extends AppCompatActivity implements ScanInterface{
                     tv_lbl_tittle_receive.setVisibility(View.VISIBLE);
                     tv_lbl_tittle_receive.setAnimation(goUp);
                 }
-                if (tv_lbl_tittle_spending.getVisibility()==View.GONE){
-                    tv_lbl_tittle_spending.setVisibility(View.VISIBLE);
-                    tv_lbl_tittle_spending.setAnimation(goUp);
+                if (user_Int.get(SessionManager.LEVEL)!=1) {
+                    if (tv_lbl_tittle_spending.getVisibility()==View.GONE){
+                        tv_lbl_tittle_spending.setVisibility(View.VISIBLE);
+                        tv_lbl_tittle_spending.setAnimation(goUp);
+                    }
                 }
                 if (tv_lbl_tittle_setting.getVisibility()==View.GONE){
                     tv_lbl_tittle_setting.setVisibility(View.VISIBLE);
@@ -400,23 +431,24 @@ public class MainActivity extends AppCompatActivity implements ScanInterface{
                     tv_lbl_tittle_setting.setVisibility(View.VISIBLE);
                     tv_lbl_tittle_setting.setAnimation(goUp);
                 }
+                if (user_Int.get(SessionManager.LEVEL)!=1) {
+                    if (tv_lbl_tittle_spending.getVisibility()!=View.GONE){
+                        goDown.setAnimationListener(new Animation.AnimationListener() {
+                            @Override
+                            public void onAnimationStart(Animation animation) {
+                            }
 
-                if (tv_lbl_tittle_spending.getVisibility()!=View.GONE){
-                    goDown.setAnimationListener(new Animation.AnimationListener() {
-                        @Override
-                        public void onAnimationStart(Animation animation) {
-                        }
+                            @Override
+                            public void onAnimationEnd(Animation animation) {
+                                tv_lbl_tittle_spending.setVisibility(View.GONE);
+                            }
 
-                        @Override
-                        public void onAnimationEnd(Animation animation) {
-                            tv_lbl_tittle_spending.setVisibility(View.GONE);
-                        }
-
-                        @Override
-                        public void onAnimationRepeat(Animation animation) {
-                        }
-                    });
-                    tv_lbl_tittle_spending.startAnimation(goDown);
+                            @Override
+                            public void onAnimationRepeat(Animation animation) {
+                            }
+                        });
+                        tv_lbl_tittle_spending.startAnimation(goDown);
+                    }
                 }
                 break;
             case 5:
@@ -432,9 +464,11 @@ public class MainActivity extends AppCompatActivity implements ScanInterface{
                     tv_lbl_tittle_scan.setVisibility(View.VISIBLE);
                     tv_lbl_tittle_scan.setAnimation(goUp);
                 }
-                if (tv_lbl_tittle_spending.getVisibility()==View.GONE){
-                    tv_lbl_tittle_spending.setVisibility(View.VISIBLE);
-                    tv_lbl_tittle_spending.setAnimation(goUp);
+                if (user_Int.get(SessionManager.LEVEL)!=1) {
+                    if (tv_lbl_tittle_spending.getVisibility()==View.GONE){
+                        tv_lbl_tittle_spending.setVisibility(View.VISIBLE);
+                        tv_lbl_tittle_spending.setAnimation(goUp);
+                    }
                 }
 
                 if (tv_lbl_tittle_setting.getVisibility()!=View.GONE){
@@ -575,10 +609,12 @@ public class MainActivity extends AppCompatActivity implements ScanInterface{
     }
 
     private void requestCameraPermission() {
+        sessionTranstition.setTranstition("home",true);
         if (ActivityCompat.shouldShowRequestPermissionRationale(MainActivity.this,
                 Manifest.permission.CAMERA)){
             new AlertDialog.Builder(MainActivity.this)
                     .setTitle("Permession Needed")
+                    .setCancelable(false)
                     .setMessage("This permission is needed bacause of this and that")
                     .setPositiveButton("ok", new DialogInterface.OnClickListener() {
                         @Override
@@ -614,10 +650,12 @@ public class MainActivity extends AppCompatActivity implements ScanInterface{
                 new Handler().postDelayed(new Runnable() {
                     @Override
                     public void run() {
-                        bottomNavigation.show(1,false);
+//                        bottomNavigation.show(1,false);
+                        onResume();
                     }
                 }, 500);
-                Toast.makeText(getApplicationContext(), "Permission Denied", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), "Permission Denied",
+                        Toast.LENGTH_SHORT).show();
             }
         }
     }

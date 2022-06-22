@@ -80,6 +80,7 @@ public class ActionPenerimaanActivity extends AppCompatActivity {
     Currency formatNumber;
 
     HashMap<String,String> result_scanner;
+    SessionManager session_setting;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -90,6 +91,9 @@ public class ActionPenerimaanActivity extends AppCompatActivity {
         formatNumber = new Currency("Rp. ",",");
 
         sessionTranstition = new SessionManager(this, "transtition");
+
+        session_setting = new SessionManager(ActionPenerimaanActivity.this,
+                SessionManager.SETTING);
 
 //        Connection
         retrofit = new Retrofit.Builder()
@@ -361,7 +365,9 @@ public class ActionPenerimaanActivity extends AppCompatActivity {
             public void onResponse(Call<ArrayList<ApiPenerimaan>> call, Response<ArrayList<ApiPenerimaan>> response) {
                 ArrayList<ApiPenerimaan> apiPenerimaans = response.body();
                 if(!response.isSuccessful()){
-                    createVibrate();
+                    if (session_setting.getSetting("vibrate")=="on"){
+                        createVibrate();
+                    }
                     Toast.makeText(ActionPenerimaanActivity.this,
                             JsonPlaceHolderApi.getMessageApi(response.message()),
                             Toast.LENGTH_SHORT).show();
@@ -372,7 +378,9 @@ public class ActionPenerimaanActivity extends AppCompatActivity {
                 }
 
                if(apiPenerimaans.get(0).getMsg()!=null){
-                   createVibrate();
+                   if (session_setting.getSetting("vibrate")=="on"){
+                       createVibrate();
+                   }
                    new AlertDialog.Builder(ActionPenerimaanActivity.this)
                            .setTitle("Gagal Mendapatkan Data")
                            .setIcon(R.drawable.ic_danger)
@@ -446,7 +454,9 @@ public class ActionPenerimaanActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<ArrayList<ApiPenerimaan>> call, Throwable t) {
-                createVibrate();
+                if (session_setting.getSetting("vibrate")=="on"){
+                    createVibrate();
+                }
                 new AlertDialog.Builder(ActionPenerimaanActivity.this)
                     .setTitle("Server Sibuk")
                     .setIcon(R.drawable.ic_baseline_warning_24)

@@ -458,26 +458,13 @@
 
     </LinearLayout>
 
-<!--    <com.airbnb.lottie.LottieAnimationView-->
-<!--        android:id="@+id/tap2ManualBook"-->
-<!--        android:layout_width="200dp"-->
-<!--        android:layout_height="200dp"-->
-<!--        android:layout_marginBottom="-140dp"-->
-<!--        app:layout_constraintBottom_toBottomOf="@id/cardLinearManualBook"-->
-<!--        app:layout_constraintEnd_toEndOf="@id/cardLinearManualBook"-->
-<!--        app:layout_constraintStart_toStartOf="@+id/cardLinearManualBook"-->
-<!--        app:layout_constraintTop_toTopOf="@+id/cardLinearManualBook"-->
-<!--        app:lottie_autoPlay="true"-->
-<!--        app:lottie_loop="true"-->
-<!--        app:lottie_rawRes="@raw/tap" />-->
-
     <TextView
         android:id="@+id/lblManualBook"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:fontFamily="@font/poppins_bold"
         android:gravity="center"
         android:text="Tap disini untuk melihat informasi lebih lanjut"
+        android:fontFamily="@font/poppins_bold"
         android:textColor="#FFFDFD"
         android:textSize="16sp"
         app:layout_constraintBottom_toTopOf="@id/cardLinearManualBook"

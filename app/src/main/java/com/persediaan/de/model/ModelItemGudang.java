@@ -1,9 +1,9 @@
 package com.persediaan.de.model;
 
 public class ModelItemGudang {
-    int id,admin,id_area,id_item,qty,harga,tipe,tgl_gudang,sisa,
+    int id,admin,id_area,qty,harga,tipe,tgl_gudang,sisa,
             id_satuan,jumlah;
-    String dt_gudang,nm_item,nm_satuan,eceran,nm_area,nm_singkat;
+    String dt_gudang,nm_item,nm_satuan,eceran,nm_area,nm_singkat,id_item;
     public ModelItemGudang(String nm_item,int sisa,String area){
         this.nm_area = area;
         this.nm_item = nm_item;
@@ -30,7 +30,7 @@ public class ModelItemGudang {
         return id_area;
     }
 
-    public int getId_item() {
+    public String getId_item() {
         return id_item;
     }
 
@@ -90,7 +90,7 @@ public class ModelItemGudang {
         this.id_area = id_area;
     }
 
-    public void setId_item(int id_item) {
+    public void setId_item(String id_item) {
         this.id_item = id_item;
     }
 

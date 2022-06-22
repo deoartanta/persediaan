@@ -4,7 +4,7 @@ public class ApiItemGudang {
     int id;
     int admin;
     int id_area;
-    int id_item;
+    String id_item;
     int qty;
     int harga;
     int tipe;
@@ -34,7 +34,7 @@ public class ApiItemGudang {
         return id_area;
     }
 
-    public int getId_item() {
+    public String getId_item() {
         return id_item;
     }
 

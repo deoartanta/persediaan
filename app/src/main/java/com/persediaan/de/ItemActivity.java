@@ -5,13 +5,18 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatButton;
 import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.Manifest;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -208,8 +213,10 @@ public class ItemActivity extends AppCompatActivity implements RecyclerViewClick
                             Toast.LENGTH_SHORT).show();
                     return;
                 }
-                modelSatuan.put("",-1);
-                listSatuan.add("");
+//                if (Build.VERSION.SDK_INT < 26) {
+//                    modelSatuan.put("", -1);
+//                    listSatuan.add(""+Build.VERSION.SDK_INT);
+//                }
                 for (ApiSatuan apiSatuan:arraySatuan){
                     listSatuan.add(apiSatuan.getNm_satuan());
                     modelSatuan.put(apiSatuan.getNm_satuan().toString(),apiSatuan.getId_satuan());
@@ -218,7 +225,12 @@ public class ItemActivity extends AppCompatActivity implements RecyclerViewClick
                         R.layout.tv_daftar_item,
                         listSatuan);
                 autoCompleteSatuan.setAdapter(adapter_item);
-
+                autoCompleteSatuan.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                        autoCompleteSatuan.clearFocus();
+                    }
+                });
                 autoCompleteSatuan.setOnFocusChangeListener(new View.OnFocusChangeListener() {
                     @Override
                     public void onFocusChange(View view, boolean b) {
@@ -295,11 +307,12 @@ public class ItemActivity extends AppCompatActivity implements RecyclerViewClick
             tiet_id_item.setText(id_item);
         }
         loadSatuan(autoCompleteSatuan);
+
         AlertDialog dialogAdd= new AlertDialog.Builder(ItemActivity.this)
                 .setIcon(R.drawable.ic_baseline_add_circle_24_success)
                 .setTitle("Add Item")
                 .setView(viewinflater)
-                .setCancelable(true)
+                .setCancelable(false)
                 .setPositiveButton("Next", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
@@ -373,7 +386,7 @@ public class ItemActivity extends AppCompatActivity implements RecyclerViewClick
                 .setIcon(R.drawable.ic_baseline_create_24_primary)
                 .setTitle("Edit Item")
                 .setView(viewinflater)
-                .setCancelable(true)
+                .setCancelable(false)
                 .setPositiveButton("Next", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
@@ -392,13 +405,14 @@ public class ItemActivity extends AppCompatActivity implements RecyclerViewClick
                 .setNeutralButton("Scan Code", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
-                        Intent in = new Intent(ItemActivity.this,
-                                ScanActivity.class);
-                        in.putExtra(ScanActivity.RESULT_FULL,"");
-                        in.putExtra(ScanActivity.SCANNER_FOR_RESULT,true);
-                        in.putExtra(ScanActivity.TYPESCAN,
-                                ScanActivity.SCANNER_TYPE_2);
-                        startActivityForResult(in,1);
+                        if (ContextCompat.checkSelfPermission(ItemActivity.this,
+                                Manifest.permission.CAMERA)==
+                                PackageManager.PERMISSION_GRANTED){
+                            openScanPage(ScanActivity.SCANNER_TYPE_2);
+                        }else
+                        {
+                            requestCameraPermission();
+                        }
 
                     }
                 })
@@ -423,6 +437,43 @@ public class ItemActivity extends AppCompatActivity implements RecyclerViewClick
             }
         });
     }
+
+    private void openScanPage(String scannerType) {
+        Intent in = new Intent(ItemActivity.this,
+                ScanActivity.class);
+        in.putExtra(ScanActivity.RESULT_FULL,"");
+        in.putExtra(ScanActivity.SCANNER_FOR_RESULT,true);
+        in.putExtra(ScanActivity.TYPESCAN,
+                scannerType);
+        startActivityForResult(in,1);
+    }
+    private void requestCameraPermission() {
+        if (ActivityCompat.shouldShowRequestPermissionRationale(ItemActivity.this,
+                Manifest.permission.CAMERA)){
+            new AlertDialog.Builder(ItemActivity.this)
+                    .setTitle("Permession Needed")
+                    .setCancelable(false)
+                    .setMessage("This permission is needed bacause of this and that")
+                    .setPositiveButton("ok", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            ActivityCompat.requestPermissions(ItemActivity.this,
+                                    new String[]{Manifest.permission.CAMERA},1);
+                        }
+                    })
+                    .setNegativeButton("cancel", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            dialogInterface.dismiss();
+                        }
+                    }).create().show();
+        }else {
+            ActivityCompat.requestPermissions(ItemActivity.this,
+                    new String[]{Manifest.permission.CAMERA},1);
+        }
+    }
+
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);

@@ -76,9 +76,11 @@ public class AdapterPenerimaan2 extends RecyclerView.Adapter<AdapterPenerimaan2.
                             holder.tv_qty1.setText("" + ttlqty + " ITEM");
                             if (dikonversi == 1) {
                                 holder.tv_status1.setText("Konversi");
+                                holder.tv_status.setText("kv1");
                                 holder.tv_status1.setBackgroundResource(R.color.BgGreen);
                             } else {
                                 holder.tv_status1.setText("Belum Konversi");
+                                holder.tv_status.setText("kv0");
                                 holder.tv_status1.setBackgroundResource(R.color.BgRed);
                             }
                             holder.tv_hrg_total1.setText(String.valueOf("Rp. " + formatNumber.setFormatNumber((double) hrg_total)));
@@ -138,7 +140,7 @@ public class AdapterPenerimaan2 extends RecyclerView.Adapter<AdapterPenerimaan2.
 
         }else {
 //        Card Penerimaan 1
-            Log.d("19201299", "<<100>>is Penerimaan Data "+isDataPenerimaan);
+            Log.d("19201299", "<<141>>is Penerimaan Data "+isDataPenerimaan);
             holder.cardLinear2.setVisibility(View.GONE);
             {
                 holder.cardLinear1.setVisibility(View.VISIBLE);
@@ -147,6 +149,7 @@ public class AdapterPenerimaan2 extends RecyclerView.Adapter<AdapterPenerimaan2.
                     {
                         String nm_penyedia = datalist.get(position).getNm_suplier();
                         String alamat = datalist.get(position).getAlasuplier();
+                        String area = datalist.get(position).getNm_area();
                         int ttlqty = datalist.get(position).getTtlQty();
                         int dikonversi = datalist.get(position).getDikonversi();
                         int hrg_total = datalist.get(position).getHarga_total();
@@ -156,12 +159,15 @@ public class AdapterPenerimaan2 extends RecyclerView.Adapter<AdapterPenerimaan2.
                         holder.tv_alamat1.setText(alamat);
                         holder.tv_area1.setVisibility(View.GONE);
                         holder.tv_idtrans1.setText("idtrans");
+                        holder.tv_area1.setText(area);
                         holder.tv_qty1.setText("" + ttlqty + " ITEM");
                         if (dikonversi == 1) {
                             holder.tv_status1.setText("Konversi");
+                            holder.tv_status.setText("kv1");
                             holder.tv_status1.setBackgroundResource(R.color.BgGreen);
                         } else {
                             holder.tv_status1.setText("Belum Konversi");
+                            holder.tv_status.setText("kv0");
                             holder.tv_status1.setBackgroundResource(R.color.BgRed);
                         }
                         holder.tv_hrg_total1.setText(String.valueOf("Rp. " + formatNumber.setFormatNumber((double) hrg_total)));
@@ -236,7 +242,16 @@ public class AdapterPenerimaan2 extends RecyclerView.Adapter<AdapterPenerimaan2.
                     });
                 }
             }
-
+            cardLinear1.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if (isDataPenerimaan) {
+                        recyclerViewClickInterface.onItemClick(getAdapterPosition()-1, itemView);
+                    }else{
+                        recyclerViewClickInterface.onItemClick(getAdapterPosition(), itemView);
+                    }
+                }
+            });
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -245,6 +260,8 @@ public class AdapterPenerimaan2 extends RecyclerView.Adapter<AdapterPenerimaan2.
                             notifyItemChanged(getAdapterPosition());
                             datalist.get(getAdapterPosition()).setExpand(!datalist.get(getAdapterPosition()).isExpand());
                         }
+//                    }else{
+//                        recyclerViewClickInterface.onItemClick(getAdapterPosition(), itemView);
                     }
                 }
             });

@@ -45,6 +45,10 @@ public class AdapterItemPenerimaan extends RecyclerView.Adapter<AdapterItemPener
         holder.tv_hrg.setText("Rp. "+formatNumber.setFormatNumber((double)listItems.get(position).getHarga()));
         holder.tv_ttl_hrg.setText("Rp. "+formatNumber.setFormatNumber(ttl_hrg));
         holder.tv_qty.setText(String.valueOf(listItems.get(position).getQty()));
+        if (!listItems.get(position).isAction()){
+            holder.imgHps.setVisibility(View.INVISIBLE);
+            holder.imgEdit.setVisibility(View.INVISIBLE);
+        };
 
     }
 
