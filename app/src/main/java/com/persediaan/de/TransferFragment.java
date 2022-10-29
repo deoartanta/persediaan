@@ -149,7 +149,6 @@ public class TransferFragment extends Fragment implements RecyclerViewClickInter
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
         jsonPlaceHolderApi = retrofit.create(JsonPlaceHolderApi.class);
-
         sessionUser = new SessionManager(requireContext(),"login");
         session_manualBook = new SessionManager(requireContext(),SessionManager.MANUAL_BOOK);
 
@@ -169,7 +168,6 @@ public class TransferFragment extends Fragment implements RecyclerViewClickInter
             @Override
             public void onResponse(Call<String> call, Response<String> response) {
                 tv_no_pengeluaran.setText(response.body());
-
             }
 
             @Override
@@ -363,7 +361,6 @@ public class TransferFragment extends Fragment implements RecyclerViewClickInter
     }
 
     public void loadTransferDetail(int id_user){
-        System.out.println("load transfer detail start");
         recycler_transfer_detail.setAdapter(null);
 
         modelTransferDetails = new ArrayList<>();
@@ -393,6 +390,7 @@ public class TransferFragment extends Fragment implements RecyclerViewClickInter
                             apiTransferDetail.getNm_area(),
                             apiTransferDetail.getDt_keluar()));
                 }
+                Log.d("19201299", "LoadCard1[BrgKeluarLapFragment <96>]: "+loadDaftarGudang.toString());;
                 adapterTransferDetail = new AdapterTransferDetail(modelTransferDetails);
                 card_tranfer_detail.setVisibility(View.VISIBLE);
                 recycler_transfer_detail.setVisibility(View.VISIBLE);
@@ -483,11 +481,10 @@ public class TransferFragment extends Fragment implements RecyclerViewClickInter
 //                Toast.makeText(requireContext(), "Server Error", Toast.LENGTH_SHORT).show();
             }
         });
-        System.out.println("load tranfer detail finish");
     }
 
     public void loadDaftarGudang(int id_user, AutoCompleteTextView autoCompleteTextView){
-        System.out.println("load daftar gudang start");
+
         shimmer_tab_transfer.setVisibility(View.VISIBLE);
         scroll_tab_transfer.setVisibility(View.GONE);
         loadDaftarGudang = new LoadDaftarGudang(id_user,retrofit,jsonPlaceHolderApi);
@@ -524,7 +521,7 @@ public class TransferFragment extends Fragment implements RecyclerViewClickInter
                 Toast.makeText(getContext(), "Server error", Toast.LENGTH_LONG).show();
             }
         });
-        System.out.println("load daftar gudang finish");
+
     }
 
     public void refreshPage(int id_user,AutoCompleteTextView autoCompleteTextView){

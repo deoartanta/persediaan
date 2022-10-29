@@ -74,4 +74,11 @@ public class LoadDaftarGudang {
     public void setApiResponListener(ApiResponListener<ArrayList<ApiDaftarGudang>> apiResponListener) {
         this.apiResponListener = apiResponListener;
     }
+
+    @Override
+    public String toString() {
+        return "LoadDaftarGudang{" +
+                "nm_area=" + nm_area.toString() +
+                '}';
+    }
 }

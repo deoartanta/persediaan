@@ -84,10 +84,10 @@ public class AdapterPenerimaan2 extends RecyclerView.Adapter<AdapterPenerimaan2.
                                 holder.tv_status1.setBackgroundResource(R.color.BgRed);
                             }
                             holder.tv_hrg_total1.setText(String.valueOf("Rp. " + formatNumber.setFormatNumber((double) hrg_total)));
-                            holder.tv_tgl1.setText((new SimpleDateFormat("dd MMMM yyyy", Locale.US)
+                            holder.tv_tgl1.setText(new SimpleDateFormat("dd MMMM yyyy", Locale.US)
                                     .format(
                                             new Date((Long.parseLong(String.valueOf(tgl)) * 1000))
-                                    )).toString());
+                                    ));
                         }
                     } else {
                         holder.cardLinear1.setVisibility(View.INVISIBLE);

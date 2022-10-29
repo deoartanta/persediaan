@@ -35,9 +35,13 @@ public class AdapterTransferDetail extends RecyclerView.Adapter<AdapterTransferD
 
     @Override
     public void onBindViewHolder(@NonNull TransferDetailViewHolder holder, int position) {
-        holder.tv_nm_item.setText(modelTransferDetails.get(position).getNm_item());
-        holder.tv_qty.setText(""+modelTransferDetails.get(position).getQty_peng());
-        holder.tv_eceran.setText(modelTransferDetails.get(position).getEceran());
+
+        String nm_item = modelTransferDetails.get(position).getNm_item()+" "+
+                modelTransferDetails.get(position).getQty_peng()+" "+
+                modelTransferDetails.get(position).getEceran();
+        holder.tv_nm_item.setText(nm_item);
+        holder.tv_qty.setVisibility(View.GONE);
+        holder.tv_eceran.setVisibility(View.GONE);
 
         holder.tv_gudang_asal.setText(modelTransferDetails.get(position).getNm_area());
         holder.tv_gudang_tujuan.setText(""+modelTransferDetails.get(position).getGudang_tujuan());
